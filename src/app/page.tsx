@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 import { theme } from "./_components/theme";
 import Script from "next/script";
 import { FlowSection } from "./_components/home/FlowSection";
+import { QuotationSection } from "./_components/home/QuotationSection";
 
 const ICONS = [
   {
@@ -27,61 +28,65 @@ const ICONS = [
 
 const FLOW_CONTENT = [
   {
-    colA : "Flow 1",
-    colB : {
-      img : "/flow/flow-a.svg",
-      title : "Book a Slot",
-      subtitle : "Schedule a session with a mentor."
+    colA: "Flow 1",
+    colB: {
+      img: "/flow/flow-a.svg",
+      title: "Book a Slot",
+      subtitle: "Schedule a session with a mentor.",
     },
-    colC : {
-      img : "/flow/flow-ss-a.svg"
-    }
+    colC: {
+      img: "/flow/flow-ss-a.svg",
+    },
   },
   {
-    colA : "Flow 2",
-    colB : {
-      img : "/flow/flow-b.svg",
-      title : "Engage & Sharet",
-      subtitle : "Connect during the session to share your goals, challenges, and take notes on actionable advice."
+    colA: "Flow 2",
+    colB: {
+      img: "/flow/flow-b.svg",
+      title: "Engage & Sharet",
+      subtitle:
+        "Connect during the session to share your goals, challenges, and take notes on actionable advice.",
     },
-    colC : {
-      img : "/flow/flow-ss-b.svg"
-    }
+    colC: {
+      img: "/flow/flow-ss-b.svg",
+    },
   },
   {
-    colA : "Flow 3",
-    colB : {
-      img : "/flow/flow-c.svg",
-      title : "Get Feedback",
-      subtitle : "Receive detailed feedback and additional insights over email after your session."
+    colA: "Flow 3",
+    colB: {
+      img: "/flow/flow-c.svg",
+      title: "Get Feedback",
+      subtitle:
+        "Receive detailed feedback and additional insights over email after your session.",
     },
-    colC : {
-      img : "/flow/flow-ss-c.svg"
-    }
+    colC: {
+      img: "/flow/flow-ss-c.svg",
+    },
   },
   {
-    colA : "Flow 4",
-    colB : {
-      img : "/flow/flow-d.svg",
-      title : "Implement & Reflect",
-      subtitle : "Connect during the session to share your goals, challenges, and take notes on actionable advice."
+    colA: "Flow 4",
+    colB: {
+      img: "/flow/flow-d.svg",
+      title: "Implement & Reflect",
+      subtitle:
+        "Connect during the session to share your goals, challenges, and take notes on actionable advice.",
     },
-    colC : {
-      img : "/flow/flow-ss-d.svg"
-    }
+    colC: {
+      img: "/flow/flow-ss-d.svg",
+    },
   },
   {
-    colA : "Flow 5",
-    colB : {
-      img : "/flow/flow-e.svg",
-      title : "Stay connected",
-      subtitle : "Receive detailed feedback and additional insights over email after your session."
+    colA: "Flow 5",
+    colB: {
+      img: "/flow/flow-e.svg",
+      title: "Stay connected",
+      subtitle:
+        "Receive detailed feedback and additional insights over email after your session.",
     },
-    colC : {
-      img : "/flow/flow-ss-e.svg"
-    }
-  }
-]
+    colC: {
+      img: "/flow/flow-ss-e.svg",
+    },
+  },
+];
 
 export default function Home() {
   const structuredData = {
@@ -135,8 +140,15 @@ export default function Home() {
               }
               compactContainerB={true}
             />
-            <FlowSection 
-            flowItems={FLOW_CONTENT}
+            <FlowSection flowItems={FLOW_CONTENT} />
+            <QuotationSection
+              description={
+                <>
+                  “Seek advice, but also be ready to put in the work. <br />{" "}
+                  Mentorship works both ways”
+                </>
+              }
+              author={<>—Sheryl Sandberg</>}
             />
           </main>
         </div>
