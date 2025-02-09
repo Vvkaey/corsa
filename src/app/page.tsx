@@ -7,6 +7,7 @@ import { theme } from "./_components/theme";
 import Script from "next/script";
 import { FlowSection } from "./_components/home/FlowSection";
 import { QuotationSection } from "./_components/home/QuotationSection";
+import { BannerSection } from "./_components/home/BannerSection";
 
 const ICONS = [
   {
@@ -28,7 +29,14 @@ const ICONS = [
 
 const FLOW_CONTENT = [
   {
-    colA: "Flow 1",
+    colA: {
+      img: "/flow/item-a.svg",
+      width: 156,
+      height: 217,
+      top: "-20%",
+      right: "15%",
+      transform: "rotate(-6deg)",
+    },
     colB: {
       img: "/flow/flow-a.svg",
       title: "Book a Slot",
@@ -39,7 +47,14 @@ const FLOW_CONTENT = [
     },
   },
   {
-    colA: "Flow 2",
+    colA: {
+      img: "/flow/item-bb.svg",
+      width: 191,
+      height: 214,
+      top: "0%",
+      right: "70%",
+      transform: "rotate(0deg)",
+    },
     colB: {
       img: "/flow/flow-b.svg",
       title: "Engage & Sharet",
@@ -51,7 +66,14 @@ const FLOW_CONTENT = [
     },
   },
   {
-    colA: "Flow 3",
+    colA: {
+      img: "/flow/item-c.svg",
+      width: 173 * 1.75,
+      height: 121 * 1.75,
+      top: "-10%",
+      right: "0%",
+      transform: "rotate(3deg)",
+    },
     colB: {
       img: "/flow/flow-c.svg",
       title: "Get Feedback",
@@ -63,7 +85,14 @@ const FLOW_CONTENT = [
     },
   },
   {
-    colA: "Flow 4",
+    colA: {
+      img: "/flow/item-d.svg",
+      width: 186,
+      height: 154,
+      top: "-3%",
+      right: "15%",
+      transform: "rotate(0deg)",
+    },
     colB: {
       img: "/flow/flow-d.svg",
       title: "Implement & Reflect",
@@ -75,7 +104,14 @@ const FLOW_CONTENT = [
     },
   },
   {
-    colA: "Flow 5",
+    colA: {
+      img: "/flow/item-e.svg",
+      width: 250 + 50,
+      height: 278 + 55.6,
+      top: "-25%",
+      right: "10%",
+      transform: "rotate(-2deg)",
+    },
     colB: {
       img: "/flow/flow-e.svg",
       title: "Stay connected",
@@ -87,6 +123,42 @@ const FLOW_CONTENT = [
     },
   },
 ];
+
+const BANNER_SECTION = {
+  title: (
+    <>
+      Break Through <span className="circled">Barriers</span>
+    </>
+  ),
+  description: `From challenges to milestones, we're here to guide you with
+            actionable insights that actually work.`,
+  banners: [
+    {
+      head: `Guidance`,
+      description: `Get one-on-one support to navigate challenges with confidence.`,
+    },
+    {
+      head: `Feedback`,
+      description: `Receive honest, actionable Feedback.`,
+    },
+    {
+      head: `Strategy`,
+      description: `Work through obstacles with mentor-backed solutions.`,
+    },
+    {
+      head: `RESOURCE`,
+      description: `Exclusive content and courses recommended by mentors.`,
+    },
+    {
+      head: `SAFESPACE`,
+      description: `Ask questions and express concerns freely, without judgment.`,
+    },
+    {
+      head: `Takeaway`,
+      description: `Learn about trends and best practices.`,
+    },
+  ],
+};
 
 export default function Home() {
   const structuredData = {
@@ -150,6 +222,7 @@ export default function Home() {
               }
               author={<>—Sheryl Sandberg</>}
             />
+            <BannerSection bannerContent={BANNER_SECTION} />
           </main>
         </div>
       </ThemeProvider>

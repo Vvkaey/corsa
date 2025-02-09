@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { sectionPadding } from "./styleConstants";
 
 export const QuotationSection = styled(
   ({
@@ -26,6 +27,7 @@ export const QuotationSection = styled(
     );
   }
 )`
+ ${sectionPadding}
   position: relative;
   height: 100vh;
   width: 100%;
