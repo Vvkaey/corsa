@@ -90,7 +90,7 @@ export const FlowSection = styled(
   ${sectionPadding}
   position : relative;
   width: 100%;
-  background: #f9f9f9;
+  background: #fff;
   font-family: var(--font-geist-sans);
   display: flex;
   justify-content: center;
@@ -141,9 +141,9 @@ export const FlowSection = styled(
         display: flex;
         padding-left: 37px;
 
-        & > div {
-          background: #f9f9f9;
-        }
+        // & > div {
+        //   background: #f9f9f9;
+        // }
 
         .absolute-icon-container {
           width: 100%;

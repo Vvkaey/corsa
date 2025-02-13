@@ -195,19 +195,20 @@ export default function Home() {
               subHeadB="Counsel by Scholars from"
               icons={ICONS}
             />
-            <HeroSection
+             <HeroSection
               head={
                 <>
-                  We’ve got your back, <br />
+                  &quot;We’ve got your back, <br />
                   Let’s{" "}
-                  <span style={{ color: " #FF2626" }}>make it happen.</span>
+                  <span style={{ color: " #FF2626" }}>make it happen.&quot;</span>
                 </>
               }
+              secondaryHead={true}
               subHeadB={
                 <>
-                  No fluff, no big promises—just real conversations with mentors
-                  who <br /> get it done. Here&apos;s how we&apos;ll help you
-                  step up.
+                  &quot;No fluff, no big promises—just real conversations with mentors
+                  who get it done. Here&apos;s how we&apos;ll help you
+                  step up.&quot;
                 </>
               }
               compactContainerB={true}

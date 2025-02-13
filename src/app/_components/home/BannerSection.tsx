@@ -83,9 +83,13 @@ export const BannerSection = styled(
   height: 100vh;
   ${sectionPadding}
   font-family: var(--font-geist-sans);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
+
+  @media (min-width : 992px){
+    display: flex;
+  }
 
   .banner-container {
     padding: 0 170px;

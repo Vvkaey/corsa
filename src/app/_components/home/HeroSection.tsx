@@ -5,6 +5,7 @@ import Image from "next/image";
 import { JSX } from "react";
 // import { ShadowHeading } from "../global/shadowHeading";
 
+
 export const IconShowcase = styled(
   ({
     className,
@@ -61,7 +62,7 @@ export const IconShowcase = styled(
   width: 100%;
   background: #fff;
   font-family: var(--font-geist-sans);
-  text-align : center;
+  text-align: center;
 
   .content {
     display: flex;
@@ -73,29 +74,44 @@ export const IconShowcase = styled(
     h3.head {
       margin: 0;
       color: #000;
-      font-size: 30px;
+      font-size: 18px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+
+      @media (min-width: 992px) {
+        font-size: 30px;
+      }
     }
 
     h4.sub-head {
       margin: 0;
       color: #5f5f5f;
-      font-size: 26px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      max-width : 37ch;
+
+      @media (min-width: 992px) {
+     font-size: 26px;
+     max-width : unset;
+    }
     }
 
     .icon-container {
-      padding-top: 39px;
+      padding-top: 4px;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 20px;
       width: 100%;
-      gap: 85px;
+      gap: 13px;
+
+      @media (min-width : 992px){
+        gap: 85px;
+         padding-top: 39px;
+      }
 
       .icon {
         position: relative;
@@ -115,16 +131,18 @@ export const HeroSection = styled(
   ({
     className,
     head,
+    secondaryHead = false,
     subHead,
     primaryCta,
     secondaryCta,
     headB,
     subHeadB,
     icons,
-    compactContainerB = false
+    compactContainerB = false,
   }: {
     className?: string;
     head?: string | JSX.Element;
+    secondaryHead?: boolean;
     subHead?: string | JSX.Element;
     primaryCta?: string;
     secondaryCta?: string;
@@ -134,92 +152,161 @@ export const HeroSection = styled(
     compactContainerB?: boolean;
   }) => {
     return (
-      <section className={className}
-      style={{gap : compactContainerB ? "20px" : "90px"}}
-      >
-        {/* <ShadowHeading /> */}
-        <div className="content">
-          {head ? <h2 className="head">{head}</h2> : null}
-          {subHead ? <h3 className="sub-head">{subHead}</h3> : null}
-          {primaryCta || secondaryCta ? (
-            <div className="cta-container">
-              <button className="primary-cta">{primaryCta}</button>
-              <button className="secondary-cta">{secondaryCta}</button>
-            </div>
-          ) : null}
+      <section className={className}>
+        <div
+          className={`root-container + ${
+            compactContainerB ? "compact-container" : ""
+          }`}
+        >
+          {/* <ShadowHeading /> */}
+          <div className="content">
+            {head ? (
+              <h2 className={secondaryHead ? "secondary-head" : "head"}>
+                {head}
+              </h2>
+            ) : null}
+            {subHead ? <h3 className="sub-head">{subHead}</h3> : null}
+            {primaryCta || secondaryCta ? (
+              <div className="cta-container">
+                <button className="primary-cta">{primaryCta}</button>
+                <button className="secondary-cta">{secondaryCta}</button>
+              </div>
+            ) : null}
+          </div>
+          <IconShowcase head={headB} subHead={subHeadB} icons={icons} />
         </div>
-        <IconShowcase head={headB} subHead={subHeadB} icons={icons}/>
       </section>
     );
   }
 )`
+  position: relative;
   width: 100%;
-  ${sectionPadding}
-  background : #fff;
-  font-family: var(--font-geist-sans);
-  display: flex;
-  flex-direction: column;
-  gap: 90px;
-  
+  .compact-container {
+    gap: 20px;
+  }
 
-  .content {
+  .root-container {
+    width: 100%;
+    ${sectionPadding}
+    background : #fff;
+    font-family: var(--font-geist-sans);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
+    gap: 30px;
 
-    h2.head {
-      margin: 0;
-      color: #000c2d;
-      font-size: 85.365px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      text-transform: capitalize;
-      text-align: center;
+    @media (min-width: 992px) {
+      gap: 56px;
     }
 
-    h3.sub-head {
-      margin: 0;
-      color: #626161;
-      font-size: 26.04px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      text-transform: capitalize;
-    }
-
-    .cta-container {
-      padding-top: 39px;
+    .content {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 20px;
+         gap: 27px;
 
-      .primary-cta {
-        border-radius: 15.013px;
-        border: 1.699px solid #fae3ca;
-        background: #ff2626;
-        padding: 14.5px 29px;
-        color: #fff;
-        font-family: Fustat;
-        font-size: 19.843px;
+
+
+    @media (min-width: 992px) {
+       gap: 27px;
+    }
+
+      h2.head {
+        margin: 0;
+        color: #000c2d;
+        font-size: 48px;
         font-style: normal;
-        font-weight: 800;
+        font-weight: 700;
         line-height: normal;
+        text-transform: capitalize;
+        text-align: center;
+                max-width: 12ch;
+
+        @media (min-width: 992px) {
+          font-size: 85.365px;
+          max-width: unset;
+        }
       }
 
-      .secondary-cta {
-        border-radius: 15.013px;
-        border: 1.699px solid #e03233;
-        padding: 14.5px 29px;
-        background: transparent;
-        color: #ff2626;
-        font-size: 19.843px;
+       .secondary-head{
+        margin: 0;
+        color: #000c2d;
+        font-size: 28px;
         font-style: normal;
-        font-weight: 800;
+        font-weight: 700;
         line-height: normal;
+        text-transform: capitalize;
+        text-align: center;
+        max-width: 32ch;
+
+        @media (min-width: 992px) {
+          font-size: 85.365px;
+          max-width: unset;
+        }
+      }
+
+      h3.sub-head {
+        margin: 0;
+        color: #626161;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-transform: capitalize;
+
+        @media (min-width: 992px) {
+          font-size: 26.04px;
+        }
+      }
+
+      .cta-container {
+        padding-top: 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 11px;
+
+        @media (min-width: 992px) {
+          padding-top: 10px;
+          flex-direction: row;
+           gap: 20px;
+        }
+
+        .primary-cta {
+          border-radius: 15.013px;
+          border: 1.699px solid #fae3ca;
+          background: #ff2626;
+          padding: 14px 33px;
+          color: #fff;
+          font-family: Fustat;
+          font-size: 17.67px;
+          font-style: normal;
+          font-weight: 800;
+          line-height: normal;
+
+          @media (min-width :  992px){
+           padding: 14.5px 29px;
+           font-size: 19.843px;
+          }
+        }
+
+        .secondary-cta {
+          border-radius: 15.013px;
+          border: 1.699px solid #e03233;
+          padding: 14px 33px;
+          background: transparent;
+          color: #ff2626;
+           font-size: 17.67px;
+          font-style: normal;
+          font-weight: 800;
+          line-height: normal;
+
+           @media (min-width :  992px){
+           padding: 14.5px 29px;
+           font-size: 19.843px;
+          }
+        }
       }
     }
   }
