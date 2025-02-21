@@ -8,6 +8,7 @@ import Script from "next/script";
 import { FlowSection } from "./_components/home/FlowSection";
 import { QuotationSection } from "./_components/home/QuotationSection";
 import { BannerSection } from "./_components/home/BannerSection";
+import { StepsSection } from "./_components/home/StepsSection";
 
 const ICONS = [
   {
@@ -43,7 +44,7 @@ const FLOW_CONTENT = [
       subtitle: "Schedule a session with a mentor.",
     },
     colC: {
-      img: "/flow/flow-ss-a.svg",
+      img: "/flow/step-a.svg",
     },
   },
   {
@@ -62,7 +63,7 @@ const FLOW_CONTENT = [
         "Connect during the session to share your goals, challenges, and take notes on actionable advice.",
     },
     colC: {
-      img: "/flow/flow-ss-b.svg",
+      img: "/flow/step-b.svg",
     },
   },
   {
@@ -81,7 +82,7 @@ const FLOW_CONTENT = [
         "Receive detailed feedback and additional insights over email after your session.",
     },
     colC: {
-      img: "/flow/flow-ss-c.svg",
+      img: "/flow/step-d.svg",
     },
   },
   {
@@ -100,7 +101,7 @@ const FLOW_CONTENT = [
         "Connect during the session to share your goals, challenges, and take notes on actionable advice.",
     },
     colC: {
-      img: "/flow/flow-ss-d.svg",
+      img: "/flow/step-a.svg",
     },
   },
   {
@@ -119,7 +120,7 @@ const FLOW_CONTENT = [
         "Receive detailed feedback and additional insights over email after your session.",
     },
     colC: {
-      img: "/flow/flow-ss-e.svg",
+      img: "/flow/step-b.svg",
     },
   },
 ];
@@ -213,6 +214,7 @@ export default function Home() {
               }
               compactContainerB={true}
             />
+            <StepsSection flowItems={FLOW_CONTENT} />
             <FlowSection flowItems={FLOW_CONTENT} />
             <QuotationSection
               description={
