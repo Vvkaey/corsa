@@ -5,7 +5,7 @@ import { HeroSection } from "./_components/home/HeroSection";
 import styles from "./page.module.css";
 import { theme } from "./_components/theme";
 import Script from "next/script";
-import { FlowSection } from "./_components/home/FlowSection";
+// import { FlowSection } from "./_components/home/FlowSection";
 import { QuotationSection } from "./_components/home/QuotationSection";
 import { BannerSection } from "./_components/home/BannerSection";
 import { StepsSection } from "./_components/home/StepsSection";
@@ -215,7 +215,7 @@ export default function Home() {
               compactContainerB={true}
             />
             <StepsSection flowItems={FLOW_CONTENT} />
-            <FlowSection flowItems={FLOW_CONTENT} />
+            {/* <FlowSection flowItems={FLOW_CONTENT} /> */}
             <QuotationSection
               description={
                 <>
