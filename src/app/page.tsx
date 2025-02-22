@@ -9,6 +9,42 @@ import Script from "next/script";
 import { QuotationSection } from "./_components/home/QuotationSection";
 import { BannerSection } from "./_components/home/BannerSection";
 import { StepsSection } from "./_components/home/StepsSection";
+import { FAQSection } from "./_components/home/FAQSection";
+
+const FAQ_DATA = [
+  {
+    ques: `Who is this platform for?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `Do we need to pay for mentor sessions?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `What happens during a mentorship session?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `Can I choose my mentor?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `How long are mentorship sessions?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `Will I get feedback after my mentorship session?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `What else can I access besides mentorship?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+  {
+    ques: `What if I face issues or need help?`,
+    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+  },
+];
 
 const ICONS = [
   {
@@ -196,19 +232,21 @@ export default function Home() {
               subHeadB="Counsel by Scholars from"
               icons={ICONS}
             />
-             <HeroSection
+            <HeroSection
               head={
                 <>
                   &quot;We’ve got your back, <br />
                   Let’s{" "}
-                  <span style={{ color: " #FF2626" }}>make it happen.&quot;</span>
+                  <span style={{ color: " #FF2626" }}>
+                    make it happen.&quot;
+                  </span>
                 </>
               }
               secondaryHead={true}
               subHeadB={
                 <>
-                  &quot;No fluff, no big promises—just real conversations with mentors
-                  who get it done. Here&apos;s how we&apos;ll help you
+                  &quot;No fluff, no big promises—just real conversations with
+                  mentors who get it done. Here&apos;s how we&apos;ll help you
                   step up.&quot;
                 </>
               }
@@ -226,6 +264,15 @@ export default function Home() {
               author={<>—Sheryl Sandberg</>}
             />
             <BannerSection bannerContent={BANNER_SECTION} />
+            {/* <FaqSection
+          title={'Know It All'}
+          data={pricingFaqData}
+          htmlId="ring-faq"
+        /> */}
+            <FAQSection 
+            title={'Know It All'}
+            data={FAQ_DATA}
+            />
           </main>
         </div>
       </ThemeProvider>
