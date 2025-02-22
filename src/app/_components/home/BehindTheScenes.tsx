@@ -53,7 +53,6 @@ export const BehindTheScenes = styled(
   background: #fff;
   ${sectionPadding}
   font-family: var(--font-geist-sans);
-
   margin: auto;
 
   .container {
