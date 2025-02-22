@@ -12,6 +12,7 @@ import { StepsSection } from "./_components/home/StepsSection";
 import { FAQSection } from "./_components/home/FAQSection";
 import { BehindTheScenes } from "./_components/home/BehindTheScenes";
 import { CardRows } from "./_components/home/CardRows";
+import { TimerSection } from "./_components/home/TimerSection";
 
 const FAQ_DATA = [
   {
@@ -266,6 +267,7 @@ export default function Home() {
               author={<>—Sheryl Sandberg</>}
             />
             <BannerSection bannerContent={BANNER_SECTION} />
+            <TimerSection />
             <CardRows />
             <BehindTheScenes />
             <FAQSection title={"Know It All"} data={FAQ_DATA} />

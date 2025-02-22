@@ -279,7 +279,6 @@ export const HeroSection = styled(
           background: #ff2626;
           padding: 14px 33px;
           color: #fff;
-          font-family: Fustat;
           font-size: 17.67px;
           font-style: normal;
           font-weight: 800;
