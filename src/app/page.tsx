@@ -10,6 +10,7 @@ import { QuotationSection } from "./_components/home/QuotationSection";
 import { BannerSection } from "./_components/home/BannerSection";
 import { StepsSection } from "./_components/home/StepsSection";
 import { FAQSection } from "./_components/home/FAQSection";
+import { BehindTheScenes } from "./_components/home/BehindTheScenes";
 
 const FAQ_DATA = [
   {
@@ -264,15 +265,8 @@ export default function Home() {
               author={<>—Sheryl Sandberg</>}
             />
             <BannerSection bannerContent={BANNER_SECTION} />
-            {/* <FaqSection
-          title={'Know It All'}
-          data={pricingFaqData}
-          htmlId="ring-faq"
-        /> */}
-            <FAQSection 
-            title={'Know It All'}
-            data={FAQ_DATA}
-            />
+            <BehindTheScenes />
+            <FAQSection title={"Know It All"} data={FAQ_DATA} />
           </main>
         </div>
       </ThemeProvider>
