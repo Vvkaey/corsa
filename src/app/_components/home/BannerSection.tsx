@@ -123,11 +123,12 @@ export const BannerSection = styled(
       font-style: normal;
       font-weight: 600;
       line-height: 141.979%; /* 22.717px */
-      max-width: 56ch;
+      max-width: 38ch;
       ${containerSidePadding}
 
       @media (min-width: 992px) {
         font-size: 18px;
+         max-width: 56ch;
       }
     }
 
@@ -175,8 +176,8 @@ export const BannerSection = styled(
           display: flex;
           flex-direction: column-reverse;
           padding: 10px;
-          width: 175px;
-          height: 237px;
+          width: 212px;
+          height: 267px;
           background: red;
           border-radius: 13.052px;
           border: 2px solid #000;
@@ -185,17 +186,20 @@ export const BannerSection = styled(
           gap: 24px;
           flex-grow: 0;
           justify-content: space-between;
+           align-items : center;
 
           &:nth-child(odd) {
-            padding: 43px 16px 40px 39px;
+            padding: 43px 16px 40px 19px;
+           
 
             @media (min-width: 992px) {
              padding: 39px 18px 17px 18px;
+              
             }
           }
 
           &:nth-child(even) {
-            padding: 43px 29px 40px 16px;
+            padding: 43px 19px 40px 16px;
 
             @media (min-width: 992px) {
               padding: 39px 18px 17px 18px;
