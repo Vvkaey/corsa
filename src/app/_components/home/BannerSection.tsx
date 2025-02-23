@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { containerSidePadding } from "./styleConstants";
 
 interface BannerItemProps {
   head: string | React.ReactNode;
@@ -34,42 +35,6 @@ export const BannerSection = styled(
                   </div>
                 );
               })}
-              {/* <div className="banner-item">
-                <h3 className="head">guidance</h3>
-                <p className="description">
-                  Get one-on-one support to navigate challenges with confidence.
-                </p>
-              </div>
-              <div className="banner-item">
-                <h3 className="head">guidance</h3>
-                <p className="description">
-                  Get one-on-one support to navigate challenges with confidence.
-                </p>
-              </div>
-              <div className="banner-item">
-                <h3 className="head">guidance</h3>
-                <p className="description">
-                  Get one-on-one support to navigate challenges with confidence.
-                </p>
-              </div>
-              <div className="banner-item">
-                <h3 className="head">guidance</h3>
-                <p className="description">
-                  Get one-on-one support to navigate challenges with confidence.
-                </p>
-              </div>
-              <div className="banner-item">
-                <h3 className="head">guidance</h3>
-                <p className="description">
-                  Get one-on-one support to navigate challenges with confidence.
-                </p>
-              </div>
-              <div className="banner-item">
-                <h3 className="head">guidance</h3>
-                <p className="description">
-                  Get one-on-one support to navigate challenges with confidence.
-                </p>
-              </div> */}
             </div>
           </div>
         </div>
@@ -78,36 +43,43 @@ export const BannerSection = styled(
   }
 )`
   position: relative;
-  width: 100%;
-  height: 100vh;
-    padding : 50px 0;
+  padding: 50px 0;
   font-family: var(--font-geist-sans);
-  display: none;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  overflow: hidden;
 
-  @media (min-width : 992px){
+  @media (min-width: 992px) {
     display: flex;
-     padding : 100px 0;
+    padding: 100px 0;
   }
 
   .banner-container {
-    padding: 0 170px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 16px;
+
+    @media (min-width: 992px) {
+      padding: 0 170px;
+    }
 
     .title {
       margin: 0;
       color: #000;
       text-align: center;
-      font-size: 82px;
+      font-size: 28px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
       text-transform: capitalize;
+      ${containerSidePadding}
+
+      @media (min-width: 992px) {
+        font-size: 62px;
+      }
 
       .circled {
       }
@@ -117,30 +89,42 @@ export const BannerSection = styled(
       margin: 0;
       color: #000;
       text-align: center;
-      font-size: 24px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 600;
-      line-height: 141.979%; /* 34.075px */
+      line-height: 141.979%; /* 22.717px */
       max-width: 56ch;
+      ${containerSidePadding}
+
+      @media (min-width: 992px) {
+        font-size: 18px;
+      }
     }
 
     .banner-items-container {
       position: relative;
       display: flex;
-      border-left: rgba(0, 0, 0, 0.25) 1px solid;
-      padding: 30px 83px;
-      &::before {
-        display: inline;
-        position: absolute;
-        left: -11px;
-        top: calc(10% - 11px);
-        content: "";
-        height: 22px;
-        width: 22px;
-        background-color: #fff;
-        border: 1px solid #000;
-        border-radius: 50%;
-        display: inline-block;
+      width: 530px;
+      padding: 20px 0;
+
+      @media (min-width: 992px) {
+        width: unset;
+        padding: 20px 83px;
+        border-left: rgba(0, 0, 0, 0.25) 1px solid;
+
+        &::before {
+          display: inline;
+          position: absolute;
+          left: -11px;
+          top: calc(10% - 11px);
+          content: "";
+          height: 22px;
+          width: 22px;
+          background-color: #fff;
+          border: 1px solid #000;
+          border-radius: 50%;
+          display: inline-block;
+        }
       }
 
       .banner-items {
@@ -149,16 +133,20 @@ export const BannerSection = styled(
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 7px;
         max-width: 1030px;
         flex-grow: 0;
+
+        @media (min-width: 992px) {
+          gap: 10px;
+        }
 
         .banner-item {
           display: flex;
           flex-direction: column-reverse;
           padding: 10px;
-          width: 309px;
-          height: 311px;
+          width: 180px;
+          height: 237px;
           background: red;
           border-radius: 13.052px;
           border: 2px solid #000;
@@ -166,35 +154,62 @@ export const BannerSection = styled(
           overflow: hidden;
           gap: 24px;
           flex-grow: 0;
+          justify-content: space-between;
+
+          &:nth-child(odd){
+            padding: 43px 16px 40px 39px;
+          }
+
+           &:nth-child(even){
+            padding: 43px 29px 40px 16px;
+          }
+        
+
+          @media (min-width: 992px) {
+           padding: 39px 23px 17px 23px;
+            width: 259px;
+            height: 260px;
+          }
 
           .head {
             margin: 0;
-            font-size: 70.168px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 119.982%; /* 128.582px */
-            letter-spacing: -7.287px;
             background: linear-gradient(
               180deg,
-              #d3a662 0%,
-              #fff 86.72%,
-              #fff 100%
+              #d3a662 -9.49%,
+              #fff 66.17%,
+              #fff 78.69%
             );
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
+            font-size: 34.085px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: 119.982%; /* 40.896px */
+            letter-spacing: -1.363px;
+            text-transform: uppercase;
+
+            @media (min-width: 992px) {
+              font-size: 48px;
+              letter-spacing: -1.92px;
+            }
           }
 
           .description {
             height: 80px;
             margin: 0;
             color: #fff;
-            font-size: 18.279px;
+            font-size: 16px;
             font-style: normal;
-            font-weight: 500;
-            line-height: 141.979%; /* 25.953px */
-            padding: 0 27px;
+            font-weight: 600;
+            line-height: 141.979%; /* 25.556px */
+           
+
+            @media (min-width: 992px) {
+              font-size: 18px;
+               padding: 0 27px;
+            }
           }
         }
       }
