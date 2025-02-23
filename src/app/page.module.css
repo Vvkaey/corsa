@@ -27,6 +27,12 @@
   }
 }
 
+.body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -68,10 +74,7 @@
   padding: 0 20px;
   border: none;
   border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -2,6 +2,7 @@
 
 import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
 import { GlobalUIContext } from "@/app/_utils/hooks/globalUI";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
 import styled from "styled-components";
@@ -9,6 +10,10 @@ import styled from "styled-components";
 export const Header = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext);
   const pathname = usePathname();
+
+  const {width} = useWindowSize()
+
+
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
   return (
     <div className={className}>
@@ -18,13 +23,13 @@ export const Header = styled(({ className }: { className?: string }) => {
         <div className="right-pan">
           <div className="nav-items">
             <div className="nav-item">Newsletter</div>
-            <div className="nav-item">Q&A</div>
-            <div className="nav-item">Contact us</div>
+            <div className="nav-item">Apply as mentor</div>
+            <div className="nav-item">Q & A</div>
           </div>
           {/* <div className="highlighted-nav">Contact us</div> */}
         </div>
         {/* For mobile navigation */}
-        <button className="hamburger" onClick={() => alert("ham clicked!!")}>
+        {(width && width < 992) ? <button className="hamburger" onClick={() => alert("ham clicked!!")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="26"
@@ -51,7 +56,7 @@ export const Header = styled(({ className }: { className?: string }) => {
               strokeLinecap="round"
             />
           </svg>
-        </button>
+        </button> : null}
       </div>
     </div>
   );

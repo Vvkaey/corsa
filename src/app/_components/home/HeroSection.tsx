@@ -1,10 +1,9 @@
 "use client";
 import styled from "styled-components";
-import { sectionPadding } from "./styleConstants";
+import { containerSidePadding, sectionPadding } from "./styleConstants";
 import Image from "next/image";
 import { JSX } from "react";
 // import { ShadowHeading } from "../global/shadowHeading";
-
 
 export const IconShowcase = styled(
   ({
@@ -91,12 +90,12 @@ export const IconShowcase = styled(
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-      max-width : 37ch;
+      max-width: 37ch;
 
       @media (min-width: 992px) {
-     font-size: 26px;
-     max-width : unset;
-    }
+        font-size: 26px;
+        max-width: unset;
+      }
     }
 
     .icon-container {
@@ -108,9 +107,9 @@ export const IconShowcase = styled(
       width: 100%;
       gap: 13px;
 
-      @media (min-width : 992px){
+      @media (min-width: 992px) {
         gap: 85px;
-         padding-top: 39px;
+        padding-top: 39px;
       }
 
       .icon {
@@ -180,14 +179,15 @@ export const HeroSection = styled(
   }
 )`
   position: relative;
+  top : 30%;
   width: 100%;
   .compact-container {
     gap: 20px;
   }
 
   .root-container {
-    width: 100%;
     ${sectionPadding}
+    ${containerSidePadding}
     background : #fff;
     font-family: var(--font-geist-sans);
     display: flex;
@@ -203,13 +203,11 @@ export const HeroSection = styled(
       flex-direction: column;
       justify-content: center;
       align-items: center;
-         gap: 27px;
+      gap: 27px;
 
-
-
-    @media (min-width: 992px) {
-       gap: 27px;
-    }
+      @media (min-width: 992px) {
+        gap: 27px;
+      }
 
       h2.head {
         margin: 0;
@@ -220,7 +218,7 @@ export const HeroSection = styled(
         line-height: normal;
         text-transform: capitalize;
         text-align: center;
-                max-width: 12ch;
+        max-width: 12ch;
 
         @media (min-width: 992px) {
           font-size: 85.365px;
@@ -228,7 +226,7 @@ export const HeroSection = styled(
         }
       }
 
-       .secondary-head{
+      .secondary-head {
         margin: 0;
         color: #000c2d;
         font-size: 28px;
@@ -270,7 +268,7 @@ export const HeroSection = styled(
         @media (min-width: 992px) {
           padding-top: 10px;
           flex-direction: row;
-           gap: 20px;
+          gap: 20px;
         }
 
         .primary-cta {
@@ -279,15 +277,14 @@ export const HeroSection = styled(
           background: #ff2626;
           padding: 14px 33px;
           color: #fff;
-          font-family: Fustat;
           font-size: 17.67px;
           font-style: normal;
           font-weight: 800;
           line-height: normal;
 
-          @media (min-width :  992px){
-           padding: 14.5px 29px;
-           font-size: 19.843px;
+          @media (min-width: 992px) {
+            padding: 14.5px 29px;
+            font-size: 19.843px;
           }
         }
 
@@ -297,14 +294,14 @@ export const HeroSection = styled(
           padding: 14px 33px;
           background: transparent;
           color: #ff2626;
-           font-size: 17.67px;
+          font-size: 17.67px;
           font-style: normal;
           font-weight: 800;
           line-height: normal;
 
-           @media (min-width :  992px){
-           padding: 14.5px 29px;
-           font-size: 19.843px;
+          @media (min-width: 992px) {
+            padding: 14.5px 29px;
+            font-size: 19.843px;
           }
         }
       }
