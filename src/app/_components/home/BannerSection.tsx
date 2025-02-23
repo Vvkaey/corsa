@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { containerSidePadding } from "./styleConstants";
+import { Circled } from "@/app/_assets/icons";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
 interface BannerItemProps {
   head: string | React.ReactNode;
@@ -20,10 +22,17 @@ export const BannerSection = styled(
     className?: string;
     bannerContent?: BannerProps;
   }) => {
+    const { width } = useWindowSize();
+
     return (
       <section className={className}>
         <div className="banner-container">
-          <h3 className="title">{bannerContent?.title}</h3>
+          <div className="title-container">
+            <h3 className="title">{bannerContent?.title}</h3>
+            <div className="circled-container">
+              {(width && width > 992) ? <Circled/> :<Circled width={128} height={62} />}
+            </div>
+          </div>
           <p className="subtitle">{bannerContent?.description}</p>
           <div className="banner-items-container">
             <div className="banner-items">
@@ -56,6 +65,7 @@ export const BannerSection = styled(
   }
 
   .banner-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -66,22 +76,38 @@ export const BannerSection = styled(
       padding: 0 170px;
     }
 
-    .title {
-      margin: 0;
-      color: #000;
-      text-align: center;
-      font-size: 28px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      text-transform: capitalize;
-      ${containerSidePadding}
+    .title-container {
+      position: relative;
+      // border : 2px solid blue;
+      .title {
+        margin: 0;
+        color: #000;
+        text-align: center;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-transform: capitalize;
+        ${containerSidePadding}
 
-      @media (min-width: 992px) {
-        font-size: 62px;
+        @media (min-width: 992px) {
+          font-size: 62px;
+        }
       }
 
-      .circled {
+      .circled-container {
+        position: absolute;
+        top: -40%;
+        right: 39.5%;
+
+        @media (min-width: 992px) {
+          top: -32%;
+          right: 38.5%;
+        }
+
+        svg {
+          position: absolute;
+        }
       }
     }
 
@@ -156,17 +182,16 @@ export const BannerSection = styled(
           flex-grow: 0;
           justify-content: space-between;
 
-          &:nth-child(odd){
+          &:nth-child(odd) {
             padding: 43px 16px 40px 39px;
           }
 
-           &:nth-child(even){
+          &:nth-child(even) {
             padding: 43px 29px 40px 16px;
           }
-        
 
           @media (min-width: 992px) {
-           padding: 39px 23px 17px 23px;
+            padding: 39px 23px 17px 23px;
             width: 259px;
             height: 260px;
           }
@@ -204,11 +229,10 @@ export const BannerSection = styled(
             font-style: normal;
             font-weight: 600;
             line-height: 141.979%; /* 25.556px */
-           
 
             @media (min-width: 992px) {
               font-size: 18px;
-               padding: 0 27px;
+              padding: 0 27px;
             }
           }
         }

@@ -29,6 +29,37 @@ export const CaretUp = ({
   );
 };
 
+export const Circled = ({
+  className,
+  style,
+  width = 279,
+  height = 119,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      width={width}
+      height={height}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 279 119"
+    >
+      <path
+        d="M169.969 1.4312C118.344 8.26386 15.0953 16.2346 2.83753 68.4025C-10.2061 123.915 102.689 122.218 158.752 111.852C226.132 101.987 317.498 75.5255 258.596 40.6037C189.325 -0.466573 108.3 14.4708 46.603 15.0966"
+        stroke="#FF3014"
+        strokeWidth="2.27755"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
 export const BrownBgTick = ({
   className,
   style,
