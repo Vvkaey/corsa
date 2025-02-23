@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { Exo_2 } from "next/font/google";
 import styles from "./page.module.css";
-// import "./globals.css";
+ import "./globals.css";
 import { GlobalUIProvider } from "./_utils/hooks/globalUI";
 import { Header } from "./_components/global/header";
 import StyledComponentsRegistry from "../../lib/registry";

@@ -217,10 +217,17 @@ export const PowerfulInsights = styled(
           .icon-container {
             position: relative;
             top: 0;
+
+@media(min-width : 992px){
+ top: 4px;
+}
+
+
             img {
               object-fit: cover;
-              top: 3px;
             }
+
+
           }
 
           .text {

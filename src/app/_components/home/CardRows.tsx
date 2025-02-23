@@ -26,15 +26,22 @@ export const Card = styled(({ className }: { className?: string }) => {
   flex-shrink: 0;
 
   @media (min-width: 992px) {
-    width: 188px;
-    height: 248px;
+    width: 179px;
+    height: 241px;
   }
 
   .circle {
-    width: 31.43px;
-    height: 31.43px;
+    width: 28.43px;
+    height: 28.43px;
     border-radius: 50%;
     background: #d9d9d9;
+
+
+ @media (min-width: 992px) {
+   width: 31.43px;
+    height: 31.43px;
+  }
+
   }
 
   .quotes {
@@ -48,10 +55,16 @@ export const Card = styled(({ className }: { className?: string }) => {
   .description {
     margin: 0;
     color: #000;
-    font-size: 15px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: 141.979%; /* 17.037px */
+
+    @media (min-width: 992px) {
+    position : relative;
+    bottom : 27px;
+      font-size: 12px;
+    }
   }
 
   .signature {
@@ -64,19 +77,27 @@ export const Card = styled(({ className }: { className?: string }) => {
     .name {
       margin: 0;
       color: #000;
-      font-size: 12px;
+      font-size: 10px;
       font-style: normal;
       font-weight: 600;
       line-height: 141.979%; /* 11.358px */
+
+      @media (min-width: 992px) {
+        font-size: 8px;
+      }
     }
 
     .handle {
       margin: 0;
       color: #5f5f5f;
-      font-size: 10px;
+      font-size: 8px;
       font-style: normal;
       font-weight: 600;
       line-height: 141.979%; /* 8.519px */
+
+      @media (min-width: 992px) {
+        font-size: 6px;
+      }
     }
   }
 `;
@@ -134,6 +155,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
     @media (min-width: 992px) {
       flex-direction: row;
       gap: unset;
+      justify-content: space-between;
     }
 
     .head-container {

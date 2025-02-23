@@ -30,7 +30,11 @@ export const BannerSection = styled(
           <div className="title-container">
             <h3 className="title">{bannerContent?.title}</h3>
             <div className="circled-container">
-              {(width && width > 992) ? <Circled/> :<Circled width={128} height={62} />}
+              {width && width > 992 ? (
+                <Circled />
+              ) : (
+                <Circled width={128} height={62} />
+              )}
             </div>
           </div>
           <p className="subtitle">{bannerContent?.description}</p>
@@ -171,7 +175,7 @@ export const BannerSection = styled(
           display: flex;
           flex-direction: column-reverse;
           padding: 10px;
-          width: 180px;
+          width: 175px;
           height: 237px;
           background: red;
           border-radius: 13.052px;
@@ -184,16 +188,23 @@ export const BannerSection = styled(
 
           &:nth-child(odd) {
             padding: 43px 16px 40px 39px;
+
+            @media (min-width: 992px) {
+             padding: 39px 18px 17px 18px;
+            }
           }
 
           &:nth-child(even) {
             padding: 43px 29px 40px 16px;
+
+            @media (min-width: 992px) {
+              padding: 39px 18px 17px 18px;
+            }
           }
 
-          @media (min-width: 992px) {
-            padding: 39px 23px 17px 23px;
-            width: 259px;
-            height: 260px;
+          @media (min-width: 992px) {           
+            width: 283px;
+            height: 282px;
           }
 
           .head {
@@ -232,7 +243,7 @@ export const BannerSection = styled(
 
             @media (min-width: 992px) {
               font-size: 18px;
-              padding: 0 27px;
+              padding: 0 5px;
             }
           }
         }

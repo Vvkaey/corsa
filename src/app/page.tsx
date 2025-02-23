@@ -15,6 +15,7 @@ import { TimerSection } from "./_components/home/TimerSection";
 import { MembershipSection } from "./_components/home/MembershipSection";
 import { PowerfulInsights } from "./_components/home/PowerfulInsights";
 import { BrownBgTick } from "./_assets/icons";
+import { RewardsSection } from "./_components/home/RewardsSection";
 
 const MEMBERSHIP_TRAITS = {
   colA: [
@@ -350,7 +351,9 @@ export default function Home() {
               author={<>—Sheryl Sandberg</>}
             />
             <BannerSection bannerContent={BANNER_SECTION} />
+            <RewardsSection />
             <PowerfulInsights insights={INSIGHTS_DATA} />
+
             <MembershipSection traits={MEMBERSHIP_TRAITS} />
 
             <TimerSection />

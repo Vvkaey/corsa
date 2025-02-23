@@ -29,6 +29,118 @@ export const CaretUp = ({
   );
 };
 
+export const FillOptionCircle = ({
+  className,
+  style,
+  width = 15.5,
+  height = 15.5,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      width={width}
+      height={height}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 17"
+    >
+      <circle
+        cx="7.89282"
+        cy="8.1535"
+        r="6.39385"
+        fill="url(#paint0_linear_0_98)"
+        stroke="url(#paint1_radial_0_98)"
+        strokeWidth="2.69215"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_0_98"
+          x1="-5.56792"
+          y1="-6.3168"
+          x2="25.7283"
+          y2="30.7002"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#FF2626" />
+        </linearGradient>
+        <radialGradient
+          id="paint1_radial_0_98"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(7.89282 8.1535) rotate(90) scale(7.73993)"
+        >
+          <stop offset="0.905" stopColor="white" />
+          <stop offset="0.9051" stopColor="#E3DCDC" />
+        </radialGradient>
+      </defs>
+    </svg>
+  );
+};
+
+export const BlankOptionCircle = ({
+  className,
+  style,
+  width = 15.5,
+  height = 15.5,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      width={width}
+      height={height}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 17"
+    >
+      <circle
+        cx="7.89282"
+        cy="8.1535"
+        r="6.39385"
+        fill="#E3DCDC"
+        stroke="url(#paint1_radial_0_98)"
+        strokeWidth="2.69215"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_0_98"
+          x1="-5.56792"
+          y1="-6.3168"
+          x2="25.7283"
+          y2="30.7002"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#E3DCDC" />
+        </linearGradient>
+        <radialGradient
+          id="paint1_radial_0_98"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(7.89282 8.1535) rotate(90) scale(7.73993)"
+        >
+          <stop offset="0.905" stopColor="white" />
+          <stop offset="0.9051" stopColor="#E3DCDC" />
+        </radialGradient>
+      </defs>
+    </svg>
+  );
+};
+
 export const Circled = ({
   className,
   style,
@@ -55,6 +167,36 @@ export const Circled = ({
         stroke="#FF3014"
         strokeWidth="2.27755"
         strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
+export const ArrowRightWhite = ({
+  className,
+  style,
+  width = 25,
+  height = 14,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  fill?: string;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 25 14"
+      fill="none"
+    >
+      <path
+        d="M1.62109 6.19259C1.16061 6.19259 0.787312 6.56588 0.787312 7.02637C0.787312 7.48685 1.16061 7.86015 1.62109 7.86015V6.19259ZM23.889 7.61594C24.2146 7.29033 24.2146 6.76241 23.889 6.43679L18.5828 1.13064C18.2572 0.805028 17.7293 0.805028 17.4037 1.13064C17.0781 1.45625 17.0781 1.98417 17.4037 2.30979L22.1203 7.02637L17.4037 11.7429C17.0781 12.0686 17.0781 12.5965 17.4037 12.9221C17.7293 13.2477 18.2572 13.2477 18.5828 12.9221L23.889 7.61594ZM1.62109 7.86015H23.2994V6.19259H1.62109V7.86015Z"
+        fill="white"
       />
     </svg>
   );
