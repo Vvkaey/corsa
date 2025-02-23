@@ -1,6 +1,7 @@
 
 import type { Metadata } from "next";
 import { Exo_2 } from "next/font/google";
+import styles from "./page.module.css";
 // import "./globals.css";
 import { GlobalUIProvider } from "./_utils/hooks/globalUI";
 import { Header } from "./_components/global/header";
@@ -27,7 +28,7 @@ export default function RootLayout({
     <GlobalUIProvider>
       <html lang="en">
         {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
-        <body className={`${geistSans.variable}`}
+        <body className={`${geistSans.variable} + ${styles.body}`}
         style={{
         paddingTop : '48px'
         }}

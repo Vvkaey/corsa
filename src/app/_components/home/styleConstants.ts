@@ -40,3 +40,10 @@ export const sectionPadding = css`
     padding: 70px 0;
   }
 `;
+
+export const containerSidePadding = css`
+padding: 0 29px;
+// @media (min-width: ${({ theme }) => theme.global.tablet.maxWidth}) {
+//   padding: 70px 0;
+// }
+`;

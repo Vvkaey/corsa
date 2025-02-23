@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { sectionPadding } from "./styleConstants";
+import { containerSidePadding } from "./styleConstants";
 import { CaretUp } from "@/app/_assets/icons";
 import { useState } from "react";
 
@@ -133,13 +133,15 @@ export const FAQSection = styled(
   position: relative;
   margin: auto;
   font-family: var(--font-geist-sans);
-  ${sectionPadding}
+  padding : 96px 0;
 
   .faq-container {
+   margin: auto;
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 29px;
+    ${containerSidePadding}
 
     @media (min-width: 992px) {
       gap: unset;
@@ -156,7 +158,7 @@ export const FAQSection = styled(
 
     .title-container {
       display: flex;
-      justify-content: center;
+      
       .title {
         width: 100%;
         color: #000;

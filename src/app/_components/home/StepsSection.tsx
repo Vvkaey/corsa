@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { sectionPadding } from "./styleConstants";
 interface FlowColAProps {
   img: string;
   title?: string;
@@ -65,7 +64,7 @@ export const StepsSection = styled(
   position: relative;
   width: 100%;
   font-family: var(--font-geist-sans);
-  ${sectionPadding}
+  padding : 70px 0 100px 0;
   .steps-container {
     border-radius: 18px;
     background: #000;

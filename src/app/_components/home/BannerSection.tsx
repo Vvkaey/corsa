@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { sectionPadding } from "./styleConstants";
 
 interface BannerItemProps {
   head: string | React.ReactNode;
@@ -81,7 +80,7 @@ export const BannerSection = styled(
   position: relative;
   width: 100%;
   height: 100vh;
-  ${sectionPadding}
+    padding : 100px 0;
   font-family: var(--font-geist-sans);
   display: none;
   justify-content: center;

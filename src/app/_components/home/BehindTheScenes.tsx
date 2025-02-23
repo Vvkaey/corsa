@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { sectionPadding } from "./styleConstants";
+import { containerSidePadding } from "./styleConstants";
 import Image from "next/image";
 
 export const BehindTheScenes = styled(
@@ -51,16 +51,18 @@ export const BehindTheScenes = styled(
   }
 )`
   background: #fff;
-  ${sectionPadding}
+    padding : 96px 0;
   font-family: var(--font-geist-sans);
   margin: auto;
 
   .container {
-    width: 100%;
+    // width: 100%;
     display: flex;
     flex-direction: column;
     gap: 21px;
     max-width: 1500px;
+     margin: auto;
+         ${containerSidePadding}
 
     @media (min-width: 992px) {
       gap: 17px;
@@ -119,6 +121,7 @@ export const BehindTheScenes = styled(
       gap: 52px;
       width: 100%;
       flex-direction: column;
+      align-items : center;
 
       @media (min-width: 992px) {
         flex-direction: row;

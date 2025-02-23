@@ -2,7 +2,6 @@
 
 import { ThemeProvider } from "styled-components";
 import { HeroSection } from "./_components/home/HeroSection";
-import styles from "./page.module.css";
 import { theme } from "./_components/theme";
 import Script from "next/script";
 // import { FlowSection } from "./_components/home/FlowSection";
@@ -13,6 +12,92 @@ import { FAQSection } from "./_components/home/FAQSection";
 import { BehindTheScenes } from "./_components/home/BehindTheScenes";
 import { CardRows } from "./_components/home/CardRows";
 import { TimerSection } from "./_components/home/TimerSection";
+import { MembershipSection } from "./_components/home/MembershipSection";
+import { PowerfulInsights } from "./_components/home/PowerfulInsights";
+import { BrownBgTick } from "./_assets/icons";
+
+const MEMBERSHIP_TRAITS = {
+  colA: [
+    {
+      icon: `/membership/newsletter.svg`,
+      title: `Newsletters`,
+      description: `10 monthly newsletters packed with exclusive insights and updates.`,
+    },
+    {
+      icon: `/membership/connect.svg`,
+      title: `1-1 Connect`,
+      description: `1 Mentor session included.`,
+    },
+    {
+      icon: `/membership/masterclass.svg`,
+      title: `Exclusive Masterclass`,
+      description: `Group sessions by mentors that break down key topics every month.`,
+    },
+  ],
+  colB: [
+    {
+      icon: `/membership/insider-circle.svg`,
+      title: `Insider Circles`,
+      description: `2 per year invite-only events with mentors.`,
+    },
+    {
+      icon: `/membership/benefits.svg`,
+      title: `Member Benefits`,
+      description: `Special offers on tools and courses.`,
+    },
+    {
+      icon: `/membership/polls.svg`,
+      title: `Interactive Polls`,
+      description: `Participate and see how you align with others.`,
+    },
+  ],
+  colC: [
+    {
+      icon: `/membership/sessions.svg`,
+      title: `AMA Sessions`,
+      description: `2 group interactions per month with mentors from elite institutions.`,
+    },
+    {
+      icon: `/membership/spotlight.svg`,
+      title: `Community Spotlights`,
+      description: `Get featured for your achievements.`,
+    },
+    {
+      icon: `/membership/library.svg`,
+      title: `Content Library`,
+      description: `Unlock curated resources.`,
+    },
+  ],
+};
+
+const INSIGHTS_DATA = {
+  colA: [
+    {
+      icon: <BrownBgTick />,
+      title: `Data-Backed Insights`,
+      description: `No guesswork. Just real data and analytics to drive smarter decisions.`,
+    },
+    {
+      icon: <BrownBgTick />,
+      title: `Trend-Driven Updates`,
+      description: `Stay ahead with insights into emerging practices.`,
+    },
+  ],
+  colB: [
+    {
+      icon: <BrownBgTick />,
+      title: `Action-Oriented Guidance`,
+      description: `Clear steps to help you achieve tangible progress.`,
+    },
+    {
+      icon: <BrownBgTick />,
+      title: `Curated Resources`,
+      description: `Handpicked tools and guides to make your life easier.
+
+`,
+    },
+  ]
+};
 
 const FAQ_DATA = [
   {
@@ -220,7 +305,7 @@ export default function Home() {
         {/* <div className={styles.page}> */}
         <div>
           {/* <main className={styles.main}> */}
-          <main className={styles.main}>
+          <main>
             <HeroSection
               head={
                 <>
@@ -267,6 +352,13 @@ export default function Home() {
               author={<>—Sheryl Sandberg</>}
             />
             <BannerSection bannerContent={BANNER_SECTION} />
+            <PowerfulInsights
+            insights={INSIGHTS_DATA}
+            />
+            <MembershipSection
+            traits={MEMBERSHIP_TRAITS}
+            />
+           
             <TimerSection />
             <CardRows />
             <BehindTheScenes />

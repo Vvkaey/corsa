@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { sectionPadding } from "./styleConstants";
 
 export const Card = styled(({ className }: { className?: string }) => {
   return (
@@ -18,7 +17,6 @@ export const Card = styled(({ className }: { className?: string }) => {
 })`
   background: #fff;
   border-radius: 9.2px;
-
   padding: 11.2px 13.36px 24.76px 13.36px;
   display: flex;
   flex-direction: column;
@@ -111,7 +109,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
     </section>
   );
 })`
-  ${sectionPadding}
+    margin : 104px 0;
   background: #000;
   width: 100%;
   position: relative;

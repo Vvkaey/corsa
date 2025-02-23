@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { sectionPadding } from "./styleConstants";
 
 export const TimerSection = styled(({ className }: { className?: string }) => {
   return (
@@ -34,7 +33,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 })`
   width: 100%;
   font-family: var(--font-geist-sans);
-  ${sectionPadding}
+  padding : 100px 0;
 
   .container {
     max-width: 1500px;
