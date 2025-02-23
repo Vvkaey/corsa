@@ -80,7 +80,7 @@ export const BannerSection = styled(
   position: relative;
   width: 100%;
   height: 100vh;
-    padding : 100px 0;
+    padding : 50px 0;
   font-family: var(--font-geist-sans);
   display: none;
   justify-content: center;
@@ -88,6 +88,7 @@ export const BannerSection = styled(
 
   @media (min-width : 992px){
     display: flex;
+     padding : 100px 0;
   }
 
   .banner-container {

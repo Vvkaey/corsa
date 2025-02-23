@@ -109,15 +109,17 @@ export const CardRows = styled(({ className }: { className?: string }) => {
     </section>
   );
 })`
-    margin : 104px 0;
+  margin: 44px 0;
   background: #000;
   width: 100%;
   position: relative;
   font-family: var(--font-geist-sans);
   overflow: hidden;
+  padding: 72px 0;
 
   @media (min-width: 992px) {
-    padding: 72px 0;
+    margin: 104px 0;
+    padding: 82px 0;
   }
 
   .container {
@@ -127,11 +129,11 @@ export const CardRows = styled(({ className }: { className?: string }) => {
     margin: auto;
     max-width: 1500px;
     flex-direction: column;
-     gap : 66px;
+    gap: 66px;
 
     @media (min-width: 992px) {
       flex-direction: row;
-      gap : unset;
+      gap: unset;
     }
 
     .head-container {
@@ -168,7 +170,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         font-weight: 600;
         line-height: 141.979%; /* 28.396px */
 
-         @media (min-width: 992px) {
+        @media (min-width: 992px) {
           font-size: 20px;
         }
       }
@@ -189,10 +191,10 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         gap: 17.48px;
         position: relative;
         flex-wrap: wrap;
-        justify-content : center;
+        justify-content: center;
         @media (min-width: 992px) {
           flex-wrap: nowrap;
-            justify-content : unset;
+          justify-content: unset;
         }
 
         &:first-child {

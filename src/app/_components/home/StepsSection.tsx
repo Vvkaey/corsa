@@ -62,9 +62,16 @@ export const StepsSection = styled(
   }
 )`
   position: relative;
-  width: 100%;
+  width: calc(100% - 14px);
   font-family: var(--font-geist-sans);
-  padding : 70px 0 100px 0;
+  padding: 70px 0;
+  margin : auto;
+
+  @media (min-width: 992px) {
+    padding: 70px 0 100px 0;
+     width: 100%;
+  }
+
   .steps-container {
     border-radius: 18px;
     background: #000;

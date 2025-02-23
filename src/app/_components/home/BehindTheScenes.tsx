@@ -51,9 +51,13 @@ export const BehindTheScenes = styled(
   }
 )`
   background: #fff;
-    padding : 96px 0;
+    padding : 40px 0;
   font-family: var(--font-geist-sans);
   margin: auto;
+
+  @media (min-width : 992px){
+      padding : 96px 0;
+  }
 
   .container {
     // width: 100%;

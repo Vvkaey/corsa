@@ -96,7 +96,7 @@ const INSIGHTS_DATA = {
 
 `,
     },
-  ]
+  ],
 };
 
 const FAQ_DATA = [
@@ -293,7 +293,7 @@ export default function Home() {
     datePublished: "2025-01-30",
     author: {
       "@type": "Person",
-      name: "Author Name",
+      name: "Corsa",
     },
   };
   return (
@@ -302,9 +302,7 @@ export default function Home() {
         {JSON.stringify(structuredData)}
       </Script>
       <ThemeProvider theme={theme}>
-        {/* <div className={styles.page}> */}
         <div>
-          {/* <main className={styles.main}> */}
           <main>
             <HeroSection
               head={
@@ -352,13 +350,9 @@ export default function Home() {
               author={<>—Sheryl Sandberg</>}
             />
             <BannerSection bannerContent={BANNER_SECTION} />
-            <PowerfulInsights
-            insights={INSIGHTS_DATA}
-            />
-            <MembershipSection
-            traits={MEMBERSHIP_TRAITS}
-            />
-           
+            <PowerfulInsights insights={INSIGHTS_DATA} />
+            <MembershipSection traits={MEMBERSHIP_TRAITS} />
+
             <TimerSection />
             <CardRows />
             <BehindTheScenes />

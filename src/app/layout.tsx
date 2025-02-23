@@ -30,7 +30,7 @@ export default function RootLayout({
         {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
         <body className={`${geistSans.variable} + ${styles.body}`}
         style={{
-        paddingTop : '48px'
+        paddingTop : '98px'
         }}
         >
           <Header />

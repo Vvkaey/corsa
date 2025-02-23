@@ -179,6 +179,7 @@ export const HeroSection = styled(
   }
 )`
   position: relative;
+  top : 30%;
   width: 100%;
   .compact-container {
     gap: 20px;

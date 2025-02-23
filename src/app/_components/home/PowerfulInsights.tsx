@@ -73,7 +73,7 @@ export const PowerfulInsights = styled(
   position: relative;
   width: 100%;
   font-family: var(--font-geist-sans);
-  padding: 82px 0 42px 0;
+  padding: 40px 0 10px 0;
   margin: auto;
   @media (min-width: 992px) {
     padding: 68px 0;

@@ -23,11 +23,18 @@ export const QuotationSection = styled(
     );
   }
 )`
-  margin : 100px 0;
+  margin: 100px 0;
   position: relative;
   height: 100vh;
   width: 100%;
   font-family: var(--font-geist-sans);
+
+  margin: 70px 0;
+
+  @media (min-width: 992px) {
+    margin: 100px 0;
+  }
+
   .img-container {
     width: 100%;
     height: 100%;
@@ -89,18 +96,3 @@ export const QuotationSection = styled(
     }
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

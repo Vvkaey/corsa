@@ -33,7 +33,11 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 })`
   width: 100%;
   font-family: var(--font-geist-sans);
-  padding : 100px 0;
+  padding: 44px 0;
+
+   @media (min-width: 992px) {
+      padding: 100px 0;
+    }
 
   .container {
     max-width: 1500px;
@@ -43,9 +47,9 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     margin: auto;
     align-items: center;
 
-      @media (min-width : 992px){
+    @media (min-width: 992px) {
       gap: 48px;
-      }
+    }
 
     h2,
     p {
@@ -55,10 +59,10 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     .head-container {
       display: flex;
       flex-direction: column;
-gap : 18px;
+      gap: 18px;
 
-      @media (min-width : 992px){
-      gap : unset;
+      @media (min-width: 992px) {
+        gap: unset;
       }
       .title {
         color: #000c2d;
@@ -66,10 +70,10 @@ gap : 18px;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
-        text-align : center;
+        text-align: center;
 
-         @media (min-width : 992px){
-         font-size: 46px;
+        @media (min-width: 992px) {
+          font-size: 46px;
         }
       }
 
@@ -81,8 +85,8 @@ gap : 18px;
         font-weight: 600;
         line-height: normal;
 
-        @media (min-width : 992px){
-         font-size: 22px;
+        @media (min-width: 992px) {
+          font-size: 22px;
         }
       }
     }
@@ -162,9 +166,8 @@ gap : 18px;
     .cta-container {
       padding-top: 79px;
 
-
-      @media (min-width : 992px){
-       padding-top: 62px;
+      @media (min-width: 992px) {
+        padding-top: 62px;
       }
       .primary-cta {
         min-width: 220px;

@@ -147,8 +147,12 @@ export const MembershipSection = styled(
   position: relative;
   width: 100%;
   font-family: var(--font-geist-sans);
-   padding : 100px 0;
+   padding : 40px 0;
   margin: auto;
+
+  @media (min-width : 992px){
+  padding : 100px 0;
+  }
 
   .wrapper {
     background: #000;

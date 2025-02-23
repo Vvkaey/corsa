@@ -122,7 +122,6 @@ export const FAQSection = styled(
                   return <ContentBox key={idx} data={data} />;
                 })
               : null}
-           
           </div>
         </div>
       </section>
@@ -133,10 +132,14 @@ export const FAQSection = styled(
   position: relative;
   margin: auto;
   font-family: var(--font-geist-sans);
-  padding : 96px 0;
+  padding: 40px 0;
+
+  @media (min-width: 992px) {
+    padding: 96px 0;
+  }
 
   .faq-container {
-   margin: auto;
+    margin: auto;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -158,7 +161,7 @@ export const FAQSection = styled(
 
     .title-container {
       display: flex;
-      
+
       .title {
         width: 100%;
         color: #000;
