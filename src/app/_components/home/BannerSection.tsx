@@ -56,12 +56,13 @@ export const BannerSection = styled(
   }
 )`
   position: relative;
-  padding: 50px 0;
+  padding: 108px 0 50px 0;
   font-family: var(--font-geist-sans);
   justify-content: center;
   align-items: center;
   width: 100%;
   overflow: hidden;
+  background : #fff;
 
   @media (min-width: 992px) {
     display: flex;

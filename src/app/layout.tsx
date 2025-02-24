@@ -29,9 +29,6 @@ export default function RootLayout({
       <html lang="en">
         {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
         <body className={`${geistSans.variable} + ${styles.body}`}
-        style={{
-        paddingTop : '98px'
-        }}
         >
           <Header />
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>

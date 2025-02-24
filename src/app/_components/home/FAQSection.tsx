@@ -40,6 +40,7 @@ const ContentBox = styled(
   width: 95%;
 
   button.ques-container {
+    cursor : pointer;
     text-align: left;
     border: none;
     background: transparent;
@@ -133,6 +134,8 @@ export const FAQSection = styled(
   margin: auto;
   font-family: var(--font-geist-sans);
   padding: 40px 0;
+  border-bottom-right-radius : 36px;
+  border-bottom-left-radius : 36px;
 
   @media (min-width: 992px) {
     padding: 96px 0;

@@ -54,9 +54,11 @@ export const BehindTheScenes = styled(
     padding : 40px 0;
   font-family: var(--font-geist-sans);
   margin: auto;
+  padding-top : 84px;
 
   @media (min-width : 992px){
       padding : 96px 0;
+      padding-top : 196px;
   }
 
   .container {
