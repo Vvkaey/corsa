@@ -16,6 +16,7 @@ import { MembershipSection } from "./_components/home/MembershipSection";
 import { PowerfulInsights } from "./_components/home/PowerfulInsights";
 import { BrownBgTick } from "./_assets/icons";
 import { RewardsSection } from "./_components/home/RewardsSection";
+import { Footer } from "./_components/global/footer";
 
 const MEMBERSHIP_TRAITS = {
   colA: [
@@ -360,6 +361,7 @@ export default function Home() {
             <CardRows />
             <BehindTheScenes />
             <FAQSection title={"Know It All"} data={FAQ_DATA} />
+            <Footer />
           </main>
         </div>
       </ThemeProvider>

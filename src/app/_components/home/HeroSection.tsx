@@ -181,6 +181,13 @@ export const HeroSection = styled(
   position: relative;
   top : 30%;
   width: 100%;
+  padding-top : 88px;
+  background : #fff;
+
+  @media (min-width: 992px) {
+    padding-top : 98px;
+  }
+
   .compact-container {
     gap: 20px;
   }

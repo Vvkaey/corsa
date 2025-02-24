@@ -130,7 +130,6 @@ export const CardRows = styled(({ className }: { className?: string }) => {
     </section>
   );
 })`
-  margin: 44px 0;
   background: #000;
   width: 100%;
   position: relative;
@@ -139,7 +138,6 @@ export const CardRows = styled(({ className }: { className?: string }) => {
   padding: 72px 0;
 
   @media (min-width: 992px) {
-    margin: 104px 0;
     padding: 82px 0;
   }
 

@@ -80,6 +80,7 @@ export const RewardsSection = styled(
   font-family: var(--font-geist-sans);
   padding: 40px 0;
   margin: auto;
+  background : #fff;
 
   @media (min-width: 992px) {
     padding: 100px 0;

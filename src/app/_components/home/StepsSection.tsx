@@ -64,11 +64,12 @@ export const StepsSection = styled(
   position: relative;
   width: calc(100% - 14px);
   font-family: var(--font-geist-sans);
-  padding: 70px 0;
+  padding: 70px 0 138px 0;
   margin : auto;
+  background : #fff;
 
   @media (min-width: 992px) {
-    padding: 70px 0 100px 0;
+    padding: 70px 0 200px 0;
      width: 100%;
   }
 

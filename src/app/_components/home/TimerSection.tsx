@@ -34,9 +34,12 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
   width: 100%;
   font-family: var(--font-geist-sans);
   padding: 44px 0;
+  background : #fff;
+  padding-bottom : 84px;
 
    @media (min-width: 992px) {
       padding: 100px 0;
+       padding-bottom : 200px;
     }
 
   .container {
