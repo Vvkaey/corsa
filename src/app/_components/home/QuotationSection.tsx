@@ -13,7 +13,7 @@ export const QuotationSection = styled(
     return (
       <section className={className}>
         <div className="img-container">
-          <Image src={"/quotation/quote.png"} alt="quotation-img" fill />
+          <Image src={"/quotation/q_vid.gif"} alt="quotation-img" fill priority={true}/>
         </div>
         <div className="content">
           <p className="quote">{description}</p>
