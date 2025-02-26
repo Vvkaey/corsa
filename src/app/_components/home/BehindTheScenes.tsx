@@ -107,6 +107,7 @@ export const BehindTheScenes = styled(
       }
 
       .subtitle {
+                  font-family: var(--font-fustat);
         margin: 0;
         color: #000;
         font-size: 16px;
@@ -153,6 +154,7 @@ export const BehindTheScenes = styled(
       }
 
       .text-content {
+                  font-family: var(--font-fustat);
         color: #000;
         font-size: 16px;
         font-style: normal;

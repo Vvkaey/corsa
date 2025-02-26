@@ -60,7 +60,7 @@ export const QuotationSection = styled(
     z-index: 5;
     background: rgba(0, 0, 0, 0.4);
     @media (min-width: 992px) {
-      gap: 17px;
+      gap: 14px;
     }
     .quote {
       width: 90%;
@@ -75,7 +75,7 @@ export const QuotationSection = styled(
       text-transform: uppercase;
       letter-spacing: 0.56px;
       @media (min-width: 992px) {
-        font-size: 39px;
+        font-size: 32.5px;
         letter-spacing: 0.78px;
       }
     }
@@ -90,7 +90,7 @@ export const QuotationSection = styled(
       letter-spacing: 0.32px;
       z-index: 2;
       @media (min-width: 992px) {
-        font-size: 26px;
+        font-size: 21.6px;
         letter-spacing: 0.52px;
       }
     }

@@ -71,30 +71,34 @@ export const IconShowcase = styled(
     gap: 5px;
 
     h3.head {
+      font-family: var(--font-fustat);
       margin: 0;
-      color: #000;
+      color: #333;
       font-size: 18px;
       font-style: normal;
-      font-weight: 400;
+      font-weight: 600;
       line-height: normal;
 
       @media (min-width: 992px) {
-        font-size: 30px;
+        font-size: 20px;
       }
     }
 
     h4.sub-head {
+      font-family: var(--font-fustat);
       margin: 0;
-      color: #5f5f5f;
+      color: #000;
       font-size: 16px;
       font-style: normal;
-      font-weight: 400;
+      font-weight: 600;
       line-height: normal;
       max-width: 37ch;
 
       @media (min-width: 992px) {
-        font-size: 26px;
-        max-width: unset;
+      text-align : center;
+        font-size: 20px;
+        max-width: 36ch;
+        font-weight: 500;
       }
     }
 
@@ -153,8 +157,10 @@ export const HeroSection = styled(
     return (
       <section className={className}>
         <div
-          className={`root-container + ${
-            compactContainerB ? "compact-container" : ""
+          className={`${
+            compactContainerB
+              ? "root-container compact-container"
+              : "root-container"
           }`}
         >
           {/* <ShadowHeading /> */}
@@ -179,17 +185,13 @@ export const HeroSection = styled(
   }
 )`
   position: relative;
-  top : 30%;
+  top: 30%;
   width: 100%;
-  padding-top : 88px;
-  background : #fff;
+  padding-top: 88px;
+  background: #fff;
 
   @media (min-width: 992px) {
-    padding-top : 98px;
-  }
-
-  .compact-container {
-    gap: 20px;
+    padding-top: 98px;
   }
 
   .root-container {
@@ -199,7 +201,7 @@ export const HeroSection = styled(
     font-family: var(--font-geist-sans);
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 37px;
 
     @media (min-width: 992px) {
       gap: 56px;
@@ -210,10 +212,10 @@ export const HeroSection = styled(
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 27px;
+      gap: 4px;
 
       @media (min-width: 992px) {
-        gap: 27px;
+        gap: 4px;
       }
 
       h2.head {
@@ -228,7 +230,7 @@ export const HeroSection = styled(
         max-width: 12ch;
 
         @media (min-width: 992px) {
-          font-size: 85.365px;
+          font-size: 70px;
           max-width: unset;
         }
       }
@@ -245,37 +247,38 @@ export const HeroSection = styled(
         max-width: 32ch;
 
         @media (min-width: 992px) {
-          font-size: 85.365px;
+          font-size: 68px;
           max-width: unset;
         }
       }
 
       h3.sub-head {
+        font-family: var(--font-fustat);
         margin: 0;
         color: #626161;
-        font-size: 18px;
+        font-size: 16px;
         font-style: normal;
-        font-weight: 400;
+        font-weight: 600;
         line-height: normal;
         text-transform: capitalize;
 
         @media (min-width: 992px) {
-          font-size: 26.04px;
+          font-size: 20px;        
         }
       }
 
       .cta-container {
-        padding-top: 21px;
+        padding-top: 38px;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        gap: 11px;
+        gap: 12px;
 
         @media (min-width: 992px) {
-          padding-top: 10px;
+          padding-top: 33px;
           flex-direction: row;
-          gap: 20px;
+          gap: 16px;
         }
 
         .primary-cta {
@@ -284,14 +287,15 @@ export const HeroSection = styled(
           background: #ff2626;
           padding: 14px 33px;
           color: #fff;
-          font-size: 17.67px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 800;
           line-height: normal;
+          font-family: var(--font-fustat);
 
           @media (min-width: 992px) {
             padding: 14.5px 29px;
-            font-size: 19.843px;
+            font-size: 16.5px;
           }
         }
 
@@ -301,17 +305,25 @@ export const HeroSection = styled(
           padding: 14px 33px;
           background: transparent;
           color: #ff2626;
-          font-size: 17.67px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 800;
           line-height: normal;
+          font-family: var(--font-fustat);
 
           @media (min-width: 992px) {
             padding: 14.5px 29px;
-            font-size: 19.843px;
+            font-size: 16.5px;
           }
         }
       }
+    }
+  }
+
+  .compact-container {
+    gap: 12px;
+    @media (min-width: 992px) {
+      gap: 24px;
     }
   }
 `;

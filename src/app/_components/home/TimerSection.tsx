@@ -65,7 +65,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       gap: 18px;
 
       @media (min-width: 992px) {
-        gap: unset;
+        gap: 3px;
       }
       .title {
         color: #000c2d;
@@ -81,6 +81,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       }
 
       .subtitle {
+                  font-family: var(--font-fustat);
         color: #000;
         text-align: center;
         font-size: 16px;
@@ -104,6 +105,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       align-items: center;
 
       .tag {
+                  font-family: var(--font-fustat);
         color: #000;
         text-align: center;
         font-size: 16px;

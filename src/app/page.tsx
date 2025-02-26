@@ -317,7 +317,7 @@ export default function Home() {
               secondaryCta="Access newsletter"
               headB="Gain exclusive insights and access an unparalleled tribe of
               mentors."
-              subHeadB="Counsel by Scholars from"
+              subHeadB="Learnings from Scholars at"
               icons={ICONS}
             />
             <HeroSection
@@ -333,7 +333,7 @@ export default function Home() {
               secondaryHead={true}
               subHeadB={
                 <>
-                  &quot;No fluff, no big promises—just real conversations with
+                  &quot;No fluff, no big promises. Just real conversations with
                   mentors who get it done. Here&apos;s how we&apos;ll help you
                   step up.&quot;
                 </>

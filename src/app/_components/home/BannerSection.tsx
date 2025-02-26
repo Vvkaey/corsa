@@ -62,7 +62,7 @@ export const BannerSection = styled(
   align-items: center;
   width: 100%;
   overflow: hidden;
-  background : #fff;
+  background: #fff;
 
   @media (min-width: 992px) {
     display: flex;
@@ -79,6 +79,7 @@ export const BannerSection = styled(
 
     @media (min-width: 992px) {
       padding: 0 170px;
+      gap: 22.7px;
     }
 
     .title-container {
@@ -117,6 +118,7 @@ export const BannerSection = styled(
     }
 
     .subtitle {
+      font-family: var(--font-fustat);
       margin: 0;
       color: #000;
       text-align: center;
@@ -129,7 +131,7 @@ export const BannerSection = styled(
 
       @media (min-width: 992px) {
         font-size: 18px;
-         max-width: 56ch;
+        max-width: 65ch;
       }
     }
 
@@ -141,13 +143,13 @@ export const BannerSection = styled(
 
       @media (min-width: 992px) {
         width: unset;
-        padding: 20px 83px;
+        padding: 14px 83px 20px 83px;
         border-left: rgba(0, 0, 0, 0.25) 1px solid;
 
         &::before {
           display: inline;
           position: absolute;
-          left: -11px;
+          left: -12px;
           top: calc(10% - 11px);
           content: "";
           height: 22px;
@@ -187,15 +189,13 @@ export const BannerSection = styled(
           gap: 24px;
           flex-grow: 0;
           justify-content: space-between;
-           align-items : center;
+          align-items: center;
 
           &:nth-child(odd) {
             padding: 43px 16px 40px 19px;
-           
 
             @media (min-width: 992px) {
-             padding: 39px 18px 17px 18px;
-              
+              padding: 39px 18px 17px 18px;
             }
           }
 
@@ -207,7 +207,7 @@ export const BannerSection = styled(
             }
           }
 
-          @media (min-width: 992px) {           
+          @media (min-width: 992px) {
             width: 283px;
             height: 282px;
           }
@@ -238,6 +238,7 @@ export const BannerSection = styled(
           }
 
           .description {
+            font-family: var(--font-fustat);
             height: 80px;
             margin: 0;
             color: #fff;

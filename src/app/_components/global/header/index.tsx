@@ -114,6 +114,7 @@ export const Header = styled(({ className }: { className?: string }) => {
         display: flex;
         flex-direction: row;
         gap: 18px;
+              font-family: var(--font-fustat);
       }
 
       .highlighted-nav {

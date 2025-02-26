@@ -24,6 +24,7 @@ export const Card = styled(({ className }: { className?: string }) => {
   width: 160.369px;
   height: 236px;
   flex-shrink: 0;
+  font-family: var(--font-fustat);
 
   @media (min-width: 992px) {
     width: 179px;
@@ -36,12 +37,10 @@ export const Card = styled(({ className }: { className?: string }) => {
     border-radius: 50%;
     background: #d9d9d9;
 
-
- @media (min-width: 992px) {
-   width: 31.43px;
-    height: 31.43px;
-  }
-
+    @media (min-width: 992px) {
+      width: 31.43px;
+      height: 31.43px;
+    }
   }
 
   .quotes {
@@ -61,8 +60,8 @@ export const Card = styled(({ className }: { className?: string }) => {
     line-height: 141.979%; /* 17.037px */
 
     @media (min-width: 992px) {
-    position : relative;
-    bottom : 27px;
+      position: relative;
+      bottom: 27px;
       font-size: 12px;
     }
   }
@@ -160,12 +159,16 @@ export const CardRows = styled(({ className }: { className?: string }) => {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       background: #000;
       width: 100%;
+      gap: 12px;
+        padding-left : 24px;
       @media (min-width: 992px) {
         width: 36%;
         align-items: flex-start;
+        gap: 14px;
+         padding-left : unset;
       }
 
       h2.title {
@@ -176,13 +179,15 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         font-weight: 800;
         line-height: normal;
         text-transform: capitalize;
-
+      
         @media (min-width: 992px) {
+         
           font-size: 46px;
         }
       }
 
       p.subtitle {
+        font-family: var(--font-fustat);
         margin: 0;
         color: #fff;
         font-size: 18px;

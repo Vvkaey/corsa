@@ -105,7 +105,7 @@ export const PowerfulInsights = styled(
       gap: 14px;
 
       @media (min-width: 992px) {
-        gap: 10px;
+        gap: 21px;
         width: 70%;
       }
 
@@ -123,6 +123,7 @@ export const PowerfulInsights = styled(
       }
 
       .subtitle {
+       font-family: var(--font-fustat);
         color: #000;
         font-size: 16px;
         font-style: normal;
@@ -234,10 +235,10 @@ export const PowerfulInsights = styled(
           .text {
             display: flex;
             flex-direction: column;
-            gap: 13px;
+            gap: 9px;
 
             @media (min-width: 992px) {
-              gap: 28px;
+              gap: 20px;
             }
 
             h3,
@@ -260,6 +261,7 @@ export const PowerfulInsights = styled(
             }
 
             .description {
+                        font-family: var(--font-fustat);
               color: #2b2b2b;
               leading-trim: both;
               text-edge: cap;

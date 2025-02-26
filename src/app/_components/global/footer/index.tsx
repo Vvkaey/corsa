@@ -107,6 +107,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           }
 
           .primary-button {
+                      font-family: var(--font-fustat);
             border-radius: 8px;
             border: 0.635px solid #ffeac8;
             color: #fff;
@@ -149,6 +150,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           gap: 5px;
 
           .tagline {
+            font-family: var(--font-fustat);
             color: #fff;
             font-size: 16px;
             font-style: normal;
@@ -161,6 +163,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           }
 
           .email {
+            font-family: var(--font-fustat);
             color: #c1c1c1;
             font-size: 16px;
             font-style: normal;
@@ -185,6 +188,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
             font-style: normal;
             font-weight: 800;
             line-height: 141.979%; /* 22.717px */
+             font-family: var(--font-fustat);
 
             @media (min-width: 992px) {
               font-size: 18px;

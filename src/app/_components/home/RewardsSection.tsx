@@ -80,7 +80,7 @@ export const RewardsSection = styled(
   font-family: var(--font-geist-sans);
   padding: 40px 0;
   margin: auto;
-  background : #fff;
+  background: #fff;
 
   @media (min-width: 992px) {
     padding: 100px 0;
@@ -163,6 +163,7 @@ export const RewardsSection = styled(
           }
 
           .subhead {
+            font-family: var(--font-fustat);
             color: #fff;
             text-align: center;
             font-size: 16px;
@@ -247,7 +248,6 @@ export const RewardsSection = styled(
             left: 0;
             top: 0;
             width: 100%;
-
           }
         }
 

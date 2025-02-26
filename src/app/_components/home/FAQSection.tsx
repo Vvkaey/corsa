@@ -59,6 +59,7 @@ const ContentBox = styled(
     }
 
     .ques {
+                  font-family: var(--font-fustat);
       color: #000;
       font-size: 18px;
       font-style: normal;
@@ -77,6 +78,7 @@ const ContentBox = styled(
   }
 
   .description {
+                font-family: var(--font-fustat);
     height: unset;
     position: relative;
     color: #000;
@@ -177,6 +179,7 @@ export const FAQSection = styled(
 
         @media (min-width: 992px) {
           width: 95%;
+          font-weight: 800;
           font-size: 46px;
         }
       }

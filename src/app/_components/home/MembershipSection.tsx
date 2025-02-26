@@ -147,12 +147,12 @@ export const MembershipSection = styled(
   position: relative;
   width: 100%;
   font-family: var(--font-geist-sans);
-   padding : 40px 0;
+  padding: 40px 0;
   margin: auto;
-  background : #fff;
+  background: #fff;
 
-  @media (min-width : 992px){
-  padding : 100px 0;
+  @media (min-width: 992px) {
+    padding: 100px 0;
   }
 
   .wrapper {
@@ -192,12 +192,11 @@ export const MembershipSection = styled(
         linear-gradient(90deg, #c2c2c2 2.5%, #000 58.5%, #c2c2c2 95.5%);
 
       @media (min-width: 992px) {
-        gap: 18.37px;
+        gap: 0px;
       }
 
       .title {
         position: relative;
-
         width: fit-content;
         border-radius: 19.502px;
         background: #000;
@@ -219,6 +218,7 @@ export const MembershipSection = styled(
       }
 
       .subtitle {
+        font-family: var(--font-fustat);
         max-width: 30ch;
         color: #fff;
         text-align: center;
@@ -344,7 +344,7 @@ export const MembershipSection = styled(
               top: 4px;
 
               @media (min-width: 992px) {
-                top: 7px;
+                top: 4px;
               }
 
               img {
@@ -362,6 +362,7 @@ export const MembershipSection = styled(
               }
 
               .title {
+                font-family: var(--font-fustat);
                 color: #000;
                 font-size: 18px;
                 font-style: normal;
@@ -370,6 +371,7 @@ export const MembershipSection = styled(
               }
 
               .description {
+                font-family: var(--font-fustat);
                 color: #000;
                 font-size: 15px;
                 font-style: normal;
@@ -433,6 +435,7 @@ export const MembershipSection = styled(
 
         .cta-container {
           .primary-cta {
+            font-family: var(--font-fustat);
             min-width: 220px;
             width: 40vw;
             border-radius: 10.079px;

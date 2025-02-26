@@ -65,12 +65,12 @@ export const StepsSection = styled(
   width: calc(100% - 14px);
   font-family: var(--font-geist-sans);
   padding: 70px 0 138px 0;
-  margin : auto;
-  background : #fff;
+  margin: auto;
+  background: #fff;
 
   @media (min-width: 992px) {
     padding: 70px 0 200px 0;
-     width: 100%;
+    width: 100%;
   }
 
   .steps-container {
@@ -115,6 +115,7 @@ export const StepsSection = styled(
           }
         }
         .text-container {
+          position: relative;
           width: 100%;
           display: flex;
           gap: 8px;
@@ -123,7 +124,7 @@ export const StepsSection = styled(
             justify-content: center;
             width: 50%;
             flex-direction: column;
-            gap: 25px;
+            gap: 19px;
             padding-left: 111.5px;
           }
           .text-a {
@@ -145,10 +146,25 @@ export const StepsSection = styled(
             }
           }
           .text-b {
+            position: relative;
             display: flex;
             flex-direction: column;
             color: #fff;
             gap: 7px;
+
+            @media (min-width: 992px) {
+              &::before {
+                position: absolute;
+                top: 10%;
+                left: -10px;
+                content: "";
+                height: 80%;
+                width: 2px;
+                background: #ff2626;
+                border-radius: 25%;
+              }
+            }
+
             .title {
               margin: 0;
               font-size: 24px;
@@ -161,14 +177,15 @@ export const StepsSection = styled(
               }
             }
             .description {
+              font-family: var(--font-fustat);
               margin: 0;
               font-size: 16px;
               font-style: normal;
-              font-weight: 500;
+              font-weight: 600;
               line-height: 141.979%; /* 25.556px */
               @media (min-width: 992px) {
                 max-width: 70%;
-                font-size: 24px;
+                font-size: 20px;
               }
             }
           }
