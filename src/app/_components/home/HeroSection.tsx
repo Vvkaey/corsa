@@ -137,6 +137,7 @@ export const HeroSection = styled(
     secondaryHead = false,
     subHead,
     primaryCta,
+    onPrimaryCtaClick,
     secondaryCta,
     headB,
     subHeadB,
@@ -148,6 +149,7 @@ export const HeroSection = styled(
     secondaryHead?: boolean;
     subHead?: string | JSX.Element;
     primaryCta?: string;
+    onPrimaryCtaClick?: ()=>void;
     secondaryCta?: string;
     headB?: string | JSX.Element;
     subHeadB?: string | JSX.Element;
@@ -173,7 +175,7 @@ export const HeroSection = styled(
             {subHead ? <h3 className="sub-head">{subHead}</h3> : null}
             {primaryCta || secondaryCta ? (
               <div className="cta-container">
-                <button className="primary-cta">{primaryCta}</button>
+                <button className="primary-cta" onClick={onPrimaryCtaClick}>{primaryCta}</button>
                 <button className="secondary-cta">{secondaryCta}</button>
               </div>
             ) : null}
@@ -292,6 +294,7 @@ export const HeroSection = styled(
           font-weight: 800;
           line-height: normal;
           font-family: var(--font-fustat);
+          cursor : pointer;
 
           @media (min-width: 992px) {
             padding: 14.5px 29px;
@@ -310,6 +313,8 @@ export const HeroSection = styled(
           font-weight: 800;
           line-height: normal;
           font-family: var(--font-fustat);
+          cursor : pointer;
+
 
           @media (min-width: 992px) {
             padding: 14.5px 29px;

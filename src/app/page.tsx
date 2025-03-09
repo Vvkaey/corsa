@@ -17,6 +17,7 @@ import { PowerfulInsights } from "./_components/home/PowerfulInsights";
 import { BrownBgTick } from "./_assets/icons";
 import { RewardsSection } from "./_components/home/RewardsSection";
 import { Footer } from "./_components/global/footer";
+import { useRouter } from "next/navigation";
 
 const MEMBERSHIP_TRAITS = {
   colA: [
@@ -298,6 +299,9 @@ export default function Home() {
       name: "Corsa",
     },
   };
+
+  const router = useRouter();
+
   return (
     <>
       <Script id="blog-schema" type="application/ld+json">
@@ -314,6 +318,7 @@ export default function Home() {
               }
               subHead="Community that leads together."
               primaryCta="Connect with a mentor"
+              onPrimaryCtaClick={()=> router.push('/login')}
               secondaryCta="Access newsletter"
               headB="Gain exclusive insights and access an unparalleled tribe of
               mentors."
