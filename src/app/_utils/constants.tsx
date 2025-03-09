@@ -1,5 +1,7 @@
 
 
 export const NO_HEADER_FOOTER_PAGES = [
-    '/not-found'
+    '/not-found',
+    '/login',
+    '/book'
 ]

@@ -6,6 +6,7 @@ import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
 //  import Cookie from "js-cookie";
+
 import styled from "styled-components";
 // import { useGoogleLogin } from "@react-oauth/google";
 // import axios from "axios";
@@ -170,9 +171,8 @@ export const Header = styled(({ className }: { className?: string }) => {
   //   console.log("Login Failed");
   // };
 
-  const isLoginPage = pathname === "/login";
 
-  if (isLoginPage) return null;
+
 
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
   return (

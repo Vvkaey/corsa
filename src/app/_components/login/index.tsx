@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 
 const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   const [error, setError] = useState<string | null>(null);
@@ -94,6 +96,7 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
 `;
 
 export const LoginSection = styled(({ className }: { className?: string }) => {
+    const router = useRouter();
   return (
     <section className={className}>
       <div className="root-container">
@@ -110,7 +113,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
                 className="email"
                 placeholder="Enter email address"
               />
-              <button className="continue">Continue</button>
+              <button className="continue" onClick={()=>router.push('/book')}>Continue</button>
             </div>
           </div>
         </div>
@@ -218,6 +221,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
           .continue {
             background: #fff;
             color: #000;
+            cursor : pointer;
           }
         }
       }
