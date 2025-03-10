@@ -1,53 +1,25 @@
 import styled from "styled-components";
 
-import { useState } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
+// import { useState } from "react";
+// import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-
 const GoogleSignInButton = styled(({ className }: { className?: string }) => {
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // Redirect to backend Google auth endpoint
-        // window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
-      } catch (err) {
-        setError("Failed to authenticate with Google");
-        console.error("Google authentication error:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    onError: () => {
-      setError("Google authentication failed");
-    },
-  });
+  
+console.log(process.env.NEXT_PUBLIC_API_URL);
+  
+  const handleGoogleLogin = () => {
+    // Simply redirect to backend's Google auth initiation endpoint
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
+  };
 
   return (
-    <button
-      onClick={() => handleGoogleLogin()}
-    //   disabled={isLoading}
-    disabled
+    <button 
+      onClick={handleGoogleLogin}
       className={className}
     >
-      {error ? <span>Error ....</span> : null}
-      {isLoading ? (
-        <span>Loading...</span>
-      ) : (
-        <span className="content">
-          <div className="img-container">
-            <Image src={"/login/google.svg"} alt="google-icon" fill />
-          </div>
-          Continue with Google
-        </span>
-      )}
+      Sign in with Google
     </button>
   );
 })`
@@ -96,7 +68,7 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
 `;
 
 export const LoginSection = styled(({ className }: { className?: string }) => {
-    const router = useRouter();
+  const router = useRouter();
   return (
     <section className={className}>
       <div className="root-container">
@@ -113,7 +85,9 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
                 className="email"
                 placeholder="Enter email address"
               />
-              <button className="continue" onClick={()=>router.push('/book')}>Continue</button>
+              <button className="continue" onClick={() => router.push("/book")}>
+                Continue
+              </button>
             </div>
           </div>
         </div>
@@ -163,13 +137,13 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
       .logo-container {
         position: relative;
         width: 100%;
-        height : 40px;
-        margin-bottom : 40px;
+        height: 40px;
+        margin-bottom: 40px;
 
         img {
           object-fit: contain;
           width: auto;
-          height : 100%;
+          height: 100%;
         }
       }
 
@@ -221,7 +195,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
           .continue {
             background: #fff;
             color: #000;
-            cursor : pointer;
+            cursor: pointer;
           }
         }
       }
@@ -268,3 +242,66 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
     }
   }
 `;
+
+
+// const [error, setError] = useState<string | null>(null);
+  // const [isLoading, setIsLoading] = useState(false);
+
+  // const router = useRouter();
+
+  // const handleGoogleLogin = useGoogleLogin({
+  //   onSuccess: async () => {
+  //     setIsLoading(true);
+  //     setError(null);
+
+  //     try {
+  //       // Uncomment this line to redirect to your backend auth endpoint
+  //       window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
+  //     } catch (err) {
+  //       setError("Failed to authenticate with Google");
+  //       console.error("Google authentication error:", err);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   },
+  //   onError: () => {
+  //     setError("Google authentication failed");
+  //   },
+  // });
+
+  // const handleGoogleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     setIsLoading(true);
+  //     setError(null);
+
+  //     try {
+  //       // Send the token to your backend
+  //       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/verify`, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({ token: tokenResponse.access_token }),
+  //       });
+
+  //       const data = await response.json();
+
+  //       if (data.success) {
+  //         // Store user data/token and redirect
+  //         localStorage.setItem('token', data.data.token);
+  //         router.push('/book');
+  //       } else {
+  //         setError(data.error.message);
+  //       }
+  //     } catch (err) {
+  //       setError("Failed to authenticate with Google");
+  //       console.error("Google authentication error:", err);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   },
+  //   onError: () => {
+  //     setError("Google authentication failed");
+  //   },
+  // });
+
