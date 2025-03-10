@@ -1,31 +1,157 @@
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { useEffect, useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 export const TimerSection = styled(({ className }: { className?: string }) => {
+  const [displayTime, setDisplayTime] = useState({
+    seconds: 0,
+    centiseconds: 0,
+  });
+  const [running, setRunning] = useState(false);
+  const [reward, setReward] = useState(false);
+
+  const { width } = useWindowSize();
+
+  // Use refs to track timing without causing re-renders
+  const timerRef = useRef<{
+    startTime: number | null;
+    rafId: number | null;
+    elapsedBeforeStop: number;
+  }>({
+    startTime: null,
+    rafId: null,
+    elapsedBeforeStop: 0, // Track total elapsed time before stopping
+  });
+
+  // Track actual time values separately from display values
+  const timeValuesRef = useRef({ seconds: 0, centiseconds: 0 });
+
+  useEffect(() => {
+    const timer = timerRef.current;
+
+    const updateTimer = () => {
+      if (!timer.startTime) {
+        timer.startTime = performance.now();
+      }
+
+      const currentTime = performance.now();
+      const elapsedMs = currentTime - timer.startTime + timer.elapsedBeforeStop;
+
+      // Calculate seconds and centiseconds
+      const totalSeconds = elapsedMs / 1000;
+      const seconds = Math.floor(totalSeconds);
+      const centiseconds = Math.floor((totalSeconds % 1) * 100);
+
+      // Update only if values change
+      if (
+        seconds !== timeValuesRef.current.seconds ||
+        centiseconds !== timeValuesRef.current.centiseconds
+      ) {
+        timeValuesRef.current = { seconds, centiseconds };
+        setDisplayTime({ seconds, centiseconds });
+      }
+
+      if (running) {
+        timer.rafId = requestAnimationFrame(updateTimer);
+      }
+    };
+
+    if (running) {
+      timer.rafId = requestAnimationFrame(updateTimer);
+    }
+
+    return () => {
+      if (timer.rafId) {
+        cancelAnimationFrame(timer.rafId);
+      }
+    };
+  }, [running]);
+
+  const formatTime = useCallback(() => {
+    return `${String(displayTime.seconds).padStart(2, "0")}:${String(
+      displayTime.centiseconds
+    ).padStart(2, "0")}`;
+  }, [displayTime]);
+
+  const handleStart = () => {
+    if (!running) {
+      // Don't reset the elapsed time, just start from current time
+      timerRef.current.startTime = null;
+      setRunning(true);
+    }
+  };
+
+  const handleStop = () => {
+    setRunning(false);
+
+    // Store the total elapsed time when stopping
+    if (timerRef.current.startTime) {
+      const currentTime = performance.now();
+      timerRef.current.elapsedBeforeStop +=
+        currentTime - timerRef.current.startTime;
+    }
+
+    // Check for reward condition
+    if (displayTime.seconds > 5 && displayTime.centiseconds > 0) {
+      setReward(true);
+    } else {
+      setReward(false);
+    }
+  };
+
+  const handleReset = () => {
+    setRunning(false);
+    setReward(false);
+    timerRef.current.startTime = null;
+    timerRef.current.elapsedBeforeStop = 0; // Reset the elapsed time
+    setDisplayTime({ seconds: 0, centiseconds: 0 });
+  };
+
   return (
     <section className={className}>
       <div className="container">
         <div className="head-container">
-          <h2 className="title">Reflexes Pay Off! (10% off on membership)</h2>
-          <p className="subtitle">
-            Time it just right, and we&apos;ll share the code!
-          </p>
+          <h2 className="title">
+            Reflexes Pay Off! {width && width < 992 ? <br /> : null} (A Bonus
+            Mentor Session)
+          </h2>
+          <p className="subtitle">Get a mentor session on membership!</p>
         </div>
         <div className="timer-container">
           <p className="tag">
             Can you stop the timer on exactly{" "}
-            <span className="red-text">5.50</span> seconds?
+            <span className="red-text">5.30</span> seconds?
           </p>
           <div className="timer">
-            <p className="time">00 : 00</p>
-
+            <p className="time">{formatTime()}</p>
             <div className="units">
               <p className="seconds">Seconds</p>
               <p className="centiseconds">Centiseconds</p>
             </div>
           </div>
+          <div className="reward-container">
+            {reward && (
+              <p className="reward-message">
+                Congratulations! You&apos;ve earned a mentor session!
+              </p>
+            )}
+          </div>
         </div>
         <div className="cta-container">
-          <button className="primary-cta">Start</button>
+          {!running ? (
+            <button className="primary-cta" onClick={handleStart}>
+              Start
+            </button>
+          ) : (
+            <button className="primary-cta" onClick={handleStop}>
+              Stop
+            </button>
+          )}
+          {!running && displayTime.seconds > 0 && (
+            <button className="reset-btn" onClick={handleReset}>
+              Reset
+            </button>
+          )}
         </div>
       </div>
     </section>
@@ -34,13 +160,17 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
   width: 100%;
   font-family: var(--font-geist-sans);
   padding: 44px 0;
-  background : #fff;
-  padding-bottom : 84px;
+  background: #fff;
+  padding-bottom: 84px;
 
-   @media (min-width: 992px) {
-      padding: 100px 0;
-       padding-bottom : 200px;
-    }
+  @media (min-width: 992px) {
+    padding-bottom: unset;
+    padding: 100px 0 214px 0;
+  }
+
+  @media (min-width: 992px) {
+    padding: 140px 0 235px 0;
+  }
 
   .container {
     max-width: 1500px;
@@ -54,6 +184,10 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       gap: 48px;
     }
 
+    @media (min-width: 1800px) {
+      gap: 76px;
+    }
+
     h2,
     p {
       margin: 0;
@@ -65,7 +199,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       gap: 18px;
 
       @media (min-width: 992px) {
-        gap: 3px;
+        gap: 9px;
       }
       .title {
         color: #000c2d;
@@ -78,10 +212,13 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         @media (min-width: 992px) {
           font-size: 46px;
         }
+        @media (min-width: 1800px) {
+          font-size: 65px;
+        }
       }
 
       .subtitle {
-                  font-family: var(--font-fustat);
+        font-family: var(--font-fustat);
         color: #000;
         text-align: center;
         font-size: 16px;
@@ -91,6 +228,9 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
         @media (min-width: 992px) {
           font-size: 22px;
+        }
+        @media (min-width: 1800px) {
+          font-size: 31.2px;
         }
       }
     }
@@ -105,17 +245,21 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       align-items: center;
 
       .tag {
-                  font-family: var(--font-fustat);
+        font-family: var(--font-fustat);
         color: #000;
         text-align: center;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        max-width: 24ch;
+        width: 75%;
+        text-align: center;
         @media (min-width: 992px) {
           max-width: unset;
           font-size: 25.542px;
+        }
+        @media (min-width: 1800px) {
+          font-size: 36.31px;
         }
       }
 
@@ -133,6 +277,10 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
           font-weight: 700;
           line-height: normal;
           text-transform: capitalize;
+          min-width: 5ch; /* Fix for layout shift */
+          font-variant-numeric: tabular-nums; /* Use monospace numbers */
+          font-family: "Courier New", monospace; /* Ensure monospace font */
+          padding-top: 20px;
 
           @media (min-width: 992px) {
             padding: 0 20px;
@@ -163,31 +311,74 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
             @media (min-width: 992px) {
               font-size: 26px;
             }
+            @media (min-width: 1800px) {
+              font-size: 36.9px;
+            }
           }
+        }
+      }
+
+      .reward-container {
+        min-height: 50px; /* Fixed height to prevent layout shift */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+
+        @media (min-width: 992px) {
+          min-height: 60px;
+        }
+      }
+
+      .reward-message {
+        color: #ff2626;
+        font-weight: 600;
+        font-size: 18px;
+        width: 75%;
+        text-align: center;
+
+        @media (min-width: 992px) {
+          font-size: 24px;
         }
       }
     }
 
     .cta-container {
-      padding-top: 79px;
+      padding-top: 40px;
+      display: flex;
+      gap: 15px;
 
       @media (min-width: 992px) {
-        padding-top: 62px;
+        padding-top: 20px;
       }
-      .primary-cta {
-        min-width: 220px;
+      .primary-cta,
+      .reset-btn {
+        min-width: 120px;
         border-radius: 9.013px;
         border: 1.699px solid #fae3ca;
-        background: #000;
         padding: 12px;
-        color: #fff;
         font-size: 17.67px;
         font-style: normal;
         line-height: normal;
+        cursor: pointer;
 
         @media (min-width: 992px) {
           font-size: 18.14px;
         }
+
+        @media (min-width: 1800px) {
+          font-size: 25.8px;
+        }
+      }
+
+      .primary-cta {
+        background: #000;
+        color: #fff;
+      }
+
+      .reset-btn {
+        background: #f5f5f5;
+        color: #000;
       }
     }
   }
