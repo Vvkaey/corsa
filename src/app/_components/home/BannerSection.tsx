@@ -64,6 +64,7 @@ export const BannerSection = styled(
   overflow: hidden;
   background: #fff;
 
+
   @media (min-width: 992px) {
     display: flex;
     padding: 100px 0;

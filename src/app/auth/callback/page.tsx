@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthProgress } from "@/app/_components/auth/AuthProgress";
 import Script from "next/script";
 
 
@@ -20,9 +21,7 @@ export default function Callback() {
       <Script id="blog-schema" type="application/ld+json">
         {JSON.stringify(structuredData)}
       </Script>
-      <div style={{fontSize : '88px', color: '#fff'}}>
-        Congrats ! You land on correct callback !!
-      </div>
+      <AuthProgress />
     </>
   );
 }

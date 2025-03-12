@@ -28,11 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
-  if (!clientId) {
-    throw new Error("Google Client ID is not defined in the environment");
-  }
 
   return (
     // <GoogleOAuthProvider clientId={clientId}>
