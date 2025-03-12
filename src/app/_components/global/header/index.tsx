@@ -171,7 +171,6 @@ export const Header = styled(({ className }: { className?: string }) => {
     @media (min-width: 992px) {
       margin: 22px 120px;
       // border: none;
-      border: 1px solid #fff;
     }
 
     @media (min-width: 1600px) {
