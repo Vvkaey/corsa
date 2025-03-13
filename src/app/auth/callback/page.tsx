@@ -2,8 +2,7 @@
 
 import { AuthProgress } from "@/app/_components/auth/AuthProgress";
 import Script from "next/script";
-
-
+import { Suspense } from "react";
 
 export default function Callback() {
   const structuredData = {
@@ -18,10 +17,12 @@ export default function Callback() {
   };
   return (
     <>
-      <Script id="blog-schema" type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </Script>
-      <AuthProgress />
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Script id="blog-schema" type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </Script>
+        <AuthProgress />
+      </Suspense>
     </>
   );
 }

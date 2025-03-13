@@ -49,7 +49,6 @@ export const Footer = styled(({ className }: { className?: string }) => {
   .container {
     max-width: 1500px;
     margin: auto;
-
     backdrop-filter: blur(10px);
     font-family: var(--font-geist-sans);
     z-index: 10;
@@ -59,7 +58,18 @@ export const Footer = styled(({ className }: { className?: string }) => {
     gap: 21px;
     @media (min-width: 992px) {
       gap: 50px;
+      margin: 0px 120px;
     }
+
+    @media (min-width: 1600px) {
+      margin: 0px auto;
+    }
+
+    @media (min-width: 1800px) {
+      gap: 72px;
+      margin: 30px auto;
+    }
+
     .copyright {
       color: #fff;
       font-size: 16px;
@@ -67,16 +77,23 @@ export const Footer = styled(({ className }: { className?: string }) => {
       font-weight: 800;
       line-height: 141.979%; /* 22.717px */
       padding: 0 24px;
+      font-family: var(--font-fustat);
 
       @media (min-width: 992px) {
         font-size: 18px;
-        padding: 0 60px;
+        padding: 0 60px 0 0;
+      }
+
+      @media (min-width: 1800px) {
+        padding-top: 24px;
+        font-size: 25.589px;
       }
     }
 
     .content {
       display: flex;
       flex-direction: column;
+
       @media (min-width: 992px) {
         flex-direction: row;
       }
@@ -84,7 +101,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
       .left-block {
         padding: 59px 24px 44px;
         @media (min-width: 992px) {
-          padding: 68px 60px 0px;
+          padding: 68px 60px 0px 0px;
           width: 50%;
         }
 
@@ -98,16 +115,25 @@ export const Footer = styled(({ className }: { className?: string }) => {
           @media (min-width: 992px) {
             font-size: 32px;
           }
+
+          @media (min-width: 1800px) {
+            font-size: 45.491px;
+          }
         }
 
         .cta-container {
           padding-top: 24px;
+          font-family: var(--font-fustat);
           @media (min-width: 992px) {
             padding-top: 48px;
           }
 
+          @media (min-width: 1800px) {
+            padding-top: 74.5px;
+          }
+
           .primary-button {
-                      font-family: var(--font-fustat);
+            font-family: var(--font-fustat);
             border-radius: 8px;
             border: 0.635px solid #ffeac8;
             color: #fff;
@@ -119,6 +145,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
             background: none;
             padding: 9px 40px;
             width: 100%;
+            cursor: pointer;
 
             @media (min-width: 992px) {
               border-radius: 11.673px;
@@ -127,6 +154,19 @@ export const Footer = styled(({ className }: { className?: string }) => {
               font-size: 18px;
               width: 247px;
               padding: 10.8px 50px;
+              transition: all 5ms ease-in;
+
+              &:hover {
+                // filter: invert(1);
+                // background: rgba(0, 0, 0, 0.7);
+                box-shadow : 0 0 7px 1px #ffeac8;
+              }
+            }
+
+            @media (min-width: 1800px) {
+              width: initial;
+              font-size: 25.589px;
+              white-space: preserve nowrap;
             }
           }
         }
@@ -135,19 +175,23 @@ export const Footer = styled(({ className }: { className?: string }) => {
       .right-block {
         display: flex;
         justify-content: space-between;
-
+        font-family: var(--font-fustat);
         padding: 0 24px;
         @media (min-width: 992px) {
-          padding: 68px 60px 0px;
+          padding: 68px 0px 0px 60px;
           gap: 92px;
           width: 50%;
-          justify-content: unset;
+          justify-content: flex-end;
         }
 
         .contact-container {
           display: flex;
           flex-direction: column;
           gap: 5px;
+
+          @media (min-width: 1800px) {
+            gap: 22px;
+          }
 
           .tagline {
             font-family: var(--font-fustat);
@@ -159,6 +203,9 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
             @media (min-width: 992px) {
               font-size: 18px;
+            }
+            @media (min-width: 1800px) {
+              font-size: 25.589px;
             }
           }
 
@@ -173,6 +220,9 @@ export const Footer = styled(({ className }: { className?: string }) => {
             @media (min-width: 992px) {
               font-size: 18px;
             }
+            @media (min-width: 1800px) {
+              font-size: 25.589px;
+            }
           }
         }
 
@@ -181,6 +231,10 @@ export const Footer = styled(({ className }: { className?: string }) => {
           flex-direction: column;
           gap: 5px;
 
+          @media (min-width: 1800px) {
+            gap: 22px;
+          }
+
           .privacy-policy,
           .tnc {
             color: #fff;
@@ -188,10 +242,14 @@ export const Footer = styled(({ className }: { className?: string }) => {
             font-style: normal;
             font-weight: 800;
             line-height: 141.979%; /* 22.717px */
-             font-family: var(--font-fustat);
+            font-family: var(--font-fustat);
 
             @media (min-width: 992px) {
               font-size: 18px;
+            }
+
+            @media (min-width: 1800px) {
+              font-size: 25.589px;
             }
           }
         }
@@ -201,11 +259,12 @@ export const Footer = styled(({ className }: { className?: string }) => {
     .logo-container {
       position: relative;
       width: 90%;
-      height: 250px;
+      height: 180px;
       margin: auto;
 
       @media (min-width: 992px) {
         height: 200px;
+        width: 100%;
       }
 
       img {

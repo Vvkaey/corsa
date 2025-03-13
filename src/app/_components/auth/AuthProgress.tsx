@@ -1,7 +1,39 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect } from "react";
 import styled from "styled-components";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const AuthProgress = styled(({ className }: { className?: string }) => {
+
+    const router = useRouter();
+    const searchParams = useSearchParams(); // Replaces router.query
+  
+    useEffect(() => {
+      const token = searchParams.get("token"); // Get token from URL query params
+  
+      if (token) {
+        // Store token in localStorage or cookies
+        localStorage.setItem("token", token);
+  
+        // Redirect user to dashboard
+        router.push("/book");
+      }else {
+        // If no token, redirect 
+        const timeout = setTimeout(() => {
+          router.push("/book");
+        }, 10000); 
+  
+        // Cleanup timeout when component unmounts or token appears
+        return () => clearTimeout(timeout);
+      }
+    }, [searchParams, router]);
+
+
+
+
+
   return (
     <section className={className}>
       <div className="img-container">
