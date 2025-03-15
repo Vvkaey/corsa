@@ -5,6 +5,7 @@ import "./globals.css";
 import { GlobalUIProvider } from "./_utils/hooks/globalUI";
 import { Header } from "./_components/global/header";
 import StyledComponentsRegistry from "../../lib/registry";
+import { AuthProvider } from "./_contexts/AuthContext";
 // import { GoogleOAuthProvider } from "@react-oauth/google";
 // import { Header } from "./_components/global/header";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
 
   return (
     // <GoogleOAuthProvider clientId={clientId}>
+    <AuthProvider>
       <GlobalUIProvider>
         <html lang="en">
           <body
@@ -42,6 +44,6 @@ export default function RootLayout({
           </body>
         </html>
       </GlobalUIProvider>
-    // </GoogleOAuthProvider>
+      </AuthProvider>
   );
 }

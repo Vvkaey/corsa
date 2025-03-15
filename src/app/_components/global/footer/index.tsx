@@ -1,30 +1,33 @@
-"use client";
+"use client"; // Ensures the component runs only on the client-side
 
-import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
-import { GlobalUIContext } from "@/app/_utils/hooks/globalUI";
-import Image from "next/image";
-// import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import { usePathname } from "next/navigation";
-import { useContext } from "react";
-import styled from "styled-components";
+import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants"; // List of pages where the footer should be hidden
+import { GlobalUIContext } from "@/app/_utils/hooks/globalUI"; // Context for global UI settings
+import Image from "next/image"; // Optimized image handling in Next.js
+import { usePathname } from "next/navigation"; // Hook to get the current page pathname
+import { useContext } from "react"; // Hook to access React context
+import styled from "styled-components"; // Allows for modular CSS using Styled Components
 
 export const Footer = styled(({ className }: { className?: string }) => {
-  const GlobalUI = useContext(GlobalUIContext);
-  const pathname = usePathname();
+  const GlobalUI = useContext(GlobalUIContext); // Access global UI settings
+  const pathname = usePathname(); // Get the current route
 
-  //   const {width} = useWindowSize()
-
+  // Hide footer if lite mode is enabled or if the page is in NO_HEADER_FOOTER_PAGES
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
+
   return (
     <div className={className}>
       <div className="container">
+        {/* Main content area of the footer */}
         <div className="content">
+          {/* Left section with greeting and CTA button */}
           <div className="left-block">
             <p className="cheers">Cheers!</p>
             <div className="cta-container">
               <button className="primary-button">Apply as mentor</button>
             </div>
           </div>
+
+          {/* Right section with contact info and legal links */}
           <div className="right-block">
             <div className="contact-container">
               <p className="tagline">Reach out to us!</p>
@@ -36,7 +39,11 @@ export const Footer = styled(({ className }: { className?: string }) => {
             </div>
           </div>
         </div>
+
+        {/* Copyright text */}
         <p className="copyright">© 2025 CorsaClub</p>
+
+        {/* Footer logo */}
         <div className="logo-container">
           <Image src="/footer/corsaFooter.svg" fill alt="corsa-logo" />
         </div>
@@ -44,18 +51,20 @@ export const Footer = styled(({ className }: { className?: string }) => {
     </div>
   );
 })`
+  /* Footer styling */
   width: 100vw;
   background: rgb(0, 0, 0);
+
   .container {
     max-width: 1500px;
     margin: auto;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
     font-family: var(--font-geist-sans);
     z-index: 10;
-    font-family: var(--font-geist-sans);
     display: flex;
     flex-direction: column;
     gap: 21px;
+
     @media (min-width: 992px) {
       gap: 50px;
       margin: 0px 120px;
@@ -70,12 +79,11 @@ export const Footer = styled(({ className }: { className?: string }) => {
       margin: 30px auto;
     }
 
+    /* Copyright text */
     .copyright {
       color: #fff;
       font-size: 16px;
-      font-style: normal;
       font-weight: 800;
-      line-height: 141.979%; /* 22.717px */
       padding: 0 24px;
       font-family: var(--font-fustat);
 
@@ -90,6 +98,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
       }
     }
 
+    /* Main content layout */
     .content {
       display: flex;
       flex-direction: column;
@@ -98,8 +107,10 @@ export const Footer = styled(({ className }: { className?: string }) => {
         flex-direction: row;
       }
 
+      /* Left block: greeting and CTA */
       .left-block {
         padding: 59px 24px 44px;
+
         @media (min-width: 992px) {
           padding: 68px 60px 0px 0px;
           width: 50%;
@@ -108,9 +119,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
         .cheers {
           color: #fff;
           font-size: 28px;
-          font-style: normal;
           font-weight: 800;
-          line-height: 119.982%; /* 33.595px */
 
           @media (min-width: 992px) {
             font-size: 32px;
@@ -121,9 +130,11 @@ export const Footer = styled(({ className }: { className?: string }) => {
           }
         }
 
+        /* CTA button */
         .cta-container {
           padding-top: 24px;
           font-family: var(--font-fustat);
+
           @media (min-width: 992px) {
             padding-top: 48px;
           }
@@ -133,15 +144,11 @@ export const Footer = styled(({ className }: { className?: string }) => {
           }
 
           .primary-button {
-            font-family: var(--font-fustat);
             border-radius: 8px;
             border: 0.635px solid #ffeac8;
             color: #fff;
             font-size: 14px;
-            font-style: normal;
             font-weight: 800;
-            line-height: 141.979%; /* 19.877px */
-            width: 100%;
             background: none;
             padding: 9px 40px;
             width: 100%;
@@ -150,33 +157,32 @@ export const Footer = styled(({ className }: { className?: string }) => {
             @media (min-width: 992px) {
               border-radius: 11.673px;
               border: 0.834px solid #ffeac8;
-              color: #fff;
               font-size: 18px;
               width: 247px;
               padding: 10.8px 50px;
               transition: all 5ms ease-in;
 
+              /* Button hover effect */
               &:hover {
-                // filter: invert(1);
-                // background: rgba(0, 0, 0, 0.7);
-                box-shadow : 0 0 7px 1px #ffeac8;
+                background: rgb(31, 31, 31);
+                box-shadow: 0 0 7px 1px #ffeac8;
               }
             }
 
             @media (min-width: 1800px) {
-              width: initial;
               font-size: 25.589px;
-              white-space: preserve nowrap;
             }
           }
         }
       }
 
+      /* Right block: Contact & Legal Links */
       .right-block {
         display: flex;
         justify-content: space-between;
         font-family: var(--font-fustat);
         padding: 0 24px;
+
         @media (min-width: 992px) {
           padding: 68px 0px 0px 60px;
           gap: 92px;
@@ -184,6 +190,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           justify-content: flex-end;
         }
 
+        /* Contact Info */
         .contact-container {
           display: flex;
           flex-direction: column;
@@ -194,38 +201,35 @@ export const Footer = styled(({ className }: { className?: string }) => {
           }
 
           .tagline {
-            font-family: var(--font-fustat);
             color: #fff;
             font-size: 16px;
-            font-style: normal;
             font-weight: 800;
-            line-height: 141.979%; /* 22.717px */
 
             @media (min-width: 992px) {
               font-size: 18px;
             }
+
             @media (min-width: 1800px) {
               font-size: 25.589px;
             }
           }
 
           .email {
-            font-family: var(--font-fustat);
             color: #c1c1c1;
             font-size: 16px;
-            font-style: normal;
             font-weight: 500;
-            line-height: 141.979%; /* 22.717px */
 
             @media (min-width: 992px) {
               font-size: 18px;
             }
+
             @media (min-width: 1800px) {
               font-size: 25.589px;
             }
           }
         }
 
+        /* Privacy & Terms */
         .tnc-container {
           display: flex;
           flex-direction: column;
@@ -239,10 +243,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           .tnc {
             color: #fff;
             font-size: 16px;
-            font-style: normal;
             font-weight: 800;
-            line-height: 141.979%; /* 22.717px */
-            font-family: var(--font-fustat);
 
             @media (min-width: 992px) {
               font-size: 18px;
@@ -256,6 +257,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
       }
     }
 
+    /* Logo styling */
     .logo-container {
       position: relative;
       width: 90%;

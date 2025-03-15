@@ -3,10 +3,10 @@
 import { ThemeProvider } from "styled-components";
 import { theme } from "../_components/theme";
 import Script from "next/script";
-import { LoginSection } from "../_components/login";
+// import { LoginSection } from "../_components/login";
 
 
-export default function Login() {
+export default function Register() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -25,7 +25,7 @@ export default function Login() {
       <ThemeProvider theme={theme}>
         <div>
           <main>
-            <LoginSection />
+            {/* <LoginSection /> */}
           </main>
         </div>
       </ThemeProvider>

@@ -19,7 +19,7 @@ export const MembershipSection = styled(
     const { width } = useWindowSize();
 
     return (
-      <section className={className}>
+      <section className={className} id="membership-section">
         <div className="wrapper">
           {width && width < 992 ? (
             <div className="head-container">

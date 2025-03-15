@@ -4,6 +4,8 @@ import styled from "styled-components";
 // import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import LoginForm from "../auth/LoginForm";
+import Link from "next/link";
 
 const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
@@ -86,6 +88,15 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
               </button>
             </div>
           </div>
+          <LoginForm />
+          <div className="text-center">
+          <p className="mt-2 text-sm text-gray-600">
+            Don&apos;t have an account?{' '}
+            <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
+              Register
+            </Link>
+          </p>
+        </div>
         </div>
         <div className="right-panel">
           <div className="bg-img-container-top">

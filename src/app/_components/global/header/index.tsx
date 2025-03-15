@@ -4,24 +4,25 @@ import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
 import { GlobalUIContext } from "@/app/_utils/hooks/globalUI";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext, useState } from "react";
-
+import { useContext, useState, useCallback } from "react";
 import styled from "styled-components";
 
+/**
+ * `HamOverlay` is a styled component that renders a full-screen menu overlay for mobile navigation.
+ */
 const HamOverlay = styled(({ className }: { className?: string }) => {
   return (
     <div className={className}>
       <button className="ham-item">Newsletter</button>
       <button className="ham-item">Apply as mentor</button>
       <button className="ham-item">Q & A</button>
-      <button className="ham-item"></button>
     </div>
   );
 })`
   position: fixed;
   background: rgba(0, 0, 0, 0.95);
-  // border-top : 1px solid red;
   top: 50px;
   left: 0;
   height: 100vh;
@@ -38,11 +39,11 @@ const HamOverlay = styled(({ className }: { className?: string }) => {
 
   button.ham-item {
     font-size: 25px;
-    padding: 18px auto;
     background: transparent;
     text-align: left;
     opacity: 0.6;
     border: none;
+    cursor: pointer;
 
     &:hover,
     &:active {
@@ -51,19 +52,32 @@ const HamOverlay = styled(({ className }: { className?: string }) => {
   }
 `;
 
+/**
+ * `Header` is a styled component that renders the website's header, including:
+ * - A logo
+ * - Navigation links
+ * - A mobile hamburger menu
+ *
+ * @returns {JSX.Element | null} The header component, or `null` if the page is in lite mode or should not display a header.
+ */
 export const Header = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext);
   const pathname = usePathname();
   const { width } = useWindowSize();
 
+  // State for managing the mobile navigation menu
   const [showHamMenu, setShowHamMenu] = useState<boolean>(false);
 
-  const handleHamClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event);
-    setShowHamMenu((prev: boolean) => !prev);
-  };
+  /**
+   * Toggles the visibility of the mobile menu.
+   */
+  const handleHamClick = useCallback(() => {
+    setShowHamMenu((prev) => !prev);
+  }, []);
 
+  // Hide header if liteUI is enabled or the page is in the NO_HEADER_FOOTER_PAGES list
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
+
   return (
     <header className={className}>
       <div className="nav-container">
@@ -74,75 +88,38 @@ export const Header = styled(({ className }: { className?: string }) => {
         </div>
         <div className="right-pan">
           <div className="nav-items">
-            <div className="nav-item">Newsletter</div>
-            <div className="nav-item">Apply as mentor</div>
-            <div className="nav-item">Q & A</div>
-            <div className="nav-item user-container"></div>
+            <Link href="#membership-section" shallow={true} className="nav-item">
+              Newsletter
+            </Link>
+            <Link href="#membership-section" shallow={true} className="nav-item">Apply as mentor</Link>
+            <Link href="#faq-section" shallow={true} className="nav-item">
+              Q & A
+            </Link>
+            <button className="nav-item user-container"></button>
           </div>
-          {/* <div className="highlighted-nav">Contact us</div> */}
         </div>
-        {/* For mobile navigation */}
-        {width && width < 992 ? (
-          <button className="hamburger" onClick={handleHamClick}>
-            {showHamMenu ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="16"
-                viewBox="0 0 26 16"
-                fill="none"
-              >
-                <path
-                  d="M1 1H25"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 8H25"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 15H25"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
+
+        {/* Mobile Navigation */}
+        {width && width < 992 && (
+          <button className="hamburger" onClick={handleHamClick} aria-label="Toggle navigation menu">
+            {!showHamMenu ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="16" viewBox="0 0 26 16" fill="none">
+                <path d="M1 1H25" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                <path d="M1 8H25" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                <path d="M1 15H25" stroke="white" strokeWidth="2" strokeLinecap="round" />
               </svg>
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="16"
-                viewBox="0 0 26 16"
-                fill="none"
-              >
-                <path
-                  d="M1 1H25"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 8H25"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 15H25"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="16" viewBox="0 0 26 16" fill="none">
+                <path d="M1 1H25" stroke="red" strokeWidth="2" strokeLinecap="round" />
+                <path d="M1 8H25" stroke="red" strokeWidth="2" strokeLinecap="round" />
+                <path d="M1 15H25" stroke="red" strokeWidth="2" strokeLinecap="round" />
               </svg>
             )}
           </button>
-        ) : null}
+        )}
       </div>
-      {!showHamMenu ? <HamOverlay /> : null}
+
+      {showHamMenu && <HamOverlay />}
     </header>
   );
 })`
@@ -164,13 +141,10 @@ export const Header = styled(({ className }: { className?: string }) => {
   .nav-container {
     margin: 15px 24px;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    cursor: pointer;
 
     @media (min-width: 992px) {
       margin: 22px 120px;
-      // border: none;
     }
 
     @media (min-width: 1600px) {
@@ -216,57 +190,39 @@ export const Header = styled(({ className }: { className?: string }) => {
       }
 
       .nav-items {
-        margin: auto;
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
         gap: 18px;
         font-family: var(--font-fustat);
 
         .nav-item {
-          color: #fff;
+          color: rgb(255, 255, 255);
+          opacity: 0.65;
+          transition: opacity 0.3s ease-in-out;
+          cursor: pointer;
+          background : none;
+          border : none;
+
+          &:hover {
+            opacity: 1;
+          }
 
           @media (min-width: 992px) {
             font-size: 16px;
-            font-style: normal;
             font-weight: 800;
-            line-height: normal;
           }
 
           @media (min-width: 1800px) {
             font-size: 22.746px;
           }
         }
-
-        .user-container {
-          border-radius: 50%;
-
-          background-color: #aeaeae;
-
-          @media (min-width: 992px) {
-            width: 31px;
-            height: 31px;
-          }
-
-          @media (min-width: 1800px) {
-            width: 44.07px;
-            height: 44.07px;
-          }
-        }
-      }
-
-      .highlighted-nav {
-        margin: auto;
-        color: rgba(255, 0, 0, 0.65);
-        white-space: nowrap;
       }
     }
 
     .hamburger {
-      position: relative;
       background: transparent;
       border: none;
+      cursor: pointer;
     }
   }
 `;

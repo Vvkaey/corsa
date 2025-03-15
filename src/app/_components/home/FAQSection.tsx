@@ -114,7 +114,7 @@ export const FAQSection = styled(
     data?: FaqDataProps[];
   }) => {
     return (
-      <section className={className}>
+      <section className={className} id="faq-section">
         <div className="faq-container">
           <div className="title-container">
             <h2 className="title">{title}</h2>
