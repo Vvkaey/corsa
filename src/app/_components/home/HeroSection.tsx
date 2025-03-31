@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { containerSidePadding, sectionPadding } from "./styleConstants";
 import Image from "next/image";
 import { JSX } from "react";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 // import { ShadowHeading } from "../global/shadowHeading";
 
 export const IconShowcase = styled(
@@ -17,6 +18,11 @@ export const IconShowcase = styled(
     subHead?: string | JSX.Element;
     icons?: Record<string, string>[];
   }) => {
+
+
+
+    const { width = 0 } = useWindowSize();
+
     return (
       <section className={className}>
         {/* <ShadowHeading /> */}
@@ -30,27 +36,44 @@ export const IconShowcase = styled(
           ) : null}
           {subHead ? <h4 className="sub-head"> {subHead}</h4> : null}
           {icons?.length ? (
-            <div className="icon-container">
-              <div className="icon">
-                {" "}
-                <Image src={"/iconA.svg"} alt="not-found-image" fill />
+            <div
+              className="marquee-container"
+              style={{
+                display: "flex",
+              }}
+            >
+              <div className="icon-container">
+                {icons.map((item, index) => {
+                  return (
+                    <div key={index} className="icon">
+                      <Image
+                        src={item.icon}
+                        alt="not-found-image"
+                        width={78}
+                        height={78}
+                        style={{ objectFit: "contain" }}
+                      />
+                      <p className="icon-text">{item.name}</p>
+                    </div>
+                  );
+                })}
               </div>
-              <div className="icon">
-                {" "}
-                <Image src={"/iconB.svg"} alt="not-found-image" fill />
-              </div>
-              <div className="icon">
-                {" "}
-                <Image src={"/iconC.svg"} alt="not-found-image" fill />
-              </div>
-              <div className="icon">
-                {" "}
-                <Image src={"/iconD.svg"} alt="not-found-image" fill />
-              </div>
-              <div className="icon">
-                {" "}
-                <Image src={"/iconE.svg"} alt="not-found-image" fill />
-              </div>
+              {width && width < 992 ? <div className="icon-container">
+                {icons.map((item, index) => {
+                  return (
+                    <div key={index} className="icon">
+                      <Image
+                        src={item.icon}
+                        alt="not-found-image"
+                        width={78}
+                        height={78}
+                        style={{ objectFit: "contain" }}
+                      />
+                      <p className="icon-text">{item.name}</p>
+                    </div>
+                  );
+                })}
+              </div> : null}
             </div>
           ) : null}
         </div>
@@ -95,35 +118,80 @@ export const IconShowcase = styled(
       max-width: 37ch;
 
       @media (min-width: 992px) {
-      text-align : center;
+        text-align: center;
         font-size: 20px;
         max-width: 36ch;
         font-weight: 500;
       }
     }
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
 
-    .icon-container {
-      padding-top: 4px;
+    .marquee-container {
+      position: relative;
+      width: 100vw;
+      overflow: hidden;
+      max-width: 151.2rem;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      gap: 13px;
+      padding-top : 30px;
 
       @media (min-width: 992px) {
-        gap: 85px;
-        padding-top: 39px;
+        padding-top: unset;
+        max-width: unset;
       }
+      .icon-container {
+        padding-left: 6.5px;
+        padding-tight: 6.5px;
+        padding-top: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: marquee 17s linear infinite;
 
-      .icon {
-        position: relative;
-        width: 78px;
-        height: 78px;
+        gap: 24px;
 
-        img {
-          position: absolute;
-          object-fit: contain;
+        @media (min-width: 992px) {
+          animation: none;
+          gap: 85px;
+          padding-top: 39px;
+          width: 100%;
+        }
+
+        .icon {
+          position: relative;
+
+          // height: 100%;
+          display: flex;
+          flex-direction: row;
+          gap: 8px;
+          align-items: center;
+          justify-content: center;
+
+          @media (min-width: 992px) {
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .icon-text {
+            z-index: 1;
+            display: flex;
+            white-space: nowrap;
+            color: #5f5f5f;
+            font-size: 15.008px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          img {
+            object-fit: contain;
+          }
         }
       }
     }
@@ -149,7 +217,7 @@ export const HeroSection = styled(
     secondaryHead?: boolean;
     subHead?: string | JSX.Element;
     primaryCta?: string;
-    onPrimaryCtaClick?: ()=>void;
+    onPrimaryCtaClick?: () => void;
     secondaryCta?: string;
     headB?: string | JSX.Element;
     subHeadB?: string | JSX.Element;
@@ -175,11 +243,14 @@ export const HeroSection = styled(
             {subHead ? <h3 className="sub-head">{subHead}</h3> : null}
             {primaryCta || secondaryCta ? (
               <div className="cta-container">
-                <button className="primary-cta" onClick={onPrimaryCtaClick}>{primaryCta}</button>
+                <button className="primary-cta" onClick={onPrimaryCtaClick}>
+                  {primaryCta}
+                </button>
                 <button className="secondary-cta">{secondaryCta}</button>
               </div>
             ) : null}
           </div>
+
           <IconShowcase head={headB} subHead={subHeadB} icons={icons} />
         </div>
       </section>
@@ -265,7 +336,7 @@ export const HeroSection = styled(
         text-transform: capitalize;
 
         @media (min-width: 992px) {
-          font-size: 20px;        
+          font-size: 20px;
         }
       }
 
@@ -294,7 +365,7 @@ export const HeroSection = styled(
           font-weight: 800;
           line-height: normal;
           font-family: var(--font-fustat);
-          cursor : pointer;
+          cursor: pointer;
 
           @media (min-width: 992px) {
             padding: 14.5px 29px;
@@ -313,8 +384,7 @@ export const HeroSection = styled(
           font-weight: 800;
           line-height: normal;
           font-family: var(--font-fustat);
-          cursor : pointer;
-
+          cursor: pointer;
 
           @media (min-width: 992px) {
             padding: 14.5px 29px;

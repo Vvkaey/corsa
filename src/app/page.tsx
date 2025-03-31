@@ -139,21 +139,26 @@ const FAQ_DATA = [
 
 const ICONS = [
   {
-    icon: "/iconA.svg",
+    name : "IIT Patna",
+    icon : "/iconA.svg"
   },
   {
-    icon: "/iconB.svg",
+    name : "IIT Delhi",
+    icon : "/iconB.svg"
   },
   {
-    icon: "/iconC.svg",
+    name : "IIT Madras",
+    icon : "/iconC.svg"
   },
   {
-    icon: "/iconD.svg",
+    name : "IIT Kanpur",
+    icon : "/iconD.svg"
   },
   {
-    icon: "/iconE.svg",
-  },
-];
+    name : "IIT Guwahati",
+    icon : "/iconE.svg"
+  }
+  ]
 
 const FLOW_CONTENT = [
   {
