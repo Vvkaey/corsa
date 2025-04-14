@@ -52,7 +52,7 @@ export const BehindTheScenes = styled(
 )`
   background: #fff;
     padding : 40px 0;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   margin: auto;
   padding-top : 84px;
 

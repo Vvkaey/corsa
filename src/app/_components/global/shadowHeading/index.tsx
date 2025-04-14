@@ -21,7 +21,7 @@ export const ShadowHeading = styled(
   width: 100%;
   position: relative;
   background: #f9f9f9;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   display : flex;
   justify-content : center;
   align-items : center;

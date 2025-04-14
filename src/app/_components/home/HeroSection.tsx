@@ -83,7 +83,7 @@ export const IconShowcase = styled(
 )`
   width: 100%;
   background: #fff;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   text-align: center;
 
   .content {
@@ -271,7 +271,7 @@ export const HeroSection = styled(
     ${sectionPadding}
     ${containerSidePadding}
     background : #fff;
-    font-family: var(--font-geist-sans);
+    font-family: var(--font-exo);
     display: flex;
     flex-direction: column;
     gap: 37px;

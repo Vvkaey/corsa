@@ -1,6 +1,6 @@
 export interface User {
   id: string;
-  name: string;
+  name?: string;
   email: string;
   profilePicture?: string;
   role?: string;
@@ -8,11 +8,15 @@ export interface User {
 
 export interface AuthContextType {
   user: User | null;
+  token: string | null;
   loading: boolean;
   isAuthenticated: boolean;
-  login: (token: string) => void;
-  logout: () => Promise<void>;
-  fetchUserProfile: () => Promise<void>;
+  error: string | null;
+  requestOTP: (email: string) => Promise<boolean>;
+  verifyOTP: (email: string, otp: string) => Promise<boolean>;
+  // login: (token: string) => void;
+  logout: () => void;
+  // fetchUserProfile: () => Promise<void>;
 }
 
 export interface AuthGuardProps {

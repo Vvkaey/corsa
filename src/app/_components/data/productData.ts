@@ -1,11 +1,11 @@
 export const pricingData = {
-    title: "Get straight to the good stuff",
+    title: "Get straight to the ",
     subtitle:
       "Your next big move starts here. Subscribe to our yearly plan and learn from the best.",
     plans: [
       {
         id: 1,
-        name: "Insight Access Plan",
+        name: "Insight Access",
         price: 1399,
         period: "Year",
         description: "Curated insights and exclusive benefits",
@@ -20,7 +20,7 @@ export const pricingData = {
       },
       {
         id: 2,
-        name: "Mentor Access Plan",
+        name: "Mentor Access",
         price: 2699,
         period: "Year",
         description: "Advanced features for growing businesses",
@@ -36,7 +36,7 @@ export const pricingData = {
       },
       {
         id: 3,
-        name: "Membership Access Plan",
+        name: "Membership Access",
         price: 3799,
         period: "Year",
         description: "Everything you need for large organizations",

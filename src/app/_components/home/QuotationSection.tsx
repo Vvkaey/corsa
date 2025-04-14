@@ -27,7 +27,7 @@ export const QuotationSection = styled(
   position: relative;
   height: 100vh;
   width: 100%;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
 
   margin: 70px 0;
 

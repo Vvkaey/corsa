@@ -59,7 +59,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
     max-width: 1500px;
     margin: auto;
     backdrop-filter: blur(10px); /* Glassmorphism effect */
-    font-family: var(--font-geist-sans);
+    font-family: var(--font-exo);
     z-index: 10;
     display: flex;
     flex-direction: column;

@@ -6,7 +6,9 @@ import Script from "next/script";
 import styled from "styled-components";
 import Head from "next/head";
 import { pricingData } from "@/app/_components/data/productData";
-
+import { Tick } from "@/app/_assets/icons";
+import Image from "next/image";
+import { useAuth } from "@/app/_contexts/AuthContext";
 
 // Types
 
@@ -54,20 +56,25 @@ const PRODUCTS: Product[] = pricingData.plans;
 
 // Styled Components
 const CheckoutContainer = styled.div`
-  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1500px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   margin: 0 auto;
-  margin-top: 5vh;
-  padding: 2rem;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-
-  @media (min-width: 992px) {
-    margin-top: 15vh;
-  }
+  height: 100vh;
+  padding-top: 5rem;
+  width: fit-content;
 `;
 
 const CheckoutGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
+
   gap: 2rem;
 
   @media (max-width: 768px) {
@@ -76,44 +83,54 @@ const CheckoutGrid = styled.div`
 `;
 
 const ProductDetailsCard = styled.div`
-  background-color: #f8fafc;
-  border-radius: 12px;
-  padding: 1.5rem;
+  background-color: #f5f5f5;
+  padding: 68px 49px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  border: 2px solid #000;
+  width: 579px;
 `;
 
 const ProductTitle = styled.h1`
-  font-size: 1.75rem;
-  color: #1e293b;
-  margin-bottom: 0.5rem;
+  margin-bottom: 50px;
+  padding-left: 15px;
+  color: #000;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 35.425px;
+  font-style: normal;
   font-weight: 700;
+  line-height: 44.281px; /* 125% */
 `;
 
-const ProductDescription = styled.p`
-  color: #64748b;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-`;
+// const ProductDescription = styled.p`
+//   color: #64748b;
+//   margin-bottom: 1.5rem;
+//   font-size: 1rem;
+// `;
 
-const PriceTag = styled.div`
-  display: flex;
-  align-items: baseline;
-  margin-bottom: 1.5rem;
-`;
+// const PriceTag = styled.div`
+//   display: flex;
+//   align-items: baseline;
+//   margin-bottom: 1.5rem;
+// `;
 
-const Price = styled.span`
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1e293b;
-`;
+// const Price = styled.span`
+//   font-size: 2rem;
+//   font-weight: 700;
+//   color: #1e293b;
+// `;
 
-const Period = styled.span`
-  font-size: 1rem;
-  color: #64748b;
-  margin-left: 0.5rem;
-`;
+// const Period = styled.span`
+//   font-size: 1rem;
+//   color: #64748b;
+//   margin-left: 0.5rem;
+// `;
 
 const BenefitsList = styled.ul`
+  display: flex;
+  flex-direction: column;
   list-style: none;
   padding: 0;
   margin: 0 0 1.5rem 0;
@@ -122,58 +139,89 @@ const BenefitsList = styled.ul`
 const BenefitItem = styled.li`
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
-  color: #334155;
-  font-size: 1rem;
+  color: #000;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding: 25px 15px;
+  border-bottom: 1px solid #c2c2c2;
+  gap: 30px;
 
-  &:before {
-    content: "✓";
-    color: #10b981;
-    font-weight: bold;
-    margin-right: 10px;
+  &:last-child {
+    border-bottom: none;
   }
 `;
 
 const Divider = styled.hr`
   border: 0;
   height: 1px;
-  background-color: #e2e8f0;
-  margin: 1.5rem 0;
+  background-color: #cbd5e1;
+  margin: 22px 0;
 `;
 
 const PaymentSection = styled.div`
   background-color: white;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 68px 49px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 2px solid #000;
+  width: 579px;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.25rem;
-  color: #1e293b;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+  color: #000;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 44.281px; /* 158.147% */
+  margin-bottom: 31px;
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 1.25rem;
+
+  &:first-child {
+    width: 100%;
+  }
+`;
+const HalfWidthFormGroup = styled(FormGroup)`
+  width: 49%;
+  display: inline-block;
 `;
 
 const Label = styled.label`
+  position: absolute;
   display: block;
   margin-bottom: 0.5rem;
   color: #475569;
   font-size: 0.875rem;
   font-weight: 500;
+  visibility: hidden;
 `;
 
 const Input = styled.input`
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: 18px 21px;
   transition: border-color 0.2s;
+
+  color: #8a8a8a;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  border-radius: 8px;
+  border: 2px solid #969696;
 
   &:focus {
     outline: none;
@@ -182,14 +230,44 @@ const Input = styled.input`
   }
 `;
 
-const TextArea = styled.textarea`
+const Select = styled.select`
+  width: 100%;
+  padding: 18px 21px;
+  transition: border-color 0.2s;
+  appearance: none; /* Hides default arrow */
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+  background-image: url("/chevron-down.png"); /* Custom arrow image */
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 14px;
+
+  color: #8a8a8a;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  border-radius: 8px;
+  border: 2px solid #969696;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+`;
+
+const Option = styled.option`
+  color: #000;
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   font-size: 1rem;
-  min-height: 100px;
-  resize: vertical;
   transition: border-color 0.2s;
 
   &:focus {
@@ -199,18 +277,50 @@ const TextArea = styled.textarea`
   }
 `;
 
+// const TextArea = styled.textarea`
+//   width: 100%;
+//   padding: 0.75rem;
+//   border: 1px solid #cbd5e1;
+//   border-radius: 6px;
+//   font-size: 1rem;
+//   min-height: 100px;
+//   resize: vertical;
+//   transition: border-color 0.2s;
+
+//   &:focus {
+//     outline: none;
+//     border-color: #3b82f6;
+//     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+//   }
+// `;
+
 const PayButton = styled.button`
-  background-color: #3b82f6;
+  position: relative;
   color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
+  padding: 24px;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
   width: 100%;
   margin-top: 1rem;
+
+  border-radius: 8px;
+  background: #ff2626;
+
+  color: #fff;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 23.521px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 
   &:hover {
     background-color: #2563eb;
@@ -223,27 +333,77 @@ const PayButton = styled.button`
 `;
 
 const OrderSummary = styled.div`
-  background-color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
   border-radius: 8px;
-  padding: 1rem;
+  border: 2px solid #000;
+  background: #eef2f7;
+  padding: 28px 0;
   margin-bottom: 1.5rem;
 `;
 
 const SummaryRow = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-  color: #475569;
+  color: #646464;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding: 0 40px;
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const SummaryTotal = styled(SummaryRow)`
-  font-weight: 600;
-  font-size: 1rem;
-  color: #1e293b;
   margin-top: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px dashed #cbd5e1;
+  padding-bottom: 32px;
+
+  span {
+    color: #000;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: var(--font-exo);
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    &:first-child {
+      color: #646464;
+      leading-trim: both;
+      text-edge: cap;
+      font-family: var(--font-exo);
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+
+    &:last-child {
+      position: relative;
+      &:after {
+        position: absolute;
+        top: 100%;
+        left: -25%;
+        white-space: nowrap;
+        content: " Including GST";
+        color: #646464;
+        leading-trim: both;
+        text-edge: cap;
+        font-family: var(--font-exo);
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+      }
+    }
+  }
 `;
 
 const ErrorMessage = styled.div`
@@ -276,10 +436,11 @@ const BackLink = styled.a`
   display: inline-block;
   color: #64748b;
   font-size: 0.875rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   cursor: pointer;
   text-decoration: none;
-
+  font-family: var(--font-fustat);
+  width: 100%;
   &:hover {
     color: #1e293b;
     text-decoration: underline;
@@ -300,9 +461,12 @@ const CheckoutPage: React.FC = () => {
 
   // Form state
   const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [grade, setGrade] = useState<string>("");
+  const [board, setBoard] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [goals, setGoals] = useState<string>("");
+  const [state, setState] = useState<string>("");
+
+const { token } = useAuth();
 
   // Load product details
   useEffect(() => {
@@ -322,8 +486,7 @@ const CheckoutPage: React.FC = () => {
 
     setLoading(true);
     setError(null);
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWFmYWQxYzIzMzIyYzRmNzRkNjJlZSIsImlhdCI6MTc0MzYxOTk2MH0.daBGRJx1QLglK1PauJdCIAKf2PEPzJ3FDH1S7dEFIKs";
+  
     try {
       // Call your API to create an order
       const response = await fetch(
@@ -369,10 +532,6 @@ const CheckoutPage: React.FC = () => {
       return;
     }
 
-    if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
-      setError("Please enter a valid email address");
-      return;
-    }
 
     if (!phone.trim() || !/^\d{10}$/.test(phone)) {
       setError("Please enter a valid 10-digit phone number");
@@ -407,13 +566,12 @@ const CheckoutPage: React.FC = () => {
       },
       prefill: {
         name: name,
-        email: email,
         contact: phone,
       },
       notes: {
         product_id: product!.id.toString(),
         product_type: product!.productType,
-        goals: goals.substring(0, 100), // Limiting the size for notes
+        // goals: goals.substring(0, 100), // Limiting the size for notes
       },
       theme: {
         color: "#3b82f6",
@@ -447,31 +605,36 @@ const CheckoutPage: React.FC = () => {
     razorpay_signature: string;
   }): Promise<void> => {
     try {
+
       // Verify payment on your backend
-      const verifyResponse = await fetch("/api/verify-payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_signature: response.razorpay_signature,
-          product_id: product!.id,
-          customer_info: {
-            name,
-            email,
-            phone,
-            goals,
+      const verifyResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/payments/verify`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-        }),
-      });
+          body: JSON.stringify({
+            paymentId: response.razorpay_payment_id,
+            orderId: response.razorpay_order_id,
+            signature: response.razorpay_signature,
+            // product_id: product!.id,
+            // customer_info: {
+            //   name,
+            //   email,
+            //   phone,
+            //   goals,
+            // },
+          }),
+        }
+      );
 
       const data = await verifyResponse.json();
 
       if (data.success) {
         // Redirect to success page
-        router.push(`/thank-you?order_id=${response.razorpay_order_id}`);
+        router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
       } else {
         setError("Payment verification failed");
       }
@@ -512,19 +675,22 @@ const CheckoutPage: React.FC = () => {
         {/* Product details */}
         <ProductDetailsCard>
           <ProductTitle>{product.name}</ProductTitle>
-          <ProductDescription>{product.description}</ProductDescription>
+          {/* <ProductDescription>{product.description}</ProductDescription> */}
 
-          <PriceTag>
+          {/* <PriceTag>
             <Price>₹{product.price}</Price>
             <Period>/{product.period}</Period>
-          </PriceTag>
+          </PriceTag> */}
 
-          <Divider />
+          {/* <Divider /> */}
 
-          <SectionTitle>What&apos;s included:</SectionTitle>
+          {/* <SectionTitle>What&apos;s included:</SectionTitle> */}
           <BenefitsList>
             {product.benefits.map((benefit) => (
-              <BenefitItem key={benefit.id}>{benefit.text}</BenefitItem>
+              <BenefitItem key={benefit.id}>
+                <Tick width={29} height={17} />
+                {benefit.text}
+              </BenefitItem>
             ))}
           </BenefitsList>
         </ProductDetailsCard>
@@ -538,10 +704,12 @@ const CheckoutPage: React.FC = () => {
               <span>Plan</span>
               <span>{product.name}</span>
             </SummaryRow>
+            <Divider />
             <SummaryRow>
               <span>Duration</span>
               <span>{product.period}</span>
             </SummaryRow>
+            <Divider />
             <SummaryTotal>
               <span>Total</span>
               <span>₹{product.price}</span>
@@ -550,7 +718,14 @@ const CheckoutPage: React.FC = () => {
 
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
             <FormGroup>
               <Label htmlFor="name">Full Name</Label>
               <Input
@@ -558,12 +733,38 @@ const CheckoutPage: React.FC = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
+                placeholder="Full Name"
                 required
               />
             </FormGroup>
+            <HalfWidthFormGroup>
+              <Label htmlFor="name">Class/Grade</Label>
+              <Select
+                id="class"
+                value={grade}
+                onChange={(e) => setGrade(e.target.value)}
+                required
+              >
+                <Option value="10th">10th</Option>
+                <Option value="11th">11th</Option>
+                <Option value="12th">12th</Option>
+              </Select>
+            </HalfWidthFormGroup>
+            <HalfWidthFormGroup>
+              <Label htmlFor="board">Class/Grade</Label>
+              <Select
+                id="board"
+                value={board}
+                onChange={(e) => setBoard(e.target.value)}
+                required
+              >
+                <Option value="CBSE">CBSE</Option>
+                <Option value="ICSE">ICSE</Option>
+                <Option value="Other">Other</Option>
+              </Select>
+            </HalfWidthFormGroup>
 
-            <FormGroup>
+            {/* <FormGroup>
               <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
@@ -573,31 +774,34 @@ const CheckoutPage: React.FC = () => {
                 placeholder="john@example.com"
                 required
               />
-            </FormGroup>
+            </FormGroup> */}
 
-            <FormGroup>
+            <HalfWidthFormGroup>
               <Label htmlFor="phone">Phone Number</Label>
               <Input
                 id="phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="10-digit number"
+                placeholder="Phone Number"
                 required
               />
-            </FormGroup>
+            </HalfWidthFormGroup>
 
-            <FormGroup>
-              <Label htmlFor="goals">
-                What do you want to achieve with mentorship?
-              </Label>
-              <TextArea
-                id="goals"
-                value={goals}
-                onChange={(e) => setGoals(e.target.value)}
-                placeholder="Tell us your goals and expectations..."
-              />
-            </FormGroup>
+            <HalfWidthFormGroup>
+              <Label htmlFor="state">State</Label>
+              <Select
+                id="state"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                required
+              >
+                <Option value="Haryana">Haryana</Option>
+                <Option value="Uttar Pradesh">Uttar Pradesh</Option>
+                <Option value="Karnataka">Karnataka</Option>
+                <Option value="Delhi NCR">Delhi NCR</Option>
+              </Select>
+            </HalfWidthFormGroup>
 
             <PayButton type="submit" disabled={loading}>
               {loading ? (
@@ -605,7 +809,15 @@ const CheckoutPage: React.FC = () => {
                   <LoadingSpinner /> Processing...
                 </>
               ) : (
-                `Pay Now - ₹${product.price}`
+                <>
+                  <Image
+                    src="/paybtn.svg"
+                    alt="pay-bg"
+                    width={25}
+                    height={25}
+                  />
+                  Pay Now - ₹ {product.price}
+                </>
               )}
             </PayButton>
           </form>

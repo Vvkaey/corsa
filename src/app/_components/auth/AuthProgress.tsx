@@ -51,7 +51,7 @@ export const AuthProgress = styled(({ className }: { className?: string }) => {
   width: 100vw;
   height: 100vh;
   background: #000;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   color: white;
   position: relative;
 

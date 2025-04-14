@@ -3,9 +3,10 @@ import styled from "styled-components";
 // import { useState } from "react";
 // import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import LoginForm from "../auth/LoginForm";
-import Link from "next/link";
+import { GoogleIcon } from "@/app/_assets/icons";
+// import Link from "next/link";
 
 const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
@@ -17,19 +18,26 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
 
   return (
     <button onClick={handleGoogleLogin} className={className}>
-      Sign in with Google
+      <GoogleIcon /> Continue with google
     </button>
   );
 })`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 12px 32px;
-  border: 2px solid #fff;
-  border-radius: 16px;
+  padding: 15px 35px;
+  border-radius: 8px;
+  border: 2px solid #e6e6e6;
   background: transparent;
   color: #fff;
   cursor: pointer;
+  gap: 10px;
+  color: #fff;
+  font-family: var(--font-fustat);
+  font-size: 22.754px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 
   &:hover {
     box-shadow: 0 0 5px 1px #fff;
@@ -66,37 +74,21 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
 `;
 
 export const LoginSection = styled(({ className }: { className?: string }) => {
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <section className={className}>
       <div className="root-container">
         <div className="left-panel">
           <div className="logo-container">
-            <Image src="/footer/corsaFooter.svg" fill alt="corsa-logo" />
+            <Image src="/logo-svg.svg" fill alt="corsa-logo" />
           </div>
           <div className="login-block">
             <GoogleSignInButton />
             <div className="horizontal-divider"></div>
             <div className="register-block">
-              <input
-                type="email"
-                className="email"
-                placeholder="Enter email address"
-              />
-              <button className="continue" onClick={() => router.push("/book")}>
-                Continue
-              </button>
+              <LoginForm />
             </div>
           </div>
-          <LoginForm />
-          <div className="text-center">
-          <p className="mt-2 text-sm text-gray-600">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
-              Register
-            </Link>
-          </p>
-        </div>
         </div>
         <div className="right-panel">
           <div className="bg-img-container-top">
@@ -124,7 +116,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
   .root-container {
     position: relative;
     background: #000;
-    font-family: var(--font-geist-sans);
+    font-family: var(--font-exo);
     display: flex;
     height: 100vh;
     overflow: hidden;
@@ -143,8 +135,9 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
 
       .logo-container {
         position: relative;
-        width: 100%;
-        height: 40px;
+        width: 70%;
+        margin: 0 15%;
+        height: 100px;
         margin-bottom: 40px;
 
         img {
@@ -215,9 +208,25 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 52px;
+        color: #fff;
+        font-family: var(--font-fustat);
+        font-size: 42.071px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 141.979%; /* 85.287px */
+        letter-spacing: -1.201px;
+        text-transform: uppercase;
+
         span {
           color: red;
+        }
+
+        @media (min-width: 2000px) {
+          font-size: 52px;
+        }
+
+        @media (min-width: 3000px) {
+          font-size: 68px;
         }
       }
 

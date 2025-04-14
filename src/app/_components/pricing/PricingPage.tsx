@@ -3,22 +3,23 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { useRouter } from "next/navigation";
-import ProductComparisonTable from "./ProductComparison";
+import { Comparison } from "./Comparison";
+// import { Comparison } from "./Comparison";
 
 // Styled Components
 const PageContainer = styled.div`
- padding: 150px 0;
-  max-width: 1200px;
+  padding: 150px 0;
+  max-width: 1500px;
   margin: 0 auto;
-  font-family: "Inter", sans-serif;
-  background : #fff;
-  display : flex;
-  flex-direction : column;
-  gap : 2vh;
+
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
 
   @media (min-width: 992px) {
- padding: 250px 0;
-}
+    padding: 150px 0 250px;
+  }
 `;
 
 const Header = styled.div`
@@ -27,16 +28,38 @@ const Header = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #1a202c;
+  color: #000;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 90px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  white-space: nowrap;
+
+  &:after {
+    content: "good stuff";
+    color: #ff2626;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: var(--font-exo);
+    font-size: 90px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    white-space: nowrap;
+  }
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.25rem;
-  color: #4a5568;
-  max-width: 600px;
+  color: #000;
+  text-align: center;
+  font-family: var(--font-fustat);
+  font-size: 29.324px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
   margin: 0 auto;
 `;
 
@@ -65,9 +88,9 @@ const PlanCard = styled.div<StyledPlanCardProps>`
       ? "0 10px 15px -3px rgba(66, 153, 225, 0.1)"
       : "0 4px 6px -1px rgba(0, 0, 0, 0.1)"};
   border-radius: 8px;
-  padding: 40px 35px 31px;
+  padding: 77px 55px 51px;
   width: 100%;
-  max-width: 350px;
+  max-width: 476px;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease-in-out;
@@ -78,46 +101,59 @@ const PlanCard = styled.div<StyledPlanCardProps>`
 `;
 
 const PlanName = styled.h3`
-  margin-bottom: 0.5rem;
+  margin-bottom: 4rem;
   color: #1a202c;
   text-align: center;
   color: #000;
   text-align: center;
   leading-trim: both;
   text-edge: cap;
-  font-family: var(--font-fustat);
+  font-family: var(--font-exo);
   font-size: 40px;
   font-style: normal;
   font-weight: 600;
   line-height: 50px; /* 125% */
+  white-space: nowrap;
 `;
 
 const PlanPrice = styled.div`
-  margin: 1.5rem 0;
+  margin: 81px 0 34px;
   display: flex;
   align-items: baseline;
-    justify-content: center;
+  justify-content: center;
 `;
 
 const Price = styled.h2`
   font-size: 2.5rem;
   font-weight: 700;
   color: #1a202c;
+  font-family: var(--font-exo);
 `;
 
 const Period = styled.span`
-  font-size: 1rem;
-  color: #718096;
+  color: #000;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
   margin-left: 0.5rem;
 `;
 
 const PlanDescription = styled.p`
-  font-size: 1rem;
-  color: #4a5568;
   margin-bottom: 1.5rem;
-  text-align: center;
-  width : 90%;
   margin: 0 auto;
+  color: #757575;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
 
 const BenefitsList = styled.ul`
@@ -125,7 +161,7 @@ const BenefitsList = styled.ul`
   padding: 0;
   margin: 0 0 1.5rem 0;
   flex-grow: 1;
-  padding-top: 40px;
+  padding-top: 100px;
 `;
 
 const BenefitItem = styled.li`
@@ -135,7 +171,7 @@ const BenefitItem = styled.li`
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
   color: #4a5568;
-
+  font-family: var(--font-fustat);
   &:before {
     content: "✓";
     color: #ff2626;
@@ -178,7 +214,7 @@ const CtaButton = styled.button<StyledButtonProps>`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   margin-top: auto;
-
+  font-family: var(--font-fustat);
   &:hover {
     background: #ebf8ff;
     color: ${(props) => (props.$isPrimary ? "#000" : "#FF2626")};
@@ -203,7 +239,7 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   text-underline-offset: auto;
   text-underline-position: from-font;
   font-family: var(--font-fustat);
-  margin-top : 33px;
+  margin-top: 33px;
 `;
 
 const ErrorMessage = styled.div`
@@ -246,54 +282,49 @@ const Plan: React.FC<PricingPlan> = ({
   benefits,
   isPrimary,
   buttonText,
-  productType
-
+  productType,
 }) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
-    const handleSubscribe = async () => {
-        setIsLoading(true);
-        setError(null);
-        
-        // Token to use until login functionality is implemented
-        // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWFmYWQxYzIzMzIyYzRmNzRkNjJlZSIsImlhdCI6MTc0MzUxNDU4NX0.ml3wjGCEjjXwPppJoj-kzhYklwbAWpxmgMbnKe5cpok";
-        
-        try {
-        //   const response = await fetch('https://corsa-backend-seven.vercel.app/api/payments/create-order', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //       'Authorization': `Bearer ${token}`
-        //     },
-        //     body: JSON.stringify({ productType }),
-        //   });
-          
-        //   const data = await response.json();
-          
-        //   if (!response.ok) {
-        //     throw new Error(data.message || 'Failed to create order');
-        //   }
-          
-        //   // Handle successful response
-        //   console.log('Order created:', data);
-          
-        //   // If the API returns a URL to redirect to for payment, redirect the user
-        //   if (data.url) {
-        //     window.location.href = data.url;
-        //   }
-        router.push(`/checkout/${productType}`); 
-          
-        } catch (err) {
-          console.error('Error creating order:', err);
-          setError(err instanceof Error ? err.message : 'An error occurred');
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const handleSubscribe = async () => {
+    setIsLoading(true);
+    setError(null);
 
+    // Token to use until login functionality is implemented
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWFmYWQxYzIzMzIyYzRmNzRkNjJlZSIsImlhdCI6MTc0MzUxNDU4NX0.ml3wjGCEjjXwPppJoj-kzhYklwbAWpxmgMbnKe5cpok";
 
+    try {
+      //   const response = await fetch('https://corsa-backend-seven.vercel.app/api/payments/create-order', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': `Bearer ${token}`
+      //     },
+      //     body: JSON.stringify({ productType }),
+      //   });
+
+      //   const data = await response.json();
+
+      //   if (!response.ok) {
+      //     throw new Error(data.message || 'Failed to create order');
+      //   }
+
+      //   // Handle successful response
+      //   console.log('Order created:', data);
+
+      //   // If the API returns a URL to redirect to for payment, redirect the user
+      //   if (data.url) {
+      //     window.location.href = data.url;
+      //   }
+      router.push(`/checkout/${productType}`);
+    } catch (err) {
+      console.error("Error creating order:", err);
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <PlanCard $isPrimary={isPrimary}>
@@ -304,9 +335,13 @@ const Plan: React.FC<PricingPlan> = ({
         <Period>/ {period}</Period>
       </PlanPrice>
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      <CtaButton $isPrimary={isPrimary} 
+      <CtaButton
+        $isPrimary={isPrimary}
         onClick={handleSubscribe}
-        disabled={isLoading}>{isLoading ? 'Processing...' : buttonText}</CtaButton>
+        disabled={isLoading}
+      >
+        {isLoading ? "Processing..." : buttonText}
+      </CtaButton>
       <BenefitsList>
         {benefits.map((benefit) => (
           <BenefitItem key={benefit.id}>{benefit.text}</BenefitItem>
@@ -334,7 +369,8 @@ const PricingPage: React.FC<PricingPageProps> = ({
           <Plan key={plan.id} {...plan} />
         ))}
       </PlansContainer>
-      <ProductComparisonTable />
+      <Comparison htmlId="product-comparision" />
+      {/* <ProductComparisonTable /> */}
     </PageContainer>
   );
 };

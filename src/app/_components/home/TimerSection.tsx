@@ -158,7 +158,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
   );
 })`
   width: 100%;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   padding: 44px 0;
   background: #fff;
   padding-bottom: 84px;

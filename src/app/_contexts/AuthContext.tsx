@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import {
-  getStoredToken,
-  setStoredToken,
-  removeStoredToken,
-} from "../_utils/storage";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from "react";
 import { AuthContextType, User } from "../_types/auth.types";
 
 /**
@@ -22,118 +21,136 @@ interface AuthProviderProps {
 /**
  * `AuthProvider` is a context provider for authentication management.
  * It maintains user authentication state, handles login/logout, and fetches user data.
- *
- * @component
- * @returns {JSX.Element} A context provider wrapping the application.
- *
- * @example
- * ```tsx
- * <AuthProvider>
- *   <App />
- * </AuthProvider>
- * ```
  */
-function AuthProvider({ children }: AuthProviderProps){
+function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const router = useRouter();
+  const [token, setToken] = useState<string | null>(null);
+  // Start with loading as false since we're not making any API calls initially
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Checks authentication status when the component mounts.
-   * If a valid token exists, it fetches user data; otherwise, it sets `loading` to `false`.
-   */
+  // Check if user is authenticated
+  const isAuthenticated = !!token && !!user;
+
+  // Initialize auth state from localStorage on component mount
   useEffect(() => {
-    const checkAuthStatus = async (): Promise<void> => {
-      const token = getStoredToken();
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+    const storedToken = localStorage.getItem("authToken");
+    const storedUser = localStorage.getItem("user");
 
+    if (storedToken && storedUser) {
       try {
-        const response = await axios.get<User>("/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(response.data);
-        setIsAuthenticated(true);
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser));
       } catch (error) {
-        removeStoredToken();
-        console.log(error);
-      } finally {
-        setLoading(false);
+        // If parsing fails, clear localStorage
+        console.error("Error parsing stored user data:", error);
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
       }
-    };
-
-    checkAuthStatus();
+    }
   }, []);
 
-  /**
-   * Handles user login by storing the token and fetching the user profile.
-   *
-   * @param {string} token - The authentication token received from the login API.
-   */
-  const login = (token: string): void => {
-    setStoredToken(token);
-    setIsAuthenticated(true);
-    fetchUserProfile();
-  };
+  // Request OTP function
+  const requestOTP = async (email: string): Promise<boolean> => {
+    setLoading(true);
+    setError(null);
 
-  /**
-   * Handles user logout by clearing the token, resetting user state, and redirecting to login.
-   */
-  const logout = async (): Promise<void> => {
     try {
-      const token = getStoredToken();
-      await axios.post(
-        "/api/auth/logout",
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-    } catch (error) {
-      console.error("Logout error:", error);
-    } finally {
-      removeStoredToken();
-      setUser(null);
-      setIsAuthenticated(false);
-      router.push("/login");
-    }
-  };
-
-  /**
-   * Fetches the authenticated user's profile data from the API.
-   * If fetching fails, it triggers logout.
-   */
-  const fetchUserProfile = async (): Promise<void> => {
-    try {
-      const token = getStoredToken();
-      const response = await axios.get<User>("/api/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
+      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+      const response = await fetch(`${BASE_URL}/api/auth/request-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
       });
-      setUser(response.data);
-    } catch (error) {
-      console.log(error);
-      logout();
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send OTP");
+      }
+
+      return true;
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to send OTP");
+      return false;
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // Verify OTP function
+  const verifyOTP = async (email: string, otp: string): Promise<boolean> => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+      const response = await fetch(`${BASE_URL}/api/auth/verify-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Failed to verify OTP");
+      }
+
+      // Set token and user data in state and localStorage
+      setToken(data.data.token);
+      setUser(data.data.user);
+
+      localStorage.setItem("authToken", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      return true;
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to verify OTP");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Logout function
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+  };
+
+  // Context value
+  const contextValue: AuthContextType = {
+    user,
+    token,
+    loading,
+    isAuthenticated,
+    error,
+    requestOTP,
+    verifyOTP,
+    logout,
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated,
-        loading,
-        login,
-        logout,
-        fetchUserProfile,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
+}
+
+// Custom hook for using auth context
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return context;
 };
 
 export { AuthContext, AuthProvider };

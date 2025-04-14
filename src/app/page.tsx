@@ -323,7 +323,7 @@ export default function Home() {
               }
               subHead="Community that leads together."
               primaryCta="Connect with a mentor"
-              onPrimaryCtaClick={()=> router.push('/login')}
+              onPrimaryCtaClick={()=> router.push('/pricing')}
               secondaryCta="Access newsletter"
               headB="Gain exclusive insights and access an unparalleled tribe of
               mentors."
