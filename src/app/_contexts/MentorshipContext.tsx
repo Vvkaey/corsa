@@ -9,6 +9,7 @@ import {
   ReactNode,
   useCallback,
 } from "react";
+import { useAuth } from "../_contexts/AuthContext"; // Import the auth context
 
 enum BADGES {
   WINGMAN = "WINGMAN",
@@ -56,6 +57,7 @@ const badge_config = {
       ),
     },
   },
+  // Other badge configurations remain unchanged
   [BADGES.MARSHALL]: {
     mentorSession: {
       title: "Mentor Sessions",
@@ -176,7 +178,7 @@ export interface MentorshipContextType {
   setBadgeIcon: React.Dispatch<
     React.SetStateAction<React.JSX.Element | undefined>
   >;
-  fetchUserStatus: (token?: string) => Promise<void>;
+  fetchUserStatus: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -236,14 +238,10 @@ export const useMentorshipContext = () => {
 };
 
 // MentorshipProvider
-export const MentorshipProvider = ({
-  children,
-  token,
-}: {
-  children: ReactNode;
-  token?: string;
-}) => {
+export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
+  // Use the auth context to get the token
+  const { token, isAuthenticated } = useAuth();
 
   // State for mentorship session
   const [sessionCount, setSessionCount] = useState(0);
@@ -277,17 +275,20 @@ export const MentorshipProvider = ({
   );
 
   // Function to fetch user status
-  const fetchUserStatus = useCallback(async (authToken?: string) => {
-    const currentToken = authToken || token;
-    if (!currentToken) return;
+  const fetchUserStatus = useCallback(async () => {
+    if (!token || !isAuthenticated) {
+      console.log(
+        "Not authenticated or token missing, skipping fetchUserStatus"
+      );
+      return;
+    }
 
     try {
       setIsLoading(true);
-      // Use your environment variable for the base URL
-      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
-      const response = await fetch(`${BASE_URL}/api/users/status`, {
+
+      const response = await fetch(`/api/user/status`, {
         headers: {
-          Authorization: `Bearer ${currentToken}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
@@ -297,9 +298,10 @@ export const MentorshipProvider = ({
       }
 
       const data = await response.json();
+      console.log("User status data:", data);
 
       // Update session count
-      if (data.sessions.available !== undefined) {
+      if (data.sessions?.available !== undefined) {
         setSessionCount(data.sessions.available);
       }
 
@@ -308,21 +310,40 @@ export const MentorshipProvider = ({
         const badge = badge_mapper[data.badge as keyof typeof badge_mapper];
         const config = badge_config[badge];
         setAccessPlanDescription(
-          config.accessPlan.description || accessPlanDescription
+          config.accessPlan.description ||
+            "Nothing's live yet, unlock what's next."
         );
 
-        // Update access plan icon if provided
-
-        setAccessPlanIcon(config.accessPlan.planIcon || accessPlanIcon);
+        // Update access plan icon
+        setAccessPlanIcon(
+          config.accessPlan.planIcon || (
+            <Image
+              src={"/no-access-plan.svg"}
+              alt="No access plan icon"
+              width={139}
+              height={105.5}
+            />
+          )
+        );
 
         // Update community badge
         if (data.subscription && data.subscription.daysRemaining) {
           setBadgeDescription(
-            config.communityBadge.description || badgeDescription
+            config.communityBadge.description ||
+              "Subscribe to unlock your mission gear!"
           );
 
-          // Update badge icon if provided
-          setBadgeIcon(config.communityBadge.badge || badgeIcon);
+          // Update badge icon
+          setBadgeIcon(
+            config.communityBadge.badge || (
+              <Image
+                src={"/wingsman-badge.svg"}
+                alt="Wingsman badge"
+                width={119}
+                height={91}
+              />
+            )
+          );
         }
       }
     } catch (error) {
@@ -330,14 +351,17 @@ export const MentorshipProvider = ({
     } finally {
       setIsLoading(false);
     }
-  }, [token, accessPlanDescription, accessPlanIcon, badgeDescription, badgeIcon]);
+  }, [token, isAuthenticated]); // Only depend on token and isAuthenticated
 
   // Effect to fetch user status when token changes or component mounts
   useEffect(() => {
-    if (token) {
+    if (token && isAuthenticated) {
+      console.log(
+        "Automatically fetching user status because token is available"
+      );
       fetchUserStatus();
     }
-  }, [token, fetchUserStatus]);
+  }, [token, isAuthenticated, fetchUserStatus]);
 
   const contextValue = {
     mentorSession: {

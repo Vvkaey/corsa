@@ -4,6 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../../_contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Styled Components
 const FormContainer = styled.div`
@@ -147,6 +148,30 @@ const ButtonContainer = styled.div`
   gap: 0.75rem;
 `;
 
+const TncContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+`
+
+const TncText = styled.p`
+color: #858585;
+text-align: center;
+leading-trim: both;
+text-edge: cap;
+font-family:  var(--font-fustat);
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin : 23.5px auto;
+
+a{
+text-decoration: underline;
+
+}
+`
+
 // Login Form Component
 export default function LoginForm() {
   const { requestOTP, verifyOTP, loading, error } = useAuth();
@@ -246,6 +271,14 @@ export default function LoginForm() {
           <PrimaryButton type="submit" disabled={loading}>
             {loading ? "Sending OTP..." : "Continue"}
           </PrimaryButton>
+          <TncContainer>
+            <TncText>
+              By continuing, you agree to our{" "}
+              <Link href="/terms-and-conditions" target="_blank">
+                Terms of Service
+              </Link>
+            </TncText>
+          </TncContainer>
         </form>
       ) : (
         // OTP verification form

@@ -9,7 +9,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import { Badge } from "../Badge";
+// import { Badge } from "../Badge";
+import { maxWidthContainer } from "../../new_mixins/mixins";
+import { BadgeProfileImg } from "../Badge";
 
 const ProfileContainer = styled.div`
   padding: 2rem;
@@ -116,9 +118,9 @@ export const Header = styled(({ className }: { className?: string }) => {
     setShowHamMenu((prev) => !prev);
   }, []);
 
-  const StatusBadge = styled(Badge)`
-    margin-left: auto;
-  `;
+  // const StatusBadge = styled(Badge)`
+  //   margin-left: auto;
+  // `;
 
   // Hide header if liteUI is enabled or the page is in the NO_HEADER_FOOTER_PAGES list
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
@@ -164,24 +166,15 @@ export const Header = styled(({ className }: { className?: string }) => {
         <div className="right-pan">
           <div className="nav-items">
             <Link
-              href="#membership-section"
+              href="/dashboard"
               shallow={true}
               className="nav-item"
             >
-              Newsletter
+              Dashboard
             </Link>
-            <Link
-              href="#membership-section"
-              shallow={true}
-              className="nav-item"
-            >
-              Apply as mentor
-            </Link>
-            <Link href="#faq-section" shallow={true} className="nav-item">
-              Q & A
-            </Link>
-            <StatusBadge userStatus={userStatus} />
-            <button className="nav-item user-container"></button>
+            <BadgeProfileImg userStatus={userStatus} />
+            {/* <StatusBadge userStatus={userStatus} /> */}
+            {/* <button className="nav-item user-container"></button> */}
           </div>
         </div>
 
@@ -258,7 +251,8 @@ export const Header = styled(({ className }: { className?: string }) => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  right: 0;
+  // width: 100%;
   background: rgb(0, 0, 0);
   backdrop-filter: blur(10px);
   font-family: var(--font-exo);
@@ -274,14 +268,11 @@ export const Header = styled(({ className }: { className?: string }) => {
     margin: 15px 24px;
     display: flex;
     justify-content: space-between;
+    ${maxWidthContainer};
+    overflow: hidden;
 
     @media (min-width: 992px) {
       margin: 22px 120px;
-    }
-
-    @media (min-width: 1600px) {
-      margin: 22px auto;
-      max-width: 1500px;
     }
 
     @media (min-width: 1800px) {
@@ -292,7 +283,6 @@ export const Header = styled(({ className }: { className?: string }) => {
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid red;
 
       .image-container {
         position: relative;
@@ -301,10 +291,12 @@ export const Header = styled(({ className }: { className?: string }) => {
         height: 16px;
         cursor: pointer;
         border: none;
+        
 
         @media (min-width: 992px) {
           width: 328px;
           height: 32px;
+          right : 20px;
         }
 
         img {
@@ -331,6 +323,12 @@ export const Header = styled(({ className }: { className?: string }) => {
         flex-direction: row;
         gap: 18px;
         font-family: var(--font-fustat);
+        align-items: center;
+        justify-content: center;
+
+        @media (min-width: 992px) {
+          gap: 51px;
+        }
 
         .nav-item {
           color: rgb(255, 255, 255);
@@ -339,17 +337,18 @@ export const Header = styled(({ className }: { className?: string }) => {
           cursor: pointer;
           background: none;
           border: none;
+          leading-trim: both;
+          text-edge: cap;
+
+          font-style: normal;
+          font-weight: 800;
+          line-height: normal;
 
           &:hover {
             opacity: 1;
           }
 
           @media (min-width: 992px) {
-            font-size: 16px;
-            font-weight: 800;
-          }
-
-          @media (min-width: 1800px) {
             font-size: 22.746px;
           }
         }

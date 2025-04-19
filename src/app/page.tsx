@@ -318,37 +318,17 @@ export default function Home() {
             <HeroSection
               head={
                 <>
-                  Your Mentorship <br /> Network
+                  Your Mentorship <br /> Network.
                 </>
               }
               subHead="Community that leads together."
-              primaryCta="Connect with a mentor"
+              primaryCta="Subscribe Plan"
               onPrimaryCtaClick={()=> router.push('/pricing')}
-              secondaryCta="Access newsletter"
-              headB="Gain exclusive insights and access an unparalleled tribe of
-              mentors."
+              secondaryCta="Why Stodaclub"
+              // headB="Gain exclusive insights and access an unparalleled tribe of
+              // mentors."
               subHeadB="Learnings from Scholars at"
               icons={ICONS}
-            />
-            <HeroSection
-              head={
-                <>
-                  &quot;We’ve got your back, <br />
-                  Let’s{" "}
-                  <span style={{ color: " #FF2626" }}>
-                    make it happen.&quot;
-                  </span>
-                </>
-              }
-              secondaryHead={true}
-              subHeadB={
-                <>
-                  &quot;No fluff, no big promises. Just real conversations with
-                  mentors who get it done. Here&apos;s how we&apos;ll help you
-                  step up.&quot;
-                </>
-              }
-              compactContainerB={true}
             />
             <StepsSection flowItems={FLOW_CONTENT} />
             {/* <FlowSection flowItems={FLOW_CONTENT} /> */}
