@@ -85,7 +85,6 @@ const TableHeader = styled.table`
     padding: 150px 10px 24px 10px; /* Add top padding to the th elements */
     height: 100%;
     width: 22%;
-    border: 2px solid green;
 
     &:first-child {
       text-align: left;

@@ -98,13 +98,13 @@ interface StyledPlanCardProps {
 }
 
 const PlanCard = styled.div<StyledPlanCardProps>`
-  background: ${(props) => (props.$isPrimary ? "#f7fafc" : "#ffffff")};
-  border: 1px solid ${(props) => (props.$isPrimary ? "#4299e1" : "#e2e8f0")};
+ 
+
   box-shadow: ${(props) =>
     props.$isPrimary
       ? "0 10px 15px -3px rgba(66, 153, 225, 0.1)"
       : "0 4px 6px -1px rgba(0, 0, 0, 0.1)"};
-  border-radius: 8px;
+
   padding: 59px 34px 29px;
   width: 100%;
   max-width: 476px;
@@ -113,12 +113,19 @@ const PlanCard = styled.div<StyledPlanCardProps>`
   transition: transform 0.2s ease-in-out;
   align-items: center;
 
+  border-radius: 11.813px;
+  border: 1.39px solid #000;
+  background: #f5f5f5;
+
   &:hover {
     transform: translateY(-5px);
   }
 
   @media (min-width: 992px) {
     padding: 77px 55px 51px;
+    border-radius: 8px;
+    border: 1px solid ${(props) => (props.$isPrimary ? "#4299e1" : "#e2e8f0")};
+     background: ${(props) => (props.$isPrimary ? "#f7fafc" : "#ffffff")};
   }
 `;
 
@@ -211,7 +218,6 @@ const BenefitsList = styled.ul`
   flex-grow: 1;
   padding-top: 67px;
   width: 100%;
- 
 
   @media (min-width: 992px) {
     padding-top: 100px;
@@ -227,7 +233,7 @@ const BenefitItem = styled.li`
   color: #4a5568;
   font-family: var(--font-fustat);
   width: 100%;
-  
+
   &:before {
     content: "✓";
     color: #ff2626;
@@ -302,7 +308,7 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   margin-top: 80px;
 
   @media (min-width: 992px) {
-  margin-top: 33px;
+    margin-top: 33px;
     font-size: 24px;
   }
 `;
