@@ -61,6 +61,30 @@ export const responsivePadding = ({
   }
 `;
 
+export const sectionResponsivePadding = ({
+    mobilePadding = "16px",
+    tabletPadding = "32px",
+    desktopPadding = "64px",
+    desktopMdPadding = "120px",
+  }: ResponsivePaddingProps = {}) => css`
+    padding-left: ${mobilePadding};
+    padding-right: ${mobilePadding};
+  
+    @media (min-width: 768px) {
+      padding-left: ${tabletPadding};
+      padding-right: ${tabletPadding};
+    }
+  
+    @media (min-width: 1024px) {
+      padding-left: ${desktopPadding};
+      padding-right: ${desktopPadding};
+    }
+    @media (min-width: 1800px) {
+      padding-left: ${desktopMdPadding};
+      padding-right: ${desktopMdPadding};
+    }
+  `;
+
 // Mixin 3: Adds responsive margin to components that are not full width
 export const responsiveMargin = ({
   mobileMargin = "16px",

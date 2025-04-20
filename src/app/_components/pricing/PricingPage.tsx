@@ -4,7 +4,8 @@ import styled from "styled-components";
 
 import { useRouter } from "next/navigation";
 import { Comparison } from "./Comparison";
-import { headerSpacing, responsivePadding } from "../new_mixins/mixins";
+import { headerSpacing, sectionResponsivePadding } from "../new_mixins/mixins";
+import { Footer } from "../global/footer";
 // import { Comparison } from "./Comparison";
 
 // Styled Components
@@ -16,12 +17,16 @@ const PageContainer = styled.div`
   flex-direction: column;
   gap: 2vh;
   ${headerSpacing()};
-  ${responsivePadding()};
 `;
 
 const Header = styled.div`
   text-align: center;
-  margin-bottom: 73px;
+  margin-bottom: 53px;
+  ${sectionResponsivePadding()};
+
+  @media (min-width: 992px) {
+    margin-bottom: 73px;
+  }
 `;
 
 const Title = styled.h1`
@@ -29,11 +34,10 @@ const Title = styled.h1`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 90px;
+  font-size: 34.05px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  white-space: nowrap;
 
   &:after {
     content: "good stuff";
@@ -41,11 +45,19 @@ const Title = styled.h1`
     leading-trim: both;
     text-edge: cap;
     font-family: var(--font-exo);
-    font-size: 90px;
+    font-size: 34.05px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
     white-space: nowrap;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 90px;
+    white-space: nowrap;
+    &:after {
+      font-size: 90px;
+    }
   }
 `;
 
@@ -53,11 +65,17 @@ const Subtitle = styled.p`
   color: #000;
   text-align: center;
   font-family: var(--font-fustat);
-  font-size: 29.324px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   margin: 0 auto;
+  margin-top: 17px;
+
+  @media (min-width: 992px) {
+    margin-top: unset;
+    font-size: 29.324px;
+  }
 `;
 
 const PlansContainer = styled.div`
@@ -65,11 +83,12 @@ const PlansContainer = styled.div`
   // flex-wrap: wrap;
   justify-content: center;
   gap: 61px;
+  ${sectionResponsivePadding()};
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
-    gap : 32px;
+    gap: 32px;
   }
 `;
 
@@ -86,20 +105,25 @@ const PlanCard = styled.div<StyledPlanCardProps>`
       ? "0 10px 15px -3px rgba(66, 153, 225, 0.1)"
       : "0 4px 6px -1px rgba(0, 0, 0, 0.1)"};
   border-radius: 8px;
-  padding: 77px 55px 51px;
+  padding: 59px 34px 29px;
   width: 100%;
   max-width: 476px;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease-in-out;
+  align-items: center;
 
   &:hover {
     transform: translateY(-5px);
   }
+
+  @media (min-width: 992px) {
+    padding: 77px 55px 51px;
+  }
 `;
 
 const PlanName = styled.h3`
-  margin-bottom: 4rem;
+  margin-bottom: 16px;
   color: #1a202c;
   text-align: center;
   color: #000;
@@ -107,25 +131,40 @@ const PlanName = styled.h3`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 40px;
+  font-size: 27.79px;
   font-style: normal;
   font-weight: 600;
-  line-height: 50px; /* 125% */
-  white-space: nowrap;
+  width: 70%;
+  line-height: 125%; /* 125% */
+
+  @media (min-width: 992px) {
+    font-size: 40px;
+    margin-bottom: 4rem;
+  }
 `;
 
 const PlanPrice = styled.div`
-  margin: 81px 0 34px;
+  margin: 45px 0 16px;
   display: flex;
   align-items: baseline;
   justify-content: center;
+
+  @media (min-width: 992px) {
+    margin: 81px 0 34px;
+  }
 `;
 
 const Price = styled.h2`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a202c;
+  font-size: 37.09px;
+  font-weight: 600;
+  color: #000;
   font-family: var(--font-exo);
+
+  @media (min-width: 992px) {
+    color: #1a202c;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
 `;
 
 const Period = styled.span`
@@ -133,11 +172,16 @@ const Period = styled.span`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 24px;
+  font-size: 16.6px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: 0.5rem;
+  margin-left: 2px;
+
+  @media (min-width: 992px) {
+    font-size: 24px;
+    margin-left: 0.5rem;
+  }
 `;
 
 const PlanDescription = styled.p`
@@ -148,10 +192,16 @@ const PlanDescription = styled.p`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 24px;
+  font-size: 17px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  max-width: 85%;
+
+  @media (min-width: 992px) {
+    max-width: unset;
+    font-size: 24px;
+  }
 `;
 
 const BenefitsList = styled.ul`
@@ -159,7 +209,13 @@ const BenefitsList = styled.ul`
   padding: 0;
   margin: 0 0 1.5rem 0;
   flex-grow: 1;
-  padding-top: 100px;
+  padding-top: 67px;
+  width: 100%;
+ 
+
+  @media (min-width: 992px) {
+    padding-top: 100px;
+  }
 `;
 
 const BenefitItem = styled.li`
@@ -170,6 +226,8 @@ const BenefitItem = styled.li`
   font-size: 0.95rem;
   color: #4a5568;
   font-family: var(--font-fustat);
+  width: 100%;
+  
   &:before {
     content: "✓";
     color: #ff2626;
@@ -206,7 +264,7 @@ const CtaButton = styled.button<StyledButtonProps>`
   border-radius: 8px;
   border: ${(props) =>
     props.$isPrimary ? "1.013px solid #000" : "2.013px solid #ff2626"};
-  padding: 0.75rem 1.5rem;
+  padding: 13px 43px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -217,6 +275,10 @@ const CtaButton = styled.button<StyledButtonProps>`
     background: #ebf8ff;
     color: ${(props) => (props.$isPrimary ? "#000" : "#FF2626")};
   }
+
+  @media (min-width: 992px) {
+    padding: 0.75rem 1.5rem;
+  }
 `;
 
 const SeeAllNavigator = styled.button<StyledButtonProps>`
@@ -226,7 +288,7 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   text-align: center;
   leading-trim: both;
   text-edge: cap;
-  font-size: 24px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -237,7 +299,12 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   text-underline-offset: auto;
   text-underline-position: from-font;
   font-family: var(--font-fustat);
+  margin-top: 80px;
+
+  @media (min-width: 992px) {
   margin-top: 33px;
+    font-size: 24px;
+  }
 `;
 
 const ErrorMessage = styled.div`
@@ -369,6 +436,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
       </PlansContainer>
       <Comparison htmlId="product-comparision" />
       {/* <ProductComparisonTable /> */}
+      <Footer />
     </PageContainer>
   );
 };

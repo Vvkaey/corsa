@@ -1,17 +1,9 @@
-import styled from "styled-components";
-// import { CustomImage as Image } from '..';
-import {
-  ComparisonDataProps,
-  PropertyMapper,
-} from "./Comparison";
+// DesktopComparisonTable.tsx
 import { useRef } from "react";
-// import { FormattedMessage } from 'react-intl';
+import styled from "styled-components";
+import { ComparisonDataProps, PropertyMapper } from "../data/productData";
 
-type DesktopProps = Array<ComparisonDataProps>;
-type PropertyValue = {
-  id: string;
-  value: boolean | number | string;
-};
+
 const TableProperty = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,6 +19,7 @@ const TableProperty = styled.div`
     font-weight: 700;
     line-height: normal;
   }
+  
   p {
     color: #404040;
     leading-trim: both;
@@ -53,6 +46,13 @@ const NumberValue = styled.span`
   color: #0288d1;
 `;
 
+export type PropertyValue = {
+  id: string;
+  value: boolean | number | string;
+};
+
+
+
 export const DesktopComparisonTable = styled(
   ({
     className,
@@ -60,11 +60,12 @@ export const DesktopComparisonTable = styled(
     comparatorsOrder,
   }: {
     className?: string;
-    data: DesktopProps;
+    data: Array<ComparisonDataProps>;
     comparatorsOrder: number[];
   }) => {
-    const deskTableContainer = useRef<HTMLTableElement>(null);
+    const tableBodyRef = useRef<HTMLTableElement>(null);
 
+    // Filter property keys that exist in the data
     const featureKeys = Object.keys(PropertyMapper).filter((key) =>
       data.some(
         (item) =>
@@ -94,16 +95,15 @@ export const DesktopComparisonTable = styled(
     };
 
     return (
-      <table className={className} ref={deskTableContainer}>
+      <table className={className} ref={tableBodyRef}>
         <tbody>
-          {comparatorsOrder && featureKeys.map((key) => (
+          {featureKeys.map((key) => (
             <tr key={key}>
               <td className="property">
                 <TableProperty>
                   <h4>
                     {PropertyMapper[key as keyof typeof PropertyMapper].title}
                   </h4>
-
                   <p>
                     {
                       PropertyMapper[key as keyof typeof PropertyMapper]
@@ -113,15 +113,18 @@ export const DesktopComparisonTable = styled(
                 </TableProperty>
               </td>
 
-              {comparatorsOrder && data.map((item) => (
-                <td key={item.id}>
-                  <div className="content">
-                    <span className="bold-text">
-                      {renderCellValue(item, key)}
-                    </span>
-                  </div>
-                </td>
-              ))}
+              {comparatorsOrder.map((index) => {
+                const item = data[index];
+                return (
+                  <td key={item.id}>
+                    <div className="content">
+                      <span className="bold-text">
+                        {renderCellValue(item, key)}
+                      </span>
+                    </div>
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
@@ -129,56 +132,10 @@ export const DesktopComparisonTable = styled(
     );
   }
 )`
-  position: relative;
   width: 100%;
   border-collapse: collapse;
   z-index: 1;
-  overflow: hidden;
-
-  .col-span {
-    width: 100%;
-    position: relative;
-
-    .break {
-      width: 100%;
-      border-top: 1px solid rgb(0, 0, 0);
-      opacity: 0.1;
-    }
-  }
-
-  .content {
-    height: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    color: #000;
-    leading-trim: both;
-    text-edge: cap;
-    font-family: var(--font-fustat);
-    font-size: 27px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
-    .img-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: auto;
-      position: relative;
-      width: 6.2rem;
-      height: 6.2rem;
-      aspect-ratio: 1/1;
-
-      img {
-        height: unset !important;
-        aspect-ratio: 1/1;
-      }
-    }
-  }
+  table-layout: fixed; /* Ensures consistent column widths */
 
   tr {
     border-top: 1.3px solid #e0e0e0;
@@ -190,11 +147,9 @@ export const DesktopComparisonTable = styled(
   td {
     vertical-align: initial;
     text-align: center;
-
     height: 100%;
     width: 22%;
     border: none;
-    // border: 2px solid blue;
 
     &:first-child {
       text-align: left;
@@ -206,38 +161,37 @@ export const DesktopComparisonTable = styled(
       vertical-align: middle;
     }
 
-    // &:nth-child(2) {
-    //   border-right: 1px solid rgba(0, 0, 0, 0.15);
-    // }
-
     &.property {
       color: #000;
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
-      line-height: 120%; /* 19.2px */
+      line-height: 120%;
       width: 30%;
     }
-
-    &.property-head {
-      color: #000;
-      font-weight: 600;
-    }
   }
 
-  .property-head {
+  .content {
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: #000;
-    font-weight: 600;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: var(--font-fustat);
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
   }
 
-  .bold {
+  .bold-text {
     color: #000;
     font-size: 19px;
     font-weight: 500;
     line-height: 32px;
-  }
-
-  .spacer {
-    margin-bottom: 120px;
   }
 `;
