@@ -72,7 +72,7 @@ export const PowerfulInsights = styled(
 )`
   position: relative;
   width: 100%;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   padding: 40px 0 10px 0;
   margin: auto;
   background : #fff;

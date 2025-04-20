@@ -13,7 +13,7 @@
   min-height: 100svh;
   padding: 80px;
   gap: 64px;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,7 +56,7 @@
 
 .main code {
   font-family: inherit;
-  background: var(--gray-alpha-100);
+  /* background: var(--gray-alpha-100); */
   padding: 2px 4px;
   border-radius: 4px;
   font-weight: 600;

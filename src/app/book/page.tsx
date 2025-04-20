@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content : center;
   align-items : center;
   flex-direction : column;
-   font-family: var(--font-geist-sans);
+   font-family: var(--font-exo);
 `;
 
 const Title = styled.h1`

@@ -146,7 +146,7 @@ export const MembershipSection = styled(
 )`
   position: relative;
   width: 100%;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   padding: 40px 0;
   margin: auto;
   background: #fff;
@@ -159,7 +159,7 @@ export const MembershipSection = styled(
     background: #000;
     position: relative;
     width: 100%;
-    font-family: var(--font-geist-sans);
+    font-family: var(--font-exo);
     max-width: 1500px;
     margin: auto;
     padding-bottom: 0;

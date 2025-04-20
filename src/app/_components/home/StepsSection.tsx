@@ -63,7 +63,7 @@ export const StepsSection = styled(
 )`
   position: relative;
   width: calc(100% - 14px);
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   padding: 70px 0 138px 0;
   margin: auto;
   background: #fff;

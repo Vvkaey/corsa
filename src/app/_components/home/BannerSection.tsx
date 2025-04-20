@@ -57,7 +57,7 @@ export const BannerSection = styled(
 )`
   position: relative;
   padding: 108px 0 50px 0;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   justify-content: center;
   align-items: center;
   width: 100%;

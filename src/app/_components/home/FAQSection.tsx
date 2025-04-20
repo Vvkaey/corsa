@@ -134,7 +134,7 @@ export const FAQSection = styled(
   background: #fff;
   position: relative;
   margin: auto;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   padding: 40px 0;
   border-bottom-right-radius : 36px;
   border-bottom-left-radius : 36px;

@@ -6,11 +6,12 @@ import { GlobalUIProvider } from "./_utils/hooks/globalUI";
 import { Header } from "./_components/global/header";
 import StyledComponentsRegistry from "../../lib/registry";
 import { AuthProvider } from "./_contexts/AuthContext";
+import { MentorshipProvider } from "./_contexts/MentorshipContext";
 // import { GoogleOAuthProvider } from "@react-oauth/google";
 // import { Header } from "./_components/global/header";
 
 const geistSans = Exo_2({
-  variable: "--font-geist-sans",
+  variable: "--font-exo",
   subsets: ["latin"],
 });
 
@@ -29,21 +30,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     // <GoogleOAuthProvider clientId={clientId}>
     <AuthProvider>
-      <GlobalUIProvider>
-        <html lang="en">
-          <body
-            className={`${geistSans.variable} ${getFustat.variable} ${styles.body}`}
-          >
-            <Header />
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          </body>
-        </html>
-      </GlobalUIProvider>
-      </AuthProvider>
+      <MentorshipProvider>
+        <GlobalUIProvider>
+          <html lang="en">
+            <body
+              className={`${geistSans.variable} ${getFustat.variable} ${styles.body}`}
+            >
+              <Header />
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            </body>
+          </html>
+        </GlobalUIProvider>
+      </MentorshipProvider>
+    </AuthProvider>
   );
 }

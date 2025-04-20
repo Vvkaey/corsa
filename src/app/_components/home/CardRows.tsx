@@ -132,7 +132,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
   background: #000;
   width: 100%;
   position: relative;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   overflow: hidden;
   padding: 72px 0;
 

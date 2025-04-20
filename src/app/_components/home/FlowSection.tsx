@@ -91,7 +91,7 @@ export const FlowSection = styled(
   position : relative;
   width: 100%;
   background: #fff;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   display: flex;
   justify-content: center;
   // border : 1px solid black;

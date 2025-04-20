@@ -243,3 +243,83 @@ export const BrownBgTick = ({
     </svg>
   );
 };
+
+export const Tick = ({
+  className,
+  style,
+  width = 33,
+  height = 21,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  fill?: string;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox={`0 0 33 21`}
+      fill="none"
+    >
+      <path
+        d="M1.91016 10.9609L11.6458 19.0289"
+        stroke="#34A853"
+        strokeWidth="3.18824"
+        strokeLinecap="round"
+      />
+      <path
+        d="M31.1172 1.88281L11.646 19.0273"
+        stroke="#34A853"
+        strokeWidth="3.18824"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
+export const GoogleIcon = ({
+  className,
+  style,
+  width = 29,
+  height = 30,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  fill?: string;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 29 30"
+      fill="none"
+    >
+      <path
+        d="M28.1602 15.1433C28.1602 14.1349 28.0697 13.1652 27.9016 12.2344H14.5078V17.7419H22.1614C21.8253 19.5131 20.8169 21.0128 19.3043 22.0212V25.6024H23.9197C26.6088 23.1201 28.1602 19.4743 28.1602 15.1433Z"
+        fill="#4285F4"
+      />
+      <path
+        d="M14.5082 29.0414C18.3479 29.0414 21.5671 27.7745 23.9201 25.6025L19.3046 22.0213C18.0377 22.8746 16.4216 23.3917 14.5082 23.3917C10.8107 23.3917 7.66907 20.8965 6.5443 17.5352H1.8125V21.2068C4.15254 25.8481 8.94898 29.0414 14.5082 29.0414Z"
+        fill="#34A853"
+      />
+      <path
+        d="M6.54641 17.5211C6.26199 16.6678 6.09392 15.7628 6.09392 14.819C6.09392 13.8752 6.26199 12.9703 6.54641 12.117V8.44531H1.81462C0.844984 10.3587 0.289062 12.5178 0.289062 14.819C0.289062 17.1203 0.844984 19.2793 1.81462 21.1927L5.49921 18.3226L6.54641 17.5211Z"
+        fill="#FBBC05"
+      />
+      <path
+        d="M14.5082 6.2603C16.6026 6.2603 18.4643 6.98429 19.9511 8.38056L24.0235 4.30811C21.5542 2.00685 18.3479 0.597656 14.5082 0.597656C8.94898 0.597656 4.15254 3.79097 1.8125 8.4452L6.5443 12.1169C7.66907 8.75548 10.8107 6.2603 14.5082 6.2603Z"
+        fill="#EA4335"
+      />
+    </svg>
+  );
+};

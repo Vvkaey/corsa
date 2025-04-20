@@ -1,11 +1,12 @@
 "use client";
 import styled from "styled-components";
-import { containerSidePadding, sectionPadding } from "./styleConstants";
 import Image from "next/image";
-import { JSX } from "react";
+import { JSX, useEffect, useRef } from "react";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-// import { ShadowHeading } from "../global/shadowHeading";
+import { headerSpacing, maxWidthContainer, SectionPadding } from "../new_mixins/mixins";
+import gsap from "gsap";
 
+// AnimatedIconShowcase component with GSAP animations
 export const IconShowcase = styled(
   ({
     className,
@@ -18,39 +19,161 @@ export const IconShowcase = styled(
     subHead?: string | JSX.Element;
     icons?: Record<string, string>[];
   }) => {
-
-
-
     const { width = 0 } = useWindowSize();
+
+    // Create refs for animation
+    const headRef = useRef<HTMLHeadingElement>(null);
+    const subHeadRef = useRef<HTMLHeadingElement>(null);
+    const iconContainerRef = useRef<HTMLDivElement>(null);
+    const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // Setup for icon refs
+    iconRefs.current = [];
+    const addToIconRefs = (el: HTMLDivElement | null) => {
+      if (el && !iconRefs.current.includes(el)) {
+        iconRefs.current.push(el);
+      }
+    };
+
+    useEffect(() => {
+      // Animation for the icon showcase section
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        delay: 0.8, // Delay this animation until after main hero animation
+      });
+
+      // Animate heading
+      if (headRef.current) {
+        tl.fromTo(
+          headRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6 }
+        );
+      }
+
+      // Animate subheading
+      if (subHeadRef.current) {
+        tl.fromTo(
+          subHeadRef.current,
+          { y: 15, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6 },
+          "-=0.3"
+        );
+      }
+
+      // Instead of animating the marquee directly (which would interfere with its own animation),
+      // we'll just fade it in
+      if (iconContainerRef.current) {
+        tl.fromTo(
+          iconContainerRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.8 },
+          "-=0.2"
+        );
+      }
+
+      // For larger screens where the marquee animation is disabled, we'll animate each icon
+      if (width >= 992 && iconRefs.current.length) {
+        tl.fromTo(
+          iconRefs.current,
+          { y: 15, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.1,
+          },
+          "-=0.5"
+        );
+
+        // Add subtle hover effect for icons
+        iconRefs.current.forEach((icon) => {
+          if (icon) {
+            icon.addEventListener("mouseenter", () => {
+              gsap.to(icon, { y: -5, scale: 1.05, duration: 0.3 });
+            });
+
+            icon.addEventListener("mouseleave", () => {
+              gsap.to(icon, { y: 0, scale: 1, duration: 0.3 });
+            });
+          }
+        });
+      }
+
+      // Store current icons for cleanup
+      const currentIcons = [...iconRefs.current];
+
+      // Define event handlers
+      const handleIconEnter = (icon: HTMLDivElement) => {
+        gsap.to(icon, { y: -5, scale: 1.05, duration: 0.3 });
+      };
+
+      const handleIconLeave = (icon: HTMLDivElement) => {
+        gsap.to(icon, { y: 0, scale: 1, duration: 0.3 });
+      };
+
+      // Add event listeners with proper handlers
+      if (width >= 992) {
+        currentIcons.forEach((icon) => {
+          if (icon) {
+            icon.addEventListener("mouseenter", () => handleIconEnter(icon));
+            icon.addEventListener("mouseleave", () => handleIconLeave(icon));
+          }
+        });
+      }
+
+      return () => {
+        // Cleanup event listeners with same function references
+        if (width >= 992) {
+          currentIcons.forEach((icon) => {
+            if (icon) {
+              icon.removeEventListener("mouseenter", () =>
+                handleIconEnter(icon)
+              );
+              icon.removeEventListener("mouseleave", () =>
+                handleIconLeave(icon)
+              );
+            }
+          });
+        }
+      };
+    }, [width]);
 
     return (
       <section className={className}>
-        {/* <ShadowHeading /> */}
         <div className="content">
           {head ? (
-            <h3 className="head">
-              {/* Gain exclusive insights and access an unparalleled tribe of
-              mentors. */}
+            <h3 className="head" ref={headRef}>
               {head}
             </h3>
           ) : null}
-          {subHead ? <h4 className="sub-head"> {subHead}</h4> : null}
+          {subHead ? (
+            <h4 className="sub-head" ref={subHeadRef}>
+              {" "}
+              {subHead}
+            </h4>
+          ) : null}
           {icons?.length ? (
             <div
               className="marquee-container"
               style={{
                 display: "flex",
               }}
+              ref={iconContainerRef}
             >
               <div className="icon-container">
                 {icons.map((item, index) => {
                   return (
-                    <div key={index} className="icon">
+                    <div
+                      key={index}
+                      className="icon"
+                      ref={width >= 992 ? addToIconRefs : null}
+                    >
                       <Image
                         src={item.icon}
                         alt="not-found-image"
-                        width={78}
-                        height={78}
+                        width={93}
+                        height={93}
                         style={{ objectFit: "contain" }}
                       />
                       <p className="icon-text">{item.name}</p>
@@ -58,22 +181,24 @@ export const IconShowcase = styled(
                   );
                 })}
               </div>
-              {width && width < 992 ? <div className="icon-container">
-                {icons.map((item, index) => {
-                  return (
-                    <div key={index} className="icon">
-                      <Image
-                        src={item.icon}
-                        alt="not-found-image"
-                        width={78}
-                        height={78}
-                        style={{ objectFit: "contain" }}
-                      />
-                      <p className="icon-text">{item.name}</p>
-                    </div>
-                  );
-                })}
-              </div> : null}
+              {width && width < 992 ? (
+                <div className="icon-container">
+                  {icons.map((item, index) => {
+                    return (
+                      <div key={index} className="icon">
+                        <Image
+                          src={item.icon}
+                          alt="not-found-image"
+                          width={78}
+                          height={78}
+                          style={{ objectFit: "contain" }}
+                        />
+                        <p className="icon-text">{item.name}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>
@@ -83,7 +208,7 @@ export const IconShowcase = styled(
 )`
   width: 100%;
   background: #fff;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-exo);
   text-align: center;
 
   .content {
@@ -108,19 +233,22 @@ export const IconShowcase = styled(
     }
 
     h4.sub-head {
-      font-family: var(--font-fustat);
+      font-family: var(--font-exo);
       margin: 0;
       color: #000;
       font-size: 16px;
       font-style: normal;
       font-weight: 600;
       line-height: normal;
+      leading-trim: both;
+      text-edge: cap;
       max-width: 37ch;
 
       @media (min-width: 992px) {
         text-align: center;
-        font-size: 20px;
         max-width: 36ch;
+        color: #5f5f5f;
+        font-size: 28.432px;
         font-weight: 500;
       }
     }
@@ -139,7 +267,7 @@ export const IconShowcase = styled(
       overflow: hidden;
       max-width: 151.2rem;
       display: flex;
-      padding-top : 30px;
+      padding-top: 30px;
 
       @media (min-width: 992px) {
         padding-top: unset;
@@ -198,6 +326,7 @@ export const IconShowcase = styled(
   }
 `;
 
+// Animated HeroSection with GSAP
 export const HeroSection = styled(
   ({
     className,
@@ -224,60 +353,258 @@ export const HeroSection = styled(
     icons?: Record<string, string>[];
     compactContainerB?: boolean;
   }) => {
+    // Create refs for animation
+    const headingRef = useRef<HTMLHeadingElement>(null);
+    const subHeadingRef = useRef<HTMLHeadingElement>(null);
+    const ctaContainerRef = useRef<HTMLDivElement>(null);
+    const primaryCtaRef = useRef<HTMLButtonElement>(null);
+    const secondaryCtaRef = useRef<HTMLButtonElement>(null);
+    const rootContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      // Initial setup - hide elements
+      gsap.set([headingRef.current, subHeadingRef.current], {
+        opacity: 0,
+        y: 20,
+      });
+
+      // Create timeline for hero animations with slightly slower timing overall
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.out" }, // Changed to smoother easing
+        delay: 0.3, // Slightly longer initial delay
+      });
+
+      // Add debug visual indicator for development
+      const showDebugHighlight = false; // Set to true to see animation areas highlighted
+      if (showDebugHighlight && primaryCtaRef.current) {
+        gsap.set(primaryCtaRef.current, {
+          boxShadow: "0 0 0 4px rgba(255, 0, 0, 0.5)",
+        });
+      }
+
+      // Animate main heading
+      if (headingRef.current) {
+        tl.to(
+          headingRef.current,
+          { opacity: 1, y: 0, duration: 1.0 } // Longer duration
+        );
+      }
+
+      // Animate subheading
+      if (subHeadingRef.current) {
+        tl.to(
+          subHeadingRef.current,
+          { opacity: 1, y: 0, duration: 0.9 }, // Longer duration
+          "-=0.6" // Less overlap
+        );
+      }
+
+      // Animate CTA container with a clearer visualization
+      if (ctaContainerRef.current) {
+        gsap.set(ctaContainerRef.current, {
+          opacity: 0,
+          y: 20,
+        });
+
+        tl.to(
+          ctaContainerRef.current,
+          { opacity: 1, y: 0, duration: 0.7 },
+          "-=0.4"
+        );
+      }
+
+      // Animate CTA buttons with smoother, more gradual animation
+      if (primaryCtaRef.current || secondaryCtaRef.current) {
+        const buttons = [primaryCtaRef.current, secondaryCtaRef.current].filter(
+          Boolean
+        );
+
+        // First make sure buttons are initially invisible
+        gsap.set(buttons, { opacity: 0, scale: 0.9, y: 15 });
+
+        // Then animate them with a smoother, more deliberate timing
+        tl.to(
+          buttons,
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.8, // Longer duration for smoother appearance
+            stagger: 0.25, // More delay between buttons
+            ease: "power2.out", // Smoother easing function
+          },
+          "-=0.1"
+        );
+      }
+
+      // Add hover animations for buttons
+      if (primaryCtaRef.current) {
+        primaryCtaRef.current.addEventListener("mouseenter", () => {
+          gsap.to(primaryCtaRef.current, {
+            y: -3,
+            boxShadow: "0 10px 20px rgba(255, 38, 38, 0.2)",
+            duration: 0.3,
+          });
+        });
+
+        primaryCtaRef.current.addEventListener("mouseleave", () => {
+          gsap.to(primaryCtaRef.current, {
+            y: 0,
+            boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
+            duration: 0.3,
+          });
+        });
+      }
+
+      if (secondaryCtaRef.current) {
+        secondaryCtaRef.current.addEventListener("mouseenter", () => {
+          gsap.to(secondaryCtaRef.current, {
+            y: -3,
+            boxShadow: "0 10px 20px rgba(255, 38, 38, 0.1)",
+            duration: 0.3,
+          });
+        });
+
+        secondaryCtaRef.current.addEventListener("mouseleave", () => {
+          gsap.to(secondaryCtaRef.current, {
+            y: 0,
+            boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
+            duration: 0.3,
+          });
+        });
+      }
+
+      // Store refs in variables to use in cleanup
+      const primaryBtn = primaryCtaRef.current;
+      const secondaryBtn = secondaryCtaRef.current;
+
+      // Define event handlers
+      const handlePrimaryEnter = () => {
+        gsap.to(primaryBtn, {
+          y: -3,
+          boxShadow: "0 10px 20px rgba(255, 38, 38, 0.2)",
+          duration: 0.3,
+        });
+      };
+
+      const handlePrimaryLeave = () => {
+        gsap.to(primaryBtn, {
+          y: 0,
+          boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
+          duration: 0.3,
+        });
+      };
+
+      const handleSecondaryEnter = () => {
+        gsap.to(secondaryBtn, {
+          y: -3,
+          boxShadow: "0 10px 20px rgba(255, 38, 38, 0.1)",
+          duration: 0.3,
+        });
+      };
+
+      const handleSecondaryLeave = () => {
+        gsap.to(secondaryBtn, {
+          y: 0,
+          boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
+          duration: 0.3,
+        });
+      };
+
+      // Add event listeners
+      if (primaryBtn) {
+        primaryBtn.addEventListener("mouseenter", handlePrimaryEnter);
+        primaryBtn.addEventListener("mouseleave", handlePrimaryLeave);
+      }
+
+      if (secondaryBtn) {
+        secondaryBtn.addEventListener("mouseenter", handleSecondaryEnter);
+        secondaryBtn.addEventListener("mouseleave", handleSecondaryLeave);
+      }
+
+      return () => {
+        // Clean up event listeners with the same function references
+        if (primaryBtn) {
+          primaryBtn.removeEventListener("mouseenter", handlePrimaryEnter);
+          primaryBtn.removeEventListener("mouseleave", handlePrimaryLeave);
+        }
+
+        if (secondaryBtn) {
+          secondaryBtn.removeEventListener("mouseenter", handleSecondaryEnter);
+          secondaryBtn.removeEventListener("mouseleave", handleSecondaryLeave);
+        }
+      };
+    }, []);
+
     return (
       <section className={className}>
-        <div
-          className={`${
-            compactContainerB
-              ? "root-container compact-container"
-              : "root-container"
-          }`}
-        >
-          {/* <ShadowHeading /> */}
-          <div className="content">
-            {head ? (
-              <h2 className={secondaryHead ? "secondary-head" : "head"}>
-                {head}
-              </h2>
-            ) : null}
-            {subHead ? <h3 className="sub-head">{subHead}</h3> : null}
-            {primaryCta || secondaryCta ? (
-              <div className="cta-container">
-                <button className="primary-cta" onClick={onPrimaryCtaClick}>
-                  {primaryCta}
-                </button>
-                <button className="secondary-cta">{secondaryCta}</button>
-              </div>
-            ) : null}
-          </div>
+        <SectionPadding>
+          <div
+            ref={rootContainerRef}
+            className={`${
+              compactContainerB
+                ? "root-container compact-container"
+                : "root-container"
+            }`}
+          >
+            <div className="content">
+              {head ? (
+                <h2
+                  ref={headingRef}
+                  className={secondaryHead ? "secondary-head" : "head"}
+                >
+                  {head}
+                </h2>
+              ) : null}
+              {subHead ? (
+                <h3 ref={subHeadingRef} className="sub-head">
+                  {subHead}
+                </h3>
+              ) : null}
+              {primaryCta || secondaryCta ? (
+                <div ref={ctaContainerRef} className="cta-container">
+                  {primaryCta ? (
+                    <button
+                      ref={primaryCtaRef}
+                      className="primary-cta"
+                      onClick={onPrimaryCtaClick}
+                    >
+                      {primaryCta}
+                    </button>
+                  ) : null}
+                  {secondaryCta ? (
+                    <button ref={secondaryCtaRef} className="secondary-cta">
+                      {secondaryCta}
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
 
-          <IconShowcase head={headB} subHead={subHeadB} icons={icons} />
-        </div>
+            <IconShowcase head={headB} subHead={subHeadB} icons={icons} />
+          </div>
+        </SectionPadding>
       </section>
     );
   }
 )`
   position: relative;
-  top: 30%;
   width: 100%;
-  padding-top: 88px;
   background: #fff;
-
-  @media (min-width: 992px) {
-    padding-top: 98px;
-  }
+  ${headerSpacing()}
 
   .root-container {
-    ${sectionPadding}
-    ${containerSidePadding}
-    background : #fff;
-    font-family: var(--font-geist-sans);
+    background: #fff;
+    font-family: var(--font-exo);
     display: flex;
     flex-direction: column;
     gap: 37px;
+    // border: 1px solid red;
+    ${maxWidthContainer}
 
     @media (min-width: 992px) {
-      gap: 56px;
+      gap: 114px;
+      margin : auto;
     }
 
     .content {
@@ -303,7 +630,7 @@ export const HeroSection = styled(
         max-width: 12ch;
 
         @media (min-width: 992px) {
-          font-size: 70px;
+          font-size: 99.512px;
           max-width: unset;
         }
       }
@@ -333,10 +660,8 @@ export const HeroSection = styled(
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        text-transform: capitalize;
-
         @media (min-width: 992px) {
-          font-size: 20px;
+          font-size: 28.432px;
         }
       }
 
@@ -349,13 +674,13 @@ export const HeroSection = styled(
         gap: 12px;
 
         @media (min-width: 992px) {
-          padding-top: 33px;
+          padding-top: 49px;
           flex-direction: row;
           gap: 16px;
         }
 
         .primary-cta {
-          border-radius: 15.013px;
+          border-radius: 8px;
           border: 1.699px solid #fae3ca;
           background: #ff2626;
           padding: 14px 33px;
@@ -366,15 +691,19 @@ export const HeroSection = styled(
           line-height: normal;
           font-family: var(--font-fustat);
           cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
 
           @media (min-width: 992px) {
-            padding: 14.5px 29px;
+            padding: 26px 58px;
             font-size: 16.5px;
+            leading-trim: both;
+            text-edge: cap;
+            font-size: 23.521px;
           }
         }
 
         .secondary-cta {
-          border-radius: 15.013px;
+          border-radius: 8px;
           border: 1.699px solid #e03233;
           padding: 14px 33px;
           background: transparent;
@@ -385,10 +714,14 @@ export const HeroSection = styled(
           line-height: normal;
           font-family: var(--font-fustat);
           cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
 
           @media (min-width: 992px) {
-            padding: 14.5px 29px;
+            padding: 26px 58px;
             font-size: 16.5px;
+            leading-trim: both;
+            text-edge: cap;
+            font-size: 23.521px;
           }
         }
       }
