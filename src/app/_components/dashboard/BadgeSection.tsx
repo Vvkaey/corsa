@@ -19,7 +19,7 @@ import {
 import { useEffect } from "react";
 import styled from "styled-components";
 import VideoLoadingScreen from "../global/loading";
-
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
 const LoadingOverlay = styled.div`
   position: absolute;
@@ -34,7 +34,7 @@ const LoadingOverlay = styled.div`
   border-radius: 8px;
   backdrop-filter: blur(5px);
   pointer-events: none;
-`
+`;
 
 export const BadgeSection = () => {
   const {
@@ -42,10 +42,13 @@ export const BadgeSection = () => {
     accessPlan,
     communityBadge,
     fetchUserStatus,
-    isLoading
+    isLoading,
   } = useMentorshipContext();
-  
+
   const { isAuthenticated } = useAuth();
+
+  const { width } = useWindowSize();
+  const isMobile = (width ?? 0) < 992;
 
   useEffect(() => {
     // Only fetch if the user is authenticated
@@ -59,10 +62,7 @@ export const BadgeSection = () => {
     <BadgeSectionContainer>
       {isLoading && (
         <LoadingOverlay>
-          <VideoLoadingScreen
-            videoSrc="/loading.mp4"
-            
-            loop={true} />
+          <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
           {/* <LoadingSpinner /> */}
           {/* <p>Loading your stats...</p> */}
         </LoadingOverlay>
@@ -77,32 +77,22 @@ export const BadgeSection = () => {
         </Subtitle>
         <CardsContainer>
           <Card>
-            <CardTitle>
-              {mentorSession.title}
-            </CardTitle>
-            <Divider />
+            <CardTitle>{mentorSession.title}</CardTitle>
+            {!isMobile ? <Divider /> : null}
             <TagLine>{mentorSession.description}</TagLine>
             <Count>{mentorSession.sessionCount}</Count>
           </Card>
           <Card>
-            <CardTitle>
-              {accessPlan.title}
-            </CardTitle>
-            <Divider />
+            <CardTitle>{accessPlan.title}</CardTitle>
+            {!isMobile ? <Divider /> : null}
             <TagLine>{accessPlan.description}</TagLine>
-            <IconContainer>
-              {accessPlan.planIcon}
-            </IconContainer>
+            <IconContainer>{accessPlan.planIcon}</IconContainer>
           </Card>
           <Card>
-            <CardTitle>
-              {communityBadge.title}
-            </CardTitle>
-            <Divider />
+            <CardTitle>{communityBadge.title}</CardTitle>
+            {!isMobile ? <Divider /> : null}
             <TagLine>{communityBadge.description}</TagLine>
-            <IconContainer>
-              {communityBadge.badge}
-            </IconContainer>
+            <IconContainer>{communityBadge.badge}</IconContainer>
           </Card>
         </CardsContainer>
       </MainSection>

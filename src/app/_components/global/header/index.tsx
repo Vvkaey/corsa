@@ -27,15 +27,25 @@ const ProfileContainer = styled.div`
  */
 const HamOverlay = styled(({ className }: { className?: string }) => {
   const router = useRouter();
+
   const redirectToLogin = useCallback(() => {
     if (router) {
       router.push("/login");
     }
   }, [router]);
+
+  const redirectToDashboard = useCallback(() => {
+    if (router) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
   return (
     <div className={className}>
       <div className="group-container">
-        <button className="ham-item">Dashboard</button>
+        <button className="ham-item" onClick={redirectToDashboard}>
+          Dashboard
+        </button>
         <button className="ham-item" onClick={redirectToLogin}>
           Login
         </button>
