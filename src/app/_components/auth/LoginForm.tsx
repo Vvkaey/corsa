@@ -25,7 +25,11 @@ const FormContainer = styled.div`
 // `;
 
 const FormGroup = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
+
+  @media (min-width: 992px) {
+    margin-bottom: 16px;
+  }
 `;
 
 const Label = styled.label`
@@ -39,7 +43,7 @@ const Label = styled.label`
 
 const Input = styled.input<{ disabled?: boolean }>`
   width: 100%;
-  padding: 15px 35px;
+  padding: 11px 19px;
   border-radius: 8px;
   border: 2px solid #e6e6e6;
   outline: none;
@@ -48,7 +52,7 @@ const Input = styled.input<{ disabled?: boolean }>`
 
   color: #818181;
   font-family: var(--font-fustat);
-  font-size: 19.91px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -69,6 +73,11 @@ const Input = styled.input<{ disabled?: boolean }>`
     border-color: #818181;
     background-color: transparent;
   }
+
+  @media (min-width: 992px) {
+    padding: 15px 35px;
+    font-size: 19.91px;
+  }
 `;
 
 const ErrorMessage = styled.div`
@@ -80,15 +89,15 @@ const ErrorMessage = styled.div`
   color: #b91c1c;
 `;
 
-const HelperText = styled.p`
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-top: 0.25rem;
-`;
+// const HelperText = styled.p`
+//   font-size: 0.875rem;
+//   color: #6b7280;
+//   margin-top: 0.25rem;
+// `;
 
 const PrimaryButton = styled.button<{ disabled?: boolean }>`
   width: 100%;
-  padding: 21px;
+  padding: 11px 19px;
   border: none;
   border-radius: 8px;
   border: 2.014px solid #fff;
@@ -100,7 +109,7 @@ const PrimaryButton = styled.button<{ disabled?: boolean }>`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 22.754px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -108,11 +117,16 @@ const PrimaryButton = styled.button<{ disabled?: boolean }>`
   &:hover {
     background-color: ${(props) => (props.disabled ? "#93c5fd" : "#2563eb")};
   }
+
+  @media (min-width: 992px) {
+    padding: 21px;
+    font-size: 22.754px;
+  }
 `;
 
 const SecondaryButton = styled.button<{ disabled?: boolean }>`
   width: 100%;
-  padding: 21px;
+  padding: 11px 19px;
   border: none;
   border-radius: 8px;
   border: 2.014px solid #fff;
@@ -120,7 +134,7 @@ const SecondaryButton = styled.button<{ disabled?: boolean }>`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 22.754px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -131,15 +145,25 @@ const SecondaryButton = styled.button<{ disabled?: boolean }>`
   &:hover {
     background-color: ${(props) => (props.disabled ? "white" : "#eff6ff")};
   }
+
+  @media (min-width: 992px) {
+    padding: 21px;
+    font-size: 22.754px;
+  }
 `;
 
 const SuccessMessage = styled.div`
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  border: 1px solid #10b981;
-  border-radius: 0.375rem;
-  background-color: #d1fae5;
-  color: #065f46;
+  color: #c4c4c4;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: Fustat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 const ButtonContainer = styled.div`
@@ -149,31 +173,39 @@ const ButtonContainer = styled.div`
 `;
 
 const TncContainer = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const TncText = styled.p`
-color: #858585;
-text-align: center;
-leading-trim: both;
-text-edge: cap;
-font-family:  var(--font-fustat);
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-margin : 23.5px auto;
+  color: #858585;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 20px auto;
 
-a{
-text-decoration: underline;
+  a {
+    text-decoration: underline;
+  }
 
-}
-`
+  @media (min-width: 992px) {
+    margin: 23.5px auto;
+    font-size: 16px;
+  }
+`;
 
 // Login Form Component
-export default function LoginForm() {
+export default function LoginForm({
+  setIsOTPRequested,
+}: {
+  setIsOTPRequested: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { requestOTP, verifyOTP, loading, error } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
@@ -209,6 +241,7 @@ export default function LoginForm() {
     const success = await requestOTP(email);
     if (success) {
       setOtpRequested(true);
+      setIsOTPRequested(true);
       setOtpSent(true);
     }
   };
@@ -249,7 +282,9 @@ export default function LoginForm() {
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {formError && <ErrorMessage>{formError}</ErrorMessage>}
       {otpRequested && otpSent && !error && !formError && (
-        <SuccessMessage>OTP sent successfully to {email}</SuccessMessage>
+        <SuccessMessage>
+          We sent a temporary login code to {email}
+        </SuccessMessage>
       )}
 
       {!otpRequested ? (
@@ -283,10 +318,10 @@ export default function LoginForm() {
       ) : (
         // OTP verification form
         <form onSubmit={handleVerifyOTP}>
-          <FormGroup>
+          {/* <FormGroup>
             <Label htmlFor="email-display">Email Address</Label>
             <Input type="email" id="email-display" value={email} disabled />
-          </FormGroup>
+          </FormGroup> */}
 
           <FormGroup>
             <Label htmlFor="otp">OTP</Label>
@@ -300,11 +335,11 @@ export default function LoginForm() {
               maxLength={6}
               required
             />
-            <HelperText>
+            {/* <HelperText>
               {otpSent
                 ? "Enter the 6-digit code sent to your email"
                 : "Please request a new OTP by clicking 'Resend OTP'"}
-            </HelperText>
+            </HelperText> */}
           </FormGroup>
 
           <ButtonContainer>
@@ -320,13 +355,21 @@ export default function LoginForm() {
               Resend OTP
             </SecondaryButton>
 
-            <SecondaryButton
+            {/* <SecondaryButton
               type="button"
               onClick={() => setOtpRequested(false)}
               disabled={loading}
             >
               Change Email
-            </SecondaryButton>
+            </SecondaryButton> */}
+            <TncContainer>
+              <TncText>
+                By continuing, you agree to our{" "}
+                <Link href="/terms-and-conditions" target="_blank">
+                  Terms of Service
+                </Link>
+              </TncText>
+            </TncContainer>
           </ButtonContainer>
         </form>
       )}

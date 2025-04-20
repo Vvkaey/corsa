@@ -6,10 +6,14 @@ import Image from "next/image";
 // import { useRouter } from "next/navigation";
 import LoginForm from "../auth/LoginForm";
 import { GoogleIcon } from "@/app/_assets/icons";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { useState } from "react";
 // import Link from "next/link";
 
 const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
+  const { width } = useWindowSize();
+  const isMobile = (width ?? 0) < 992;
 
   const handleGoogleLogin = () => {
     // Simply redirect to backend's Google auth initiation endpoint
@@ -18,14 +22,15 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
 
   return (
     <button onClick={handleGoogleLogin} className={className}>
-      <GoogleIcon /> Continue with google
+      <GoogleIcon width={isMobile ? 16 : 29} height={isMobile ? 16 : 30} />{" "}
+      Continue with google
     </button>
   );
 })`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 15px 35px;
+  padding: 9px 35px;
   border-radius: 8px;
   border: 2px solid #e6e6e6;
   background: transparent;
@@ -34,10 +39,16 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   gap: 10px;
   color: #fff;
   font-family: var(--font-fustat);
-  font-size: 22.754px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  align-items: center;
+
+  @media (min-width: 992px) {
+    padding: 15px 35px;
+    font-size: 22.754px;
+  }
 
   &:hover {
     box-shadow: 0 0 5px 1px #fff;
@@ -75,6 +86,10 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
 
 export const LoginSection = styled(({ className }: { className?: string }) => {
   // const router = useRouter();
+  const [isOTPRequested, setIsOTPRequested] = useState(false);
+  const { width } = useWindowSize();
+  const isMobile = (width ?? 0) < 992;
+
   return (
     <section className={className}>
       <div className="root-container">
@@ -83,19 +98,29 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
             <Image src="/logo-svg.svg" fill alt="corsa-logo" />
           </div>
           <div className="login-block">
-            <GoogleSignInButton />
-            <div className="horizontal-divider"></div>
+            { !isOTPRequested ? <GoogleSignInButton /> : null}
+            { !isOTPRequested ? <div className="horizontal-divider"></div> : null}
             <div className="register-block">
-              <LoginForm />
+              <LoginForm setIsOTPRequested={setIsOTPRequested}/>
             </div>
           </div>
         </div>
         <div className="right-panel">
-          <div className="bg-img-container-top">
-            <Image src={"/login/dotted.png"} alt="dotted-image" fill />
-          </div>
+          {!isMobile ? (
+            <div className="bg-img-container-top">
+              <Image src={"/login/dotted.png"} alt="dotted-image" fill />
+            </div>
+          ) : null}
           <div className="bg-img-container-bottom">
-            <Image src={"/login/dotted.png"} alt="dotted-image" fill />
+            {isMobile ? (
+              <Image
+                src={"/login/airboard-mobile.png"}
+                alt="airboard-image"
+                fill
+              />
+            ) : (
+              <Image src={"/login/dotted.png"} alt="dotted-image" fill />
+            )}
           </div>
           <div className="text">
             <p>
@@ -118,27 +143,43 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
     background: #000;
     font-family: var(--font-exo);
     display: flex;
+    flex-direction: column-reverse;
     height: 100vh;
     overflow: hidden;
 
+    @media (min-width: 992px) {
+      flex-direction: row;
+    }
+
     .left-panel,
     .right-panel {
-      width: 50%;
-      height: 100%;
+      width: 100%;
+      height: 64%;
+
+      @media (min-width: 992px) {
+        width: 50%;
+        height: 100%;
+      }
     }
 
     .left-panel {
-      padding: 100px 150px;
+      padding: 10px 30px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+
+      @media (min-width: 992px) {
+        padding: 100px 150px;
+        justify-content: center;
+      }
 
       .logo-container {
         position: relative;
         width: 70%;
         margin: 0 15%;
         height: 100px;
-        margin-bottom: 40px;
+        margin-bottom: 20px @media (min-width: 992px) {
+          margin-bottom: 40px;
+        }
 
         img {
           object-fit: contain;
@@ -150,7 +191,11 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
       .login-block {
         display: flex;
         flex-direction: column;
-        gap: 55px;
+        gap: 30px;
+
+        @media (min-width: 992px) {
+          gap: 55px;
+        }
 
         .horizontal-divider {
           position: relative;
@@ -161,12 +206,17 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
 
           &::after {
             position: absolute;
-            top: -18px;
+            top: -21px;
             left: calc(50% - 38px);
             content: "or";
             font-size: 22px;
             background: #000;
             padding: 5px 30px;
+            color: #fff;
+
+            @media (min-width: 992px) {
+              top: -18px;
+            }
           }
         }
 
@@ -203,22 +253,44 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
 
     .right-panel {
       position: relative;
+      @media (max-width: 992px) {
+        height: 36%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .text {
-        height: 100%;
+        height: 60%;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #fff;
         font-family: var(--font-fustat);
-        font-size: 42.071px;
+        font-size: 21.2px;
         font-style: normal;
         font-weight: 800;
         line-height: 141.979%; /* 85.287px */
-        letter-spacing: -1.201px;
+        letter-spacing: -0.42px;
         text-transform: uppercase;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0.8) 50%,
+          rgba(0, 0, 0, 0.4) 100%
+        );
+        z-index: 1;
+        width: 100%;
 
         span {
           color: red;
+        }
+
+        @media (min-width: 992px) {
+          height: 100%;
+          font-size: 42.071px;
+          line-height: 141.979%; /* 85.287px */
+          letter-spacing: -1.201px;
+          width: unset;
         }
 
         @media (min-width: 2000px) {
@@ -237,16 +309,18 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
         height: 50%;
 
         img {
-          opacity: 0.6;
-          filter: invert(1);
-          object-fit: fill;
+          // border: 1px solid red;
+          opacity: 1;
+          object-fit: contain;
           width: 100%;
           height: auto;
-        }
-      }
 
-      .bg-img-container-bottom {
-        top: 0;
+          @media (min-width: 992px) {
+            filter: invert(1);
+            object-fit: fill;
+            opacity: 0.6;
+          }
+        }
       }
 
       .bg-img-container-bottom {
@@ -254,6 +328,10 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
         transform: scaleY(-1);
         bottom: 0;
         top: unset;
+
+        @media (max-width: 992px) {
+          height: 100%;
+        }
       }
     }
   }

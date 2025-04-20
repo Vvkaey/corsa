@@ -17,6 +17,10 @@ const PageContainer = styled.div`
   flex-direction: column;
   gap: 2vh;
   ${headerSpacing()};
+
+  @media (min-width: 992px) {
+    margin-top: 160px;
+  }
 `;
 
 const Header = styled.div`
@@ -98,8 +102,6 @@ interface StyledPlanCardProps {
 }
 
 const PlanCard = styled.div<StyledPlanCardProps>`
- 
-
   box-shadow: ${(props) =>
     props.$isPrimary
       ? "0 10px 15px -3px rgba(66, 153, 225, 0.1)"
@@ -125,7 +127,7 @@ const PlanCard = styled.div<StyledPlanCardProps>`
     padding: 77px 55px 51px;
     border-radius: 8px;
     border: 1px solid ${(props) => (props.$isPrimary ? "#4299e1" : "#e2e8f0")};
-     background: ${(props) => (props.$isPrimary ? "#f7fafc" : "#ffffff")};
+    background: ${(props) => (props.$isPrimary ? "#f7fafc" : "#ffffff")};
   }
 `;
 

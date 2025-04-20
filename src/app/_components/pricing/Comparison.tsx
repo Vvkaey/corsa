@@ -5,7 +5,10 @@ import { gridMixin } from "../mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { DesktopComparisonTable } from "./DesktopComparisonTable";
 import { COMPARISON_DATA } from "../data/productData";
-import { sectionResponsivePadding } from "../new_mixins/mixins";
+import {
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../new_mixins/mixins";
 import MobileComparisonTable from "./MobileComparisonTable";
 
 const ProductHeadTitle = styled.h4`
@@ -204,16 +207,16 @@ export const Comparison = styled(
 
   .table-container {
     position: relative;
-    width: 100%;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     overflow: hidden;
     ${sectionResponsivePadding()}
+    ${maxWidthContainer}
+    
+    @media (min-width: 992px) {
+      border: none;
+    }
   }
-
-  //   .thead-wrapper {
-  //     padding-top: 150px;
-  //   }
 
   .thead-sticky {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);

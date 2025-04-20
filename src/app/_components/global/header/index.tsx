@@ -26,21 +26,30 @@ const ProfileContainer = styled.div`
  * `HamOverlay` is a styled component that renders a full-screen menu overlay for mobile navigation.
  */
 const HamOverlay = styled(({ className }: { className?: string }) => {
+  const router = useRouter();
+  const redirectToLogin = useCallback(() => {
+    if (router) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <div className={className}>
-      <button className="ham-item">Newsletter</button>
-      <button className="ham-item">Apply as mentor</button>
-      <button className="ham-item">Q & A</button>
+      <div className="group-container">
+        <button className="ham-item">Dashboard</button>
+        <button className="ham-item" onClick={redirectToLogin}>
+          Login
+        </button>
+      </div>
     </div>
   );
 })`
   position: fixed;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.5);
   top: 50px;
   left: 0;
   height: 100vh;
   width: 100vw;
-  padding: 24px;
+
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -50,17 +59,34 @@ const HamOverlay = styled(({ className }: { className?: string }) => {
     display: none;
   }
 
-  button.ham-item {
-    font-size: 25px;
-    background: transparent;
-    text-align: left;
-    opacity: 0.6;
-    border: none;
-    cursor: pointer;
+  .group-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+    background: #fff;
+    padding: 24px 28px 290px;
+    border-radius: 0px 0px 12px 12px;
 
-    &:hover,
-    &:active {
-      opacity: 1;
+    button.ham-item {
+      color: #060606;
+      font-family: var(--font-fustat);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      background: transparent;
+      text-align: left;
+      opacity: 0.6;
+      border: none;
+      cursor: pointer;
+      padding: 16px 0;
+      border-bottom: 1px solid #ddd;
+
+      &:hover,
+      &:active {
+        opacity: 1;
+      }
     }
   }
 `;
@@ -165,11 +191,7 @@ export const Header = styled(({ className }: { className?: string }) => {
         </div>
         <div className="right-pan">
           <div className="nav-items">
-            <Link
-              href="/dashboard"
-              shallow={true}
-              className="nav-item"
-            >
+            <Link href="/dashboard" shallow={true} className="nav-item">
               Dashboard
             </Link>
             <BadgeProfileImg userStatus={userStatus} />
@@ -270,8 +292,10 @@ export const Header = styled(({ className }: { className?: string }) => {
     justify-content: space-between;
     ${maxWidthContainer};
     overflow: hidden;
+    padding: 14px 28px;
 
     @media (min-width: 992px) {
+      padding: unset;
       margin: 22px 120px;
     }
 
@@ -291,12 +315,11 @@ export const Header = styled(({ className }: { className?: string }) => {
         height: 16px;
         cursor: pointer;
         border: none;
-        
 
         @media (min-width: 992px) {
           width: 328px;
           height: 32px;
-          right : 20px;
+          right: 20px;
         }
 
         img {
