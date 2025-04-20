@@ -9,6 +9,9 @@ import { pricingData } from "@/app/_components/data/productData";
 import { Tick } from "@/app/_assets/icons";
 import Image from "next/image";
 import { useAuth } from "@/app/_contexts/AuthContext";
+// import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
+import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
+// import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 
 // Types
 
@@ -823,6 +826,8 @@ const { token } = useAuth();
           </form>
         </PaymentSection>
       </CheckoutGrid>
+      <ThankyouScreen />
+      {/* <FailureScreen /> */}
     </CheckoutContainer>
   );
 };

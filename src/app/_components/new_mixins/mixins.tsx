@@ -82,7 +82,7 @@ export const responsiveMargin = ({
 `;
 
 export const SectionPadding = styled.section`
-  border: 5px solid red;
+//   border: 5px solid red;
   ${responsivePadding()}
 `;
 

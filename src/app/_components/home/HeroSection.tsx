@@ -599,7 +599,7 @@ export const HeroSection = styled(
     display: flex;
     flex-direction: column;
     gap: 37px;
-    border: 1px solid red;
+    // border: 1px solid red;
     ${maxWidthContainer}
 
     @media (min-width: 992px) {

@@ -4,27 +4,24 @@ import styled from "styled-components";
 
 import { useRouter } from "next/navigation";
 import { Comparison } from "./Comparison";
+import { headerSpacing, responsivePadding } from "../new_mixins/mixins";
 // import { Comparison } from "./Comparison";
 
 // Styled Components
 const PageContainer = styled.div`
-  padding: 150px 0;
-  max-width: 1500px;
   margin: 0 auto;
 
   background: #fff;
   display: flex;
   flex-direction: column;
   gap: 2vh;
-
-  @media (min-width: 992px) {
-    padding: 150px 0 250px;
-  }
+  ${headerSpacing()};
+  ${responsivePadding()};
 `;
 
 const Header = styled.div`
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 73px;
 `;
 
 const Title = styled.h1`
@@ -65,13 +62,14 @@ const Subtitle = styled.p`
 
 const PlansContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
+  gap: 61px;
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    gap : 32px;
   }
 `;
 
