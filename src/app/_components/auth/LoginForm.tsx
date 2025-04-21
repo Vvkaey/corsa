@@ -200,6 +200,17 @@ const TncText = styled.p`
   }
 `;
 
+export const TnC = () =>{
+
+  return  <TncContainer>
+  <TncText>
+    By continuing, you agree to our{" "}
+    <Link href="/terms-and-conditions" target="_blank">
+      Terms of Service
+    </Link>
+  </TncText>
+</TncContainer>
+}
 // Login Form Component
 export default function LoginForm({
   setIsOTPRequested,

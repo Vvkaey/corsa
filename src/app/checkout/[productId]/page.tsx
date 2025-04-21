@@ -1,16 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Script from "next/script";
 import styled from "styled-components";
 import Head from "next/head";
 import { pricingData } from "@/app/_components/data/productData";
-import { Tick } from "@/app/_assets/icons";
+import { CaretUp, Tick } from "@/app/_assets/icons";
 import Image from "next/image";
 import { useAuth } from "@/app/_contexts/AuthContext";
 // import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
 import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
+import {
+  headerSpacing,
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "@/app/_components/new_mixins/mixins";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { TnC } from "@/app/_components/auth/LoginForm";
 // import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 
 // Types
@@ -63,48 +70,98 @@ const CheckoutContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 1500px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  // max-width: 1500px;
+  position: relative;
   margin: 0 auto;
-  height: 100vh;
-  padding-top: 5rem;
   width: fit-content;
+  ${maxWidthContainer};
+  ${headerSpacing()};
+  ${sectionResponsivePadding()};
+
+  @media (max-width: 992px) {
+    margin-top: 40px;
+  }
+
+  @media (min-width: 992px) {
+    padding-top: 5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+  }
 `;
 
 const CheckoutGrid = styled.div`
   display: flex;
   justify-content: center;
-
   gap: 2rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     grid-template-columns: 1fr;
+    flex-direction: column;
+    margin-top: 90px;
   }
 `;
 
 const ProductDetailsCard = styled.div`
   background-color: #f5f5f5;
-  padding: 68px 49px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  border: 2px solid #000;
-  width: 579px;
+  border: 0.5px solid #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 47px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+
+  @media (min-width: 992px) {
+    display: unset;
+    border-radius: 8px;
+    border: 2px solid #000;
+    margin-top: unset;
+    position: unset;
+    width: 579px;
+    padding: 68px 49px;
+  }
 `;
 
 const ProductTitle = styled.h1`
-  margin-bottom: 50px;
-  padding-left: 15px;
   color: #000;
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 35.425px;
+  font-size: 22px;
+  line-height: 34.7px; /* 125% */
   font-style: normal;
-  font-weight: 700;
-  line-height: 44.281px; /* 125% */
+  font-weight: 600;
+  padding: 16px 0;
+
+  @media (min-width: 992px) {
+    margin-bottom: 50px;
+    padding: unset;
+    padding-left: 15px;
+    font-weight: 700;
+    font-size: 35.425px;
+    line-height: 44.281px; /* 125% */
+  }
+`;
+
+const SeeAllBtn = styled.button`
+  border: none;
+  background: transparent;
+  display: flex;
+
+  svg {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 992px) {
+    display: none;
+  }
 `;
 
 // const ProductDescription = styled.p`
@@ -132,11 +189,24 @@ const ProductTitle = styled.h1`
 // `;
 
 const BenefitsList = styled.ul`
-  display: flex;
+  display: none;
   flex-direction: column;
   list-style: none;
   padding: 0;
   margin: 0 0 1.5rem 0;
+
+  @media (min-width: 992px) {
+    display: flex;
+  }
+`;
+
+const MobileBenefitsList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background: #f5f5f5;
+  list-style: none;
+  padding: 12px 30px 32px;
 `;
 
 const BenefitItem = styled.li`
@@ -146,33 +216,47 @@ const BenefitItem = styled.li`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 25px;
+  font-size: 17px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  padding: 25px 15px;
+  padding: 15px 25px;
   border-bottom: 1px solid #c2c2c2;
   gap: 30px;
 
   &:last-child {
     border-bottom: none;
   }
+
+  @media (min-width: 992px) {
+    font-size: 25px;
+    padding: 25px 15px;
+  }
 `;
 
-const Divider = styled.hr`
+const Divider = styled.hr<{ pixelpadding?: string }>`
   border: 0;
   height: 1px;
   background-color: #cbd5e1;
-  margin: 22px 0;
+  margin: ${({ pixelpadding }) =>
+    pixelpadding ? `${pixelpadding} 0` : "22px 0"};
 `;
 
 const PaymentSection = styled.div`
   background-color: white;
-  border-radius: 12px;
-  padding: 68px 49px;
+  border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 2px solid #000;
-  width: 579px;
+  border: 1px solid #000;
+  padding: 23px 9px 35px;
+  margin-bottom: 110px;
+
+  @media (min-width: 992px) {
+    border: 2px solid #000;
+    margin-bottom: unset;
+    width: 579px;
+    padding: 68px 49px;
+    border-radius: 12px;
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -180,15 +264,27 @@ const SectionTitle = styled.h2`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 28px;
+  font-size: 17.2px;
   font-style: normal;
   font-weight: 700;
-  line-height: 44.281px; /* 158.147% */
-  margin-bottom: 31px;
+  line-height: 27.2px; /* 158.147% */
+  margin-bottom: 23px;
+  text-align: center;
+
+  @media (min-width: 992px) {
+    text-align: unset;
+    font-size: 28px;
+    line-height: 44.281px; /* 158.147% */
+    margin-bottom: 31px;
+  }
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 1.25rem;
+  margin-bottom: 9px;
+
+  @media (min-width: 992px) {
+    margin-bottom: 1.25rem;
+  }
 
   &:first-child {
     width: 100%;
@@ -211,20 +307,27 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 100%;
-  padding: 18px 21px;
+  padding: 12px 14px;
   transition: border-color 0.2s;
 
   color: #8a8a8a;
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 20px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 
-  border-radius: 8px;
-  border: 2px solid #969696;
+  border-radius: 5px;
+  border: 1px solid #000;
+
+  @media (min-width: 992px) {
+    padding: 18px 21px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 2px solid #969696;
+  }
 
   &:focus {
     outline: none;
@@ -235,7 +338,7 @@ const Input = styled.input`
 
 const Select = styled.select`
   width: 100%;
-  padding: 18px 21px;
+  padding: 12px 14px;
   transition: border-color 0.2s;
   appearance: none; /* Hides default arrow */
   -webkit-appearance: none; /* Safari */
@@ -249,13 +352,20 @@ const Select = styled.select`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 20px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 
-  border-radius: 8px;
-  border: 2px solid #969696;
+  border-radius: 5px;
+  border: 1px solid #000;
+
+  @media (min-width: 992px) {
+    padding: 18px 21px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 2px solid #969696;
+  }
 
   &:focus {
     outline: none;
@@ -300,21 +410,21 @@ const Option = styled.option`
 const PayButton = styled.button`
   position: relative;
   color: white;
-  padding: 24px;
+  padding: 13px;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 26px;
 
-  border-radius: 8px;
+  border-radius: 5px;
   background: #ff2626;
 
   color: #fff;
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 23.521px;
+  font-size: 14.5px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -324,6 +434,13 @@ const PayButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 15px;
+
+  @media (min-width: 992px) {
+    padding: 24px;
+    font-size: 23.521px;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
 
   &:hover {
     background-color: #2563eb;
@@ -338,11 +455,19 @@ const PayButton = styled.button`
 const OrderSummary = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  border: 2px solid #000;
-  background: #eef2f7;
-  padding: 28px 0;
-  margin-bottom: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid #000;
+  background: #f5f5f5;
+  padding: 24px 0 14px;
+  margin-bottom: 36px;
+
+  @media (min-width: 992px) {
+    padding: 28px 0;
+    background: #eef2f7;
+    border: 2px solid #000;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const SummaryRow = styled.div`
@@ -352,40 +477,59 @@ const SummaryRow = styled.div`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 26px;
+  font-size: 16.95px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  padding: 0 40px;
+  padding: 0 28px 0 22px;
+
   &:last-child {
     border-bottom: none;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 26px;
+    padding: 0 40px;
   }
 `;
 
 const SummaryTotal = styled(SummaryRow)`
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 32px;
+  padding-top: 2px;
+  padding-bottom: 18px;
+
+  @media (min-width: 992px) {
+    padding-bottom: 32px;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
 
   span {
     color: #000;
     leading-trim: both;
     text-edge: cap;
     font-family: var(--font-exo);
-    font-size: 32px;
+    font-size: 20.725px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+
+    @media (min-width: 992px) {
+      font-size: 32px;
+    }
 
     &:first-child {
       color: #646464;
       leading-trim: both;
       text-edge: cap;
       font-family: var(--font-exo);
-      font-size: 26px;
+      font-size: 16.8px;
       font-style: normal;
       font-weight: 600;
       line-height: normal;
+
+      @media (min-width: 992px) {
+        font-size: 26px;
+      }
     }
 
     &:last-child {
@@ -400,10 +544,14 @@ const SummaryTotal = styled(SummaryRow)`
         leading-trim: both;
         text-edge: cap;
         font-family: var(--font-exo);
-        font-size: 22px;
+        font-size: 14.2px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+
+        @media (min-width: 992px) {
+          font-size: 22px;
+        }
       }
     }
   }
@@ -448,18 +596,25 @@ const BackLink = styled.a`
     color: #1e293b;
     text-decoration: underline;
   }
+
+  @media (max-width: 992px) {
+    display: none;
+  }
 `;
 
 // The Checkout Page Component
 const CheckoutPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
+  const { width } = useWindowSize();
+  const isMobile = (width ?? 0) < 992;
 
   const productId = params.productId;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [showFeatures, setShowFeatures] = useState<boolean>(false);
   // Removed unused orderId state
 
   // Form state
@@ -469,7 +624,7 @@ const CheckoutPage: React.FC = () => {
   const [phone, setPhone] = useState<string>("");
   const [state, setState] = useState<string>("");
 
-const { token } = useAuth();
+  const { token } = useAuth();
 
   // Load product details
   useEffect(() => {
@@ -489,7 +644,7 @@ const { token } = useAuth();
 
     setLoading(true);
     setError(null);
-  
+
     try {
       // Call your API to create an order
       const response = await fetch(
@@ -534,7 +689,6 @@ const { token } = useAuth();
       setError("Please enter your name");
       return;
     }
-
 
     if (!phone.trim() || !/^\d{10}$/.test(phone)) {
       setError("Please enter a valid 10-digit phone number");
@@ -601,6 +755,10 @@ const { token } = useAuth();
     );
   };
 
+  const toggleBenefitslistDisplay = useCallback(() => {
+    setShowFeatures((prev) => !prev);
+  }, []);
+
   // Handle successful payment
   const handlePaymentSuccess = async (response: {
     razorpay_payment_id: string;
@@ -608,7 +766,6 @@ const { token } = useAuth();
     razorpay_signature: string;
   }): Promise<void> => {
     try {
-
       // Verify payment on your backend
       const verifyResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/payments/verify`,
@@ -659,7 +816,7 @@ const { token } = useAuth();
   }
 
   return (
-    <CheckoutContainer>
+    <CheckoutContainer >
       <Head>
         <title>Checkout - {product.name}</title>
       </Head>
@@ -678,6 +835,10 @@ const { token } = useAuth();
         {/* Product details */}
         <ProductDetailsCard>
           <ProductTitle>{product.name}</ProductTitle>
+          <SeeAllBtn onClick={toggleBenefitslistDisplay}>
+            <CaretUp />
+          </SeeAllBtn>
+
           {/* <ProductDescription>{product.description}</ProductDescription> */}
 
           {/* <PriceTag>
@@ -691,12 +852,25 @@ const { token } = useAuth();
           <BenefitsList>
             {product.benefits.map((benefit) => (
               <BenefitItem key={benefit.id}>
-                <Tick width={29} height={17} />
+                <Tick
+                  width={isMobile ? 16 : 29}
+                  height={isMobile ? 10.5 : 17}
+                />
                 {benefit.text}
               </BenefitItem>
             ))}
           </BenefitsList>
         </ProductDetailsCard>
+        {showFeatures ? (
+          <MobileBenefitsList>
+            {product.benefits.map((benefit) => (
+              <BenefitItem key={benefit.id}>
+                <Tick width={29} height={17} />
+                {benefit.text}
+              </BenefitItem>
+            ))}
+          </MobileBenefitsList>
+        ) : null}
 
         {/* Payment form */}
         <PaymentSection>
@@ -707,12 +881,12 @@ const { token } = useAuth();
               <span>Plan</span>
               <span>{product.name}</span>
             </SummaryRow>
-            <Divider />
+            {isMobile ? <Divider pixelpadding={"16px"} /> : <Divider />}
             <SummaryRow>
               <span>Duration</span>
               <span>{product.period}</span>
             </SummaryRow>
-            <Divider />
+            {isMobile ? <Divider pixelpadding={"16px"} /> : <Divider />}
             <SummaryTotal>
               <span>Total</span>
               <span>₹{product.price}</span>
@@ -816,16 +990,18 @@ const { token } = useAuth();
                   <Image
                     src="/paybtn.svg"
                     alt="pay-bg"
-                    width={25}
-                    height={25}
+                    width={isMobile ? 15 : 25}
+                    height={isMobile ? 15 : 25}
                   />
                   Pay Now - ₹ {product.price}
                 </>
               )}
             </PayButton>
           </form>
+          <TnC />
         </PaymentSection>
       </CheckoutGrid>
+     
       <ThankyouScreen />
       {/* <FailureScreen /> */}
     </CheckoutContainer>
