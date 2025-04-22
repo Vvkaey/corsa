@@ -23,7 +23,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           <div className="left-block">
             <p className="cheers">Cheers!</p>
             <div className="cta-container">
-              <button className="primary-button">Apply as mentor</button>
+              <button className="primary-button" >Apply as mentor</button>
             </div>
           </div>
 

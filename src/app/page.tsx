@@ -139,26 +139,26 @@ const FAQ_DATA = [
 
 const ICONS = [
   {
-    name : "IIT Patna",
-    icon : "/iconA.svg"
+    name: "IIT Patna",
+    icon: "/iconA.svg",
   },
   {
-    name : "IIT Delhi",
-    icon : "/iconB.svg"
+    name: "IIT Delhi",
+    icon: "/iconB.svg",
   },
   {
-    name : "IIT Madras",
-    icon : "/iconC.svg"
+    name: "IIT Madras",
+    icon: "/iconC.svg",
   },
   {
-    name : "IIT Kanpur",
-    icon : "/iconD.svg"
+    name: "IIT Kanpur",
+    icon: "/iconD.svg",
   },
   {
-    name : "IIT Guwahati",
-    icon : "/iconE.svg"
-  }
-  ]
+    name: "IIT Guwahati",
+    icon: "/iconE.svg",
+  },
+];
 
 const FLOW_CONTENT = [
   {
@@ -307,6 +307,17 @@ export default function Home() {
 
   const router = useRouter();
 
+  interface ScrollToElementProps {
+    id: string;
+  }
+
+  const scrollToElement = (id: ScrollToElementProps["id"]): void => {
+    const container = document.getElementById(id);
+    if (container) {
+      container.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <Script id="blog-schema" type="application/ld+json">
@@ -323,8 +334,9 @@ export default function Home() {
               }
               subHead="Community that leads together."
               primaryCta="Subscribe Plan"
-              onPrimaryCtaClick={()=> router.push('/pricing')}
+              onPrimaryCtaClick={() => router.push("/pricing")}
               secondaryCta="Why Stodaclub"
+              onSecondaryCTAClick={() => scrollToElement("behind-the-scenes")}
               // headB="Gain exclusive insights and access an unparalleled tribe of
               // mentors."
               subHeadB="Learnings from Scholars at"
@@ -349,7 +361,7 @@ export default function Home() {
 
             <TimerSection />
             <CardRows />
-            <BehindTheScenes />
+            <BehindTheScenes htmlId={"behind-the-scenes"} />
             <FAQSection title={"Know It All"} data={FAQ_DATA} />
             <Footer />
           </main>

@@ -10,8 +10,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 // import { Badge } from "../Badge";
-import { maxWidthContainer } from "../../new_mixins/mixins";
+import {
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../../new_mixins/mixins";
 import { BadgeProfileImg } from "../Badge";
+import { useAuth } from "@/app/_contexts/AuthContext";
 
 const ProfileContainer = styled.div`
   padding: 2rem;
@@ -22,54 +26,225 @@ const ProfileContainer = styled.div`
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
-/**
- * `HamOverlay` is a styled component that renders a full-screen menu overlay for mobile navigation.
- */
-const HamOverlay = styled(({ className }: { className?: string }) => {
-  const router = useRouter();
+export const DesktopNavItems = styled(
+  ({
+    className,
+    setShowMenu,
+    showMenu,
+  }: {
+    className?: string;
+    setShowMenu: (showMenu: boolean) => void;
+    showMenu: boolean | undefined;
+  }) => {
+    const router = useRouter();
 
-  const redirectToLogin = useCallback(() => {
-    if (router) {
-      router.push("/login");
-    }
-  }, [router]);
+    const { isAuthenticated, logout } = useAuth();
 
-  const redirectToDashboard = useCallback(() => {
-    if (router) {
-      router.push("/dashboard");
-    }
-  }, [router]);
+    const redirectToLogin = useCallback(() => {
+      if (router) {
+        router.push("/login");
+        setShowMenu(!showMenu);
+      }
+    }, [router, setShowMenu, showMenu]);
 
-  return (
-    <div className={className}>
-      <div className="group-container">
+    const redirectToDashboard = useCallback(() => {
+      if (router) {
+        router.push("/dashboard");
+        setShowMenu(false);
+      }
+    }, [router, setShowMenu]);
+
+    const logoutUser = useCallback(() => {
+      logout();
+      setShowMenu(false);
+    }, [logout, setShowMenu]);
+
+    return (
+      <div className={className}>
         <button className="ham-item" onClick={redirectToDashboard}>
           Dashboard
         </button>
-        <button className="ham-item" onClick={redirectToLogin}>
-          Login
-        </button>
+        {!isAuthenticated ? (
+          <button className="ham-item" onClick={redirectToLogin}>
+            Login
+          </button>
+        ) : (
+          <button className="ham-item" onClick={logoutUser}>
+            Logout
+          </button>
+        )}
       </div>
-    </div>
-  );
-})`
+    );
+  }
+)`
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  background: #fff;
+  padding: 24px 28px 290px;
+  border-radius: 0px 0px 12px 12px;
+  width: 380px;
+  position: absolute;
+  right: -50%;
+  top: 170%;
+  z-index: ${(props) => (props.showMenu ? "20" : "-1")};
+  max-height: ${({ showMenu }) => (showMenu ? "1000px" : "0")};
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top;
+  overflow: hidden;
+  transform: ${({ showMenu }) =>
+    showMenu ? "translateY(0)" : "translateY(70%)"};
+  height: ${({ showMenu }) => (showMenu ? "auto" : "0")};
+  opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
+  visibility: ${({ showMenu }) => (showMenu ? "visible" : "hidden")};
+  pointer-events: ${({ showMenu }) => (showMenu ? "auto" : "none")};
+
+  button.ham-item {
+    color: #060606;
+    font-family: var(--font-fustat);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    background: transparent;
+    text-align: left;
+    opacity: 0.6;
+    border: none;
+    cursor: pointer;
+    padding: 16px 0;
+    border-bottom: 1px solid #ddd;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+  }
+`;
+
+export const DesktopHamOverlay = styled(
+  ({
+    className,
+    setShowMenu,
+    showMenu,
+  }: {
+    className?: string;
+    setShowMenu?: (showMenu: boolean) => void;
+    showMenu?: boolean;
+  }) => {
+    const onButtonClick = useCallback(() => {
+      if (setShowMenu) {
+        // alert("DesktopHam Clicked ")
+
+        setShowMenu(!showMenu);
+      }
+    }, [setShowMenu, showMenu]);
+
+    return <button className={className} onClick={onButtonClick} />;
+  }
+)`
+  position: fixed;
+  background: rgba(0, 0, 0, 0.4);
+  top: 50px;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 8;
+  opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (min-width: 992px) {
+    top: 0;
+    width: 300vw;
+  }
+`;
+
+/**
+ * `HamOverlay` is a styled component that renders a full-screen menu overlay for mobile navigation.
+ */
+export const HamOverlay = styled(
+  ({
+    className,
+    showMenu,
+    setShowMenu,
+  }: {
+    className?: string;
+    showMenu?: boolean;
+    setShowMenu?: (showMenu: boolean) => void;
+  }) => {
+    const router = useRouter();
+
+    const { isAuthenticated, logout } = useAuth();
+
+    const redirectToLogin = useCallback(() => {
+      if (router) {
+        router.push("/login");
+        if (!setShowMenu) return;
+        setShowMenu(!showMenu);
+      }
+    }, [router, setShowMenu, showMenu]);
+
+    const redirectToDashboard = useCallback(() => {
+      if (router) {
+        router.push("/dashboard");
+        if (!setShowMenu) return;
+        setShowMenu(!showMenu);
+      }
+    }, [router, setShowMenu, showMenu]);
+
+    const logoutUser = useCallback(() => {
+      logout();
+    }, [logout]);
+
+    const onBgClick = useCallback(() => {
+      if (!setShowMenu) return;
+      setShowMenu(false);
+    },[setShowMenu]);
+
+    return (
+      <div className={className} onClick={onBgClick}>
+        <div className="group-container">
+          <button className="ham-item" onClick={redirectToDashboard}>
+            Dashboard
+          </button>
+          {!isAuthenticated ? (
+            <button className="ham-item" onClick={redirectToLogin}>
+              Login
+            </button>
+          ) : (
+            <button className="ham-item" onClick={logoutUser}>
+              Logout
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+)`
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
   top: 50px;
   left: 0;
   height: 100vh;
-  width: 100vw;
 
+  width: 100vw;
   display: flex;
   flex-direction: column;
   gap: 18px;
   z-index: 11;
 
   @media (min-width: 992px) {
+    top: 0;
+
     display: none;
   }
 
   .group-container {
+    position: relative;
+
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -77,6 +252,24 @@ const HamOverlay = styled(({ className }: { className?: string }) => {
     background: #fff;
     padding: 24px 28px 290px;
     border-radius: 0px 0px 12px 12px;
+
+    z-index: ${({ showMenu }) => (showMenu ? "20" : "-1")};
+    max-height: ${({ showMenu }) => (showMenu ? "1000px" : "0")};
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top;
+    overflow: hidden;
+    transform: ${({ showMenu }) =>
+      showMenu ? "translateY(0)" : "translateY(70%)"};
+    height: ${({ showMenu }) => (showMenu ? "auto" : "0")};
+    opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
+    visibility: ${({ showMenu }) => (showMenu ? "visible" : "hidden")};
+    pointer-events: ${({ showMenu }) => (showMenu ? "auto" : "none")};
+
+    @media (min-width: 992px) {
+      width: 380px;
+      position: absolute;
+      right: 0;
+    }
 
     button.ham-item {
       color: #060606;
@@ -117,7 +310,7 @@ export const Header = styled(({ className }: { className?: string }) => {
 
   // State for managing the mobile navigation menu
   const [showHamMenu, setShowHamMenu] = useState<boolean>(false);
-
+  const [showDeskHamMenu, setShowDeskHamMenu] = useState<boolean>(false);
   const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -204,10 +397,20 @@ export const Header = styled(({ className }: { className?: string }) => {
             <Link href="/dashboard" shallow={true} className="nav-item">
               Dashboard
             </Link>
-            <BadgeProfileImg userStatus={userStatus} />
+            <BadgeProfileImg
+              userStatus={userStatus}
+              setShowMenu={setShowDeskHamMenu}
+              showMenu={showDeskHamMenu}
+            />
             {/* <StatusBadge userStatus={userStatus} /> */}
             {/* <button className="nav-item user-container"></button> */}
           </div>
+          {showDeskHamMenu ? (
+            <DesktopHamOverlay
+              setShowMenu={setShowDeskHamMenu}
+              showMenu={showDeskHamMenu}
+            />
+          ) : null}
         </div>
 
         {/* Mobile Navigation */}
@@ -275,8 +478,9 @@ export const Header = styled(({ className }: { className?: string }) => {
           </button>
         )}
       </div>
-
-      {showHamMenu && <HamOverlay />}
+      {showHamMenu && (
+        <HamOverlay showMenu={showHamMenu} setShowMenu={setShowDeskHamMenu} />
+      )}
     </header>
   );
 })`
@@ -290,6 +494,7 @@ export const Header = styled(({ className }: { className?: string }) => {
   font-family: var(--font-exo);
   z-index: 10;
   border-bottom: 0.1px solid rgba(255, 255, 255, 0.3);
+  ${sectionResponsivePadding()}
 
   @media (min-width: 992px) {
     background: rgb(0, 0, 0);
@@ -307,6 +512,7 @@ export const Header = styled(({ className }: { className?: string }) => {
     @media (min-width: 992px) {
       padding: unset;
       margin: 22px 120px;
+      overflow: unset;
     }
 
     @media (min-width: 1800px) {
@@ -352,6 +558,7 @@ export const Header = styled(({ className }: { className?: string }) => {
       }
 
       .nav-items {
+        position: relative;
         display: flex;
         flex-direction: row;
         gap: 18px;

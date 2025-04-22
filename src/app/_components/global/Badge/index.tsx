@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { UserStatus } from "../../../_types/user_status.types";
 import Image from "next/image";
+import { DesktopNavItems } from "../header";
 
 /**
  * Badge types enumeration
@@ -73,7 +74,7 @@ const BadgeContainer = styled.div<{ config: BadgeConfig }>`
   background-color: ${(props) => props.config.background};
 `;
 
-const BadgeProfileImgContainer = styled.div<{ config: BadgeConfig }>`
+const BadgeProfileImgContainer = styled.button<{ config: BadgeConfig }>`
   position: relative;
   display: flex;
   align-items: center;
@@ -81,7 +82,11 @@ const BadgeProfileImgContainer = styled.div<{ config: BadgeConfig }>`
   width: 44px;
   height: 44px;
   filter: invert(0.5);
-  transition: filter 0.3s ease-in-out;
+  transition: filter 0.1s ease-in-out;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  z-index: 21;
 
   &:hover {
     filter: invert(0);
@@ -120,6 +125,8 @@ const determineBadgeType = (userStatus: UserStatus): BadgeType => {
 interface BadgeProps {
   userStatus: UserStatus;
   className?: string;
+  setShowMenu?: (showMenu: boolean) => void;
+  showMenu?: boolean;
 }
 
 /**
@@ -143,24 +150,43 @@ export const Badge: React.FC<BadgeProps> = ({ userStatus, className }) => {
 
 export const BadgeProfileImg: React.FC<BadgeProps> = ({
   userStatus,
+  setShowMenu,
+  showMenu,
   className,
 }) => {
   // Determine the badge type based on the user status
   const badgeType = determineBadgeType(userStatus);
+  const onProfileClick = () => {
+    if (setShowMenu) {
+      setShowMenu(!showMenu);
+    }
+  };
 
   // Get the corresponding badge configuration
   const config = BADGE_CONFIG[badgeType];
 
   return (
-    <BadgeProfileImgContainer className={className} config={config}>
-      {config.image && (
-        <Image
-          src={config.image}
-          alt={config.label}
-          fill
-          style={{ borderRadius: "50%" }}
-        />
-      )}
-    </BadgeProfileImgContainer>
+    <>
+      <BadgeProfileImgContainer
+        className={className}
+        config={config}
+        onClick={onProfileClick}
+      >
+        {config.image && (
+          <Image
+            src={config.image}
+            alt={config.label}
+            fill
+            style={{ borderRadius: "50%" }}
+          />
+        )} 
+       
+      </BadgeProfileImgContainer>
+       <DesktopNavItems
+         showMenu={showMenu}
+         setShowMenu={setShowMenu || (() => {})}
+       />
+      {/* <HamOverlay /> */}
+    </>
   );
 };

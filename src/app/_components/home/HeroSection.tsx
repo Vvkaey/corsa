@@ -335,6 +335,7 @@ export const HeroSection = styled(
     subHead,
     primaryCta,
     onPrimaryCtaClick,
+    onSecondaryCTAClick,
     secondaryCta,
     headB,
     subHeadB,
@@ -347,6 +348,7 @@ export const HeroSection = styled(
     subHead?: string | JSX.Element;
     primaryCta?: string;
     onPrimaryCtaClick?: () => void;
+    onSecondaryCTAClick?: () => void;
     secondaryCta?: string;
     headB?: string | JSX.Element;
     subHeadB?: string | JSX.Element;
@@ -573,7 +575,7 @@ export const HeroSection = styled(
                     </button>
                   ) : null}
                   {secondaryCta ? (
-                    <button ref={secondaryCtaRef} className="secondary-cta">
+                    <button ref={secondaryCtaRef} className="secondary-cta" onClick={onSecondaryCTAClick}>
                       {secondaryCta}
                     </button>
                   ) : null}

@@ -10,7 +10,7 @@ import { CaretUp, Tick } from "@/app/_assets/icons";
 import Image from "next/image";
 import { useAuth } from "@/app/_contexts/AuthContext";
 // import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
-import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
+// import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 import {
   headerSpacing,
   maxWidthContainer,
@@ -18,6 +18,7 @@ import {
 } from "@/app/_components/new_mixins/mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { TnC } from "@/app/_components/auth/LoginForm";
+// import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
 // import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 
 // Types
@@ -1002,7 +1003,7 @@ const CheckoutPage: React.FC = () => {
         </PaymentSection>
       </CheckoutGrid>
      
-      <ThankyouScreen />
+      {/* <ThankyouScreen /> */}
       {/* <FailureScreen /> */}
     </CheckoutContainer>
   );

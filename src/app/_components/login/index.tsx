@@ -19,7 +19,7 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
     // Simply redirect to backend's Google auth initiation endpoint
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
   };
-
+ 
   return (
     <button onClick={handleGoogleLogin} className={className}>
       <GoogleIcon width={isMobile ? 16 : 29} height={isMobile ? 16 : 30} />{" "}
@@ -337,63 +337,3 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
   }
 `;
 
-// const [error, setError] = useState<string | null>(null);
-// const [isLoading, setIsLoading] = useState(false);
-
-// const router = useRouter();
-
-// const handleGoogleLogin = useGoogleLogin({
-//   onSuccess: async () => {
-//     setIsLoading(true);
-//     setError(null);
-
-//     try {
-//       // Uncomment this line to redirect to your backend auth endpoint
-//       window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
-//     } catch (err) {
-//       setError("Failed to authenticate with Google");
-//       console.error("Google authentication error:", err);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   },
-//   onError: () => {
-//     setError("Google authentication failed");
-//   },
-// });
-
-// const handleGoogleLogin = useGoogleLogin({
-//   onSuccess: async (tokenResponse) => {
-//     setIsLoading(true);
-//     setError(null);
-
-//     try {
-//       // Send the token to your backend
-//       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/verify`, {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ token: tokenResponse.access_token }),
-//       });
-
-//       const data = await response.json();
-
-//       if (data.success) {
-//         // Store user data/token and redirect
-//         localStorage.setItem('token', data.data.token);
-//         router.push('/book');
-//       } else {
-//         setError(data.error.message);
-//       }
-//     } catch (err) {
-//       setError("Failed to authenticate with Google");
-//       console.error("Google authentication error:", err);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   },
-//   onError: () => {
-//     setError("Google authentication failed");
-//   },
-// });

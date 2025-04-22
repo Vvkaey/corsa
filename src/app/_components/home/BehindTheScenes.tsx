@@ -3,9 +3,9 @@ import { containerSidePadding } from "./styleConstants";
 import Image from "next/image";
 
 export const BehindTheScenes = styled(
-  ({ className }: { className?: string }) => {
+  ({ className, htmlId }: { className?: string; htmlId?: string }) => {
     return (
-      <section className={className}>
+      <section className={className} id={htmlId}>
         <div className="container">
           <div className="head-container">
             <h2 className="title">

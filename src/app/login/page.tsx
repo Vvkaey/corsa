@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "../_components/theme";
 import Script from "next/script";
 import { LoginSection } from "../_components/login";
+import { Suspense } from "react";
 
 
 export default function Login() {
@@ -25,7 +26,9 @@ export default function Login() {
       <ThemeProvider theme={theme}>
         <div>
           <main>
+            <Suspense fallback={<div>Loading...</div>}>
             <LoginSection />
+            </Suspense>
           </main>
         </div>
       </ThemeProvider>

@@ -1,10 +1,12 @@
 "use client";
 
+"use client";
+
 import { useState } from "react";
-import styled from "styled-components";
+import { useRouter, useSearchParams } from "next/navigation"; // Add useSearchParams
 import { useAuth } from "../../_contexts/AuthContext";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import styled from "styled-components";
 
 // Styled Components
 const FormContainer = styled.div`
@@ -200,17 +202,18 @@ const TncText = styled.p`
   }
 `;
 
-export const TnC = () =>{
-
-  return  <TncContainer>
-  <TncText>
-    By continuing, you agree to our{" "}
-    <Link href="/terms-and-conditions" target="_blank">
-      Terms of Service
-    </Link>
-  </TncText>
-</TncContainer>
-}
+export const TnC = () => {
+  return (
+    <TncContainer>
+      <TncText>
+        By continuing, you agree to our{" "}
+        <Link href="/terms-and-conditions" target="_blank">
+          Terms of Service
+        </Link>
+      </TncText>
+    </TncContainer>
+  );
+};
 // Login Form Component
 export default function LoginForm({
   setIsOTPRequested,
@@ -224,6 +227,11 @@ export default function LoginForm({
   const [formError, setFormError] = useState<string | null>(null);
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Get the redirect path from URL parameters if it exists
+  const redirectPath = searchParams.get("redirect") || "/";
+
   // Handle email input change
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -270,6 +278,8 @@ export default function LoginForm({
     const verified = await verifyOTP(email, otp);
     if (verified) {
       router.push("/");
+      // Redirect to the path stored in the redirectPath variable
+      router.push(redirectPath);
     }
   };
 
