@@ -7,6 +7,7 @@ import { Header } from "./_components/global/header";
 import StyledComponentsRegistry from "../../lib/registry";
 import { AuthProvider } from "./_contexts/AuthContext";
 import { MentorshipProvider } from "./_contexts/MentorshipContext";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 // import { GoogleOAuthProvider } from "@react-oauth/google";
 // import { Header } from "./_components/global/header";
 
@@ -32,7 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     // <GoogleOAuthProvider clientId={clientId}>
+   
     <AuthProvider>
+
       <MentorshipProvider>
         <GlobalUIProvider>
           <html lang="en">
@@ -41,6 +44,7 @@ export default function RootLayout({
             >
               <Header />
               <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+              <SpeedInsights />
             </body>
           </html>
         </GlobalUIProvider>
