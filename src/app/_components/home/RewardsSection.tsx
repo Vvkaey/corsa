@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import {
-  ArrowRightWhite,
+  // ArrowRightWhite,
   BlankOptionCircle,
   FillOptionCircle,
 } from "@/app/_assets/icons";
+import { sectionResponsivePadding } from "../new_mixins/mixins";
 
 export const RewardsSection = styled(
   ({ className }: { className?: string }) => {
@@ -15,11 +16,11 @@ export const RewardsSection = styled(
               <div className="head-container">
                 <h3 className="head">Let’s Make It Rewarding</h3>
                 <h3 className="subhead">
-                  Take a minute and grab <span className="red-text">5%</span>{" "}
-                  off a mentor session. Deal?
+                  Take a minute and get <span className="red-text">extended time</span>{" "}
+                  on first mentor session. Deal?
                 </h3>
               </div>
-              <div className="email-container">
+              {/* <div className="email-container">
                 <input
                   type="email"
                   name="email"
@@ -29,7 +30,7 @@ export const RewardsSection = styled(
                 <button className="email-submit-btn">
                   <ArrowRightWhite />
                 </button>
-              </div>
+              </div> */}
             </div>
             <div className="right-block">
               <div className="tracker">
@@ -83,7 +84,12 @@ export const RewardsSection = styled(
   background: #fff;
 
   @media (min-width: 992px) {
+    height: 100vh;
     padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .wrapper {
@@ -95,11 +101,16 @@ export const RewardsSection = styled(
     margin: auto;
     padding-bottom: 0;
     border-radius: none;
-    padding: 60px 0px 84px 26px;
+    padding: 60px 0px 84px 0px;
 
     @media (min-width: 992px) {
+      height: 80%;
       border-radius: 30.016px;
       padding: 40px 0px 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 1100px;
     }
 
     h2,
@@ -121,6 +132,8 @@ export const RewardsSection = styled(
       @media (min-width: 992px) {
         padding: 0;
         flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
         gap: unset;
       }
 
@@ -130,6 +143,10 @@ export const RewardsSection = styled(
         justify-content: space-between;
         gap: 55px;
         padding-right: 24px;
+
+        @media (max-width: 992px) {
+          ${sectionResponsivePadding()};
+        }
 
         @media (min-width: 992px) {
           padding-right: unset;
@@ -174,6 +191,7 @@ export const RewardsSection = styled(
             @media (min-width: 992px) {
               font-size: 20px;
               text-align: unset;
+              max-width : 39ch;
             }
           }
         }
@@ -220,6 +238,10 @@ export const RewardsSection = styled(
         display: flex;
         flex-direction: column;
         gap: 25px;
+
+        @media (max-width: 992px) {
+          margin-left: 16px;
+        }
 
         @media (min-width: 992px) {
           padding: 58px 77px 32px 100px;

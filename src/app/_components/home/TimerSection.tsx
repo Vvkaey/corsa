@@ -112,8 +112,8 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       <div className="container">
         <div className="head-container">
           <h2 className="title">
-            Reflexes Pay Off! {width && width < 992 ? <br /> : null} (A Bonus
-            Mentor Session)
+            Flex your reflex here.
+            {width && width < 992 ? <br /> : null} (No scorecards)
           </h2>
           <p className="subtitle">Get a mentor session on membership!</p>
         </div>
@@ -364,6 +364,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
         @media (min-width: 992px) {
           font-size: 18.14px;
+           min-width: 313px;
         }
 
         @media (min-width: 1800px) {

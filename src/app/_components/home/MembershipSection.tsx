@@ -2,6 +2,61 @@ import styled from "styled-components";
 import Image from "next/image";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
+
+// const MEMBERSHIP_TRAITS = {
+//   colA: [
+//     {
+//       icon: `/membership/newsletter.svg`,
+//       title: `Newsletters`,
+//       description: `10 monthly newsletters packed with exclusive insights and updates.`,
+//     },
+//     {
+//       icon: `/membership/connect.svg`,
+//       title: `1-1 Connect`,
+//       description: `1 Mentor session included.`,
+//     },
+//     {
+//       icon: `/membership/masterclass.svg`,
+//       title: `Exclusive Masterclass`,
+//       description: `Group sessions by mentors that break down key topics every month.`,
+//     },
+//   ],
+//   colB: [
+//     {
+//       icon: `/membership/insider-circle.svg`,
+//       title: `Insider Circles`,
+//       description: `2 per year invite-only events with mentors.`,
+//     },
+//     {
+//       icon: `/membership/benefits.svg`,
+//       title: `Member Benefits`,
+//       description: `Special offers on tools and courses.`,
+//     },
+//     {
+//       icon: `/membership/polls.svg`,
+//       title: `Interactive Polls`,
+//       description: `Participate and see how you align with others.`,
+//     },
+//   ],
+//   colC: [
+//     {
+//       icon: `/membership/sessions.svg`,
+//       title: `AMA Sessions`,
+//       description: `2 group interactions per month with mentors from elite institutions.`,
+//     },
+//     {
+//       icon: `/membership/spotlight.svg`,
+//       title: `Community Spotlights`,
+//       description: `Get featured for your achievements.`,
+//     },
+//     {
+//       icon: `/membership/library.svg`,
+//       title: `Content Library`,
+//       description: `Unlock curated resources.`,
+//     },
+//   ],
+// };
+
 interface ColItemProps {
   icon?: string;
   title?: string | React.ReactNode;

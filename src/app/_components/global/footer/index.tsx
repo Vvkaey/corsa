@@ -153,12 +153,13 @@ export const Footer = styled(({ className }: { className?: string }) => {
             padding: 9px 40px;
             width: 100%;
             cursor: pointer;
+            white-space: nowrap;
 
             @media (min-width: 992px) {
               border-radius: 11.673px;
               border: 0.834px solid #ffeac8;
               font-size: 18px;
-              width: 247px;
+              max-width: 347px;
               padding: 10.8px 50px;
               transition: all 5ms ease-in;
 

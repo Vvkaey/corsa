@@ -12,73 +12,21 @@ import { FAQSection } from "./_components/home/FAQSection";
 import { BehindTheScenes } from "./_components/home/BehindTheScenes";
 import { CardRows } from "./_components/home/CardRows";
 import { TimerSection } from "./_components/home/TimerSection";
-import { MembershipSection } from "./_components/home/MembershipSection";
+// import { MembershipSection } from "./_components/home/MembershipSection";
 import { PowerfulInsights } from "./_components/home/PowerfulInsights";
 import { BrownBgTick } from "./_assets/icons";
 import { RewardsSection } from "./_components/home/RewardsSection";
 import { Footer } from "./_components/global/footer";
 import { useRouter } from "next/navigation";
 
-const MEMBERSHIP_TRAITS = {
-  colA: [
-    {
-      icon: `/membership/newsletter.svg`,
-      title: `Newsletters`,
-      description: `10 monthly newsletters packed with exclusive insights and updates.`,
-    },
-    {
-      icon: `/membership/connect.svg`,
-      title: `1-1 Connect`,
-      description: `1 Mentor session included.`,
-    },
-    {
-      icon: `/membership/masterclass.svg`,
-      title: `Exclusive Masterclass`,
-      description: `Group sessions by mentors that break down key topics every month.`,
-    },
-  ],
-  colB: [
-    {
-      icon: `/membership/insider-circle.svg`,
-      title: `Insider Circles`,
-      description: `2 per year invite-only events with mentors.`,
-    },
-    {
-      icon: `/membership/benefits.svg`,
-      title: `Member Benefits`,
-      description: `Special offers on tools and courses.`,
-    },
-    {
-      icon: `/membership/polls.svg`,
-      title: `Interactive Polls`,
-      description: `Participate and see how you align with others.`,
-    },
-  ],
-  colC: [
-    {
-      icon: `/membership/sessions.svg`,
-      title: `AMA Sessions`,
-      description: `2 group interactions per month with mentors from elite institutions.`,
-    },
-    {
-      icon: `/membership/spotlight.svg`,
-      title: `Community Spotlights`,
-      description: `Get featured for your achievements.`,
-    },
-    {
-      icon: `/membership/library.svg`,
-      title: `Content Library`,
-      description: `Unlock curated resources.`,
-    },
-  ],
-};
-
 const INSIGHTS_DATA = {
   colA: [
     {
       icon: <BrownBgTick />,
       title: `Data-Backed Insights`,
-      description: `No guesswork. Just real data and analytics to drive smarter decisions.`,
+      description: `Just real data and analytics to 
+drive smarter decisions.
+`,
     },
     {
       icon: <BrownBgTick />,
@@ -171,12 +119,13 @@ const FLOW_CONTENT = [
       transform: "rotate(-6deg)",
     },
     colB: {
-      img: "/flow/flow-a.svg",
-      title: "Book a Slot",
-      subtitle: "Schedule a session with a mentor.",
+      img: "/flow/flow-a.png",
+      title: "Subscribe for Clarity, Not Chaos",
+      subtitle:
+        "Pick a plan that fits your goals. Built for candidates planning for IIT-JEE or similar engineering exams.",
     },
     colC: {
-      img: "/flow/step-a.svg",
+      img: "/steps/step-a.png",
     },
   },
   {
@@ -189,13 +138,13 @@ const FLOW_CONTENT = [
       transform: "rotate(0deg)",
     },
     colB: {
-      img: "/flow/flow-b.svg",
-      title: "Engage & Sharet",
+      img: "/flow/flow-b.png",
+      title: "Access Only What Matters",
       subtitle:
-        "Connect during the session to share your goals, challenges, and take notes on actionable advice.",
+        "Once signed up, You'll receive updates directly in your mail, tailored to your selected plan.",
     },
     colC: {
-      img: "/flow/step-b.svg",
+      img: "/steps/step-b.png",
     },
   },
   {
@@ -208,13 +157,13 @@ const FLOW_CONTENT = [
       transform: "rotate(3deg)",
     },
     colB: {
-      img: "/flow/flow-c.svg",
-      title: "Get Feedback",
+      img: "/flow/flow-c.png",
+      title: "1-on-1 Mentorship, No Guesswork",
       subtitle:
-        "Receive detailed feedback and additional insights over email after your session.",
+        "Connect to share your exam prep goals and challenges, and take notes on actionable advice.",
     },
     colC: {
-      img: "/flow/step-d.svg",
+      img: "/steps/step-c.png",
     },
   },
   {
@@ -227,32 +176,13 @@ const FLOW_CONTENT = [
       transform: "rotate(0deg)",
     },
     colB: {
-      img: "/flow/flow-d.svg",
-      title: "Implement & Reflect",
+      img: "/flow/flow-d.png",
+      title: "Weekly Wrap, Strategy and Analysis",
       subtitle:
-        "Connect during the session to share your goals, challenges, and take notes on actionable advice.",
+        "Mentor insights, weekly, to help you plan a structured approach for your competitive engineering exam.",
     },
     colC: {
-      img: "/flow/step-a.svg",
-    },
-  },
-  {
-    colA: {
-      img: "/flow/item-e.svg",
-      width: 250 + 50,
-      height: 278 + 55.6,
-      top: "-25%",
-      right: "10%",
-      transform: "rotate(-2deg)",
-    },
-    colB: {
-      img: "/flow/flow-e.svg",
-      title: "Stay connected",
-      subtitle:
-        "Receive detailed feedback and additional insights over email after your session.",
-    },
-    colC: {
-      img: "/flow/step-b.svg",
+      img: "/steps/step-d.png",
     },
   },
 ];
@@ -357,7 +287,7 @@ export default function Home() {
             <RewardsSection />
             <PowerfulInsights insights={INSIGHTS_DATA} />
 
-            <MembershipSection traits={MEMBERSHIP_TRAITS} />
+            {/* <MembershipSection traits={MEMBERSHIP_TRAITS} /> */}
 
             <TimerSection />
             <CardRows />

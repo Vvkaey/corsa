@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import styled from "styled-components";
 export const QuotationSection = styled(
   ({
@@ -13,7 +13,7 @@ export const QuotationSection = styled(
     return (
       <section className={className}>
         <div className="img-container">
-          <Image src={"/quotation/q_vid.gif"} alt="quotation-img" fill priority={true}/>
+          {/* <Image src={"/quotation/q_vid.gif"} alt="quotation-img" fill priority={true}/> */}
         </div>
         <div className="content">
           <p className="quote">{description}</p>
@@ -23,16 +23,13 @@ export const QuotationSection = styled(
     );
   }
 )`
-  margin: 100px 0;
   position: relative;
   height: 100vh;
   width: 100%;
   font-family: var(--font-exo);
 
-  margin: 70px 0;
-
   @media (min-width: 992px) {
-    margin: 100px 0;
+    margin: 0 0 100px 0;
   }
 
   .img-container {
@@ -41,6 +38,7 @@ export const QuotationSection = styled(
     position: absolute;
     top: 0;
     left: 0;
+    background: #000;
     img {
       position: absolute;
       width: 100%;
@@ -68,14 +66,14 @@ export const QuotationSection = styled(
       position: relative;
       color: #fff;
       text-align: center;
-      font-size: 28px;
+      font-size: 25px;
       font-style: normal;
       font-weight: 600;
       line-height: 119.982%; /* 46.793px */
       text-transform: uppercase;
       letter-spacing: 0.56px;
       @media (min-width: 992px) {
-        font-size: 32.5px;
+        font-size: 46.2px;
         letter-spacing: 0.78px;
       }
     }
@@ -90,8 +88,8 @@ export const QuotationSection = styled(
       letter-spacing: 0.32px;
       z-index: 2;
       @media (min-width: 992px) {
-        font-size: 21.6px;
-        letter-spacing: 0.52px;
+        font-size: 30.8px;
+        letter-spacing: 0.6px;
       }
     }
   }

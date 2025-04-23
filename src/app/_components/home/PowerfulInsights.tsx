@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import {
+  maxWidthContainer,
+  responsivePadding,
+} from "../new_mixins/mixins";
 
 interface ColItemProps {
   icon?: string | React.ReactNode;
@@ -75,7 +79,7 @@ export const PowerfulInsights = styled(
   font-family: var(--font-exo);
   padding: 40px 0 10px 0;
   margin: auto;
-  background : #fff;
+  background: #fff;
   @media (min-width: 992px) {
     padding: 68px 0;
   }
@@ -86,7 +90,8 @@ export const PowerfulInsights = styled(
   }
 
   .container {
-    max-width: 1500px;
+    ${maxWidthContainer};
+    ${responsivePadding()};
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -100,13 +105,11 @@ export const PowerfulInsights = styled(
       position: relative;
       display: flex;
       flex-direction: column;
-      width: calc(100% - 48px);
       text-align: center;
       gap: 14px;
 
       @media (min-width: 992px) {
-        gap: 21px;
-        width: 70%;
+        gap: 13px;
       }
 
       .title {
@@ -118,12 +121,12 @@ export const PowerfulInsights = styled(
         text-transform: capitalize;
 
         @media (min-width: 992px) {
-          font-size: 46px;
+          font-size: 65.39px;
         }
       }
 
       .subtitle {
-       font-family: var(--font-fustat);
+        font-family: var(--font-fustat);
         color: #000;
         font-size: 16px;
         font-style: normal;
@@ -133,7 +136,7 @@ export const PowerfulInsights = styled(
         margin: auto;
 
         @media (min-width: 992px) {
-          font-size: 20px;
+          font-size: 28.43px;
           max-width: unset;
         }
       }
@@ -146,9 +149,10 @@ export const PowerfulInsights = styled(
       width: calc(100% - 68px);
       flex-direction: column;
       padding: 19px 0 16px 0;
+      max-width: 34ch;
 
       @media (min-width: 992px) {
-        width: 70%;
+      max-width: unset;
         flex-direction: row;
         padding: unset;
         justify-content: center;
@@ -220,16 +224,13 @@ export const PowerfulInsights = styled(
             position: relative;
             top: 0;
 
-@media(min-width : 992px){
- top: 4px;
-}
-
+            @media (min-width: 992px) {
+              top: 4px;
+            }
 
             img {
               object-fit: cover;
             }
-
-
           }
 
           .text {
@@ -256,12 +257,12 @@ export const PowerfulInsights = styled(
               line-height: 119.982%; /* 28.796px */
 
               @media (min-width: 992px) {
-                font-size: 24px;
+                font-size: 34.1px;
               }
             }
 
             .description {
-                        font-family: var(--font-fustat);
+              font-family: var(--font-fustat);
               color: #2b2b2b;
               leading-trim: both;
               text-edge: cap;
@@ -273,7 +274,7 @@ export const PowerfulInsights = styled(
               @media (min-width: 992px) {
                 max-width: 30ch;
                 font-weight: 700;
-                font-size: 16px;
+                font-size: 22.7px;
               }
             }
           }
