@@ -1,12 +1,18 @@
-// src/app/api/users/status/route.ts
+// src/app/api/user/status/route.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('Authorization');
   
-  if (!authHeader) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  // Return a specific response for unauthenticated users instead of error
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return NextResponse.json({ 
+      authenticated: false,
+      badge: 0,  // Default to WINGMAN
+      sessions: { available: 0 },
+      subscription: null
+    }, { status: 200 }); // Return 200 with default data instead of 401
   }
   
   try {
@@ -15,14 +21,28 @@ export async function GET(request: NextRequest) {
         'Authorization': authHeader,
         'Content-Type': 'application/json',
       },
-      // No CORS issues because this executes server-side
     });
     
-    const data = await response.json();
+    if (!response.ok) {
+      // Handle backend errors gracefully
+      return NextResponse.json({ 
+        authenticated: false,
+        badge: 0,
+        sessions: { available: 0 },
+        subscription: null
+      }, { status: 200 });
+    }
     
+    const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
     console.error('Proxy error:', error);
-    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
+    // Return default data instead of error
+    return NextResponse.json({ 
+      authenticated: false,
+      badge: 0,
+      sessions: { available: 0 },
+      subscription: null
+    }, { status: 200 });
   }
 }

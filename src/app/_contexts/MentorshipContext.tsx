@@ -277,46 +277,68 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
   // Function to fetch user status
   const fetchUserStatus = useCallback(async () => {
     if (!token || !isAuthenticated) {
-      console.log(
-        "Not authenticated or token missing, skipping fetchUserStatus"
+      console.log("Not authenticated or token missing, skipping fetchUserStatus");
+      
+      // Set default values for non-authenticated users
+      setSessionCount(0);
+      setAccessPlanDescription("Nothing's live yet, unlock what's next.");
+      setAccessPlanIcon(
+        <Image
+          src={"/no-access-plan.svg"}
+          alt="No access plan icon"
+          width={139}
+          height={105.5}
+        />
       );
+      setBadgeDescription("Subscribe to unlock your mission gear!");
+      setBadgeIcon(
+        <Image
+          src={"/wingsman-badge.svg"}
+          alt="Wingsman badge"
+          width={119}
+          height={91}
+        />
+      );
+      
+      setIsLoading(false);
       return;
     }
-
+  
     try {
       setIsLoading(true);
-
+  
       const response = await fetch(`/api/user/status`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to fetch user status");
       }
-
+  
       const data = await response.json();
       console.log("User status data:", data);
-
+  
       // Update session count
       if (data.sessions?.available !== undefined) {
         setSessionCount(data.sessions.available);
       }
-
-      // Update access plan
+  
+      // Update access plan and badge only if we have valid data
       if (data.badge !== undefined) {
-        const badge = badge_mapper[data.badge as keyof typeof badge_mapper];
+        const badge = badge_mapper[data.badge as keyof typeof badge_mapper] || BADGES.WINGMAN;
         const config = badge_config[badge];
+        
+        // Use the config values or fall back to defaults
         setAccessPlanDescription(
-          config.accessPlan.description ||
+          config?.accessPlan?.description ||
             "Nothing's live yet, unlock what's next."
         );
-
-        // Update access plan icon
+  
         setAccessPlanIcon(
-          config.accessPlan.planIcon || (
+          config?.accessPlan?.planIcon || (
             <Image
               src={"/no-access-plan.svg"}
               alt="No access plan icon"
@@ -325,33 +347,50 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
             />
           )
         );
-
-        // Update community badge
-        if (data.subscription && data.subscription.daysRemaining) {
-          setBadgeDescription(
-            config.communityBadge.description ||
-              "Subscribe to unlock your mission gear!"
-          );
-
-          // Update badge icon
-          setBadgeIcon(
-            config.communityBadge.badge || (
-              <Image
-                src={"/wingsman-badge.svg"}
-                alt="Wingsman badge"
-                width={119}
-                height={91}
-              />
-            )
-          );
-        }
+  
+        setBadgeDescription(
+          config?.communityBadge?.description ||
+            "Subscribe to unlock your mission gear!"
+        );
+  
+        setBadgeIcon(
+          config?.communityBadge?.badge || (
+            <Image
+              src={"/wingsman-badge.svg"}
+              alt="Wingsman badge"
+              width={119}
+              height={91}
+            />
+          )
+        );
       }
     } catch (error) {
       console.error("Error fetching user status:", error);
+      
+      // Set default values on error
+      setSessionCount(0);
+      setAccessPlanDescription("Nothing's live yet, unlock what's next.");
+      setAccessPlanIcon(
+        <Image
+          src={"/no-access-plan.svg"}
+          alt="No access plan icon"
+          width={139}
+          height={105.5}
+        />
+      );
+      setBadgeDescription("Subscribe to unlock your mission gear!");
+      setBadgeIcon(
+        <Image
+          src={"/wingsman-badge.svg"}
+          alt="Wingsman badge"
+          width={119}
+          height={91}
+        />
+      );
     } finally {
       setIsLoading(false);
     }
-  }, [token, isAuthenticated]); // Only depend on token and isAuthenticated
+  }, [token, isAuthenticated]);
 
   // Effect to fetch user status when token changes or component mounts
   useEffect(() => {

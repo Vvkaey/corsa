@@ -1,13 +1,12 @@
 "use client";
 
-import { UserStatus } from "@/app/_types/user_status.types";
 import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
 import { GlobalUIContext } from "@/app/_utils/hooks/globalUI";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useState, useCallback, useEffect } from "react";
+import { useContext, useState, useCallback } from "react";
 import styled from "styled-components";
 // import { Badge } from "../Badge";
 import {
@@ -17,14 +16,14 @@ import {
 import { BadgeProfileImg } from "../Badge";
 import { useAuth } from "@/app/_contexts/AuthContext";
 
-const ProfileContainer = styled.div`
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
+// const ProfileContainer = styled.div`
+//   padding: 2rem;
+//   max-width: 800px;
+//   margin: 0 auto;
+//   background-color: #ffffff;
+//   border-radius: 8px;
+//   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+// `;
 
 export const DesktopNavItems = styled(
   ({
@@ -311,34 +310,34 @@ export const Header = styled(({ className }: { className?: string }) => {
   // State for managing the mobile navigation menu
   const [showHamMenu, setShowHamMenu] = useState<boolean>(false);
   const [showDeskHamMenu, setShowDeskHamMenu] = useState<boolean>(false);
-  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Fetch user status from the API
-    const fetchUserStatus = async () => {
-      try {
-        setLoading(true);
+  // useEffect(() => {
+  //   // Fetch user status from the API
+  //   const fetchUserStatus = async () => {
+  //     try {
+  //       setLoading(true);
 
-        // Example API call to fetch user status
-        const response = await fetch("/api/user");
+  //       // Example API call to fetch user status
+  //       const response = await fetch("/api/user");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch user status");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch user status");
+  //       }
 
-        const data = (await response.json()) as UserStatus;
-        setUserStatus(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       const data = (await response.json()) as UserStatus;
+  //       setUserStatus(data);
+  //     } catch (err) {
+  //       setError(err instanceof Error ? err.message : "Unknown error occurred");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUserStatus();
-  }, []);
+  //   fetchUserStatus();
+  // }, []);
 
   /**
    * Toggles the visibility of the mobile menu.
@@ -354,29 +353,29 @@ export const Header = styled(({ className }: { className?: string }) => {
   // Hide header if liteUI is enabled or the page is in the NO_HEADER_FOOTER_PAGES list
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
 
-  if (loading) {
-    return (
-      <ProfileContainer>
-        <div>Loading user profile...</div>
-      </ProfileContainer>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <ProfileContainer>
+  //       <div>Loading user profile...</div>
+  //     </ProfileContainer>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <ProfileContainer>
-        <div>Error: {error}</div>
-      </ProfileContainer>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <ProfileContainer>
+  //       <div>Error: {error}</div>
+  //     </ProfileContainer>
+  //   );
+  // }
 
-  if (!userStatus) {
-    return (
-      <ProfileContainer>
-        <div>No user data available</div>
-      </ProfileContainer>
-    );
-  }
+  // if (!userStatus) {
+  //   return (
+  //     <ProfileContainer>
+  //       <div>No user data available</div>
+  //     </ProfileContainer>
+  //   );
+  // }
 
   const OnLogoClick = () => {
     if (router && pathname !== "/") {
@@ -398,7 +397,6 @@ export const Header = styled(({ className }: { className?: string }) => {
               Dashboard
             </Link>
             <BadgeProfileImg
-              userStatus={userStatus}
               setShowMenu={setShowDeskHamMenu}
               showMenu={showDeskHamMenu}
             />

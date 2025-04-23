@@ -7,5 +7,5 @@ export interface UserStatus {
     subscription: {
       active: boolean;
       daysRemaining: number;
-    };
+    } | null;
   }
