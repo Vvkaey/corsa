@@ -3,7 +3,11 @@ import styled from "styled-components";
 import Image from "next/image";
 import { JSX, useEffect, useRef } from "react";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import { headerSpacing, maxWidthContainer, SectionPadding } from "../new_mixins/mixins";
+import {
+  headerSpacing,
+  maxWidthContainer,
+  SectionPadding,
+} from "../new_mixins/mixins";
 import gsap from "gsap";
 
 // AnimatedIconShowcase component with GSAP animations
@@ -172,8 +176,8 @@ export const IconShowcase = styled(
                       <Image
                         src={item.icon}
                         alt="not-found-image"
-                        width={93}
-                        height={93}
+                        width={width > 92 ? 92 : 35}
+                        height={width > 92 ? 92 : 35}
                         style={{ objectFit: "contain" }}
                       />
                       <p className="icon-text">{item.name}</p>
@@ -210,8 +214,10 @@ export const IconShowcase = styled(
   background: #fff;
   font-family: var(--font-exo);
   text-align: center;
+  margin-top: 22px;
 
   .content {
+    margin-top: unset;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -235,10 +241,10 @@ export const IconShowcase = styled(
     h4.sub-head {
       font-family: var(--font-exo);
       margin: 0;
-      color: #000;
+      color: #5f5f5f;
       font-size: 16px;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
       line-height: normal;
       leading-trim: both;
       text-edge: cap;
@@ -247,7 +253,7 @@ export const IconShowcase = styled(
       @media (min-width: 992px) {
         text-align: center;
         max-width: 36ch;
-        color: #5f5f5f;
+        font-weight: 600;
         font-size: 28.432px;
         font-weight: 500;
       }
@@ -575,7 +581,11 @@ export const HeroSection = styled(
                     </button>
                   ) : null}
                   {secondaryCta ? (
-                    <button ref={secondaryCtaRef} className="secondary-cta" onClick={onSecondaryCTAClick}>
+                    <button
+                      ref={secondaryCtaRef}
+                      className="secondary-cta"
+                      onClick={onSecondaryCTAClick}
+                    >
                       {secondaryCta}
                     </button>
                   ) : null}
@@ -606,7 +616,7 @@ export const HeroSection = styled(
 
     @media (min-width: 992px) {
       gap: 114px;
-      margin : auto;
+      margin: auto;
     }
 
     .content {
@@ -658,7 +668,7 @@ export const HeroSection = styled(
         font-family: var(--font-fustat);
         margin: 0;
         color: #626161;
-        font-size: 16px;
+        font-size: 18px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
@@ -668,14 +678,16 @@ export const HeroSection = styled(
       }
 
       .cta-container {
-        padding-top: 38px;
+        padding-top: 14px;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         gap: 12px;
+        width: 100%;
 
         @media (min-width: 992px) {
+          width: unset;
           padding-top: 49px;
           flex-direction: row;
           gap: 16px;
@@ -685,7 +697,7 @@ export const HeroSection = styled(
           border-radius: 8px;
           border: 1.699px solid #fae3ca;
           background: #ff2626;
-          padding: 14px 33px;
+          padding: 11px 33px;
           color: #fff;
           font-size: 14px;
           font-style: normal;
@@ -694,9 +706,11 @@ export const HeroSection = styled(
           font-family: var(--font-fustat);
           cursor: pointer;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          width: 90%;
 
           @media (min-width: 992px) {
-            padding: 26px 58px;
+            width: unset;
+            padding: 21px 58px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
@@ -707,7 +721,7 @@ export const HeroSection = styled(
         .secondary-cta {
           border-radius: 8px;
           border: 1.699px solid #e03233;
-          padding: 14px 33px;
+          padding: 11px 33px;
           background: transparent;
           color: #ff2626;
           font-size: 14px;
@@ -717,9 +731,11 @@ export const HeroSection = styled(
           font-family: var(--font-fustat);
           cursor: pointer;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          width: 90%;
 
           @media (min-width: 992px) {
-            padding: 26px 58px;
+            width: unset;
+            padding: 21px 58px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
