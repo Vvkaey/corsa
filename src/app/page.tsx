@@ -1,23 +1,32 @@
-"use client";
-
-import { ThemeProvider } from "styled-components";
-import { HeroSection } from "./_components/home/HeroSection";
-import { theme } from "./_components/theme";
+// app/page.tsx
+import { Metadata } from "next";
 import Script from "next/script";
-// import { FlowSection } from "./_components/home/FlowSection";
-import { QuotationSection } from "./_components/home/QuotationSection";
-import { BannerSection } from "./_components/home/BannerSection";
-import { StepsSection } from "./_components/home/StepsSection";
-import { FAQSection } from "./_components/home/FAQSection";
-import { BehindTheScenes } from "./_components/home/BehindTheScenes";
-import { CardRows } from "./_components/home/CardRows";
-import { TimerSection } from "./_components/home/TimerSection";
-// import { MembershipSection } from "./_components/home/MembershipSection";
-import { PowerfulInsights } from "./_components/home/PowerfulInsights";
 import { BrownBgTick } from "./_assets/icons";
-import { RewardsSection } from "./_components/home/RewardsSection";
-import { Footer } from "./_components/global/footer";
-import { useRouter } from "next/navigation";
+import HomeClientWrapper from "./_components/home/HomeClientWrapper";
+
+// Define icons and other static data
+const ICONS = [
+  {
+    name: "IIT Patna",
+    icon: "/iconA.svg",
+  },
+  {
+    name: "IIT Delhi",
+    icon: "/iconB.svg",
+  },
+  {
+    name: "IIT Madras",
+    icon: "/iconC.svg",
+  },
+  {
+    name: "IIT Kanpur",
+    icon: "/iconD.svg",
+  },
+  {
+    name: "IIT Guwahati",
+    icon: "/iconE.svg",
+  },
+];
 
 const INSIGHTS_DATA = {
   colA: [
@@ -82,29 +91,6 @@ const FAQ_DATA = [
   {
     ques: `What if I face issues or need help?`,
     ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
-  },
-];
-
-const ICONS = [
-  {
-    name: "IIT Patna",
-    icon: "/iconA.svg",
-  },
-  {
-    name: "IIT Delhi",
-    icon: "/iconB.svg",
-  },
-  {
-    name: "IIT Madras",
-    icon: "/iconC.svg",
-  },
-  {
-    name: "IIT Kanpur",
-    icon: "/iconD.svg",
-  },
-  {
-    name: "IIT Guwahati",
-    icon: "/iconE.svg",
   },
 ];
 
@@ -223,80 +209,51 @@ const BANNER_SECTION = {
   ],
 };
 
+// Define metadata for the page (SEO)
+export const metadata: Metadata = {
+  title: "Your Mentorship Network - Community that leads together",
+  description: "Connect with top mentors from premier institutions like IITs for guidance on your educational journey.",
+  openGraph: {
+    title: "Your Mentorship Network - Community that leads together",
+    description: "Connect with top mentors from premier institutions like IITs for guidance on your educational journey.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mentorship Network",
+      },
+    ],
+  },
+};
+
+// Structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Your Mentorship Network",
+  description: "Community that leads together",
+  url: "https://corsa-gules.vercel.com",
+};
+
 export default function Home() {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: "Your Blog Title",
-    datePublished: "2025-01-30",
-    author: {
-      "@type": "Person",
-      name: "Corsa",
-    },
-  };
-
-  const router = useRouter();
-
-  interface ScrollToElementProps {
-    id: string;
-  }
-
-  const scrollToElement = (id: ScrollToElementProps["id"]): void => {
-    const container = document.getElementById(id);
-    if (container) {
-      container.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
+  // This is a server component - no hooks or client-side code
+  // All data preparation happens server-side
+  
   return (
     <>
-      <Script id="blog-schema" type="application/ld+json">
+      <Script id="schema-script" type="application/ld+json">
         {JSON.stringify(structuredData)}
       </Script>
-      <ThemeProvider theme={theme}>
-        <div>
-          <main>
-            <HeroSection
-              head={
-                <>
-                  Your Mentorship <br /> Network.
-                </>
-              }
-              subHead="Community that leads together."
-              primaryCta="Subscribe Plan"
-              onPrimaryCtaClick={() => router.push("/pricing")}
-              secondaryCta="Why Stodaclub"
-              onSecondaryCTAClick={() => scrollToElement("behind-the-scenes")}
-              // headB="Gain exclusive insights and access an unparalleled tribe of
-              // mentors."
-              subHeadB="Learnings from Scholars at"
-              icons={ICONS}
-            />
-            <StepsSection flowItems={FLOW_CONTENT} />
-            {/* <FlowSection flowItems={FLOW_CONTENT} /> */}
-            <QuotationSection
-              description={
-                <>
-                  “Seek advice, but also be ready to put in the work. <br />{" "}
-                  Mentorship works both ways”
-                </>
-              }
-              author={<>—Sheryl Sandberg</>}
-            />
-            <BannerSection bannerContent={BANNER_SECTION} />
-            <RewardsSection />
-            <PowerfulInsights insights={INSIGHTS_DATA} />
-
-            {/* <MembershipSection traits={MEMBERSHIP_TRAITS} /> */}
-
-            <TimerSection />
-            <CardRows />
-            <BehindTheScenes htmlId={"behind-the-scenes"} />
-            <FAQSection title={"Know It All"} data={FAQ_DATA} />
-            <Footer />
-          </main>
-        </div>
-      </ThemeProvider>
+      
+      {/* HomeClientWrapper handles all client-side functionality and animations */}
+      <HomeClientWrapper 
+        icons={ICONS}
+        flowContent={FLOW_CONTENT}
+        bannerContent={BANNER_SECTION}
+        insightsData={INSIGHTS_DATA}
+        faqData={FAQ_DATA}
+      />
     </>
   );
 }

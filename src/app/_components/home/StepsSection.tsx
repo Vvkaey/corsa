@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import {
@@ -5,7 +8,9 @@ import {
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
 import TitleSubtitle from "./TitleSubtitle";
+import gsap from "gsap";
 
+// Define proper types
 interface FlowColAProps {
   img: string;
   title?: string;
@@ -32,27 +37,167 @@ interface FlowProps {
   colC: FlowColCProps;
 }
 
+interface StepsSectionProps {
+  className?: string;
+  flowItems?: FlowProps[];
+}
+
 export const StepsSection = styled(
   ({
     className,
     flowItems,
-  }: {
-    className?: string;
-    flowItems?: FlowProps[];
-  }) => {
+  }: StepsSectionProps) => {
+    const sectionRef = useRef<HTMLElement>(null);
+    const titleRef = useRef<HTMLDivElement>(null);
+    const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const [animatedSteps, setAnimatedSteps] = useState<Set<number>>(new Set());
+    const [titleAnimated, setTitleAnimated] = useState(false);
+    
+    // Reset refs array
+    stepRefs.current = [];
+    
+    // Add to refs array
+    const addToStepRefs = (el: HTMLDivElement | null) => {
+      if (el && !stepRefs.current.includes(el)) {
+        stepRefs.current.push(el);
+      }
+    };
+    
+    // Function to check if element is in viewport
+    const isInViewport = (element: HTMLElement) => {
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+        rect.bottom >= 0
+      );
+    };
+    
+    useEffect(() => {
+      // Set initial state to prevent flashing
+      if (titleRef.current) {
+        gsap.set(titleRef.current, { 
+          opacity: 0,
+          y: 30
+        });
+      }
+      
+      stepRefs.current.forEach((step) => {
+        if (step) {
+          const textContainer = step.querySelector('.text-container');
+          const mediaContainer = step.querySelector('.media-container');
+          const mobileDesc = step.querySelector('.mbl-description');
+          
+          if (textContainer) gsap.set(textContainer, { opacity: 0, x: -40 });
+          if (mediaContainer) gsap.set(mediaContainer, { opacity: 0, x: 40, scale: 0.95 });
+          if (mobileDesc) gsap.set(mobileDesc, { opacity: 0, y: 20 });
+        }
+      });
+      
+      // Create title animation
+      const titleTimeline = gsap.timeline({ paused: true });
+      if (titleRef.current) {
+        titleTimeline.to(titleRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out"
+        });
+      }
+      
+      // Handle scroll event
+      const handleScroll = () => {
+        // Animate title if in viewport and not already animated
+        if (titleRef.current && !titleAnimated) {
+          if (isInViewport(titleRef.current)) {
+            titleTimeline.play();
+            setTitleAnimated(true);
+          }
+        }
+        
+        // Animate steps that come into viewport
+        stepRefs.current.forEach((step, index) => {
+          if (step && !animatedSteps.has(index)) {
+            if (isInViewport(step)) {
+              // Create a new set with the updated value
+              setAnimatedSteps(prev => new Set(prev).add(index));
+              
+              // For even-indexed steps, animate from right
+              // For odd-indexed steps, animate from left
+              // const direction = index % 2 === 0 ? 40 : -40;
+              
+              // Get elements
+              const textContainer = step.querySelector('.text-container');
+              const mediaContainer = step.querySelector('.media-container');
+              const mobileDesc = step.querySelector('.mbl-description');
+              
+              // Create animation for this step
+              const stepTimeline = gsap.timeline();
+              
+              // Add animations to the timeline with proper direction
+              if (textContainer) {
+                stepTimeline.to(textContainer, { 
+                  opacity: 1, 
+                  x: 0, 
+                  duration: 0.8,
+                  ease: "power3.out",
+                });
+              }
+              
+              if (mediaContainer) {
+                stepTimeline.to(mediaContainer, { 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: 1,
+                  duration: 0.8,
+                  ease: "power2.out",
+                  clearProps: "scale"
+                }, "-=0.5");
+              }
+              
+              if (mobileDesc) {
+                stepTimeline.to(mobileDesc, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: "power2.out"
+                }, "-=0.3");
+              }
+            }
+          }
+        });
+      };
+      
+      // Check initial visibility
+      handleScroll();
+      
+      // Add scroll listener
+      window.addEventListener('scroll', handleScroll);
+      
+      // Cleanup
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, [animatedSteps, titleAnimated]);
+
     return (
-      <section className={className}>
+      <section className={className} ref={sectionRef}>
         <div className="steps-container">
-          <TitleSubtitle
-            title={`"We've got your back, 
+          <div ref={titleRef}>
+            <TitleSubtitle
+              title={`"We've got your back, 
 Let's `}
-            redspan={`Make it happen."`}
-            subtitle={`"No fluff. No big promises. Just real conversations 
+              redspan={`Make it happen."`}
+              subtitle={`"No fluff. No big promises. Just real conversations 
 with mentors who get things done. Here's how we help you step up."`}
-          />
+            />
+          </div>
           <div className="steps">
             {flowItems?.map((item, idx) => (
-              <div className="step" key={idx}>
+              <div 
+                className="step" 
+                key={idx} 
+                ref={addToStepRefs}
+              >
                 <div className="text-container">
                   <div className="text-a">
                     <div className="icon-container">
@@ -67,7 +212,11 @@ with mentors who get things done. Here's how we help you step up."`}
                 <div className="media-container">
                   <div className="img-container">
                     {" "}
-                    <Image src={item?.colC?.img} alt={item?.colC?.img} fill />
+                    <Image 
+                      src={item?.colC?.img} 
+                      alt={`Step ${idx + 1}: ${typeof item?.colB?.title === 'string' ? item.colB.title : 'Step illustration'}`} 
+                      fill 
+                    />
                   </div>
                 </div>
                 <p className="mbl-description">{item?.colB?.subtitle}</p>
@@ -79,11 +228,13 @@ with mentors who get things done. Here's how we help you step up."`}
     );
   }
 )`
+  /* Rest of the styling remains the same */
   position: relative;
   font-family: var(--font-exo);
   padding: 70px 0 0 0;
   margin: auto;
   background: #fff;
+  overflow: hidden; /* Prevent animations from causing horizontal scroll */
 
   @media (min-width: 992px) {
     width: 100%;
@@ -125,6 +276,8 @@ with mentors who get things done. Here's how we help you step up."`}
         align-items: center;
         flex-direction: column;
         gap: 13px;
+        will-change: transform, opacity; /* Performance optimization */
+        transform: translateZ(0); /* Force GPU acceleration */
 
         @media (min-width: 992px) {
           flex-direction: row;
@@ -140,6 +293,7 @@ with mentors who get things done. Here's how we help you step up."`}
           }
         }
 
+        /* Rest of the CSS remains the same */
         &:nth-child(1) {
           .text-a {
             .icon-container {
@@ -341,6 +495,7 @@ with mentors who get things done. Here's how we help you step up."`}
           display: flex;
           gap: 8px;
           justify-content: flex-start;
+          will-change: transform, opacity; /* Performance optimization */
 
           @media (min-width: 992px) {
             justify-content: center;
@@ -431,6 +586,7 @@ with mentors who get things done. Here's how we help you step up."`}
           justify-content: center;
           align-items: center;
           overflow: hidden;
+          will-change: transform, opacity; /* Performance optimization */
 
           @media (min-width: 992px) {
             border-radius: 25px;
@@ -471,6 +627,8 @@ with mentors who get things done. Here's how we help you step up."`}
           text-align: center;
           line-height: 141.979%; /* 25.556px */
           max-width: 85%;
+          will-change: opacity, transform; /* Performance optimization */
+          
           @media (min-width: 992px) {
             display: none;
           }
@@ -479,3 +637,5 @@ with mentors who get things done. Here's how we help you step up."`}
     }
   }
 `;
+
+export default StepsSection;
