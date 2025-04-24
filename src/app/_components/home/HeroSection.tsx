@@ -1,338 +1,12 @@
 "use client";
+
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import Image from "next/image";
-import { JSX, useEffect, useRef } from "react";
-import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import {
-  headerSpacing,
-  maxWidthContainer,
-  SectionPadding,
-} from "../new_mixins/mixins";
+import { JSX } from "react";
+import { SectionPadding, headerSpacing, maxWidthContainer } from "../new_mixins/mixins";
 import gsap from "gsap";
+import IconShowcase from "./IconShowcase";
 
-// AnimatedIconShowcase component with GSAP animations
-export const IconShowcase = styled(
-  ({
-    className,
-    head,
-    subHead,
-    icons,
-  }: {
-    className?: string;
-    head?: string | JSX.Element;
-    subHead?: string | JSX.Element;
-    icons?: Record<string, string>[];
-  }) => {
-    const { width = 0 } = useWindowSize();
-
-    // Create refs for animation
-    const headRef = useRef<HTMLHeadingElement>(null);
-    const subHeadRef = useRef<HTMLHeadingElement>(null);
-    const iconContainerRef = useRef<HTMLDivElement>(null);
-    const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    // Setup for icon refs
-    iconRefs.current = [];
-    const addToIconRefs = (el: HTMLDivElement | null) => {
-      if (el && !iconRefs.current.includes(el)) {
-        iconRefs.current.push(el);
-      }
-    };
-
-    useEffect(() => {
-      // Animation for the icon showcase section
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        delay: 0.8, // Delay this animation until after main hero animation
-      });
-
-      // Animate heading
-      if (headRef.current) {
-        tl.fromTo(
-          headRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 }
-        );
-      }
-
-      // Animate subheading
-      if (subHeadRef.current) {
-        tl.fromTo(
-          subHeadRef.current,
-          { y: 15, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 },
-          "-=0.3"
-        );
-      }
-
-      // Instead of animating the marquee directly (which would interfere with its own animation),
-      // we'll just fade it in
-      if (iconContainerRef.current) {
-        tl.fromTo(
-          iconContainerRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.8 },
-          "-=0.2"
-        );
-      }
-
-      // For larger screens where the marquee animation is disabled, we'll animate each icon
-      if (width >= 992 && iconRefs.current.length) {
-        tl.fromTo(
-          iconRefs.current,
-          { y: 15, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-            stagger: 0.1,
-          },
-          "-=0.5"
-        );
-
-        // Add subtle hover effect for icons
-        iconRefs.current.forEach((icon) => {
-          if (icon) {
-            icon.addEventListener("mouseenter", () => {
-              gsap.to(icon, { y: -5, scale: 1.05, duration: 0.3 });
-            });
-
-            icon.addEventListener("mouseleave", () => {
-              gsap.to(icon, { y: 0, scale: 1, duration: 0.3 });
-            });
-          }
-        });
-      }
-
-      // Store current icons for cleanup
-      const currentIcons = [...iconRefs.current];
-
-      // Define event handlers
-      const handleIconEnter = (icon: HTMLDivElement) => {
-        gsap.to(icon, { y: -5, scale: 1.05, duration: 0.3 });
-      };
-
-      const handleIconLeave = (icon: HTMLDivElement) => {
-        gsap.to(icon, { y: 0, scale: 1, duration: 0.3 });
-      };
-
-      // Add event listeners with proper handlers
-      if (width >= 992) {
-        currentIcons.forEach((icon) => {
-          if (icon) {
-            icon.addEventListener("mouseenter", () => handleIconEnter(icon));
-            icon.addEventListener("mouseleave", () => handleIconLeave(icon));
-          }
-        });
-      }
-
-      return () => {
-        // Cleanup event listeners with same function references
-        if (width >= 992) {
-          currentIcons.forEach((icon) => {
-            if (icon) {
-              icon.removeEventListener("mouseenter", () =>
-                handleIconEnter(icon)
-              );
-              icon.removeEventListener("mouseleave", () =>
-                handleIconLeave(icon)
-              );
-            }
-          });
-        }
-      };
-    }, [width]);
-
-    return (
-      <section className={className}>
-        <div className="content">
-          {head ? (
-            <h3 className="head" ref={headRef}>
-              {head}
-            </h3>
-          ) : null}
-          {subHead ? (
-            <h4 className="sub-head" ref={subHeadRef}>
-              {" "}
-              {subHead}
-            </h4>
-          ) : null}
-          {icons?.length ? (
-            <div
-              className="marquee-container"
-              style={{
-                display: "flex",
-              }}
-              ref={iconContainerRef}
-            >
-              <div className="icon-container">
-                {icons.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="icon"
-                      ref={width >= 992 ? addToIconRefs : null}
-                    >
-                      <Image
-                        src={item.icon}
-                        alt="not-found-image"
-                        width={width > 92 ? 92 : 35}
-                        height={width > 92 ? 92 : 35}
-                        style={{ objectFit: "contain" }}
-                      />
-                      <p className="icon-text">{item.name}</p>
-                    </div>
-                  );
-                })}
-              </div>
-              {width && width < 992 ? (
-                <div className="icon-container">
-                  {icons.map((item, index) => {
-                    return (
-                      <div key={index} className="icon">
-                        <Image
-                          src={item.icon}
-                          alt="not-found-image"
-                          width={78}
-                          height={78}
-                          style={{ objectFit: "contain" }}
-                        />
-                        <p className="icon-text">{item.name}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      </section>
-    );
-  }
-)`
-  width: 100%;
-  background: #fff;
-  font-family: var(--font-exo);
-  text-align: center;
-  margin-top: 22px;
-
-  .content {
-    margin-top: unset;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-
-    h3.head {
-      font-family: var(--font-fustat);
-      margin: 0;
-      color: #333;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-
-      @media (min-width: 992px) {
-        font-size: 20px;
-      }
-    }
-
-    h4.sub-head {
-      font-family: var(--font-exo);
-      margin: 0;
-      color: #5f5f5f;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-      leading-trim: both;
-      text-edge: cap;
-      max-width: 37ch;
-
-      @media (min-width: 992px) {
-        text-align: center;
-        max-width: 36ch;
-        font-weight: 600;
-        font-size: 28.432px;
-        font-weight: 500;
-      }
-    }
-    @keyframes marquee {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-
-    .marquee-container {
-      position: relative;
-      width: 100vw;
-      overflow: hidden;
-      max-width: 151.2rem;
-      display: flex;
-      padding-top: 30px;
-
-      @media (min-width: 992px) {
-        padding-top: unset;
-        max-width: unset;
-      }
-      .icon-container {
-        padding-left: 6.5px;
-        padding-tight: 6.5px;
-        padding-top: 4px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: marquee 17s linear infinite;
-
-        gap: 24px;
-
-        @media (min-width: 992px) {
-          animation: none;
-          gap: 85px;
-          padding-top: 39px;
-          width: 100%;
-        }
-
-        .icon {
-          position: relative;
-
-          // height: 100%;
-          display: flex;
-          flex-direction: row;
-          gap: 8px;
-          align-items: center;
-          justify-content: center;
-
-          @media (min-width: 992px) {
-            flex-direction: column;
-            gap: 12px;
-          }
-
-          .icon-text {
-            z-index: 1;
-            display: flex;
-            white-space: nowrap;
-            color: #5f5f5f;
-            font-size: 15.008px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-          }
-
-          img {
-            object-fit: contain;
-          }
-        }
-      }
-    }
-  }
-`;
-
-// Animated HeroSection with GSAP
 export const HeroSection = styled(
   ({
     className,
@@ -369,178 +43,164 @@ export const HeroSection = styled(
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
     const rootContainerRef = useRef<HTMLDivElement>(null);
 
+
     useEffect(() => {
-      // Initial setup - hide elements
-      gsap.set([headingRef.current, subHeadingRef.current], {
-        opacity: 0,
-        y: 20,
+      // Create a master timeline for smooth sequencing
+      const masterTimeline = gsap.timeline({
+        defaults: { 
+          ease: "power2.out",
+          duration: 0.8,
+          overwrite: "auto" // Important for preventing animation conflicts
+        }
       });
 
-      // Create timeline for hero animations with slightly slower timing overall
-      const tl = gsap.timeline({
-        defaults: { ease: "power2.out" }, // Changed to smoother easing
-        delay: 0.3, // Slightly longer initial delay
-      });
-
-      // Add debug visual indicator for development
-      const showDebugHighlight = false; // Set to true to see animation areas highlighted
-      if (showDebugHighlight && primaryCtaRef.current) {
-        gsap.set(primaryCtaRef.current, {
-          boxShadow: "0 0 0 4px rgba(255, 0, 0, 0.5)",
-        });
-      }
-
-      // Animate main heading
+      // Pre-set the initial states for proper stacking context
       if (headingRef.current) {
-        tl.to(
-          headingRef.current,
-          { opacity: 1, y: 0, duration: 1.0 } // Longer duration
-        );
+        gsap.set(headingRef.current, { opacity: 0, y: 20 });
       }
-
-      // Animate subheading
+      
       if (subHeadingRef.current) {
-        tl.to(
-          subHeadingRef.current,
-          { opacity: 1, y: 0, duration: 0.9 }, // Longer duration
-          "-=0.6" // Less overlap
-        );
+        gsap.set(subHeadingRef.current, { opacity: 0, y: 20 });
       }
-
-      // Animate CTA container with a clearer visualization
+      
       if (ctaContainerRef.current) {
-        gsap.set(ctaContainerRef.current, {
-          opacity: 0,
-          y: 20,
-        });
-
-        tl.to(
-          ctaContainerRef.current,
-          { opacity: 1, y: 0, duration: 0.7 },
-          "-=0.4"
-        );
+        gsap.set(ctaContainerRef.current, { opacity: 0 });
       }
-
-      // Animate CTA buttons with smoother, more gradual animation
-      if (primaryCtaRef.current || secondaryCtaRef.current) {
-        const buttons = [primaryCtaRef.current, secondaryCtaRef.current].filter(
-          Boolean
-        );
-
-        // First make sure buttons are initially invisible
-        gsap.set(buttons, { opacity: 0, scale: 0.9, y: 15 });
-
-        // Then animate them with a smoother, more deliberate timing
-        tl.to(
-          buttons,
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.8, // Longer duration for smoother appearance
-            stagger: 0.25, // More delay between buttons
-            ease: "power2.out", // Smoother easing function
-          },
-          "-=0.1"
-        );
-      }
-
-      // Add hover animations for buttons
+      
       if (primaryCtaRef.current) {
-        primaryCtaRef.current.addEventListener("mouseenter", () => {
-          gsap.to(primaryCtaRef.current, {
-            y: -3,
-            boxShadow: "0 10px 20px rgba(255, 38, 38, 0.2)",
-            duration: 0.3,
-          });
-        });
-
-        primaryCtaRef.current.addEventListener("mouseleave", () => {
-          gsap.to(primaryCtaRef.current, {
-            y: 0,
-            boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
-            duration: 0.3,
-          });
-        });
+        gsap.set(primaryCtaRef.current, { opacity: 0, y: 15, scale: 0.95 });
       }
-
+      
       if (secondaryCtaRef.current) {
-        secondaryCtaRef.current.addEventListener("mouseenter", () => {
-          gsap.to(secondaryCtaRef.current, {
-            y: -3,
-            boxShadow: "0 10px 20px rgba(255, 38, 38, 0.1)",
-            duration: 0.3,
-          });
-        });
-
-        secondaryCtaRef.current.addEventListener("mouseleave", () => {
-          gsap.to(secondaryCtaRef.current, {
-            y: 0,
-            boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
-            duration: 0.3,
-          });
-        });
+        gsap.set(secondaryCtaRef.current, { opacity: 0, y: 15, scale: 0.95 });
       }
 
-      // Store refs in variables to use in cleanup
+      // Use a short delay before starting animations
+      masterTimeline.delay(0.2);
+      
+      // Heading animation with smoother easing
+      if (headingRef.current) {
+        masterTimeline.to(headingRef.current, {
+          opacity: 1, 
+          y: 0,
+          ease: "power3.out", // Smoother easing for text
+          duration: 0.9
+        });
+      }
+      
+      // Subheading animation
+      if (subHeadingRef.current) {
+        masterTimeline.to(subHeadingRef.current, {
+          opacity: 1, 
+          y: 0,
+          ease: "power3.out",
+          duration: 0.8
+        }, "-=0.6"); // Slight overlap for natural flow
+      }
+      
+      // Container first for proper stacking
+      if (ctaContainerRef.current) {
+        masterTimeline.to(ctaContainerRef.current, {
+          opacity: 1,
+          duration: 0.4
+        }, "-=0.4");
+      }
+      
+      // Animate buttons with precise control and smoother motion
+      const buttons = [];
+      if (primaryCtaRef.current) buttons.push(primaryCtaRef.current);
+      if (secondaryCtaRef.current) buttons.push(secondaryCtaRef.current);
+      
+      if (buttons.length) {
+        masterTimeline.to(buttons, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.15,
+          duration: 0.7,
+          ease: "back.out(1.2)",
+          clearProps: "scale" // Important to prevent jittering
+        }, "-=0.2");
+      }
+      
+      // Store references for cleanup
       const primaryBtn = primaryCtaRef.current;
       const secondaryBtn = secondaryCtaRef.current;
-
-      // Define event handlers
-      const handlePrimaryEnter = () => {
+      
+      // Define handlers outside event listeners to maintain reference
+      const enterPrimary = () => {
+        if (!primaryBtn) return;
         gsap.to(primaryBtn, {
           y: -3,
+          scale: 1.02,
           boxShadow: "0 10px 20px rgba(255, 38, 38, 0.2)",
           duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto"
         });
       };
-
-      const handlePrimaryLeave = () => {
+      
+      const leavePrimary = () => {
+        if (!primaryBtn) return;
         gsap.to(primaryBtn, {
           y: 0,
+          scale: 1,
           boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
           duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto"
         });
       };
-
-      const handleSecondaryEnter = () => {
+      
+      const enterSecondary = () => {
+        if (!secondaryBtn) return;
         gsap.to(secondaryBtn, {
           y: -3,
+          scale: 1.02,
           boxShadow: "0 10px 20px rgba(255, 38, 38, 0.1)",
           duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto"
         });
       };
-
-      const handleSecondaryLeave = () => {
+      
+      const leaveSecondary = () => {
+        if (!secondaryBtn) return;
         gsap.to(secondaryBtn, {
           y: 0,
+          scale: 1,
           boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
           duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto"
         });
       };
-
+      
       // Add event listeners
       if (primaryBtn) {
-        primaryBtn.addEventListener("mouseenter", handlePrimaryEnter);
-        primaryBtn.addEventListener("mouseleave", handlePrimaryLeave);
+        primaryBtn.addEventListener("mouseenter", enterPrimary);
+        primaryBtn.addEventListener("mouseleave", leavePrimary);
       }
-
+      
       if (secondaryBtn) {
-        secondaryBtn.addEventListener("mouseenter", handleSecondaryEnter);
-        secondaryBtn.addEventListener("mouseleave", handleSecondaryLeave);
+        secondaryBtn.addEventListener("mouseenter", enterSecondary);
+        secondaryBtn.addEventListener("mouseleave", leaveSecondary);
       }
-
+      
+      // Return cleanup function to prevent memory leaks
       return () => {
-        // Clean up event listeners with the same function references
         if (primaryBtn) {
-          primaryBtn.removeEventListener("mouseenter", handlePrimaryEnter);
-          primaryBtn.removeEventListener("mouseleave", handlePrimaryLeave);
+          primaryBtn.removeEventListener("mouseenter", enterPrimary);
+          primaryBtn.removeEventListener("mouseleave", leavePrimary);
         }
-
+        
         if (secondaryBtn) {
-          secondaryBtn.removeEventListener("mouseenter", handleSecondaryEnter);
-          secondaryBtn.removeEventListener("mouseleave", handleSecondaryLeave);
+          secondaryBtn.removeEventListener("mouseenter", enterSecondary);
+          secondaryBtn.removeEventListener("mouseleave", leaveSecondary);
         }
+        
+        // Kill all animations to prevent conflicts during unmount
+        masterTimeline.kill();
       };
     }, []);
 
@@ -611,7 +271,6 @@ export const HeroSection = styled(
     display: flex;
     flex-direction: column;
     gap: 37px;
-    // border: 1px solid red;
     ${maxWidthContainer}
 
     @media (min-width: 992px) {
@@ -685,6 +344,7 @@ export const HeroSection = styled(
         flex-direction: column;
         gap: 12px;
         width: 100%;
+        will-change: transform, opacity; /* Performance optimization */
 
         @media (min-width: 992px) {
           width: unset;
@@ -705,8 +365,11 @@ export const HeroSection = styled(
           line-height: normal;
           font-family: var(--font-fustat);
           cursor: pointer;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
+          will-change: transform, opacity, box-shadow; /* Performance optimization */
+          overflow: hidden; /* Prevent rendering artifacts */
+          transform: translateZ(0); /* Force GPU acceleration */
 
           @media (min-width: 992px) {
             width: unset;
@@ -730,8 +393,11 @@ export const HeroSection = styled(
           line-height: normal;
           font-family: var(--font-fustat);
           cursor: pointer;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
+          will-change: transform, opacity, box-shadow; /* Performance optimization */
+          overflow: hidden; /* Prevent rendering artifacts */
+          transform: translateZ(0); /* Force GPU acceleration */
 
           @media (min-width: 992px) {
             width: unset;
@@ -753,3 +419,5 @@ export const HeroSection = styled(
     }
   }
 `;
+
+export default HeroSection;

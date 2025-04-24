@@ -2,14 +2,8 @@ import type { Metadata } from "next";
 import { Exo_2, Fustat } from "next/font/google";
 import styles from "./page.module.css";
 import "./globals.css";
-import { GlobalUIProvider } from "./_utils/hooks/globalUI";
-import { Header } from "./_components/global/header";
-import StyledComponentsRegistry from "../../lib/registry";
-import { AuthProvider } from "./_contexts/AuthContext";
-import { MentorshipProvider } from "./_contexts/MentorshipContext";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-// import { GoogleOAuthProvider } from "@react-oauth/google";
-// import { Header } from "./_components/global/header";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import ClientProviders from "./_components/ClientProviders";
 
 const geistSans = Exo_2({
   variable: "--font-exo",
@@ -32,23 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <GoogleOAuthProvider clientId={clientId}>
-   
-    <AuthProvider>
-
-      <MentorshipProvider>
-        <GlobalUIProvider>
-          <html lang="en">
-            <body
-              className={`${geistSans.variable} ${getFustat.variable} ${styles.body}`}
-            >
-              <Header />
-              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-              <SpeedInsights />
-            </body>
-          </html>
-        </GlobalUIProvider>
-      </MentorshipProvider>
-    </AuthProvider>
+    <html lang="en">
+      <body className={`${geistSans.variable} ${getFustat.variable} ${styles.body}`}>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
+        <SpeedInsights />
+      </body>
+    </html>
   );
 }
