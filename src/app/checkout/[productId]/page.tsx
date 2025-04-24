@@ -647,22 +647,26 @@ const CheckoutPage: React.FC = () => {
     setError(null);
 
     try {
-      // Call your API to create an order
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/payments/create-order`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            productType: product.productType,
-          }),
-        }
-      );
+      // Call your Next.js API route instead of external API directly
+      const response = await fetch("/api/payments/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          productType: product.productType,
+        }),
+      });
 
       if (!response.ok) {
+        // For 500 errors, try to get more details
+        if (response.status === 500) {
+          const errorText = await response.text();
+          console.error("Server error details:", errorText);
+          throw new Error("Server error: " + errorText);
+        }
+
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to create order");
       }
@@ -675,6 +679,7 @@ const CheckoutPage: React.FC = () => {
         throw new Error(data.message || "Failed to create order");
       }
     } catch (err) {
+      console.error("Error creating order:", err);
       setError((err as Error).message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -761,48 +766,55 @@ const CheckoutPage: React.FC = () => {
   }, []);
 
   // Handle successful payment
-  const handlePaymentSuccess = async (response: {
-    razorpay_payment_id: string;
-    razorpay_order_id: string;
-    razorpay_signature: string;
-  }): Promise<void> => {
+// Handle successful payment
+const handlePaymentSuccess = async (response: {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}): Promise<void> => {
+  try {
+    // Verify payment using your Next.js API route
+    const verifyResponse = await fetch('/api/payments/verify', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        paymentId: response.razorpay_payment_id,
+        orderId: response.razorpay_order_id,
+        signature: response.razorpay_signature,
+      }),
+    });
+
+    let data;
     try {
-      // Verify payment on your backend
-      const verifyResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/payments/verify`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            paymentId: response.razorpay_payment_id,
-            orderId: response.razorpay_order_id,
-            signature: response.razorpay_signature,
-            // product_id: product!.id,
-            // customer_info: {
-            //   name,
-            //   email,
-            //   phone,
-            //   goals,
-            // },
-          }),
-        }
-      );
-
-      const data = await verifyResponse.json();
-
-      if (data.success) {
-        // Redirect to success page
-        router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
-      } else {
-        setError("Payment verification failed");
-      }
-    } catch (err) {
-      setError(`Error verifying payment: ${(err as Error).message}`);
+      // Try to parse response as JSON (works for both success and error cases)
+      data = await verifyResponse.json();
+    } catch (parseError) {
+      // If JSON parsing fails, get the response as text instead
+      const errorText = await verifyResponse.text();
+      console.error("Failed to parse response:", errorText, parseError);
+      throw new Error("Invalid response from server: " + errorText);
     }
-  };
+
+    if (!verifyResponse.ok) {
+      // Handle non-200 responses with the error message from the JSON
+      throw new Error(data.message || `Error ${verifyResponse.status}: Payment verification failed`);
+    }
+
+    if (data.success) {
+      // Redirect to success page
+      router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
+    } else {
+      // Handle case where response is 200 but success is false
+      setError("Payment verification failed: " + (data.message || "Unknown error"));
+    }
+  } catch (err) {
+    console.error("Error verifying payment:", err);
+    setError(`Error verifying payment: ${(err as Error).message}`);
+  }
+};
 
   // If product is loading or not found, show appropriate message
   if (!product) {
@@ -817,7 +829,7 @@ const CheckoutPage: React.FC = () => {
   }
 
   return (
-    <CheckoutContainer >
+    <CheckoutContainer>
       <Head>
         <title>Checkout - {product.name}</title>
       </Head>
@@ -1002,7 +1014,7 @@ const CheckoutPage: React.FC = () => {
           <TnC />
         </PaymentSection>
       </CheckoutGrid>
-     
+
       {/* <ThankyouScreen /> */}
       {/* <FailureScreen /> */}
     </CheckoutContainer>

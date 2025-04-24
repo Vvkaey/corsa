@@ -54,23 +54,23 @@ function AuthProvider({ children }: AuthProviderProps) {
   const requestOTP = async (email: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
-
+  
     try {
-      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
-      const response = await fetch(`${BASE_URL}/api/auth/request-otp`, {
+      // Call your Next.js API route instead of external API directly
+      const response = await fetch(`/api/auth/request-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
-
+      
       const data = await response.json();
-
+      
       if (!response.ok) {
         throw new Error(data.message || "Failed to send OTP");
       }
-
+  
       return true;
     } catch (error) {
       setError(error instanceof Error ? error.message : "Failed to send OTP");
@@ -79,43 +79,55 @@ function AuthProvider({ children }: AuthProviderProps) {
       setLoading(false);
     }
   };
+  
 
   // Verify OTP function
-  const verifyOTP = async (email: string, otp: string): Promise<boolean> => {
-    setLoading(true);
-    setError(null);
+const verifyOTP = async (email: string, otp: string): Promise<boolean> => {
+  setLoading(true);
+  setError(null);
 
-    try {
-      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
-      const response = await fetch(`${BASE_URL}/api/auth/verify-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Failed to verify OTP");
-      }
-
-      // Set token and user data in state and localStorage
-      setToken(data.data.token);
-      setUser(data.data.user);
-
-      localStorage.setItem("authToken", data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
-
-      return true;
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to verify OTP");
-      return false;
-    } finally {
-      setLoading(false);
+  try {
+    console.log("Calling verify OTP API route with email:", email);
+    const response = await fetch(`/api/auth/verify-otp`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, otp }),
+    });
+    
+    // Log the response status
+    console.log("API route responded with status:", response.status);
+    
+    // For 500 errors, try to get more details
+    if (response.status === 500) {
+      const errorText = await response.text();
+      console.error("Server error details:", errorText);
+      throw new Error("Server error: " + errorText);
     }
-  };
+    
+    const data = await response.json();
+    
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Failed to verify OTP");
+    }
+
+    // Set token and user data in state and localStorage
+    setToken(data.data.token);
+    setUser(data.data.user);
+
+    localStorage.setItem("authToken", data.data.token);
+    localStorage.setItem("user", JSON.stringify(data.data.user));
+
+    return true;
+  } catch (error) {
+    console.error("Error in verifyOTP:", error);
+    setError(error instanceof Error ? error.message : "Failed to verify OTP");
+    return false;
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Logout function
   const logout = () => {
