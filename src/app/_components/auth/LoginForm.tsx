@@ -197,8 +197,12 @@ const TncText = styled.p`
   }
 
   @media (min-width: 992px) {
-    margin: 23.5px auto;
+    margin: 15px auto;
     font-size: 16px;
+  }
+
+   @media (min-width: 1500px) {
+    margin: 23.5px auto;
   }
 `;
 

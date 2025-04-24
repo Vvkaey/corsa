@@ -84,12 +84,20 @@ const CheckoutContainer = styled.div`
   }
 
   @media (min-width: 992px) {
-    padding-top: 5rem;
+    padding-top: 0.5rem;
+    justify-content: flex-start;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 100vh;
+  }
+
+  //  @media (min-width: 1500px) {
+  // }
+
+  @media (min-width: 2100px) {
+   padding-top: 5rem;
+  justify-content: center;
   }
 `;
 
@@ -101,8 +109,21 @@ const CheckoutGrid = styled.div`
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     flex-direction: column;
-    margin-top: 90px;
+     margin-top: 90px;
   }
+
+  @media (min-width: 992px) {
+    gap: 1rem;
+  }
+
+  @media (min-width: 1500px) {
+   margin-top: 45px;
+    gap: 2rem;
+  }
+
+  @media (min-width: 2100px) {
+ margin-top: 90px;
+}
 `;
 
 const ProductDetailsCard = styled.div`
@@ -125,7 +146,16 @@ const ProductDetailsCard = styled.div`
     border: 2px solid #000;
     margin-top: unset;
     position: unset;
-    width: 579px;
+    width: 480px;
+      padding: 34px 24px;
+  }
+
+  @media (min-width: 1500px) {
+  width: 579px;
+    padding: 58px 49px;
+  }
+
+  @media (min-width: 2100px) {
     padding: 68px 49px;
   }
 `;
@@ -142,12 +172,17 @@ const ProductTitle = styled.h1`
   padding: 16px 0;
 
   @media (min-width: 992px) {
-    margin-bottom: 50px;
+    margin-bottom: 35px;
     padding: unset;
     padding-left: 15px;
     font-weight: 700;
+    font-size: 28px;
+    line-height: 125%;
+  }
+
+  @media (min-width: 1500px) {
     font-size: 35.425px;
-    line-height: 44.281px; /* 125% */
+    margin-bottom: 50px;
   }
 `;
 
@@ -230,6 +265,11 @@ const BenefitItem = styled.li`
   }
 
   @media (min-width: 992px) {
+    font-size: 20px;
+    padding: 20px 15px;
+  }
+
+  @media (min-width: 1500px) {
     font-size: 25px;
     padding: 25px 15px;
   }
@@ -241,6 +281,16 @@ const Divider = styled.hr<{ pixelpadding?: string }>`
   background-color: #cbd5e1;
   margin: ${({ pixelpadding }) =>
     pixelpadding ? `${pixelpadding} 0` : "22px 0"};
+
+  @media (min-width: 992px) {
+    margin: ${({ pixelpadding }) =>
+      pixelpadding ? `${pixelpadding} 0` : "18px 0"};
+  }
+
+  @media (min-width: 1500px) {
+    margin: ${({ pixelpadding }) =>
+      pixelpadding ? `${pixelpadding} 0` : "22px 0"};
+  }
 `;
 
 const PaymentSection = styled.div`
@@ -254,9 +304,18 @@ const PaymentSection = styled.div`
   @media (min-width: 992px) {
     border: 2px solid #000;
     margin-bottom: unset;
-    width: 579px;
-    padding: 68px 49px;
+    width: 480px;
+padding: 34px 24px;
     border-radius: 12px;
+  }
+
+  @media (min-width: 1500px) {
+  width: 579px;
+   padding: 58px 49px;
+  }
+
+  @media (min-width: 2100px) {
+    padding: 68px 49px;
   }
 `;
 
@@ -274,8 +333,13 @@ const SectionTitle = styled.h2`
 
   @media (min-width: 992px) {
     text-align: unset;
+    font-size: 22px;
+    line-height: 158.147%;
+    margin-bottom: 21px;
+  }
+
+  @media (min-width: 1500px) {
     font-size: 28px;
-    line-height: 44.281px; /* 158.147% */
     margin-bottom: 31px;
   }
 `;
@@ -284,6 +348,10 @@ const FormGroup = styled.div`
   margin-bottom: 9px;
 
   @media (min-width: 992px) {
+    margin-bottom: 0.5rem;
+  }
+
+   @media (min-width: 1500px) {
     margin-bottom: 1.25rem;
   }
 
@@ -324,10 +392,15 @@ const Input = styled.input`
   border: 1px solid #000;
 
   @media (min-width: 992px) {
-    padding: 18px 21px;
-    font-size: 20px;
+    padding: 12px 15px;
+    font-size: 16px;
     border-radius: 8px;
     border: 2px solid #969696;
+  }
+
+  @media (min-width: 1500px) {
+    font-size: 20px;
+    padding: 18px 21px;
   }
 
   &:focus {
@@ -362,10 +435,15 @@ const Select = styled.select`
   border: 1px solid #000;
 
   @media (min-width: 992px) {
-    padding: 18px 21px;
-    font-size: 20px;
+      padding: 12px 15px;
+    font-size: 16px;
     border-radius: 8px;
     border: 2px solid #969696;
+  }
+
+  @media (min-width: 1500px) {
+    font-size: 20px;
+        padding: 18px 21px;
   }
 
   &:focus {
@@ -437,10 +515,16 @@ const PayButton = styled.button`
   gap: 15px;
 
   @media (min-width: 992px) {
-    padding: 24px;
-    font-size: 23.521px;
+    padding: 16px 20px;
+    font-size: 20px;
     border-radius: 8px;
+    margin-top: 0.2rem;
+  }
+
+   @media (min-width: 1500px) {
+    padding: 24px;
     margin-top: 1rem;
+    font-size: 23.521px;
   }
 
   &:hover {
@@ -463,10 +547,16 @@ const OrderSummary = styled.div`
   margin-bottom: 36px;
 
   @media (min-width: 992px) {
-    padding: 28px 0;
+    padding: 18px 0;
     background: #eef2f7;
     border: 2px solid #000;
     border-radius: 8px;
+    
+    margin-bottom: 0.75rem;
+  }
+
+  @media (min-width: 1500px) {
+    padding: 28px 0;
     margin-bottom: 1.5rem;
   }
 `;
@@ -489,6 +579,11 @@ const SummaryRow = styled.div`
   }
 
   @media (min-width: 992px) {
+    font-size: 20px;
+    padding: 0 30px;
+  }
+
+  @media (min-width: 1500px) {
     font-size: 26px;
     padding: 0 40px;
   }
@@ -499,9 +594,14 @@ const SummaryTotal = styled(SummaryRow)`
   padding-bottom: 18px;
 
   @media (min-width: 992px) {
-    padding-bottom: 32px;
-    margin-top: 0.5rem;
+    padding-bottom: 25px;
+
     padding-top: 0.5rem;
+  }
+
+   @media (min-width: 1500px) {
+    padding-bottom: 32px;
+        margin-top: 0.5rem;
   }
 
   span {
@@ -515,6 +615,10 @@ const SummaryTotal = styled(SummaryRow)`
     line-height: normal;
 
     @media (min-width: 992px) {
+      font-size: 25px;
+    }
+
+    @media (min-width: 1500px) {
       font-size: 32px;
     }
 
@@ -527,6 +631,10 @@ const SummaryTotal = styled(SummaryRow)`
       font-style: normal;
       font-weight: 600;
       line-height: normal;
+
+      @media (min-width: 992px) {
+        font-size: 20px;
+      }
 
       @media (min-width: 992px) {
         font-size: 26px;
@@ -551,6 +659,10 @@ const SummaryTotal = styled(SummaryRow)`
         line-height: normal;
 
         @media (min-width: 992px) {
+          font-size: 17px;
+        }
+
+        @media (min-width: 1500px) {
           font-size: 22px;
         }
       }
@@ -766,55 +878,60 @@ const CheckoutPage: React.FC = () => {
   }, []);
 
   // Handle successful payment
-// Handle successful payment
-const handlePaymentSuccess = async (response: {
-  razorpay_payment_id: string;
-  razorpay_order_id: string;
-  razorpay_signature: string;
-}): Promise<void> => {
-  try {
-    // Verify payment using your Next.js API route
-    const verifyResponse = await fetch('/api/payments/verify', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        paymentId: response.razorpay_payment_id,
-        orderId: response.razorpay_order_id,
-        signature: response.razorpay_signature,
-      }),
-    });
-
-    let data;
+  // Handle successful payment
+  const handlePaymentSuccess = async (response: {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+  }): Promise<void> => {
     try {
-      // Try to parse response as JSON (works for both success and error cases)
-      data = await verifyResponse.json();
-    } catch (parseError) {
-      // If JSON parsing fails, get the response as text instead
-      const errorText = await verifyResponse.text();
-      console.error("Failed to parse response:", errorText, parseError);
-      throw new Error("Invalid response from server: " + errorText);
-    }
+      // Verify payment using your Next.js API route
+      const verifyResponse = await fetch("/api/payments/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          paymentId: response.razorpay_payment_id,
+          orderId: response.razorpay_order_id,
+          signature: response.razorpay_signature,
+        }),
+      });
 
-    if (!verifyResponse.ok) {
-      // Handle non-200 responses with the error message from the JSON
-      throw new Error(data.message || `Error ${verifyResponse.status}: Payment verification failed`);
-    }
+      let data;
+      try {
+        // Try to parse response as JSON (works for both success and error cases)
+        data = await verifyResponse.json();
+      } catch (parseError) {
+        // If JSON parsing fails, get the response as text instead
+        const errorText = await verifyResponse.text();
+        console.error("Failed to parse response:", errorText, parseError);
+        throw new Error("Invalid response from server: " + errorText);
+      }
 
-    if (data.success) {
-      // Redirect to success page
-      router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
-    } else {
-      // Handle case where response is 200 but success is false
-      setError("Payment verification failed: " + (data.message || "Unknown error"));
+      if (!verifyResponse.ok) {
+        // Handle non-200 responses with the error message from the JSON
+        throw new Error(
+          data.message ||
+            `Error ${verifyResponse.status}: Payment verification failed`
+        );
+      }
+
+      if (data.success) {
+        // Redirect to success page
+        router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
+      } else {
+        // Handle case where response is 200 but success is false
+        setError(
+          "Payment verification failed: " + (data.message || "Unknown error")
+        );
+      }
+    } catch (err) {
+      console.error("Error verifying payment:", err);
+      setError(`Error verifying payment: ${(err as Error).message}`);
     }
-  } catch (err) {
-    console.error("Error verifying payment:", err);
-    setError(`Error verifying payment: ${(err as Error).message}`);
-  }
-};
+  };
 
   // If product is loading or not found, show appropriate message
   if (!product) {
@@ -840,9 +957,9 @@ const handlePaymentSuccess = async (response: {
         strategy="lazyOnload"
       />
 
-      <BackLink onClick={() => router.push("/pricing")}>
+      {/* <BackLink onClick={() => router.push("/pricing")}>
         ← Back to pricing
-      </BackLink>
+      </BackLink> */}
 
       <CheckoutGrid>
         {/* Product details */}
