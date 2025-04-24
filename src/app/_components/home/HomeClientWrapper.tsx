@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { useRouter } from "next/navigation";
 import { theme } from "../theme";
 
 // Import all components
 import { HeroSection } from "./HeroSection";
-import { StepsSection } from "./StepsSection";
+// import { StepsSection } from "./StepsSection";
 import { QuotationSection } from "./QuotationSection";
 import { BannerSection } from "./BannerSection";
 import { FAQSection } from "./FAQSection";
@@ -51,7 +51,7 @@ interface HomeClientWrapperProps {
     name: string;
     icon: string;
   }>;
-  flowContent: FlowItem[];
+  flowContent?: FlowItem[];
   bannerContent: {
     title: React.ReactNode;
     description: string;
@@ -95,6 +95,10 @@ export default function HomeClientWrapper({
     }
   };
 
+  useEffect(() => {
+    console.log("flowContent:", flowContent);
+  })
+
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -115,7 +119,7 @@ export default function HomeClientWrapper({
           />
           
           {/* StepsSection with animations */}
-          <StepsSection flowItems={flowContent} />
+          {/* <StepsSection flowItems={flowContent} /> */}
           
           <QuotationSection
             description={
