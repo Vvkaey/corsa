@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const ApplyForMentorPage = () => {
   const [error, setError] = useState<string | null>(null);
-    const [loading] = useState<boolean>(false);
+  const [loading] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -57,40 +57,29 @@ const ApplyForMentorPage = () => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Phone Number"
-              required
-            />
-          </FormGroup>
-          <FormGroup>
             <Label htmlFor="email">Email Address</Label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
+              placeholder="Email"
               required
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name">OTP</Label>
             <Input
               id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Full Name"
+              placeholder="Enter OTP"
               required
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="phone">Phone Number</Label>
+            <Label htmlFor="phone">Phone No</Label>
             <Input
               id="phone"
               type="tel"
@@ -100,95 +89,99 @@ const ApplyForMentorPage = () => {
               required
             />
           </FormGroup>
+
           <FormGroup>
-            <Label htmlFor="email">Email Address</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="phone">Linkedin Profile</Label>
             <Input
               id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Full Name"
+              placeholder="Linkedin Profile"
               required
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Phone Number"
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="email">Email Address</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="email">College Name</Label>
             <Input
               id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Full Name"
+              placeholder="College Name"
               required
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="phone">Phone Number</Label>
+            <Label htmlFor="name">Currently Working</Label>
             <Input
-              id="phone"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Phone Number"
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Currently Working"
               required
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="email">Email Address</Label>
+            <Label htmlFor="phone">Current Company</Label>
             <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Current Company"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="email">Current City</Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Current City"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="name">Mentoring Experience</Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Mentoring Experience"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="phone">Mentoring Sessions</Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Mentoring Sessions"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="email">Mentoring Approach</Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Mentoring Approach"
               required
             />
           </FormGroup>
 
           <SubmitButton type="submit" disabled={loading}>
-                      {loading ? (
-                        <>
-                           Processing...
-                        </>
-                      ) : (
-                        <>                          
-                          Submit
-                        </>
-                      )}
-                    </SubmitButton>
+            {loading ? <>Processing...</> : <>Submit</>}
+          </SubmitButton>
         </form>
       </ApplicationForm>
     </MentorApplicationContainer>
@@ -238,6 +231,11 @@ const ApplicationForm = styled.div`
 
   @media (min-width: 992px) {
     margin: 80px;
+    margin-top: 30px;
+  }
+
+  @media (min-width: 1800px) {
+    margin-top: unset;
   }
 `;
 
@@ -332,4 +330,4 @@ border: none;
 @media (min-width: 992px) {
 width: 315px;
 
-`
+`;

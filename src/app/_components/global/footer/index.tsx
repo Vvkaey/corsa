@@ -3,16 +3,24 @@
 import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants"; // List of pages where the footer should be hidden
 import { GlobalUIContext } from "@/app/_utils/hooks/globalUI"; // Context for global UI settings
 import Image from "next/image"; // Optimized image handling in Next.js
-import { usePathname } from "next/navigation"; // Hook to get the current page pathname
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation"; // Hook to get the current page pathname
 import { useContext } from "react"; // Hook to access React context
 import styled from "styled-components"; // Allows for modular CSS using Styled Components
 
 export const Footer = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext); // Access global UI settings
   const pathname = usePathname(); // Get the current route
+  const router = useRouter();
 
   // Hide footer if lite mode is enabled or if the page is in NO_HEADER_FOOTER_PAGES
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
+
+  const onApplyMentorClick = () => {
+     if(router){
+      router.push("/apply-for-mentor");
+     }
+  }
 
   return (
     <div className={className}>
@@ -23,7 +31,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           <div className="left-block">
             <p className="cheers">Cheers!</p>
             <div className="cta-container">
-              <button className="primary-button" >Apply as mentor</button>
+              <button className="primary-button" onClick={onApplyMentorClick} >Apply as mentor</button>
             </div>
           </div>
 
@@ -34,8 +42,8 @@ export const Footer = styled(({ className }: { className?: string }) => {
               <p className="email">connect@corsaclub.io</p>
             </div>
             <div className="tnc-container">
-              <p className="privacy-policy">Privacy policy</p>
-              <p className="tnc">Terms of service</p>
+              <Link  href={"/privacy-policy"} className="privacy-policy">Privacy policy</Link>
+              <Link  href={"/terms-and-conditions"} className="tnc">Terms of service</Link>
             </div>
           </div>
         </div>
