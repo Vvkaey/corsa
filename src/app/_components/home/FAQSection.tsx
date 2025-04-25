@@ -21,6 +21,7 @@ const ContentBox = styled(
           <CaretUp
             style={{
               transform: `rotate(${showDescription ? "0deg" : "180deg"})`,
+              transition: "transform 0.3s ease-in-out",
             }}
           />
         </button>
