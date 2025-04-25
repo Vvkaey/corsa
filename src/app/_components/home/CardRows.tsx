@@ -1,28 +1,32 @@
 import styled from "styled-components";
+import { maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
 
 export const Card = styled(({ className }: { className?: string }) => {
   return (
     <div className={className}>
-      <div className="circle" />
       <div className="quotes">“</div>
       <p className="description">
-        The sessions was so insightful and mentor were kind and knowledgeable
+        Mentoring here has been a rewarding experience. Helping others grow
+        while building real connections. Being a mentor on this platform has
+        been an incredibly rewarding experience.
       </p>
       <div className="signature">
+        <div className="circle" />
         <p className="name">Riddhi Shah</p>
-        <p className="handle">@riddhi_S</p>
+        <p className="handle">IIT DELHI</p>
       </div>
     </div>
   );
 })`
+  position: relative;
   background: #fff;
   border-radius: 9.2px;
-  padding: 11.2px 13.36px 24.76px 13.36px;
+  padding: 55px 28px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 160.369px;
-  height: 236px;
+  width: 100%;
+  height: 436px;
   flex-shrink: 0;
   font-family: var(--font-fustat);
 
@@ -32,8 +36,11 @@ export const Card = styled(({ className }: { className?: string }) => {
   }
 
   .circle {
-    width: 28.43px;
-    height: 28.43px;
+    position: absolute;
+    left: -40px;
+    margin-right: 0;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: #d9d9d9;
 
@@ -44,17 +51,22 @@ export const Card = styled(({ className }: { className?: string }) => {
   }
 
   .quotes {
-    color: #ffd797;
-    font-size: 37.063px;
+    position: relative;
+    top: 5%;
+    color: #a88146;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: var(--font-exo);
+    font-size: 136px;
     font-style: normal;
-    font-weight: 700;
-    line-height: 141.979%; /* 52.622px */
+    font-weight: 600;
+    line-height: 40%; /* 163.176px */
   }
 
   .description {
     margin: 0;
-    color: #000;
-    font-size: 14px;
+    color: #373737;
+    font-size: 17.138px;
     font-style: normal;
     font-weight: 600;
     line-height: 141.979%; /* 17.037px */
@@ -67,16 +79,18 @@ export const Card = styled(({ className }: { className?: string }) => {
   }
 
   .signature {
+    position: absolute;
+    right: 30px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    justify-self: flex-end;
+    align-self: flex-end;
     padding-top: 10px;
+    bottom: 45px;
 
     .name {
       margin: 0;
       color: #000;
-      font-size: 10px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 600;
       line-height: 141.979%; /* 11.358px */
@@ -89,7 +103,7 @@ export const Card = styled(({ className }: { className?: string }) => {
     .handle {
       margin: 0;
       color: #5f5f5f;
-      font-size: 8px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 600;
       line-height: 141.979%; /* 8.519px */
@@ -101,6 +115,118 @@ export const Card = styled(({ className }: { className?: string }) => {
   }
 `;
 
+const Signature = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DP = styled.div`
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
+  background: #d9d9d9;
+`;
+
+const TextGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const FullName = styled.p`
+  color: #000;
+  font-family: var(--font-fustat);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 141.979%; /* 31.235px */
+`;
+
+const Institute = styled.p`
+  color: #5f5f5f;
+  font-family: var(--font-fustat);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 141.979%; /* 28.396px */
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 30px 0 120px;
+`;
+
+const Text = styled.div`
+  position: relative;
+`;
+
+const P = styled.p`
+  color: #373737;
+  font-family: var(--font-fustat);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 141.979%; /* 34.075px */
+  max-width: 40ch;
+`;
+const XLCardContainer = styled.div`
+  min-width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 84px 84px 60px 84px;
+  border-radius: 14px;
+  background: #fff;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+`;
+
+const Quote = styled.div`
+  top: -65px;
+  left: -130px;
+  position: absolute;
+  color: #a88146;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 228px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 119.982%;
+`;
+
+const XLCard = () => {
+  return (
+    <XLCardContainer>
+      <Content>
+        <Text>
+          <P>
+            Mentoring here has been a rewarding experience. Helping others grow
+            while building real connections. Being a mentor on this platform has
+            been an incredibly rewarding experience.
+          </P>{" "}
+          <Quote>“</Quote>
+        </Text>
+        <Signature>
+          <DP />
+          <TextGroup>
+            <FullName>Riddhi Shah</FullName>
+            <Institute>IIT Delhi</Institute>
+          </TextGroup>
+        </Signature>
+      </Content>
+    </XLCardContainer>
+  );
+};
+
 export const CardRows = styled(({ className }: { className?: string }) => {
   return (
     <section className={className}>
@@ -111,17 +237,9 @@ export const CardRows = styled(({ className }: { className?: string }) => {
             What <span className="red-text">keeps us going.</span>
           </p>
         </div>
+        <XLCard />
         <div className="cards-container">
           <div className="row">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-          </div>
-          <div className="row">
-            <Card />
-            <Card />
-            <Card />
             <Card />
           </div>
         </div>
@@ -137,7 +255,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
   padding: 72px 0;
 
   @media (min-width: 992px) {
-    padding: 82px 0;
+    padding: 200px 0;
   }
 
   .container {
@@ -145,9 +263,10 @@ export const CardRows = styled(({ className }: { className?: string }) => {
     display: flex;
     border: 1px solid black;
     margin: auto;
-    max-width: 1500px;
     flex-direction: column;
     gap: 66px;
+    ${sectionResponsivePadding()};
+    ${maxWidthContainer};
 
     @media (min-width: 992px) {
       flex-direction: row;
@@ -163,12 +282,12 @@ export const CardRows = styled(({ className }: { className?: string }) => {
       background: #000;
       width: 100%;
       gap: 12px;
-        padding-left : 24px;
+      // padding-left: 24px;
       @media (min-width: 992px) {
         width: 36%;
         align-items: flex-start;
         gap: 14px;
-         padding-left : unset;
+        // padding-left: unset;
       }
 
       h2.title {
@@ -179,9 +298,8 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         font-weight: 800;
         line-height: normal;
         text-transform: capitalize;
-      
+
         @media (min-width: 992px) {
-         
           font-size: 46px;
         }
       }
@@ -210,6 +328,10 @@ export const CardRows = styled(({ className }: { className?: string }) => {
       display: flex;
       flex-direction: column;
       gap: 17.48px;
+      width: 100%;
+      @media (min-width: 992px) {
+        display: none;
+      }
 
       .row {
         display: flex;
@@ -217,24 +339,8 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         position: relative;
         flex-wrap: wrap;
         justify-content: center;
-        @media (min-width: 992px) {
-          flex-wrap: nowrap;
-          justify-content: unset;
-        }
-
-        &:first-child {
-          @media (min-width: 992px) {
-            left: 72px;
-          }
-        }
-
-        &:last-child {
-          display: none;
-
-          @media (min-width: 992px) {
-            display: flex;
-          }
-        }
+        width: 100%;
+        height: 100%;
       }
     }
   }

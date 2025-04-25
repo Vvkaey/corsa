@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import {
@@ -8,7 +8,6 @@ import {
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
 import TitleSubtitle from "./TitleSubtitle";
-import gsap from "gsap";
 
 // Define proper types
 interface FlowColAProps {
@@ -49,135 +48,109 @@ export const StepsSection = styled(
   }: StepsSectionProps) => {
     const sectionRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
-    const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const [animatedSteps, setAnimatedSteps] = useState<Set<number>>(new Set());
-    const [titleAnimated, setTitleAnimated] = useState(false);
+    const stepsRef = useRef<HTMLDivElement>(null);
     
-    // Reset refs array
-    stepRefs.current = [];
-    
-    // Add to refs array
-    const addToStepRefs = (el: HTMLDivElement | null) => {
-      if (el && !stepRefs.current.includes(el)) {
-        stepRefs.current.push(el);
-      }
-    };
-    
-    // Function to check if element is in viewport
-    const isInViewport = (element: HTMLElement) => {
-      const rect = element.getBoundingClientRect();
-      return (
-        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
-        rect.bottom >= 0
-      );
-    };
-    
+    // Ensure initial visibility - this guarantees the section will be visible
     useEffect(() => {
-      // Set initial state to prevent flashing
+      // Make everything visible immediately for debugging
+      // Remove this when the issue is fixed
+      console.log("Steps section mounted, flowItems:", flowItems?.length);
+      
       if (titleRef.current) {
-        gsap.set(titleRef.current, { 
-          opacity: 0,
-          y: 30
-        });
+        titleRef.current.style.opacity = '1';
       }
       
-      stepRefs.current.forEach((step) => {
-        if (step) {
-          const textContainer = step.querySelector('.text-container');
-          const mediaContainer = step.querySelector('.media-container');
-          const mobileDesc = step.querySelector('.mbl-description');
-          
-          if (textContainer) gsap.set(textContainer, { opacity: 0, x: -40 });
-          if (mediaContainer) gsap.set(mediaContainer, { opacity: 0, x: 40, scale: 0.95 });
-          if (mobileDesc) gsap.set(mobileDesc, { opacity: 0, y: 20 });
-        }
-      });
-      
-      // Create title animation
-      const titleTimeline = gsap.timeline({ paused: true });
-      if (titleRef.current) {
-        titleTimeline.to(titleRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out"
+      // Ensure all steps are visible in case of any animation issues
+      if (stepsRef.current) {
+        const allElements = stepsRef.current.querySelectorAll('.step, .text-container, .media-container, .mbl-description');
+        allElements.forEach(el => {
+          (el as HTMLElement).style.opacity = '1';
+          (el as HTMLElement).style.transform = 'none';
         });
       }
+    }, [flowItems]);
+    
+    // Actual animation logic
+    useEffect(() => {
+      // For SSR safety
+      if (typeof window === 'undefined') return;
       
-      // Handle scroll event
-      const handleScroll = () => {
-        // Animate title if in viewport and not already animated
-        if (titleRef.current && !titleAnimated) {
-          if (isInViewport(titleRef.current)) {
-            titleTimeline.play();
-            setTitleAnimated(true);
-          }
+      // Debugging log
+      console.log("Running animation effect, window width:", window.innerWidth);
+      
+      // Store current refs
+      const currentTitleRef = titleRef.current;
+      const currentStepsRef = stepsRef.current;
+      
+      try {
+        // Desktop animations (skip mobile check to ensure it works)
+        if (currentTitleRef) {
+          // Title should already be visible from the first effect
+          currentTitleRef.style.opacity = '1';
+          currentTitleRef.style.transform = 'none';
         }
         
-        // Animate steps that come into viewport
-        stepRefs.current.forEach((step, index) => {
-          if (step && !animatedSteps.has(index)) {
-            if (isInViewport(step)) {
-              // Create a new set with the updated value
-              setAnimatedSteps(prev => new Set(prev).add(index));
-              
-              // For even-indexed steps, animate from right
-              // For odd-indexed steps, animate from left
-              // const direction = index % 2 === 0 ? 40 : -40;
-              
-              // Get elements
-              const textContainer = step.querySelector('.text-container');
-              const mediaContainer = step.querySelector('.media-container');
-              const mobileDesc = step.querySelector('.mbl-description');
-              
-              // Create animation for this step
-              const stepTimeline = gsap.timeline();
-              
-              // Add animations to the timeline with proper direction
+        if (currentStepsRef) {
+          // Get all steps
+          const steps = currentStepsRef.querySelectorAll('.step');
+          console.log("Steps found:", steps.length);
+          
+          // Make all step containers visible immediately
+          steps.forEach((step) => {
+            (step as HTMLElement).style.opacity = '1';
+          });
+          
+          // Set up animations for inner elements
+          steps.forEach((step, index) => {
+            const textContainer = step.querySelector('.text-container');
+            const mediaContainer = step.querySelector('.media-container');
+            const mobileDesc = step.querySelector('.mbl-description');
+            
+            // Ensure inner elements are visible first
+            if (textContainer) (textContainer as HTMLElement).style.opacity = '1';
+            if (mediaContainer) (mediaContainer as HTMLElement).style.opacity = '1';
+            if (mobileDesc) (mobileDesc as HTMLElement).style.opacity = '1';
+            
+            // Then apply simple animations with setTimeout
+            setTimeout(() => {
               if (textContainer) {
-                stepTimeline.to(textContainer, { 
-                  opacity: 1, 
-                  x: 0, 
-                  duration: 0.8,
-                  ease: "power3.out",
-                });
+                (textContainer as HTMLElement).style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                (textContainer as HTMLElement).style.transform = 'translateX(-10px)';
+                
+                setTimeout(() => {
+                  (textContainer as HTMLElement).style.transform = 'translateX(0)';
+                }, 100);
               }
               
               if (mediaContainer) {
-                stepTimeline.to(mediaContainer, { 
-                  opacity: 1, 
-                  x: 0, 
-                  scale: 1,
-                  duration: 0.8,
-                  ease: "power2.out",
-                  clearProps: "scale"
-                }, "-=0.5");
+                (mediaContainer as HTMLElement).style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                (mediaContainer as HTMLElement).style.transform = 'translateX(10px) scale(0.98)';
+                
+                setTimeout(() => {
+                  (mediaContainer as HTMLElement).style.transform = 'translateX(0) scale(1)';
+                }, 100);
               }
-              
-              if (mobileDesc) {
-                stepTimeline.to(mobileDesc, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.6,
-                  ease: "power2.out"
-                }, "-=0.3");
-              }
-            }
-          }
-        });
-      };
-      
-      // Check initial visibility
-      handleScroll();
-      
-      // Add scroll listener
-      window.addEventListener('scroll', handleScroll);
-      
-      // Cleanup
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, [animatedSteps, titleAnimated]);
+            }, 500 + (index * 200)); // Staggered delay
+          });
+        }
+      } catch (error) {
+        console.error("Animation error in StepsSection:", error);
+        
+        // Fallback: ensure content is visible even if animation fails
+        if (currentTitleRef) currentTitleRef.style.opacity = '1';
+        
+        if (currentStepsRef) {
+          const elements = currentStepsRef.querySelectorAll('.step, .text-container, .media-container, .mbl-description');
+          elements.forEach(el => {
+            (el as HTMLElement).style.opacity = '1';
+            (el as HTMLElement).style.transform = 'none';
+          });
+        }
+      }
+    }, []);
+
+    // Debugging check
+    console.log("Rendering StepsSection with items:", flowItems?.length);
 
     return (
       <section className={className} ref={sectionRef}>
@@ -191,50 +164,59 @@ Let's `}
 with mentors who get things done. Here's how we help you step up."`}
             />
           </div>
-          <div className="steps">
-            {flowItems?.map((item, idx) => (
-              <div 
-                className="step" 
-                key={idx} 
-                ref={addToStepRefs}
-              >
-                <div className="text-container">
-                  <div className="text-a">
-                    <div className="icon-container">
-                      {/* <Image src={item?.colB?.img} alt={item?.colB?.img} fill /> */}
+          <div className="steps" ref={stepsRef}>
+            {flowItems && flowItems.length > 0 ? (
+              flowItems.map((item, idx) => (
+                <div 
+                  className="step" 
+                  key={idx}
+                  style={{ opacity: 1 }} // Force initial visibility
+                >
+                  <div className="text-container" style={{ opacity: 1 }}>
+                    <div className="text-a">
+                      <div className="icon-container">
+                        {/* <Image src={item?.colB?.img} alt={item?.colB?.img} fill /> */}
+                      </div>
+                    </div>
+                    <div className="text-b">
+                      <h2 className="title">{item?.colB?.title}</h2>
+                      <p className="description">{item?.colB?.subtitle}</p>
                     </div>
                   </div>
-                  <div className="text-b">
-                    <h2 className="title">{item?.colB?.title}</h2>
-                    <p className="description">{item?.colB?.subtitle}</p>
+                  <div className="media-container" style={{ opacity: 1 }}>
+                    <div className="img-container">
+                      {" "}
+                      <Image 
+                        src={item?.colC?.img} 
+                        alt={`Step ${idx + 1}: ${typeof item?.colB?.title === 'string' ? item.colB.title : 'Step illustration'}`} 
+                        fill 
+                      />
+                    </div>
                   </div>
+                  <p className="mbl-description" style={{ opacity: 1 }}>{item?.colB?.subtitle}</p>
                 </div>
-                <div className="media-container">
-                  <div className="img-container">
-                    {" "}
-                    <Image 
-                      src={item?.colC?.img} 
-                      alt={`Step ${idx + 1}: ${typeof item?.colB?.title === 'string' ? item.colB.title : 'Step illustration'}`} 
-                      fill 
-                    />
-                  </div>
-                </div>
-                <p className="mbl-description">{item?.colB?.subtitle}</p>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="error-message">No steps to display. Check your data.</div>
+            )}
           </div>
         </div>
       </section>
     );
   }
 )`
-  /* Rest of the styling remains the same */
   position: relative;
   font-family: var(--font-exo);
   padding: 70px 0 0 0;
   margin: auto;
   background: #fff;
   overflow: hidden; /* Prevent animations from causing horizontal scroll */
+
+  .error-message {
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
 
   @media (min-width: 992px) {
     width: 100%;
@@ -276,8 +258,6 @@ with mentors who get things done. Here's how we help you step up."`}
         align-items: center;
         flex-direction: column;
         gap: 13px;
-        will-change: transform, opacity; /* Performance optimization */
-        transform: translateZ(0); /* Force GPU acceleration */
 
         @media (min-width: 992px) {
           flex-direction: row;

@@ -104,7 +104,6 @@ export const RewardsSection = styled(
     padding: 60px 0px 84px 0px;
 
     @media (min-width: 992px) {
-      height: 80%;
       border-radius: 30.016px;
       padding: 40px 0px 40px 48px;
       display: flex;

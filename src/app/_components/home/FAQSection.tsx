@@ -24,12 +24,8 @@ const ContentBox = styled(
             }}
           />
         </button>
-        <div
-          className={
-            showDescription ? "description" : "description hide-description"
-          }
-        >
-          {data?.ans}
+        <div className={`description-wrapper ${showDescription ? "open" : ""}`}>
+          <div className={"description"}>{data?.ans}</div>
         </div>
       </div>
     );
@@ -39,8 +35,12 @@ const ContentBox = styled(
   flex-direction: column;
   width: 95%;
 
+  .ques-container {
+    overflow: hidden;
+  }
+
   button.ques-container {
-    cursor : pointer;
+    cursor: pointer;
     text-align: left;
     border: none;
     background: transparent;
@@ -59,7 +59,7 @@ const ContentBox = styled(
     }
 
     .ques {
-                  font-family: var(--font-fustat);
+      font-family: var(--font-fustat);
       color: #000;
       font-size: 18px;
       font-style: normal;
@@ -76,30 +76,53 @@ const ContentBox = styled(
       transform: rotate(180deg);
     }
   }
+  .description-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .description-wrapper.open {
+    grid-template-rows: 1fr;
+  }
 
   .description {
-                font-family: var(--font-fustat);
-    height: unset;
+    overflow: hidden; /* Critical to hide content when collapsed */
+    font-family: var(--font-fustat);
     position: relative;
     color: #000;
     font-size: 16px;
     font-style: normal;
-    line-height: 120%; /* 28.396px */
-    padding: 19px 0px;
-    transition: all 0.5s ease-in;
-    opacity: 1;
-    top: 0;
+    line-height: 120%;
+    padding: 0; /* Start with no padding */
+    transition: opacity 0.4s ease 0.1s,
+      /* Slight delay on opacity */ transform 0.4s ease, padding 0.4s ease;
+    transform: translateY(0);
+    opacity: 0; /* Start invisible */
+
     @media (min-width: 992px) {
-      padding: 19px 10px;
       width: 100%;
     }
   }
 
-  .hide-description {
-    opacity: 0;
-    top: -100%;
-    height: 0;
-    padding: 0;
+  /* Apply styles when open */
+  .description-wrapper.open .description {
+    padding: 19px 0px; /* Add padding when open */
+    opacity: 1;
+
+    @media (min-width: 992px) {
+      padding: 19px 10px;
+    }
+  }
+
+  /* Styles when closed */
+  .description-wrapper:not(.open) .description {
+    transform: translateY(-10px);
+
+    @media (min-width: 992px) {
+      padding-right: 10px; /* No padding when closed */
+      padding-left: 10px; /* No padding when closed */
+    }
   }
 `;
 
@@ -136,8 +159,8 @@ export const FAQSection = styled(
   margin: auto;
   font-family: var(--font-exo);
   padding: 40px 0;
-  border-bottom-right-radius : 36px;
-  border-bottom-left-radius : 36px;
+  border-bottom-right-radius: 36px;
+  border-bottom-left-radius: 36px;
 
   @media (min-width: 992px) {
     padding: 96px 0;

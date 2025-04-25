@@ -6,9 +6,8 @@ import { useRouter } from "next/navigation";
 import { theme } from "../theme";
 
 // Import all components
-import { HeroSection } from "./HeroSection";
+import HeroSection from "./HeroSection";
 // import { StepsSection } from "./StepsSection";
-import { QuotationSection } from "./QuotationSection";
 import { BannerSection } from "./BannerSection";
 import { FAQSection } from "./FAQSection";
 import { BehindTheScenes } from "./BehindTheScenes";
@@ -17,6 +16,8 @@ import { TimerSection } from "./TimerSection";
 import { PowerfulInsights } from "./PowerfulInsights";
 import { RewardsSection } from "./RewardsSection";
 import { Footer } from "../global/footer";
+import StepsSection from "./StepsSection";
+import { QuotationSection } from "./QuotationSection";
 
 // Define proper types for the flow content
 interface FlowColA {
@@ -119,7 +120,7 @@ export default function HomeClientWrapper({
           />
           
           {/* StepsSection with animations */}
-          {/* <StepsSection flowItems={flowContent} /> */}
+          <StepsSection flowItems={flowContent} />
           
           <QuotationSection
             description={

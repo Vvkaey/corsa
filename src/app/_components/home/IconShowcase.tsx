@@ -2,11 +2,10 @@
 
 import styled from "styled-components";
 import Image from "next/image";
-import { JSX, useEffect, useRef } from "react";
+import { JSX, useEffect, useRef, useState } from "react";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import { useAnimation } from "../../_utils/hooks/useAnimation"; // Import our new animation hook
 
-// AnimatedIconShowcase component with improved GSAP animations
+// IconShowcase component with fixed mobile animation
 export const IconShowcase = styled(
   ({
     className,
@@ -20,15 +19,13 @@ export const IconShowcase = styled(
     icons?: Record<string, string>[];
   }) => {
     const { width = 0 } = useWindowSize();
+    const [showFirstGroup, setShowFirstGroup] = useState(true);
 
     // Create refs for animation
     const headRef = useRef<HTMLHeadingElement>(null);
     const subHeadRef = useRef<HTMLHeadingElement>(null);
     const iconContainerRef = useRef<HTMLDivElement>(null);
     const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    // Get our new animation hook with a component-specific ID
-    const animation = useAnimation('icon-showcase');
 
     // Setup for icon refs
     iconRefs.current = [];
@@ -38,80 +35,176 @@ export const IconShowcase = styled(
       }
     };
 
+    // Handle desktop animations
     useEffect(() => {
-      // Store a reference to current refs for cleanup
+      // For SSR safety
+      if (typeof window === 'undefined') return;
+      
+      // Skip for mobile
+      if (width < 768) return;
+      
+      // Store current ref values
+      const currentHeadRef = headRef.current;
+      const currentSubHeadRef = subHeadRef.current;
+      const currentIconContainerRef = iconContainerRef.current;
       const currentIconRefs = [...iconRefs.current];
       
-      // Create animation sequence using our enhanced animation system
-      const sequence = animation.createSequence();
-
-      // Animate heading
-      if (headRef.current) {
-        sequence.fromTo(
-          headRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, clearProps: "all" }
-        );
-      }
-
-      // Animate subheading
-      if (subHeadRef.current) {
-        sequence.fromTo(
-          subHeadRef.current,
-          { y: 15, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, clearProps: "all" },
-          "-=0.3"
-        );
-      }
-
-      // Fade in icon container
-      if (iconContainerRef.current) {
-        sequence.fromTo(
-          iconContainerRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.8, clearProps: "opacity" },
-          "-=0.2"
-        );
-      }
-
-      // For larger screens where the marquee animation is disabled, animate each icon
-      if (width >= 992 && currentIconRefs.length) {
-        sequence.fromTo(
-          currentIconRefs,
-          { y: 15, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-            stagger: 0.1,
-            clearProps: "all"
-          },
-          "-=0.5"
-        );
-
-        // Add hover effects for each icon
-        const cleanupFunctions = currentIconRefs.map(icon => {
+      // Create handler maps for cleanup
+      const enterHandlers: { [key: number]: (e: MouseEvent) => void } = {};
+      const leaveHandlers: { [key: number]: (e: MouseEvent) => void } = {};
+      
+      try {
+        // Desktop animations
+        // Set initial state
+        if (currentHeadRef) {
+          currentHeadRef.style.opacity = '0';
+          currentHeadRef.style.transform = 'translateY(20px)';
+          currentHeadRef.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
+        
+        if (currentSubHeadRef) {
+          currentSubHeadRef.style.opacity = '0';
+          currentSubHeadRef.style.transform = 'translateY(15px)';
+          currentSubHeadRef.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
+        
+        if (currentIconContainerRef) {
+          currentIconContainerRef.style.opacity = '0';
+          currentIconContainerRef.style.transition = 'opacity 0.8s ease';
+        }
+        
+        // For desktop, set initial state for each icon
+        currentIconRefs.forEach(icon => {
           if (icon) {
-            return animation.addHoverAnimation(icon, 1.05, -5);
+            icon.style.opacity = '0';
+            icon.style.transform = 'translateY(15px)';
+            icon.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
           }
-          return () => {};
         });
         
-        // Return cleanup function
-        return () => {
-          // Call all cleanup functions
-          cleanupFunctions.forEach(cleanup => cleanup());
+        // Animate heading
+        setTimeout(() => {
+          if (currentHeadRef) {
+            currentHeadRef.style.opacity = '1';
+            currentHeadRef.style.transform = 'translateY(0)';
+          }
           
-          // Kill the timeline
-          sequence.kill();
-        };
+          // Animate subheading with slight delay
+          setTimeout(() => {
+            if (currentSubHeadRef) {
+              currentSubHeadRef.style.opacity = '1';
+              currentSubHeadRef.style.transform = 'translateY(0)';
+            }
+            
+            // Animate icon container
+            setTimeout(() => {
+              if (currentIconContainerRef) {
+                currentIconContainerRef.style.opacity = '1';
+              }
+              
+              // Animate each icon with staggered timing
+              currentIconRefs.forEach((icon, index) => {
+                setTimeout(() => {
+                  if (icon) {
+                    icon.style.opacity = '1';
+                    icon.style.transform = 'translateY(0)';
+                  }
+                }, index * 100); // 100ms delay between each icon
+              });
+              
+              // Add hover effects for icons on desktop
+              currentIconRefs.forEach((icon, index) => {
+                if (icon) {
+                  // Create named functions for event handlers so they can be properly removed
+                  const enterHandler = () => {
+                    if (icon) {
+                      icon.style.transform = 'translateY(-5px) scale(1.05)';
+                      icon.style.transition = 'transform 0.3s ease';
+                    }
+                  };
+                  
+                  const leaveHandler = () => {
+                    if (icon) {
+                      icon.style.transform = 'translateY(0) scale(1)';
+                      icon.style.transition = 'transform 0.3s ease';
+                    }
+                  };
+                  
+                  // Store handlers for cleanup
+                  enterHandlers[index] = enterHandler;
+                  leaveHandlers[index] = leaveHandler;
+                  
+                  // Add event listeners
+                  icon.addEventListener("mouseenter", enterHandler);
+                  icon.addEventListener("mouseleave", leaveHandler);
+                }
+              });
+            }, 200); // Delay before icon container
+          }, 300); // Delay before subheading
+        }, 800); // Delay for heading to wait for HeroSection animations
+      } catch (error) {
+        console.error("Animation error in IconShowcase:", error);
+        
+        // Fallback: ensure content is visible even if animation fails
+        [currentHeadRef, currentSubHeadRef, currentIconContainerRef].forEach(el => {
+          if (el) el.style.opacity = '1';
+        });
+        
+        currentIconRefs.forEach(icon => {
+          if (icon) icon.style.opacity = '1';
+        });
       }
       
+      // Cleanup event listeners using stored handlers
       return () => {
-        // Kill the timeline
-        sequence.kill();
+        currentIconRefs.forEach((icon, index) => {
+          if (icon) {
+            // Remove event listeners with the same handler references
+            if (enterHandlers[index]) {
+              icon.removeEventListener("mouseenter", enterHandlers[index]);
+            }
+            if (leaveHandlers[index]) {
+              icon.removeEventListener("mouseleave", leaveHandlers[index]);
+            }
+          }
+        });
       };
-    }, [width, animation]);
+    }, [width]);
+
+    // Handle mobile-specific animations
+    useEffect(() => {
+      // Skip for desktop or SSR
+      if (width >= 768 || typeof window === 'undefined') {
+        return;
+      }
+      
+      // Make header and subheader visible immediately
+      if (headRef.current) {
+        headRef.current.style.opacity = '1';
+      }
+      
+      if (subHeadRef.current) {
+        subHeadRef.current.style.opacity = '1';
+      }
+      
+      if (iconContainerRef.current) {
+        iconContainerRef.current.style.opacity = '1';
+      }
+      
+      // Set an interval to toggle between groups
+      const intervalId = setInterval(() => {
+        setShowFirstGroup(prev => !prev);
+      }, 4000); // Toggle every 4 seconds
+      
+      // Clean up interval on unmount
+      return () => {
+        clearInterval(intervalId);
+      };
+    }, [width]);
+
+    // Divide icons into two groups for mobile
+    const firstGroupIcons = icons?.slice(0, 3) || [];
+    const secondGroupIcons = icons?.slice(3) || [];
 
     return (
       <section className={className}>
@@ -134,13 +227,14 @@ export const IconShowcase = styled(
               }}
               ref={iconContainerRef}
             >
-              <div className="icon-container">
-                {icons.map((item, index) => {
-                  return (
+              {/* Desktop view */}
+              {width >= 768 && (
+                <div className="icon-container desktop-container">
+                  {icons.map((item, index) => (
                     <div
                       key={index}
                       className="icon"
-                      ref={width >= 992 ? addToIconRefs : null}
+                      ref={addToIconRefs}
                     >
                       <Image
                         src={item.icon}
@@ -151,9 +245,46 @@ export const IconShowcase = styled(
                       />
                       <p className="icon-text">{item.name}</p>
                     </div>
-                  );
-                })}
-              </div>
+                  ))}
+                </div>
+              )}
+              
+              {/* Mobile view - simplified alternating groups */}
+              {width < 768 && (
+                <>
+                  {showFirstGroup ? (
+                    <div className="icon-container mobile-container">
+                      {firstGroupIcons.map((item, index) => (
+                        <div key={`first-${index}`} className="icon">
+                          <Image
+                            src={item.icon}
+                            alt={item.name || "icon"}
+                            width={35}
+                            height={35}
+                            style={{ objectFit: "contain" }}
+                          />
+                          <p className="icon-text">{item.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="icon-container mobile-container">
+                      {secondGroupIcons.map((item, index) => (
+                        <div key={`second-${index}`} className="icon">
+                          <Image
+                            src={item.icon}
+                            alt={item.name || "icon"}
+                            width={35}
+                            height={35}
+                            style={{ objectFit: "contain" }}
+                          />
+                          <p className="icon-text">{item.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           ) : null}
         </div>
@@ -209,14 +340,6 @@ export const IconShowcase = styled(
         font-weight: 500;
       }
     }
-    @keyframes marquee {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
 
     .marquee-container {
       position: relative;
@@ -230,28 +353,34 @@ export const IconShowcase = styled(
         padding-top: unset;
         max-width: unset;
       }
+
       .icon-container {
-        padding-left: 6.5px;
-        padding-tight: 6.5px;
         padding-top: 4px;
         display: flex;
         justify-content: center;
         align-items: center;
-        animation: marquee 17s linear infinite;
-
-        gap: 24px;
-
-        @media (min-width: 992px) {
-          animation: none;
+        width: 100%;
+        animation: none; /* Disable the marquee animation */
+        
+        /* Desktop styles */
+        &.desktop-container {
           gap: 85px;
           padding-top: 39px;
+        }
+        
+        /* Mobile styles */
+        &.mobile-container {
           width: 100%;
+          justify-content: space-evenly;
+          padding: 0 20px;
+          animation: fadeInOut 0.5s ease;
+          
+          /* We need a fixed height to prevent layout shifts */
+          min-height: 70px;
         }
 
         .icon {
           position: relative;
-
-          // height: 100%;
           display: flex;
           flex-direction: row;
           gap: 8px;
@@ -280,6 +409,12 @@ export const IconShowcase = styled(
         }
       }
     }
+  }
+  
+  /* Simple fade in animation */
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 `;
 

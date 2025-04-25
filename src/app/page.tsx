@@ -62,35 +62,34 @@ drive smarter decisions.
 const FAQ_DATA = [
   {
     ques: `Who is this platform for?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ans: `If you're preparing for JEE, BITSAT, or any other engineering entrance exam, or if you've already cracked them and want to guide others as mentors, Stroda Club is for you.
+`,
   },
   {
-    ques: `Do we need to pay for mentor sessions?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
-  },
-  {
-    ques: `What happens during a mentorship session?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ques: `What happens during a 1-on-1 mentor session?`,
+    ans: `You'll chat with a mentor about your goals, challenges, and next steps, leaving with actionable advice to help you move forward.`,
   },
   {
     ques: `Can I choose my mentor?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ans: `Not yet! For now, mentors are assigned.
+`,
   },
   {
-    ques: `How long are mentorship sessions?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ques: `How long are sessions?`,
+    ans: `Sessions usually last 25-30 minutes.`,
   },
   {
-    ques: `Will I get feedback after my mentorship session?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ques: `Will I get feedback after my mentor session?`,
+    ans: `Absolutely! After your session, we'll send you feedback received from your mentor within 72 hours. Keep an eye on your email, it's all about giving you the insights you need to move forward!`,
   },
   {
     ques: `What else can I access besides mentorship?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ans: `dd on to our Insight Access Plan! They're packed with exclusive perks that'll help you for sure, or subscribe to the membership access plan for full access.`,
   },
   {
     ques: `What if I face issues or need help?`,
-    ans: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil id impedit accusamus enim dolores cupiditate accusantium repellat laboriosam corrupti quisquam placeat, quas cumque doloremque ipsam blanditiis, omnis natus ipsa sed.`,
+    ans: `Help is just an email away! Reach out to our support team via email anytime, and we'll help you out.
+`,
   },
 ];
 

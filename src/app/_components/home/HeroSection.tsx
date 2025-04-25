@@ -4,8 +4,7 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { JSX } from "react";
 import { SectionPadding, headerSpacing, maxWidthContainer } from "../new_mixins/mixins";
-import gsap from "gsap";
-import IconShowcase from "./IconShowcase";
+import { IconShowcase } from "./IconShowcase"; 
 
 export const HeroSection = styled(
   ({
@@ -43,164 +42,185 @@ export const HeroSection = styled(
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
     const rootContainerRef = useRef<HTMLDivElement>(null);
 
-
     useEffect(() => {
-      // Create a master timeline for smooth sequencing
-      const masterTimeline = gsap.timeline({
-        defaults: { 
-          ease: "power2.out",
-          duration: 0.8,
-          overwrite: "auto" // Important for preventing animation conflicts
+      // For SSR safety
+      if (typeof window === 'undefined') return;
+      
+      // Store ref values at the beginning of the effect
+      const currentHeadingRef = headingRef.current;
+      const currentSubHeadingRef = subHeadingRef.current;
+      const currentCtaContainerRef = ctaContainerRef.current;
+      const currentPrimaryCtaRef = primaryCtaRef.current;
+      const currentSecondaryCtaRef = secondaryCtaRef.current;
+      
+      // Create event handlers with named functions for proper cleanup
+      const primaryEnterHandler = currentPrimaryCtaRef ? () => {
+        currentPrimaryCtaRef.style.transform = 'translateY(-3px)';
+        currentPrimaryCtaRef.style.boxShadow = '0 10px 20px rgba(255, 38, 38, 0.2)';
+      } : undefined;
+      
+      const primaryLeaveHandler = currentPrimaryCtaRef ? () => {
+        currentPrimaryCtaRef.style.transform = 'translateY(0)';
+        currentPrimaryCtaRef.style.boxShadow = '0 0 0 rgba(255, 38, 38, 0)';
+      } : undefined;
+      
+      const secondaryEnterHandler = currentSecondaryCtaRef ? () => {
+        currentSecondaryCtaRef.style.transform = 'translateY(-3px)';
+        currentSecondaryCtaRef.style.boxShadow = '0 10px 20px rgba(255, 38, 38, 0.1)';
+      } : undefined;
+      
+      const secondaryLeaveHandler = currentSecondaryCtaRef ? () => {
+        currentSecondaryCtaRef.style.transform = 'translateY(0)';
+        currentSecondaryCtaRef.style.boxShadow = '0 0 0 rgba(255, 38, 38, 0)';
+      } : undefined;
+      
+      try {
+        // Check if we're on mobile (screen width < 768px)
+        const isMobile = window.innerWidth < 768;
+        
+        // Skip animations on mobile
+        if (isMobile) {
+          // Make all elements visible immediately without animations
+          if (currentHeadingRef) {
+            currentHeadingRef.style.opacity = '1';
+            currentHeadingRef.style.transform = 'none';
+          }
+          
+          if (currentSubHeadingRef) {
+            currentSubHeadingRef.style.opacity = '1';
+            currentSubHeadingRef.style.transform = 'none';
+          }
+          
+          if (currentCtaContainerRef) {
+            currentCtaContainerRef.style.opacity = '1';
+            currentCtaContainerRef.style.transform = 'none';
+          }
+          
+          if (currentPrimaryCtaRef) {
+            currentPrimaryCtaRef.style.opacity = '1';
+            currentPrimaryCtaRef.style.transform = 'none';
+            currentPrimaryCtaRef.style.scale = '1';
+          }
+          
+          if (currentSecondaryCtaRef) {
+            currentSecondaryCtaRef.style.opacity = '1';
+            currentSecondaryCtaRef.style.transform = 'none';
+            currentSecondaryCtaRef.style.scale = '1';
+          }
+          return;
         }
-      });
-
-      // Pre-set the initial states for proper stacking context
-      if (headingRef.current) {
-        gsap.set(headingRef.current, { opacity: 0, y: 20 });
-      }
-      
-      if (subHeadingRef.current) {
-        gsap.set(subHeadingRef.current, { opacity: 0, y: 20 });
-      }
-      
-      if (ctaContainerRef.current) {
-        gsap.set(ctaContainerRef.current, { opacity: 0 });
-      }
-      
-      if (primaryCtaRef.current) {
-        gsap.set(primaryCtaRef.current, { opacity: 0, y: 15, scale: 0.95 });
-      }
-      
-      if (secondaryCtaRef.current) {
-        gsap.set(secondaryCtaRef.current, { opacity: 0, y: 15, scale: 0.95 });
-      }
-
-      // Use a short delay before starting animations
-      masterTimeline.delay(0.2);
-      
-      // Heading animation with smoother easing
-      if (headingRef.current) {
-        masterTimeline.to(headingRef.current, {
-          opacity: 1, 
-          y: 0,
-          ease: "power3.out", // Smoother easing for text
-          duration: 0.9
+        
+        // Desktop animations
+        // Initial setup - set initial state
+        if (currentHeadingRef) {
+          currentHeadingRef.style.opacity = '0';
+          currentHeadingRef.style.transform = 'translateY(20px)';
+          currentHeadingRef.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+        }
+        
+        if (currentSubHeadingRef) {
+          currentSubHeadingRef.style.opacity = '0';
+          currentSubHeadingRef.style.transform = 'translateY(20px)';
+          currentSubHeadingRef.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        }
+        
+        if (currentCtaContainerRef) {
+          currentCtaContainerRef.style.opacity = '0';
+          currentCtaContainerRef.style.transition = 'opacity 0.7s ease';
+        }
+        
+        if (currentPrimaryCtaRef) {
+          currentPrimaryCtaRef.style.opacity = '0';
+          currentPrimaryCtaRef.style.transform = 'translateY(15px)';
+          currentPrimaryCtaRef.style.scale = '0.95';
+          currentPrimaryCtaRef.style.transition = 'opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease';
+        }
+        
+        if (currentSecondaryCtaRef) {
+          currentSecondaryCtaRef.style.opacity = '0';
+          currentSecondaryCtaRef.style.transform = 'translateY(15px)';
+          currentSecondaryCtaRef.style.scale = '0.95';
+          currentSecondaryCtaRef.style.transition = 'opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease';
+        }
+        
+        // Trigger animations with appropriate timing
+        setTimeout(() => {
+          if (currentHeadingRef) {
+            currentHeadingRef.style.opacity = '1';
+            currentHeadingRef.style.transform = 'translateY(0)';
+          }
+          
+          setTimeout(() => {
+            if (currentSubHeadingRef) {
+              currentSubHeadingRef.style.opacity = '1';
+              currentSubHeadingRef.style.transform = 'translateY(0)';
+            }
+            
+            setTimeout(() => {
+              if (currentCtaContainerRef) {
+                currentCtaContainerRef.style.opacity = '1';
+              }
+              
+              setTimeout(() => {
+                if (currentPrimaryCtaRef) {
+                  currentPrimaryCtaRef.style.opacity = '1';
+                  currentPrimaryCtaRef.style.transform = 'translateY(0)';
+                  currentPrimaryCtaRef.style.scale = '1';
+                }
+                
+                setTimeout(() => {
+                  if (currentSecondaryCtaRef) {
+                    currentSecondaryCtaRef.style.opacity = '1';
+                    currentSecondaryCtaRef.style.transform = 'translateY(0)';
+                    currentSecondaryCtaRef.style.scale = '1';
+                  }
+                }, 250); // Delay between primary and secondary button
+              }, 100); // Delay before buttons
+            }, 200); // Delay before CTA container
+          }, 300); // Delay before subheading
+        }, 200); // Initial delay for heading
+        
+        // Add hover animations for buttons (desktop only)
+        if (currentPrimaryCtaRef && primaryEnterHandler && primaryLeaveHandler) {
+          currentPrimaryCtaRef.addEventListener("mouseenter", primaryEnterHandler);
+          currentPrimaryCtaRef.addEventListener("mouseleave", primaryLeaveHandler);
+        }
+        
+        if (currentSecondaryCtaRef && secondaryEnterHandler && secondaryLeaveHandler) {
+          currentSecondaryCtaRef.addEventListener("mouseenter", secondaryEnterHandler);
+          currentSecondaryCtaRef.addEventListener("mouseleave", secondaryLeaveHandler);
+        }
+      } catch (error) {
+        console.error("Animation error in HeroSection:", error);
+        
+        // Fallback: ensure content is visible even if animation fails
+        const elements = [
+          currentHeadingRef,
+          currentSubHeadingRef,
+          currentCtaContainerRef,
+          currentPrimaryCtaRef,
+          currentSecondaryCtaRef
+        ];
+        
+        elements.forEach(el => {
+          if (el) {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+          }
         });
       }
       
-      // Subheading animation
-      if (subHeadingRef.current) {
-        masterTimeline.to(subHeadingRef.current, {
-          opacity: 1, 
-          y: 0,
-          ease: "power3.out",
-          duration: 0.8
-        }, "-=0.6"); // Slight overlap for natural flow
-      }
-      
-      // Container first for proper stacking
-      if (ctaContainerRef.current) {
-        masterTimeline.to(ctaContainerRef.current, {
-          opacity: 1,
-          duration: 0.4
-        }, "-=0.4");
-      }
-      
-      // Animate buttons with precise control and smoother motion
-      const buttons = [];
-      if (primaryCtaRef.current) buttons.push(primaryCtaRef.current);
-      if (secondaryCtaRef.current) buttons.push(secondaryCtaRef.current);
-      
-      if (buttons.length) {
-        masterTimeline.to(buttons, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.15,
-          duration: 0.7,
-          ease: "back.out(1.2)",
-          clearProps: "scale" // Important to prevent jittering
-        }, "-=0.2");
-      }
-      
-      // Store references for cleanup
-      const primaryBtn = primaryCtaRef.current;
-      const secondaryBtn = secondaryCtaRef.current;
-      
-      // Define handlers outside event listeners to maintain reference
-      const enterPrimary = () => {
-        if (!primaryBtn) return;
-        gsap.to(primaryBtn, {
-          y: -3,
-          scale: 1.02,
-          boxShadow: "0 10px 20px rgba(255, 38, 38, 0.2)",
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
-      };
-      
-      const leavePrimary = () => {
-        if (!primaryBtn) return;
-        gsap.to(primaryBtn, {
-          y: 0,
-          scale: 1,
-          boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
-      };
-      
-      const enterSecondary = () => {
-        if (!secondaryBtn) return;
-        gsap.to(secondaryBtn, {
-          y: -3,
-          scale: 1.02,
-          boxShadow: "0 10px 20px rgba(255, 38, 38, 0.1)",
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
-      };
-      
-      const leaveSecondary = () => {
-        if (!secondaryBtn) return;
-        gsap.to(secondaryBtn, {
-          y: 0,
-          scale: 1,
-          boxShadow: "0 0 0 rgba(255, 38, 38, 0)",
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
-      };
-      
-      // Add event listeners
-      if (primaryBtn) {
-        primaryBtn.addEventListener("mouseenter", enterPrimary);
-        primaryBtn.addEventListener("mouseleave", leavePrimary);
-      }
-      
-      if (secondaryBtn) {
-        secondaryBtn.addEventListener("mouseenter", enterSecondary);
-        secondaryBtn.addEventListener("mouseleave", leaveSecondary);
-      }
-      
-      // Return cleanup function to prevent memory leaks
+      // Cleanup event listeners with proper references
       return () => {
-        if (primaryBtn) {
-          primaryBtn.removeEventListener("mouseenter", enterPrimary);
-          primaryBtn.removeEventListener("mouseleave", leavePrimary);
+        if (currentPrimaryCtaRef && primaryEnterHandler && primaryLeaveHandler) {
+          currentPrimaryCtaRef.removeEventListener("mouseenter", primaryEnterHandler);
+          currentPrimaryCtaRef.removeEventListener("mouseleave", primaryLeaveHandler);
         }
         
-        if (secondaryBtn) {
-          secondaryBtn.removeEventListener("mouseenter", enterSecondary);
-          secondaryBtn.removeEventListener("mouseleave", leaveSecondary);
+        if (currentSecondaryCtaRef && secondaryEnterHandler && secondaryLeaveHandler) {
+          currentSecondaryCtaRef.removeEventListener("mouseenter", secondaryEnterHandler);
+          currentSecondaryCtaRef.removeEventListener("mouseleave", secondaryLeaveHandler);
         }
-        
-        // Kill all animations to prevent conflicts during unmount
-        masterTimeline.kill();
       };
     }, []);
 
@@ -344,7 +364,6 @@ export const HeroSection = styled(
         flex-direction: column;
         gap: 12px;
         width: 100%;
-        will-change: transform, opacity; /* Performance optimization */
 
         @media (min-width: 992px) {
           width: unset;
@@ -367,9 +386,6 @@ export const HeroSection = styled(
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
-          will-change: transform, opacity, box-shadow; /* Performance optimization */
-          overflow: hidden; /* Prevent rendering artifacts */
-          transform: translateZ(0); /* Force GPU acceleration */
 
           @media (min-width: 992px) {
             width: unset;
@@ -378,6 +394,8 @@ export const HeroSection = styled(
             leading-trim: both;
             text-edge: cap;
             font-size: 23.521px;
+            will-change: transform, opacity, box-shadow;
+            transform: translateZ(0);
           }
         }
 
@@ -395,9 +413,6 @@ export const HeroSection = styled(
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
-          will-change: transform, opacity, box-shadow; /* Performance optimization */
-          overflow: hidden; /* Prevent rendering artifacts */
-          transform: translateZ(0); /* Force GPU acceleration */
 
           @media (min-width: 992px) {
             width: unset;
@@ -406,6 +421,8 @@ export const HeroSection = styled(
             leading-trim: both;
             text-edge: cap;
             font-size: 23.521px;
+            will-change: transform, opacity, box-shadow;
+            transform: translateZ(0);
           }
         }
       }

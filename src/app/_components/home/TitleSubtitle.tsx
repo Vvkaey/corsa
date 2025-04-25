@@ -3,8 +3,6 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
-import gsap from "gsap";
-import { useInView } from "react-intersection-observer";
 
 const TitleSubtitle = ({
   title,
@@ -19,51 +17,71 @@ const TitleSubtitle = ({
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
   
-  // Setup intersection observer with a lower threshold for earlier detection
-  const [containerRef, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-    rootMargin: "0px 0px -100px 0px" // Start animation earlier
-  });
-
-  // Initialize with opacity: 0 to prevent flashing
   useEffect(() => {
-    // Set initial state with GSAP to prevent flashing
-    if (titleRef.current && subtitleRef.current) {
-      gsap.set([titleRef.current, subtitleRef.current], { 
-        opacity: 0,
-        y: 30
-      });
-    }
+    // For SSR safety
+    if (typeof window === 'undefined') return;
     
-    // Create animation when in view
-    if (inView && titleRef.current && subtitleRef.current) {
-      // Create a single timeline for smoother coordinated animations
-      const tl = gsap.timeline({ 
-        defaults: { 
-          ease: "power3.out",
-          duration: 0.9
+    // Store current ref values
+    const currentTitleRef = titleRef.current;
+    const currentSubtitleRef = subtitleRef.current;
+    
+    try {
+      // Check if we're on mobile (screen width < 768px)
+      const isMobile = window.innerWidth < 768;
+      
+      // Skip animations on mobile
+      if (isMobile) {
+        // Make elements visible immediately without animation
+        if (currentTitleRef) {
+          currentTitleRef.style.opacity = '1';
+          currentTitleRef.style.transform = 'none';
         }
-      });
+        
+        if (currentSubtitleRef) {
+          currentSubtitleRef.style.opacity = '1';
+          currentSubtitleRef.style.transform = 'none';
+        }
+        return;
+      }
       
-      // Animate title first
-      tl.to(titleRef.current, { 
-        opacity: 1, 
-        y: 0,
-        duration: 1
-      });
+      // Desktop animations
+      if (currentTitleRef && currentSubtitleRef) {
+        // Set initial state
+        currentTitleRef.style.opacity = '0';
+        currentTitleRef.style.transform = 'translateY(30px)';
+        currentSubtitleRef.style.opacity = '0';
+        currentSubtitleRef.style.transform = 'translateY(30px)';
+        
+        // Add transition
+        currentTitleRef.style.transition = 'opacity 1s ease, transform 1s ease';
+        currentSubtitleRef.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        
+        // Trigger animation
+        setTimeout(() => {
+          if (currentTitleRef) {
+            currentTitleRef.style.opacity = '1';
+            currentTitleRef.style.transform = 'translateY(0)';
+          }
+          
+          setTimeout(() => {
+            if (currentSubtitleRef) {
+              currentSubtitleRef.style.opacity = '1';
+              currentSubtitleRef.style.transform = 'translateY(0)';
+            }
+          }, 300);
+        }, 100);
+      }
+    } catch (error) {
+      console.error("Animation error in TitleSubtitle:", error);
       
-      // Then animate subtitle with slight overlap
-      tl.to(subtitleRef.current, { 
-        opacity: 1, 
-        y: 0,
-        duration: 0.8
-      }, "-=0.5");
+      // Fallback: ensure content is visible even if animation fails
+      if (currentTitleRef) currentTitleRef.style.opacity = '1';
+      if (currentSubtitleRef) currentSubtitleRef.style.opacity = '1';
     }
-  }, [inView]);
+  }, []);
 
   return (
-    <TitleSubtitleContainer ref={containerRef}>
+    <TitleSubtitleContainer>
       <Title ref={titleRef}>
         {title}<RedSpan>{redspan}</RedSpan>
       </Title>
@@ -101,8 +119,6 @@ const Title = styled.h2`
   line-height: normal;
   text-transform: capitalize;
   max-width: 90%;
-  will-change: transform, opacity; /* Performance hint for browser */
-  transform: translateZ(0); /* Force GPU acceleration */
 
   @media (min-width: 992px) {
     max-width: 70%;
@@ -121,9 +137,6 @@ const SubTitle = styled.h2`
   font-weight: 600;
   line-height: 141.979%; /* 22.717px */
   max-width: 90%;
-  will-change: transform, opacity; /* Performance hint for browser */
-  transform: translateZ(0); /* Force GPU acceleration */
-  
   @media (min-width: 992px) {
     max-width: 58%;
     leading-trim: both;

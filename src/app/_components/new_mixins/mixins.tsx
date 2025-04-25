@@ -83,6 +83,11 @@ export const sectionResponsivePadding = ({
       padding-left: ${desktopMdPadding};
       padding-right: ${desktopMdPadding};
     }
+
+    @media (min-width: 2041px) {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   `;
 
 // Mixin 3: Adds responsive margin to components that are not full width
