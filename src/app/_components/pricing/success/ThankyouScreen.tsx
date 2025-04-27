@@ -46,6 +46,13 @@ const ThankyouScreen = ({
     return () => clearTimeout(timer);
   }, [secondsLeft, redirect]);
 
+  useEffect(() => {
+    if(!window) return;
+    // Trigger mentorship update event when this component mounts
+    // This ensures data is refreshed after a successful payment
+    window.dispatchEvent(new Event("mentorship-update"));
+  }, []);
+
   return (
     <ThankyouContainer>
       <ThankyouBox>

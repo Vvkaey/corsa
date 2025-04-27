@@ -18,7 +18,7 @@ import {
 } from "@/app/_components/new_mixins/mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { TnC } from "@/app/_components/auth/LoginForm";
-import ThankyouScreen, { GridType } from "@/app/_components/pricing/success/ThankyouScreen";
+// import ThankyouScreen, { GridType } from "@/app/_components/pricing/success/ThankyouScreen";
 // import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
 // import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 
@@ -97,8 +97,8 @@ const CheckoutContainer = styled.div`
   // }
 
   @media (min-width: 2100px) {
-   padding-top: 5rem;
-  justify-content: center;
+    padding-top: 5rem;
+    justify-content: center;
   }
 `;
 
@@ -110,7 +110,7 @@ const CheckoutGrid = styled.div`
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     flex-direction: column;
-     margin-top: 90px;
+    margin-top: 90px;
   }
 
   @media (min-width: 992px) {
@@ -118,13 +118,13 @@ const CheckoutGrid = styled.div`
   }
 
   @media (min-width: 1500px) {
-   margin-top: 45px;
+    margin-top: 45px;
     gap: 2rem;
   }
 
   @media (min-width: 2100px) {
- margin-top: 90px;
-}
+    margin-top: 90px;
+  }
 `;
 
 const ProductDetailsCard = styled.div`
@@ -148,11 +148,11 @@ const ProductDetailsCard = styled.div`
     margin-top: unset;
     position: unset;
     width: 480px;
-      padding: 34px 24px;
+    padding: 34px 24px;
   }
 
   @media (min-width: 1500px) {
-  width: 579px;
+    width: 579px;
     padding: 58px 49px;
   }
 
@@ -306,13 +306,13 @@ const PaymentSection = styled.div`
     border: 2px solid #000;
     margin-bottom: unset;
     width: 480px;
-padding: 34px 24px;
+    padding: 34px 24px;
     border-radius: 12px;
   }
 
   @media (min-width: 1500px) {
-  width: 579px;
-   padding: 58px 49px;
+    width: 579px;
+    padding: 58px 49px;
   }
 
   @media (min-width: 2100px) {
@@ -352,7 +352,7 @@ const FormGroup = styled.div`
     margin-bottom: 0.5rem;
   }
 
-   @media (min-width: 1500px) {
+  @media (min-width: 1500px) {
     margin-bottom: 1.25rem;
   }
 
@@ -436,7 +436,7 @@ const Select = styled.select`
   border: 1px solid #000;
 
   @media (min-width: 992px) {
-      padding: 12px 15px;
+    padding: 12px 15px;
     font-size: 16px;
     border-radius: 8px;
     border: 2px solid #969696;
@@ -444,7 +444,7 @@ const Select = styled.select`
 
   @media (min-width: 1500px) {
     font-size: 20px;
-        padding: 18px 21px;
+    padding: 18px 21px;
   }
 
   &:focus {
@@ -522,7 +522,7 @@ const PayButton = styled.button`
     margin-top: 0.2rem;
   }
 
-   @media (min-width: 1500px) {
+  @media (min-width: 1500px) {
     padding: 24px;
     margin-top: 1rem;
     font-size: 23.521px;
@@ -552,7 +552,7 @@ const OrderSummary = styled.div`
     background: #eef2f7;
     border: 2px solid #000;
     border-radius: 8px;
-    
+
     margin-bottom: 0.75rem;
   }
 
@@ -600,9 +600,9 @@ const SummaryTotal = styled(SummaryRow)`
     padding-top: 0.5rem;
   }
 
-   @media (min-width: 1500px) {
+  @media (min-width: 1500px) {
     padding-bottom: 32px;
-        margin-top: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   span {
@@ -920,6 +920,11 @@ const CheckoutPage: React.FC = () => {
       }
 
       if (data.success) {
+        if (window) {
+          // Trigger the mentorship-update event to refresh the context
+          window.dispatchEvent(new Event("mentorship-update"));
+        }
+
         // Redirect to success page
         router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
       } else {
@@ -1133,7 +1138,7 @@ const CheckoutPage: React.FC = () => {
         </PaymentSection>
       </CheckoutGrid>
 
-      <ThankyouScreen 
+      {/* <ThankyouScreen 
       title="That&apos;s it! You&apos;re all set."
       subtitle="You have successfully subscribed"
       descriptionTop="Check your email. Did&apos;t receive? Make sure to check your spam
@@ -1141,7 +1146,7 @@ const CheckoutPage: React.FC = () => {
             descriptionBottom="Feel free to contact us at connect@stroda.club. If you have any
             questions"
             ctaGrid={GridType.DOUBLE}
-      />
+      /> */}
       {/* <FailureScreen /> */}
     </CheckoutContainer>
   );

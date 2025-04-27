@@ -324,16 +324,24 @@ const MentorApplication = () => {
                 ) : null}
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="email">Full Name</Label>
+                <Label htmlFor="email">Email</Label>
                 <InputGroup>
                   <Input
                     id="email"
                     name="email"
                     type="email"
                     onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      // Reset verification when email changes
+                      if (formik.values.email !== e.target.value) {
+                        setOtpSent(false);
+                        setEmailVerified(false);
+                      }
+                      formik.handleChange(e);
+                    }}
                     value={formik.values.email}
                     placeholder="Email"
+                    disabled={emailVerified} // Disable when verified
                   />
                   <OtpButton
                     type="button"
@@ -345,10 +353,12 @@ const MentorApplication = () => {
                       !!formik.errors.email
                     }
                   >
-                    {isLoading.sendOtp
-                      ? "Verifying..."
+                    {emailVerified
+                      ? "Verified"
+                      : isLoading.sendOtp
+                      ? "Sending..."
                       : otpSent
-                      ? "Verify again"
+                      ? "OTP Sent"
                       : "Verify"}
                   </OtpButton>
                 </InputGroup>
@@ -385,8 +395,21 @@ const MentorApplication = () => {
                     onBlur={formik.handleBlur}
                     value={formik.values.otp}
                     placeholder="Enter 6-digit OTP"
-                    disabled={emailVerified}
+                    disabled={emailVerified} // Disable when verified
                   />
+                  {!emailVerified && otpSent && (
+                    <OtpButton
+                      type="button"
+                      onClick={() => sendOtp(formik.values.email)}
+                      disabled={
+                        isLoading.sendOtp ||
+                        !formik.values.email ||
+                        !!formik.errors.email
+                      }
+                    >
+                      {isLoading.sendOtp ? "Sending..." : "Resend"}
+                    </OtpButton>
+                  )}
                   {isLoading.verifyOtp && (
                     <span
                       style={{
@@ -522,7 +545,9 @@ const MentorApplication = () => {
                   )}
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="mentoringSessions">Mentoring Sessions</Label>
+                <Label htmlFor="mentoringSessions">
+                  Mentoring Sessions Availability
+                </Label>
                 <Select
                   onBlur={formik.handleBlur}
                   id="mentoringSessions"
@@ -530,7 +555,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.mentoringSessions}
                 >
-                  <option value="">Mentoring Sessions</option>
+                  <option value="">Mentoring Sessions Availability</option>
                   <option value="20/month">20/month</option>
                   <option value="30/month">30/month</option>
                   <option value="40/month">40/month</option>

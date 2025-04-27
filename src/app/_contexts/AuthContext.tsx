@@ -39,19 +39,19 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     if (storedToken) {
       setToken(storedToken);
-      
+
       if (storedUser) {
         try {
           setUser(JSON.parse(storedUser));
         } catch (error) {
           console.error("Error parsing stored user data:", error);
-          
+
           // Create a minimal user object if parsing fails
           const minimalUser: User = {
             id: "google-user",
-            email: "google@user.com" 
+            email: "google@user.com",
           };
-          
+
           setUser(minimalUser);
           localStorage.setItem("user", JSON.stringify(minimalUser));
         }
@@ -59,9 +59,9 @@ function AuthProvider({ children }: AuthProviderProps) {
         // If we have a token but no user, create a minimal user
         const minimalUser: User = {
           id: "google-user",
-          email: "google@user.com"
+          email: "google@user.com",
         };
-        
+
         setUser(minimalUser);
         localStorage.setItem("user", JSON.stringify(minimalUser));
       }
@@ -70,7 +70,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       setToken(null);
       setUser(null);
     }
-    
+
     setLoading(false);
   };
 
@@ -88,7 +88,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         loadAuthState();
       }
     };
-    
+
     // Add a custom event for same-window updates
     const handleCustomStorageChange = () => {
       console.log("Custom storage event triggered, reloading auth state");
@@ -102,7 +102,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     // Cleanup listeners on unmount
     return () => {
       window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("auth-storage-change", handleCustomStorageChange);
+      window.removeEventListener(
+        "auth-storage-change",
+        handleCustomStorageChange
+      );
     };
   }, []);
 
@@ -110,7 +113,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const requestOTP = async (email: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
-  
+
     try {
       // Call your Next.js API route instead of external API directly
       const response = await fetch(`/api/auth/request-otp`, {
@@ -120,13 +123,13 @@ function AuthProvider({ children }: AuthProviderProps) {
         },
         body: JSON.stringify({ email }),
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to send OTP");
       }
-  
+
       return true;
     } catch (error) {
       setError(error instanceof Error ? error.message : "Failed to send OTP");
@@ -135,55 +138,54 @@ function AuthProvider({ children }: AuthProviderProps) {
       setLoading(false);
     }
   };
-  
 
   // Verify OTP function
-const verifyOTP = async (email: string, otp: string): Promise<boolean> => {
-  setLoading(true);
-  setError(null);
+  const verifyOTP = async (email: string, otp: string): Promise<boolean> => {
+    setLoading(true);
+    setError(null);
 
-  try {
-    console.log("Calling verify OTP API route with email:", email);
-    const response = await fetch(`/api/auth/verify-otp`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, otp }),
-    });
-    
-    // Log the response status
-    console.log("API route responded with status:", response.status);
-    
-    // For 500 errors, try to get more details
-    if (response.status === 500) {
-      const errorText = await response.text();
-      console.error("Server error details:", errorText);
-      throw new Error("Server error: " + errorText);
+    try {
+      console.log("Calling verify OTP API route with email:", email);
+      const response = await fetch(`/api/auth/verify-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      // Log the response status
+      console.log("API route responded with status:", response.status);
+
+      // For 500 errors, try to get more details
+      if (response.status === 500) {
+        const errorText = await response.text();
+        console.error("Server error details:", errorText);
+        throw new Error("Server error: " + errorText);
+      }
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Failed to verify OTP");
+      }
+
+      // Set token and user data in state and localStorage
+      setToken(data.data.token);
+      setUser(data.data.user);
+
+      localStorage.setItem("authToken", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      return true;
+    } catch (error) {
+      console.error("Error in verifyOTP:", error);
+      setError(error instanceof Error ? error.message : "Failed to verify OTP");
+      return false;
+    } finally {
+      setLoading(false);
     }
-    
-    const data = await response.json();
-    
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Failed to verify OTP");
-    }
-
-    // Set token and user data in state and localStorage
-    setToken(data.data.token);
-    setUser(data.data.user);
-
-    localStorage.setItem("authToken", data.data.token);
-    localStorage.setItem("user", JSON.stringify(data.data.user));
-
-    return true;
-  } catch (error) {
-    console.error("Error in verifyOTP:", error);
-    setError(error instanceof Error ? error.message : "Failed to verify OTP");
-    return false;
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // Logout function
   const logout = () => {
@@ -191,6 +193,13 @@ const verifyOTP = async (email: string, otp: string): Promise<boolean> => {
     setUser(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
+    if (!window) return;
+
+    // Trigger auth context update event
+    window.dispatchEvent(new Event("auth-storage-change"));
+
+    // Trigger mentorship context update event
+    window.dispatchEvent(new Event("mentorship-update"));
   };
 
   // Context value

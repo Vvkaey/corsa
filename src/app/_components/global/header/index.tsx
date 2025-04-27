@@ -203,7 +203,8 @@ export const HamOverlay = styled(
 
     const logoutUser = useCallback(() => {
       logout();
-    }, [logout]);
+      router.push("/");
+    }, [logout, router]);
 
     const onBgClick = useCallback(() => {
       if (!setShowMenu) return;

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { JSX } from "react";
 import { SectionPadding, headerSpacing, maxWidthContainer } from "../new_mixins/mixins";
 import { IconShowcase } from "./IconShowcase"; 
+import { useMentorshipContext } from "@/app/_contexts/MentorshipContext";
 
 export const HeroSection = styled(
   ({
@@ -41,6 +42,8 @@ export const HeroSection = styled(
     const primaryCtaRef = useRef<HTMLButtonElement>(null);
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
     const rootContainerRef = useRef<HTMLDivElement>(null);
+
+    const {subscription} = useMentorshipContext();
 
     useEffect(() => {
       // For SSR safety
@@ -251,7 +254,7 @@ export const HeroSection = styled(
               ) : null}
               {primaryCta || secondaryCta ? (
                 <div ref={ctaContainerRef} className="cta-container">
-                  {primaryCta ? (
+                  {(!subscription && primaryCta) ? (
                     <button
                       ref={primaryCtaRef}
                       className="primary-cta"

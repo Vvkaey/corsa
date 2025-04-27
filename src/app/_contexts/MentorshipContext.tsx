@@ -34,7 +34,7 @@ const badge_config = {
     },
     accessPlan: {
       title: "Access Plan",
-      description: "Nothing's live yet, unlock what's next.",
+      description: "Nothing's liv yet, unlock what's next.",
       planIcon: (
         <Image
           src={"/no-access-plan.svg"}
@@ -44,6 +44,7 @@ const badge_config = {
         />
       ),
     },
+    subscription: false,
     communityBadge: {
       title: "Community Badge",
       description: "Subscribe to unlock your mission gear!",
@@ -76,6 +77,7 @@ const badge_config = {
         />
       ),
     },
+    subscription: true,
     communityBadge: {
       title: "Community Badge",
       description: "Upgrade for full tactical mentorship.",
@@ -95,6 +97,7 @@ const badge_config = {
       description: "Track your growth, stay on top",
       sessionCount: 5,
     },
+    subscription: true,
     accessPlan: {
       title: "Access Plan",
       description: "Mentorship is live. Ask what matters.",
@@ -126,9 +129,10 @@ const badge_config = {
       description: "Track your growth, stay on top",
       sessionCount: 5,
     },
+    subscription: true,
     accessPlan: {
       title: "Access Plan",
-      description: "You're leading the squad with full throttle!",
+      description: "Everything meaningful starts here.",
       planIcon: (
         <Image
           src={"/membership-access-plan.svg"}
@@ -140,7 +144,7 @@ const badge_config = {
     },
     communityBadge: {
       title: "Community Badge",
-      description: "Everything meaningful starts here.",
+      description: "You're leading the squad with full throttle!",
       badge: (
         <Image
           src={"/top-gun-badge.svg"}
@@ -169,6 +173,8 @@ export interface MentorshipContextType {
     description: string;
     badge: React.JSX.Element | undefined;
   };
+  subscription: boolean;
+  setSubscription: React.Dispatch<React.SetStateAction<boolean>>;
   setMentorSession: React.Dispatch<React.SetStateAction<number>>;
   setAccessPlanDescription: React.Dispatch<React.SetStateAction<string>>;
   setAccessPlanIcon: React.Dispatch<
@@ -200,6 +206,7 @@ const initialMentorshipContext: MentorshipContextType = {
       />
     ),
   },
+  subscription: false,
   communityBadge: {
     title: "Community Badge",
     description: "Subscribe to unlock your mission gear!",
@@ -212,6 +219,7 @@ const initialMentorshipContext: MentorshipContextType = {
       />
     ),
   },
+  setSubscription: () => undefined,
   setMentorSession: () => undefined,
   setAccessPlanDescription: () => undefined,
   setAccessPlanIcon: () => undefined,
@@ -242,7 +250,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   // Use the auth context to get the token
   const { token, isAuthenticated } = useAuth();
-
+  
   // State for mentorship session
   const [sessionCount, setSessionCount] = useState(0);
 
@@ -250,6 +258,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
   const [accessPlanDescription, setAccessPlanDescription] = useState(
     "Nothing's live yet, unlock what's next."
   );
+  const [subscription, setSubscription] = useState(false);
   const [accessPlanIcon, setAccessPlanIcon] = useState<
     React.JSX.Element | undefined
   >(
@@ -347,6 +356,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
             />
           )
         );
+        setSubscription(config?.subscription || false);
   
         setBadgeDescription(
           config?.communityBadge?.description ||
@@ -402,6 +412,23 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [token, isAuthenticated, fetchUserStatus]);
 
+    // Listen for custom mentorship-update events (triggered after checkout/purchase)
+    useEffect(() => {
+      const handleMentorshipUpdate = () => {
+        console.log("Mentorship update event received - fetching latest data");
+        fetchUserStatus();
+      };
+  
+      // Add event listener for custom event
+      window.addEventListener("mentorship-update", handleMentorshipUpdate);
+  
+      // Cleanup on unmount
+      return () => {
+        window.removeEventListener("mentorship-update", handleMentorshipUpdate);
+      };
+    }, [fetchUserStatus]);
+  
+
   const contextValue = {
     mentorSession: {
       title: "Mentor Sessions",
@@ -418,6 +445,8 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
       description: badgeDescription,
       badge: badgeIcon,
     },
+    subscription,
+    setSubscription,
     setMentorSession: setSessionCount,
     setAccessPlanDescription,
     setAccessPlanIcon,

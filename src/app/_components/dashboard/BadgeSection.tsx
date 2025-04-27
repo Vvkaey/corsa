@@ -45,6 +45,14 @@ export const BadgeSection = () => {
     isLoading,
   } = useMentorshipContext();
 
+  console.log(
+    mentorSession,
+    accessPlan,
+    communityBadge,
+    fetchUserStatus,
+    isLoading
+  );
+
   const { isAuthenticated } = useAuth();
 
   const { width } = useWindowSize();
