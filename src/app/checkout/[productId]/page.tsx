@@ -18,6 +18,7 @@ import {
 } from "@/app/_components/new_mixins/mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { TnC } from "@/app/_components/auth/LoginForm";
+import ThankyouScreen, { GridType } from "@/app/_components/pricing/success/ThankyouScreen";
 // import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
 // import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 
@@ -1132,7 +1133,15 @@ const CheckoutPage: React.FC = () => {
         </PaymentSection>
       </CheckoutGrid>
 
-      {/* <ThankyouScreen /> */}
+      <ThankyouScreen 
+      title="That&apos;s it! You&apos;re all set."
+      subtitle="You have successfully subscribed"
+      descriptionTop="Check your email. Did&apos;t receive? Make sure to check your spam
+            folder, just in case."
+            descriptionBottom="Feel free to contact us at connect@stroda.club. If you have any
+            questions"
+            ctaGrid={GridType.DOUBLE}
+      />
       {/* <FailureScreen /> */}
     </CheckoutContainer>
   );

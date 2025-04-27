@@ -4,8 +4,27 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { responsivePadding } from "../../new_mixins/mixins";
 
-export default function ThankyouScreen() {
-    const [secondsLeft, setSecondsLeft] = useState(10);
+export enum GridType {
+  SOLO = "solo",
+  DOUBLE = "double",
+}
+
+interface ThankyouScreenProps {
+  title: string;
+  subtitle: string;
+  descriptionTop?: string;
+  descriptionBottom?: string;
+  ctaGrid: GridType;
+}
+
+const ThankyouScreen = ({
+  title,
+  subtitle,
+  descriptionTop,
+  descriptionBottom,
+  ctaGrid,
+}: ThankyouScreenProps) => {
+  const [secondsLeft, setSecondsLeft] = useState(10);
   const router = useRouter();
 
   const redirect = useCallback(() => {
@@ -13,19 +32,19 @@ export default function ThankyouScreen() {
   }, [router]);
 
   // Timer effect
-    useEffect(() => {
-      if (secondsLeft <= 0) {
-        redirect();
-        return;
-      }
+  useEffect(() => {
+    if (secondsLeft <= 0) {
+      redirect();
+      return;
+    }
 
-      const timer = setTimeout(() => {
-        setSecondsLeft(secondsLeft - 1);
-      }, 1000);
+    const timer = setTimeout(() => {
+      setSecondsLeft(secondsLeft - 1);
+    }, 1000);
 
-      // Clean up timer
-      return () => clearTimeout(timer);
-    }, [secondsLeft, redirect]);
+    // Clean up timer
+    return () => clearTimeout(timer);
+  }, [secondsLeft, redirect]);
 
   return (
     <ThankyouContainer>
@@ -34,32 +53,29 @@ export default function ThankyouScreen() {
           <Image src="/payment-success.png" alt="tick" fill />
         </TickContainer>
         <BoxHead>
-          <h2>That&apos;s it! You&apos;re all set.</h2>
-          <p>You have successfully subscribed </p>
+          <h2>{title}</h2>
+          <p>{subtitle}</p>
         </BoxHead>
         <BoxDescription>
-          <p>
-            Check your email. Did&apos;t receive? Make sure to check your spam
-            folder, just in case.
-          </p>
-          <p>
-            Feel free to contact us at connect@stroda.club. If you have any
-            questions
-          </p>
+          <p>{descriptionTop}</p>
+          <p>{descriptionBottom}</p>
         </BoxDescription>
         <CTAContainer>
-          <HomeCTA onClick={redirect}>Dashboard</HomeCTA>
+          {ctaGrid === GridType.DOUBLE ? (
+            <HomeCTA onClick={redirect}>Dashboard</HomeCTA>
+          ) : null}
           <SecondaryCTA onClick={redirect}>Home</SecondaryCTA>
         </CTAContainer>
       </ThankyouBox>
       <Note>
-        Redirecting in{" "}
-        {secondsLeft}{" "}
-        seconds. You are being redirected to the homepage
+        Redirecting in {secondsLeft} seconds. You are being redirected to the
+        homepage
       </Note>
     </ThankyouContainer>
   );
-}
+};
+
+export default ThankyouScreen;
 
 const ThankyouContainer = styled.section`
   position: fixed;
@@ -78,6 +94,7 @@ const ThankyouContainer = styled.section`
   padding-top: 80px;
   gap: 22px;
   ${responsivePadding()}
+  transition: all 0.3s ease;
 
   @media (min-width: 992px) {
     gap: 30px;
@@ -215,6 +232,21 @@ const HomeCTA = styled.button`
   width: 100%;
   padding: 9px 20px;
   cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e61f1f;
+    border-color: #e61f1f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 38, 38, 0.25);
+  }
+
+  &:active {
+    background: #d61919;
+    border-color: #d61919;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(255, 38, 38, 0.25);
+  }
 
   @media (min-width: 992px) {
     padding: 21px 94px;
@@ -224,6 +256,19 @@ const HomeCTA = styled.button`
 
 const SecondaryCTA = styled(HomeCTA)`
   background: transparent;
+  color: #ff2626;
+
+  &:hover {
+    background: rgba(255, 38, 38, 0.15);
+    border-color: #e61f1f;
+    color: #e61f1f;
+  }
+
+  &:active {
+    background: rgba(255, 38, 38, 0.2);
+    border-color: #d61919;
+    color: #d61919;
+  }
 `;
 
 const Note = styled.p`

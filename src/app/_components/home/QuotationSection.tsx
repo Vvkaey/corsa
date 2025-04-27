@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 export const QuotationSection = styled(
   ({
@@ -19,6 +18,9 @@ export const QuotationSection = styled(
           <p className="quote">{description}</p>
           <p className="author">{author}</p>
         </div>
+        <div className="unicorn-studio">
+          <video autoPlay loop muted src="/light-red.mp4" />
+        </div>
       </section>
     );
   }
@@ -30,6 +32,39 @@ export const QuotationSection = styled(
 
   @media (min-width: 992px) {
     margin: 0 0 100px 0;
+  }
+
+  .unicorn-studio {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 1;
+      top: 0;
+      left: 0;
+    }
+
+    video {
+      position: absolute;
+      width: auto;
+      height: 100%;
+      object-fit: cover;
+      
+
+      @media (min-width: 992px) {
+        width: 100%;
+        height: auto;
+      }
+    }
   }
 
   .img-container {
