@@ -16,9 +16,16 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
+  // const searchParams = useSearchParams();
+
+
+    // Get the redirect path from the URL (same as used in your login component)
+    // const redirectPath = searchParams.get("redirect") || "/";
+
 
   const handleGoogleLogin = () => {
-    // Simply redirect to backend's Google auth initiation endpoint
+    // Append the redirect parameter to your Google auth URL
+    // const redirectUrl = encodeURIComponent(redirectPath);
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
   };
  

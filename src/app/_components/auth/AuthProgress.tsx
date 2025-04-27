@@ -1,62 +1,75 @@
 "use client";
 
-
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../_contexts/AuthContext";
 import VideoLoadingScreen from "../global/loading";
 
-export const AuthProgress = styled(({ className, message = "Authenticating" }: { 
-  className?: string;
-  message?: string;
-}) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { loading } = useAuth();
-  
-  useEffect(() => {
-    const token = searchParams.get("token");
-  
-    if (token) {
-      // Store token in localStorage
-      localStorage.setItem("authToken", token);
-  
-      // Redirect user to dashboard after a short delay
-      const timeout = setTimeout(() => {
-        router.push("/");
-      }, 1500);
-      
-      return () => clearTimeout(timeout);
-    } else if (!loading) {
-      // If no token and not in loading state, set a timeout for redirect
-      const timeout = setTimeout(() => {
-        router.push("/login");
-      }, 3000);
-      
-      return () => clearTimeout(timeout);
-    }
-  }, [searchParams, router, loading]);
+export const AuthProgress = styled(
+  ({
+    className,
+    message = "Authenticating",
+  }: {
+    className?: string;
+    message?: string;
+  }) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const { loading } = useAuth();
 
-  return (
-    <section className={className}>
-      <div className="img-container">
-        <VideoLoadingScreen videoSrc="/loading.mp4"/>
-      </div>
-      <div className="progress">
-        <h1>
-          {loading ? "Verifying authentication" : message}
-          <span className="dots" />
-        </h1>
-        {loading && (
-          <div className="loading-indicator">
-            <span className="spinner"></span>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-})`
+    useEffect(() => {
+      const token = searchParams.get("token");
+      // Get redirect path or default to home page
+      const redirectPath = searchParams.get("redirect") || "/";
+
+      if (token) {
+        // Store token in localStorage
+        localStorage.setItem("authToken", token);
+
+        // For Google auth flow, create a minimal user object
+        // This ensures AuthContext's isAuthenticated will return true
+        const dummyUser = { id: "google-user", email: "google@user.com" };
+        localStorage.setItem("user", JSON.stringify(dummyUser));
+        // Trigger custom event to notify AuthContext about the change
+        window.dispatchEvent(new Event("auth-storage-change"));
+
+        // Redirect user to the intended destination after a short delay
+        const timeout = setTimeout(() => {
+          router.push(redirectPath);
+        }, 1500);
+
+        return () => clearTimeout(timeout);
+      } else if (!loading) {
+        // If no token and not in loading state, set a timeout for redirect
+        const timeout = setTimeout(() => {
+          router.push("/login");
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+      }
+    }, [searchParams, router, loading]);
+
+    return (
+      <section className={className}>
+        <div className="img-container">
+          <VideoLoadingScreen videoSrc="/loading.mp4" />
+        </div>
+        <div className="progress">
+          <h1>
+            {loading ? "Verifying authentication" : message}
+            <span className="dots" />
+          </h1>
+          {loading && (
+            <div className="loading-indicator">
+              <span className="spinner"></span>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+)`
   width: 100vw;
   height: 100vh;
   background: #000;
@@ -131,22 +144,24 @@ export const AuthProgress = styled(({ className, message = "Authenticating" }: {
         color: rgba(255, 255, 255, 0.85);
       }
     }
-    
+
     .loading-indicator {
       margin-top: 2rem;
-      
+
       .spinner {
         display: inline-block;
         width: 50px;
         height: 50px;
-        border: 3px solid rgba(255,255,255,.3);
+        border: 3px solid rgba(255, 255, 255, 0.3);
         border-radius: 50%;
         border-top-color: #fff;
         animation: spin 1s ease-in-out infinite;
       }
-      
+
       @keyframes spin {
-        to { transform: rotate(360deg); }
+        to {
+          transform: rotate(360deg);
+        }
       }
     }
 

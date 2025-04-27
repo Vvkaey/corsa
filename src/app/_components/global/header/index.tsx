@@ -179,24 +179,27 @@ export const HamOverlay = styled(
     setShowMenu?: (showMenu: boolean) => void;
   }) => {
     const router = useRouter();
-
+    console.log("HamOverlay", showMenu);
     const { isAuthenticated, logout } = useAuth();
 
     const redirectToLogin = useCallback(() => {
       if (router) {
         router.push("/login");
         if (!setShowMenu) return;
-        setShowMenu(!showMenu);
+        setShowMenu(false);
       }
-    }, [router, setShowMenu, showMenu]);
+    }, [router, setShowMenu]);
 
     const redirectToDashboard = useCallback(() => {
+      const href = isAuthenticated
+        ? "/dashboard"
+        : "/login?redirect=/dashboard";
       if (router) {
-        router.push("/dashboard");
+        router.push(href);
         if (!setShowMenu) return;
-        setShowMenu(!showMenu);
+        setShowMenu(false);
       }
-    }, [router, setShowMenu, showMenu]);
+    }, [router, setShowMenu, isAuthenticated]);
 
     const logoutUser = useCallback(() => {
       logout();

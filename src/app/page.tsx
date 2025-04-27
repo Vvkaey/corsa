@@ -1,5 +1,5 @@
 // app/page.tsx
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import Script from "next/script";
 import { BrownBgTick } from "./_assets/icons";
 import HomeClientWrapper from "./_components/home/HomeClientWrapper";
@@ -209,22 +209,22 @@ const BANNER_SECTION = {
 };
 
 // Define metadata for the page (SEO)
-export const metadata: Metadata = {
-  title: "Your Mentorship Network - Community that leads together",
-  description: "Connect with top mentors from premier institutions like IITs for guidance on your educational journey.",
-  openGraph: {
-    title: "Your Mentorship Network - Community that leads together",
-    description: "Connect with top mentors from premier institutions like IITs for guidance on your educational journey.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Mentorship Network",
-      },
-    ],
-  },
-};
+// export const metadata: Metadata = {
+//   title: "Your Mentorship Network - Community that leads together",
+//   description: "Connect with top mentors from premier institutions like IITs for guidance on your educational journey.",
+//   openGraph: {
+//     title: "Your Mentorship Network - Community that leads together",
+//     description: "Connect with top mentors from premier institutions like IITs for guidance on your educational journey.",
+//     images: [
+//       {
+//         url: "/og-image.jpg",
+//         width: 1200,
+//         height: 630,
+//         alt: "Mentorship Network",
+//       },
+//     ],
+//   },
+// };
 
 // Structured data for SEO
 const structuredData = {

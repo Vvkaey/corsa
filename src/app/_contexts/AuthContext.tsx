@@ -26,28 +26,84 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   // Start with loading as false since we're not making any API calls initially
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   // Check if user is authenticated
   const isAuthenticated = !!token && !!user;
 
-  // Initialize auth state from localStorage on component mount
-  useEffect(() => {
+  // Function to load auth state from localStorage
+  const loadAuthState = () => {
     const storedToken = localStorage.getItem("authToken");
     const storedUser = localStorage.getItem("user");
 
-    if (storedToken && storedUser) {
-      try {
-        setToken(storedToken);
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        // If parsing fails, clear localStorage
-        console.error("Error parsing stored user data:", error);
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user");
+    if (storedToken) {
+      setToken(storedToken);
+      
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+        } catch (error) {
+          console.error("Error parsing stored user data:", error);
+          
+          // Create a minimal user object if parsing fails
+          const minimalUser: User = {
+            id: "google-user",
+            email: "google@user.com" 
+          };
+          
+          setUser(minimalUser);
+          localStorage.setItem("user", JSON.stringify(minimalUser));
+        }
+      } else {
+        // If we have a token but no user, create a minimal user
+        const minimalUser: User = {
+          id: "google-user",
+          email: "google@user.com"
+        };
+        
+        setUser(minimalUser);
+        localStorage.setItem("user", JSON.stringify(minimalUser));
       }
+    } else {
+      // Clear state if no token in localStorage
+      setToken(null);
+      setUser(null);
     }
+    
+    setLoading(false);
+  };
+
+  // Initialize auth state on component mount
+  useEffect(() => {
+    loadAuthState();
+  }, []);
+
+  // Listen for changes to localStorage from other tabs/windows
+  useEffect(() => {
+    // Function to handle storage events
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "authToken" || event.key === "user") {
+        console.log("Auth storage changed, reloading auth state");
+        loadAuthState();
+      }
+    };
+    
+    // Add a custom event for same-window updates
+    const handleCustomStorageChange = () => {
+      console.log("Custom storage event triggered, reloading auth state");
+      loadAuthState();
+    };
+
+    // Add event listeners
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("auth-storage-change", handleCustomStorageChange);
+
+    // Cleanup listeners on unmount
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("auth-storage-change", handleCustomStorageChange);
+    };
   }, []);
 
   // Request OTP function
