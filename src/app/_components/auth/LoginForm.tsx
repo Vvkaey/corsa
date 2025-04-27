@@ -281,7 +281,7 @@ export default function LoginForm({
 
     const verified = await verifyOTP(email, otp);
     if (verified) {
-      router.push("/");
+      // router.push("/");
       // Redirect to the path stored in the redirectPath variable
       router.push(redirectPath);
     }

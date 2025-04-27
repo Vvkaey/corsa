@@ -3,11 +3,11 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Define paths that require authentication
-const protectedPaths = ['/dashboard', '/profile', '/settings']
+// Define paths that require authentication (for informational purposes only)
+// We'll use this to set a header that our client components can read
+const protectedPaths = ['/dashboard'];
 
-// Define paths that are for authentication
-const authPaths = ['/login']
+
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -17,31 +17,11 @@ export function middleware(request: NextRequest) {
   
   // Keep the existing custom header functionality
   response.headers.set('x-pathname', pathname);
-  
-  // Check if the user is authenticated by looking for the auth token
-  const token = request.cookies.get('auth-token')?.value;
-  const isAuthenticated = !!token;
-  
-  // If user is trying to access a protected path and is not authenticated
-  if (protectedPaths.some(path => pathname.startsWith(path)) && !isAuthenticated) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    
-    // Pass the intended destination as a query parameter
-    url.searchParams.set('redirect', pathname);
-    
-    return NextResponse.redirect(url);
-  }
-  
-  // If user is already authenticated and trying to access auth pages
-  if (authPaths.some(path => pathname === path) && isAuthenticated) {
-    const url = request.nextUrl.clone();
-    
-    // Get redirect parameter from URL if it exists
-    const redirectPath = request.nextUrl.searchParams.get('redirect') || '/';
-    url.pathname = redirectPath;
-    
-    return NextResponse.redirect(url);
+
+  // Set a header indicating if this is a protected path
+  // Client components can use this information if needed
+  if (protectedPaths.some(path => pathname.startsWith(path))) {
+    response.headers.set('x-protected-route', 'true');
   }
   
   return response;
@@ -49,6 +29,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Match all paths except static files, images, and API routes
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

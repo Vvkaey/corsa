@@ -47,11 +47,15 @@ export const DesktopNavItems = styled(
     }, [router, setShowMenu, showMenu]);
 
     const redirectToDashboard = useCallback(() => {
+      const href = isAuthenticated
+        ? "/dashboard"
+        : "/login?redirect=/dashboard";
+
       if (router) {
-        router.push("/dashboard");
+        router.push(href);
         setShowMenu(false);
       }
-    }, [router, setShowMenu]);
+    }, [router, setShowMenu, isAuthenticated]);
 
     const logoutUser = useCallback(() => {
       logout();
@@ -201,7 +205,7 @@ export const HamOverlay = styled(
     const onBgClick = useCallback(() => {
       if (!setShowMenu) return;
       setShowMenu(false);
-    },[setShowMenu]);
+    }, [setShowMenu]);
 
     return (
       <div className={className} onClick={onBgClick}>

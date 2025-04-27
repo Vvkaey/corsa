@@ -18,6 +18,13 @@ export default function Login() {
       name: "Corsa",
     },
   };
+
+
+  // Show appropriate state
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
+
   return (
     <>
       <Script id="blog-schema" type="application/ld+json">
@@ -27,7 +34,7 @@ export default function Login() {
         <div>
           <main>
             <Suspense fallback={<div>Loading...</div>}>
-            <LoginSection />
+              <LoginSection />
             </Suspense>
           </main>
         </div>

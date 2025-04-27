@@ -7,7 +7,9 @@ import Image from "next/image";
 import LoginForm from "../auth/LoginForm";
 import { GoogleIcon } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/app/_utils/hooks/useAuth";
 // import Link from "next/link";
 
 const GoogleSignInButton = styled(({ className }: { className?: string }) => {
@@ -90,6 +92,21 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
 
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { isAuthenticated, loading } = useAuth();
+
+  // Get the redirect path from search params
+  const redirectPath = searchParams.get("redirect") || "/";
+
+  // If already authenticated, redirect to intended destination
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      router.push(redirectPath);
+    }
+  }, [isAuthenticated, redirectPath, router, loading]);
+
   return (
     <section className={className}>
       <div className="root-container">
@@ -125,7 +142,6 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
           <div className="text">
             <p>
               CONNECT <span>.</span> EVOLVE <span>.</span> REINVENT
-              <span>.</span>
             </p>
           </div>
         </div>
