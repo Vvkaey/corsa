@@ -260,7 +260,7 @@ const MentorApplication = () => {
     }
   };
 
-  // Add a function to touch all fields on form submit attempt
+  // Function to touch all fields on form submit attempt
   const validateAndTouchFields = (formik: FormikProps<FormValues>) => {
     // Touch all fields to trigger error messages
     Object.keys(formik.values).forEach((field) => {

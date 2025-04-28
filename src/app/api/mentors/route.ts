@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
       }
     
-    // Call your actual backend API endpoint
+    // Calling actual backend API endpoint
     const response = await fetch(`${apiUrl}/api/mentors`, {
       method: 'POST',
       headers: {
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     // Get the response data
     const data = await response.json();
     
-    // Return the response from your backend
+    // Return the response from backend
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
     console.error('Error in submit-mentor-application middleware:', error);

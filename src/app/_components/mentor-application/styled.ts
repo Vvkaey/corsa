@@ -7,17 +7,17 @@ export const StatusMessage = styled.div<{ type: "success" | "error" | "info" }>`
   margin-top: 0.25rem;
 
   color: ${(props) =>
-        props.type === "success"
-            ? "#2f855a"
-            : props.type === "error"
-                ? "#c53030"
-                : "#2b6cb0"};
+    props.type === "success"
+      ? "#2f855a"
+      : props.type === "error"
+        ? "#c53030"
+        : "#2b6cb0"};
   background-color: ${(props) =>
-        props.type === "success"
-            ? "#c6f6d5"
-            : props.type === "error"
-                ? "#fed7d7"
-                : "#e2e8f0"};
+    props.type === "success"
+      ? "#c6f6d5"
+      : props.type === "error"
+        ? "#fed7d7"
+        : "#e2e8f0"};
   border-radius: 4px;
   height: fit-content;
       position: absolute;
