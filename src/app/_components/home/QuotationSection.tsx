@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { sectionResponsivePadding } from "../new_mixins/mixins";
 export const QuotationSection = styled(
   ({
     className,
@@ -55,15 +56,11 @@ export const QuotationSection = styled(
 
     video {
       position: absolute;
-      width: auto;
+      width: 100%;
       height: 100%;
       object-fit: cover;
-      
-
-      @media (min-width: 992px) {
-        width: 100%;
-        height: auto;
-      }
+      top: 0;
+      left: 0;
     }
   }
 
@@ -89,9 +86,10 @@ export const QuotationSection = styled(
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 130px;
+    gap: 54px;
     z-index: 5;
     background: rgba(0, 0, 0, 0.4);
+    ${sectionResponsivePadding()};
     @media (min-width: 992px) {
       gap: 14px;
     }
@@ -108,6 +106,11 @@ export const QuotationSection = styled(
       text-transform: uppercase;
       letter-spacing: 0.56px;
       @media (min-width: 992px) {
+        font-size: 32.5px;
+        letter-spacing: 0.65px;
+      }
+
+      @media (min-width: 1950px) {
         font-size: 46.2px;
         letter-spacing: 0.78px;
       }
@@ -123,6 +126,11 @@ export const QuotationSection = styled(
       letter-spacing: 0.32px;
       z-index: 2;
       @media (min-width: 992px) {
+        font-size: 21.6px;
+        letter-spacing: 0.433px;
+      }
+
+      @media (min-width: 1950px) {
         font-size: 30.8px;
         letter-spacing: 0.6px;
       }
