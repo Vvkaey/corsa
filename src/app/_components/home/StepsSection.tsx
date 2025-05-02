@@ -42,108 +42,117 @@ interface StepsSectionProps {
 }
 
 export const StepsSection = styled(
-  ({
-    className,
-    flowItems,
-  }: StepsSectionProps) => {
+  ({ className, flowItems }: StepsSectionProps) => {
     const sectionRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
     const stepsRef = useRef<HTMLDivElement>(null);
-    
+
     // Ensure initial visibility - this guarantees the section will be visible
     useEffect(() => {
       // Make everything visible immediately for debugging
       // Remove this when the issue is fixed
       console.log("Steps section mounted, flowItems:", flowItems?.length);
-      
+
       if (titleRef.current) {
-        titleRef.current.style.opacity = '1';
+        titleRef.current.style.opacity = "1";
       }
-      
+
       // Ensure all steps are visible in case of any animation issues
       if (stepsRef.current) {
-        const allElements = stepsRef.current.querySelectorAll('.step, .text-container, .media-container, .mbl-description');
-        allElements.forEach(el => {
-          (el as HTMLElement).style.opacity = '1';
-          (el as HTMLElement).style.transform = 'none';
+        const allElements = stepsRef.current.querySelectorAll(
+          ".step, .text-container, .media-container, .mbl-description"
+        );
+        allElements.forEach((el) => {
+          (el as HTMLElement).style.opacity = "1";
+          (el as HTMLElement).style.transform = "none";
         });
       }
     }, [flowItems]);
-    
+
     // Actual animation logic
     useEffect(() => {
       // For SSR safety
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       // Debugging log
       console.log("Running animation effect, window width:", window.innerWidth);
-      
+
       // Store current refs
       const currentTitleRef = titleRef.current;
       const currentStepsRef = stepsRef.current;
-      
+
       try {
         // Desktop animations (skip mobile check to ensure it works)
         if (currentTitleRef) {
           // Title should already be visible from the first effect
-          currentTitleRef.style.opacity = '1';
-          currentTitleRef.style.transform = 'none';
+          currentTitleRef.style.opacity = "1";
+          currentTitleRef.style.transform = "none";
         }
-        
+
         if (currentStepsRef) {
           // Get all steps
-          const steps = currentStepsRef.querySelectorAll('.step');
+          const steps = currentStepsRef.querySelectorAll(".step");
           console.log("Steps found:", steps.length);
-          
+
           // Make all step containers visible immediately
           steps.forEach((step) => {
-            (step as HTMLElement).style.opacity = '1';
+            (step as HTMLElement).style.opacity = "1";
           });
-          
+
           // Set up animations for inner elements
           steps.forEach((step, index) => {
-            const textContainer = step.querySelector('.text-container');
-            const mediaContainer = step.querySelector('.media-container');
-            const mobileDesc = step.querySelector('.mbl-description');
-            
+            const textContainer = step.querySelector(".text-container");
+            const mediaContainer = step.querySelector(".media-container");
+            const mobileDesc = step.querySelector(".mbl-description");
+
             // Ensure inner elements are visible first
-            if (textContainer) (textContainer as HTMLElement).style.opacity = '1';
-            if (mediaContainer) (mediaContainer as HTMLElement).style.opacity = '1';
-            if (mobileDesc) (mobileDesc as HTMLElement).style.opacity = '1';
-            
+            if (textContainer)
+              (textContainer as HTMLElement).style.opacity = "1";
+            if (mediaContainer)
+              (mediaContainer as HTMLElement).style.opacity = "1";
+            if (mobileDesc) (mobileDesc as HTMLElement).style.opacity = "1";
+
             // Then apply simple animations with setTimeout
             setTimeout(() => {
               if (textContainer) {
-                (textContainer as HTMLElement).style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                (textContainer as HTMLElement).style.transform = 'translateX(-10px)';
-                
+                (textContainer as HTMLElement).style.transition =
+                  "opacity 0.3s ease, transform 0.3s ease";
+                (textContainer as HTMLElement).style.transform =
+                  "translateX(-10px)";
+
                 setTimeout(() => {
-                  (textContainer as HTMLElement).style.transform = 'translateX(0)';
+                  (textContainer as HTMLElement).style.transform =
+                    "translateX(0)";
                 }, 100);
               }
-              
+
               if (mediaContainer) {
-                (mediaContainer as HTMLElement).style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                (mediaContainer as HTMLElement).style.transform = 'translateX(10px) scale(0.98)';
-                
+                (mediaContainer as HTMLElement).style.transition =
+                  "opacity 0.3s ease, transform 0.3s ease";
+                (mediaContainer as HTMLElement).style.transform =
+                  "translateX(10px) scale(0.98)";
+
                 setTimeout(() => {
-                  (mediaContainer as HTMLElement).style.transform = 'translateX(0) scale(1)';
+                  (mediaContainer as HTMLElement).style.transform =
+                    "translateX(0) scale(1)";
                 }, 100);
               }
-            }, 500 + (index * 200)); // Staggered delay
+            }, 500 + index * 200); // Staggered delay
           });
         }
       } catch (error) {
         console.error("Animation error in StepsSection:", error);
-        
+
         // Fallback: ensure content is visible even if animation fails
-        if (currentTitleRef) currentTitleRef.style.opacity = '1';
-        
+        if (currentTitleRef) currentTitleRef.style.opacity = "1";
+
         if (currentStepsRef) {
-          const elements = currentStepsRef.querySelectorAll('.step, .text-container, .media-container, .mbl-description');
-          elements.forEach(el => {
-            (el as HTMLElement).style.opacity = '1';
-            (el as HTMLElement).style.transform = 'none';
+          const elements = currentStepsRef.querySelectorAll(
+            ".step, .text-container, .media-container, .mbl-description"
+          );
+          elements.forEach((el) => {
+            (el as HTMLElement).style.opacity = "1";
+            (el as HTMLElement).style.transform = "none";
           });
         }
       }
@@ -167,8 +176,8 @@ with mentors who get things done. Here's how we help you step up."`}
           <div className="steps" ref={stepsRef}>
             {flowItems && flowItems.length > 0 ? (
               flowItems.map((item, idx) => (
-                <div 
-                  className="step" 
+                <div
+                  className="step"
                   key={idx}
                   style={{ opacity: 1 }} // Force initial visibility
                 >
@@ -186,18 +195,26 @@ with mentors who get things done. Here's how we help you step up."`}
                   <div className="media-container" style={{ opacity: 1 }}>
                     <div className="img-container">
                       {" "}
-                      <Image 
-                        src={item?.colC?.img} 
-                        alt={`Step ${idx + 1}: ${typeof item?.colB?.title === 'string' ? item.colB.title : 'Step illustration'}`} 
-                        fill 
+                      <Image
+                        src={item?.colC?.img}
+                        alt={`Step ${idx + 1}: ${
+                          typeof item?.colB?.title === "string"
+                            ? item.colB.title
+                            : "Step illustration"
+                        }`}
+                        fill
                       />
                     </div>
                   </div>
-                  <p className="mbl-description" style={{ opacity: 1 }}>{item?.colB?.subtitle}</p>
+                  <p className="mbl-description" style={{ opacity: 1 }}>
+                    {item?.colB?.subtitle}
+                  </p>
                 </div>
               ))
             ) : (
-              <div className="error-message">No steps to display. Check your data.</div>
+              <div className="error-message">
+                No steps to display. Check your data.
+              </div>
             )}
           </div>
         </div>
@@ -236,7 +253,7 @@ with mentors who get things done. Here's how we help you step up."`}
     @media (min-width: 992px) {
       border-radius: 20.987px 20.987px 0 0;
       padding: 150px 0 152px 0;
-      gap: 120px;
+      gap: 130px;
     }
     .steps {
       position: relative;
@@ -469,6 +486,15 @@ with mentors who get things done. Here's how we help you step up."`}
           }
         }
 
+        &:nth-child(2),
+        &:nth-child(4) {
+          .text-container {
+            @media (min-width: 992px) and (max-width: 1950px) {
+              padding-left: 72px;
+            }
+          }
+        }
+
         .text-container {
           position: relative;
           width: 100%;
@@ -485,6 +511,12 @@ with mentors who get things done. Here's how we help you step up."`}
             max-width: 400px;
           }
 
+          @media (min-width: 1290px) {
+            width: 50%;
+            max-width: 50%;
+            padding-left: 45px;
+          }
+
           @media (min-width: 1592px) {
             max-width: 700px;
           }
@@ -498,6 +530,18 @@ with mentors who get things done. Here's how we help you step up."`}
               display: none;
               @media (min-width: 992px) {
                 display: block;
+                width: 56px;
+                height: 58px;
+                top: unset;
+                bottom: 38px;
+              }
+
+              @media (min-width: 1950px) {
+                display: block;
+                width: 80px;
+                height: 83px;
+                top: 7px;
+                bottom: unset;
               }
             }
           }
@@ -518,6 +562,10 @@ with mentors who get things done. Here's how we help you step up."`}
               flex-direction: column;
               justify-content: unset;
               align-items: unset;
+              gap: 20px;
+            }
+
+            @media (min-width: 1950px) {
               gap: 40px;
             }
 
@@ -530,12 +578,16 @@ with mentors who get things done. Here's how we help you step up."`}
               line-height: normal;
               text-transform: capitalize;
               text-align: center;
-               max-width: 18ch;
+              max-width: 18ch;
 
               @media (min-width: 992px) {
                 text-align: left;
                 font-size: 36px;
                 max-width: 16ch;
+              }
+
+              @media (min-width: 1320px) {
+                font-size: 47.64px;
               }
             }
 
@@ -549,7 +601,7 @@ with mentors who get things done. Here's how we help you step up."`}
               display: none;
               @media (min-width: 992px) {
                 display: unset;
-                max-width: 70%;
+                max-width: 90%;
                 font-size: 20px;
               }
             }
@@ -559,7 +611,7 @@ with mentors who get things done. Here's how we help you step up."`}
         .media-container {
           display: flex;
           width: 100%;
-          height: 258px;
+          height: 288px;
           border-radius: 8px;
           position: relative;
           background: #fff;
@@ -569,30 +621,46 @@ with mentors who get things done. Here's how we help you step up."`}
           will-change: transform, opacity; /* Performance optimization */
 
           @media (min-width: 992px) {
-            border-radius: 25px;
-            width: calc(639px + 58px);
-            height: calc(512px + 62px);
+            border-radius: 18px;
+            width: 639px;
+            height: 512px;
             justify-self: flex-end;
+          }
+
+          @media (min-width: 1950px) {
+            border-radius: 25px;
+            width: 908px;
+            height: 727px;
           }
 
           .img-container {
             background: #fff;
-            width: calc(100% - 16px);
-            height: calc(100% - 16px);
+            width: 360px;
+            height: 288px;
             position: relative;
             overflow: hidden;
 
             @media (min-width: 992px) {
-              max-width: 639px;
+              width: 92%;
               height: 100%;
-              max-height: 512px;
+            }
+
+            @media (min-width: 1950px) {
+              max-width: 908px;
+              max-height: 727px;
             }
 
             img {
               position: absolute;
               object-fit: contain;
-              width: 100%;
-              height: auto;
+              width: 95% !important;
+              margin: auto;
+              height: 95% !important;
+
+              @media (min-width: 992px) {
+                width: 100% !important;
+              height: auto !important;
+              }
             }
           }
         }
@@ -608,7 +676,7 @@ with mentors who get things done. Here's how we help you step up."`}
           line-height: 141.979%; /* 25.556px */
           max-width: 85%;
           will-change: opacity, transform; /* Performance optimization */
-          
+
           @media (min-width: 992px) {
             display: none;
           }

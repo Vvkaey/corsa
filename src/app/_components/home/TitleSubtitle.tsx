@@ -124,6 +124,10 @@ const Title = styled.h2`
     max-width: 70%;
     leading-trim: both;
     text-edge: cap;
+    font-size: 67.669px;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 96.669px;
   }
 `;
@@ -141,6 +145,10 @@ const SubTitle = styled.h2`
     max-width: 58%;
     leading-trim: both;
     text-edge: cap;
+    font-size: 19.9px;
+  }
+
+    @media (min-width: 1950px) {
     font-size: 28.432px;
   }
 `;

@@ -32,7 +32,7 @@ export const responsivePadding = ({
   mobilePadding = "16px",
   mobiledVpadding = "60px",
   tabletPadding = "32px",
-  desktopPadding = "64px",
+  desktopPadding = "80px",
   desktopVpadding = "89px",
   desktopMdPadding = "120px",
   desktopMdVpadding = "120px",
@@ -64,7 +64,7 @@ export const responsivePadding = ({
 export const sectionResponsivePadding = ({
     mobilePadding = "16px",
     tabletPadding = "32px",
-    desktopPadding = "64px",
+    desktopPadding = "80px",
     desktopMdPadding = "120px",
   }: ResponsivePaddingProps = {}) => css`
     padding-left: ${mobilePadding};
