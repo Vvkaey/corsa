@@ -80,9 +80,9 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
 
   const router = useRouter();
 
-  // Add a function to touch all fields on form submit attempt
+  // Function to touch all fields on form submit attempt
   const validateAndTouchFields = (formik: FormikProps<FormValues>) => {
-    // Touch all fields to trigger error messages
+    // Touching all fields to trigger error messages
     Object.keys(formik.values).forEach((field) => {
       formik.setFieldTouched(field, true, false);
     });
@@ -132,7 +132,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       const data = await response.json();
 
       if (data.orderId) {
-        // Now, pass the values to initiatePayment
+        // Pass the values to initiatePayment
         initiatePayment(data.orderId, values);
       }
     } catch (err) {
@@ -165,10 +165,10 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
 
       let data;
       try {
-        // Try to parse response as JSON (works for both success and error cases)
+        // Parse response as JSON (works for both success and error cases)
         data = await verifyResponse.json();
       } catch (parseError) {
-        // If JSON parsing fails, get the response as text instead
+        // If JSON parsing fails, response as text instead
         const errorText = await verifyResponse.text();
         console.error("Failed to parse response:", errorText, parseError);
         throw new Error("Invalid response from server: " + errorText);
@@ -212,7 +212,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       return;
     }
 
-    // Create options for Razorpay
+    // Creating options for Razorpay
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
       amount: product!.price * 100,
@@ -283,7 +283,6 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       const token = localStorage.getItem("authToken") || "";
 
       const response = await fetch("/api/user/details", {
-        // Make sure this is the correct endpoint
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -318,14 +317,6 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       validateOnChange={true} // This will validate on every change
     >
       {(formik) => (
-        //   <form
-        //     onSubmit={handleSubmit}
-        //     style={{
-        //       display: "flex",
-        //       flexWrap: "wrap",
-        //       justifyContent: "space-between",
-        //     }}
-        //   >
         <Form
           style={{
             display: "flex",
@@ -397,7 +388,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               onChange={formik.handleChange}
               placeholder="Phone Number"
             />
-             {formik.touched.phone && formik.errors.phone && (
+            {formik.touched.phone && formik.errors.phone && (
               <ErrorText>{formik.errors.phone}</ErrorText>
             )}
           </HalfWidthFormGroup>

@@ -26,6 +26,26 @@ const ICONS = [
     name: "IIT Guwahati",
     icon: "/iconE.svg",
   },
+  {
+    name: "NIT Trichy",
+    icon: "/iconA.svg",
+  },
+  {
+    name: "BITS Pilani",
+    icon: "/iconB.svg",
+  },
+  {
+    name: "VIT Vellore",
+    icon: "/iconC.svg",
+  },
+  {
+    name: "IIIT Hyderabad",
+    icon: "/iconD.svg",
+  },
+  {
+    name: "NIT Allahabad",
+    icon: "/iconE.svg",
+  },
 ];
 
 const INSIGHTS_DATA = {

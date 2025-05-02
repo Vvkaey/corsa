@@ -3,8 +3,12 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { JSX } from "react";
-import { SectionPadding, headerSpacing, maxWidthContainer } from "../new_mixins/mixins";
-import { IconShowcase } from "./IconShowcase"; 
+import {
+  SectionPadding,
+  headerSpacing,
+  maxWidthContainer,
+} from "../new_mixins/mixins";
+import { IconShowcase } from "./IconShowcase";
 import { useMentorshipContext } from "@/app/_contexts/MentorshipContext";
 
 export const HeroSection = styled(
@@ -43,186 +47,241 @@ export const HeroSection = styled(
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
     const rootContainerRef = useRef<HTMLDivElement>(null);
 
-    const {subscription} = useMentorshipContext();
+    const { subscription } = useMentorshipContext();
 
     useEffect(() => {
       // For SSR safety
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       // Store ref values at the beginning of the effect
       const currentHeadingRef = headingRef.current;
       const currentSubHeadingRef = subHeadingRef.current;
       const currentCtaContainerRef = ctaContainerRef.current;
       const currentPrimaryCtaRef = primaryCtaRef.current;
       const currentSecondaryCtaRef = secondaryCtaRef.current;
-      
+
       // Create event handlers with named functions for proper cleanup
-      const primaryEnterHandler = currentPrimaryCtaRef ? () => {
-        currentPrimaryCtaRef.style.transform = 'translateY(-3px)';
-        currentPrimaryCtaRef.style.boxShadow = '0 10px 20px rgba(255, 38, 38, 0.2)';
-      } : undefined;
-      
-      const primaryLeaveHandler = currentPrimaryCtaRef ? () => {
-        currentPrimaryCtaRef.style.transform = 'translateY(0)';
-        currentPrimaryCtaRef.style.boxShadow = '0 0 0 rgba(255, 38, 38, 0)';
-      } : undefined;
-      
-      const secondaryEnterHandler = currentSecondaryCtaRef ? () => {
-        currentSecondaryCtaRef.style.transform = 'translateY(-3px)';
-        currentSecondaryCtaRef.style.boxShadow = '0 10px 20px rgba(255, 38, 38, 0.1)';
-      } : undefined;
-      
-      const secondaryLeaveHandler = currentSecondaryCtaRef ? () => {
-        currentSecondaryCtaRef.style.transform = 'translateY(0)';
-        currentSecondaryCtaRef.style.boxShadow = '0 0 0 rgba(255, 38, 38, 0)';
-      } : undefined;
-      
+      const primaryEnterHandler = currentPrimaryCtaRef
+        ? () => {
+            currentPrimaryCtaRef.style.transform = "translateY(-3px)";
+            currentPrimaryCtaRef.style.boxShadow =
+              "0 10px 20px rgba(255, 38, 38, 0.2)";
+          }
+        : undefined;
+
+      const primaryLeaveHandler = currentPrimaryCtaRef
+        ? () => {
+            currentPrimaryCtaRef.style.transform = "translateY(0)";
+            currentPrimaryCtaRef.style.boxShadow = "0 0 0 rgba(255, 38, 38, 0)";
+          }
+        : undefined;
+
+      const secondaryEnterHandler = currentSecondaryCtaRef
+        ? () => {
+            currentSecondaryCtaRef.style.transform = "translateY(-3px)";
+            currentSecondaryCtaRef.style.boxShadow =
+              "0 10px 20px rgba(255, 38, 38, 0.1)";
+          }
+        : undefined;
+
+      const secondaryLeaveHandler = currentSecondaryCtaRef
+        ? () => {
+            currentSecondaryCtaRef.style.transform = "translateY(0)";
+            currentSecondaryCtaRef.style.boxShadow =
+              "0 0 0 rgba(255, 38, 38, 0)";
+          }
+        : undefined;
+
       try {
         // Check if we're on mobile (screen width < 768px)
         const isMobile = window.innerWidth < 768;
-        
+
         // Skip animations on mobile
         if (isMobile) {
           // Make all elements visible immediately without animations
           if (currentHeadingRef) {
-            currentHeadingRef.style.opacity = '1';
-            currentHeadingRef.style.transform = 'none';
+            currentHeadingRef.style.opacity = "1";
+            currentHeadingRef.style.transform = "none";
           }
-          
+
           if (currentSubHeadingRef) {
-            currentSubHeadingRef.style.opacity = '1';
-            currentSubHeadingRef.style.transform = 'none';
+            currentSubHeadingRef.style.opacity = "1";
+            currentSubHeadingRef.style.transform = "none";
           }
-          
+
           if (currentCtaContainerRef) {
-            currentCtaContainerRef.style.opacity = '1';
-            currentCtaContainerRef.style.transform = 'none';
+            currentCtaContainerRef.style.opacity = "1";
+            currentCtaContainerRef.style.transform = "none";
           }
-          
+
           if (currentPrimaryCtaRef) {
-            currentPrimaryCtaRef.style.opacity = '1';
-            currentPrimaryCtaRef.style.transform = 'none';
-            currentPrimaryCtaRef.style.scale = '1';
+            currentPrimaryCtaRef.style.opacity = "1";
+            currentPrimaryCtaRef.style.transform = "none";
+            currentPrimaryCtaRef.style.scale = "1";
           }
-          
+
           if (currentSecondaryCtaRef) {
-            currentSecondaryCtaRef.style.opacity = '1';
-            currentSecondaryCtaRef.style.transform = 'none';
-            currentSecondaryCtaRef.style.scale = '1';
+            currentSecondaryCtaRef.style.opacity = "1";
+            currentSecondaryCtaRef.style.transform = "none";
+            currentSecondaryCtaRef.style.scale = "1";
           }
           return;
         }
-        
+
         // Desktop animations
         // Initial setup - set initial state
         if (currentHeadingRef) {
-          currentHeadingRef.style.opacity = '0';
-          currentHeadingRef.style.transform = 'translateY(20px)';
-          currentHeadingRef.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+          currentHeadingRef.style.opacity = "0";
+          currentHeadingRef.style.transform = "translateY(20px)";
+          currentHeadingRef.style.transition =
+            "opacity 0.9s ease, transform 0.9s ease";
         }
-        
+
         if (currentSubHeadingRef) {
-          currentSubHeadingRef.style.opacity = '0';
-          currentSubHeadingRef.style.transform = 'translateY(20px)';
-          currentSubHeadingRef.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+          currentSubHeadingRef.style.opacity = "0";
+          currentSubHeadingRef.style.transform = "translateY(20px)";
+          currentSubHeadingRef.style.transition =
+            "opacity 0.8s ease, transform 0.8s ease";
         }
-        
+
         if (currentCtaContainerRef) {
-          currentCtaContainerRef.style.opacity = '0';
-          currentCtaContainerRef.style.transition = 'opacity 0.7s ease';
+          currentCtaContainerRef.style.opacity = "0";
+          currentCtaContainerRef.style.transition = "opacity 0.7s ease";
         }
-        
+
         if (currentPrimaryCtaRef) {
-          currentPrimaryCtaRef.style.opacity = '0';
-          currentPrimaryCtaRef.style.transform = 'translateY(15px)';
-          currentPrimaryCtaRef.style.scale = '0.95';
-          currentPrimaryCtaRef.style.transition = 'opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease';
+          currentPrimaryCtaRef.style.opacity = "0";
+          currentPrimaryCtaRef.style.transform = "translateY(15px)";
+          currentPrimaryCtaRef.style.scale = "0.95";
+          currentPrimaryCtaRef.style.transition =
+            "opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease";
         }
-        
+
         if (currentSecondaryCtaRef) {
-          currentSecondaryCtaRef.style.opacity = '0';
-          currentSecondaryCtaRef.style.transform = 'translateY(15px)';
-          currentSecondaryCtaRef.style.scale = '0.95';
-          currentSecondaryCtaRef.style.transition = 'opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease';
+          currentSecondaryCtaRef.style.opacity = "0";
+          currentSecondaryCtaRef.style.transform = "translateY(15px)";
+          currentSecondaryCtaRef.style.scale = "0.95";
+          currentSecondaryCtaRef.style.transition =
+            "opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease";
         }
-        
+
         // Trigger animations with appropriate timing
         setTimeout(() => {
           if (currentHeadingRef) {
-            currentHeadingRef.style.opacity = '1';
-            currentHeadingRef.style.transform = 'translateY(0)';
+            currentHeadingRef.style.opacity = "1";
+            currentHeadingRef.style.transform = "translateY(0)";
           }
-          
+
           setTimeout(() => {
             if (currentSubHeadingRef) {
-              currentSubHeadingRef.style.opacity = '1';
-              currentSubHeadingRef.style.transform = 'translateY(0)';
+              currentSubHeadingRef.style.opacity = "1";
+              currentSubHeadingRef.style.transform = "translateY(0)";
             }
-            
+
             setTimeout(() => {
               if (currentCtaContainerRef) {
-                currentCtaContainerRef.style.opacity = '1';
+                currentCtaContainerRef.style.opacity = "1";
               }
-              
+
               setTimeout(() => {
                 if (currentPrimaryCtaRef) {
-                  currentPrimaryCtaRef.style.opacity = '1';
-                  currentPrimaryCtaRef.style.transform = 'translateY(0)';
-                  currentPrimaryCtaRef.style.scale = '1';
+                  currentPrimaryCtaRef.style.opacity = "1";
+                  currentPrimaryCtaRef.style.transform = "translateY(0)";
+                  currentPrimaryCtaRef.style.scale = "1";
                 }
-                
+
                 setTimeout(() => {
                   if (currentSecondaryCtaRef) {
-                    currentSecondaryCtaRef.style.opacity = '1';
-                    currentSecondaryCtaRef.style.transform = 'translateY(0)';
-                    currentSecondaryCtaRef.style.scale = '1';
+                    currentSecondaryCtaRef.style.opacity = "1";
+                    currentSecondaryCtaRef.style.transform = "translateY(0)";
+                    currentSecondaryCtaRef.style.scale = "1";
                   }
                 }, 250); // Delay between primary and secondary button
               }, 100); // Delay before buttons
             }, 200); // Delay before CTA container
           }, 300); // Delay before subheading
         }, 200); // Initial delay for heading
-        
+
         // Add hover animations for buttons (desktop only)
-        if (currentPrimaryCtaRef && primaryEnterHandler && primaryLeaveHandler) {
-          currentPrimaryCtaRef.addEventListener("mouseenter", primaryEnterHandler);
-          currentPrimaryCtaRef.addEventListener("mouseleave", primaryLeaveHandler);
+        if (
+          currentPrimaryCtaRef &&
+          primaryEnterHandler &&
+          primaryLeaveHandler
+        ) {
+          currentPrimaryCtaRef.addEventListener(
+            "mouseenter",
+            primaryEnterHandler
+          );
+          currentPrimaryCtaRef.addEventListener(
+            "mouseleave",
+            primaryLeaveHandler
+          );
         }
-        
-        if (currentSecondaryCtaRef && secondaryEnterHandler && secondaryLeaveHandler) {
-          currentSecondaryCtaRef.addEventListener("mouseenter", secondaryEnterHandler);
-          currentSecondaryCtaRef.addEventListener("mouseleave", secondaryLeaveHandler);
+
+        if (
+          currentSecondaryCtaRef &&
+          secondaryEnterHandler &&
+          secondaryLeaveHandler
+        ) {
+          currentSecondaryCtaRef.addEventListener(
+            "mouseenter",
+            secondaryEnterHandler
+          );
+          currentSecondaryCtaRef.addEventListener(
+            "mouseleave",
+            secondaryLeaveHandler
+          );
         }
       } catch (error) {
         console.error("Animation error in HeroSection:", error);
-        
+
         // Fallback: ensure content is visible even if animation fails
         const elements = [
           currentHeadingRef,
           currentSubHeadingRef,
           currentCtaContainerRef,
           currentPrimaryCtaRef,
-          currentSecondaryCtaRef
+          currentSecondaryCtaRef,
         ];
-        
-        elements.forEach(el => {
+
+        elements.forEach((el) => {
           if (el) {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
+            el.style.opacity = "1";
+            el.style.transform = "none";
           }
         });
       }
-      
+
       // Cleanup event listeners with proper references
       return () => {
-        if (currentPrimaryCtaRef && primaryEnterHandler && primaryLeaveHandler) {
-          currentPrimaryCtaRef.removeEventListener("mouseenter", primaryEnterHandler);
-          currentPrimaryCtaRef.removeEventListener("mouseleave", primaryLeaveHandler);
+        if (
+          currentPrimaryCtaRef &&
+          primaryEnterHandler &&
+          primaryLeaveHandler
+        ) {
+          currentPrimaryCtaRef.removeEventListener(
+            "mouseenter",
+            primaryEnterHandler
+          );
+          currentPrimaryCtaRef.removeEventListener(
+            "mouseleave",
+            primaryLeaveHandler
+          );
         }
-        
-        if (currentSecondaryCtaRef && secondaryEnterHandler && secondaryLeaveHandler) {
-          currentSecondaryCtaRef.removeEventListener("mouseenter", secondaryEnterHandler);
-          currentSecondaryCtaRef.removeEventListener("mouseleave", secondaryLeaveHandler);
+
+        if (
+          currentSecondaryCtaRef &&
+          secondaryEnterHandler &&
+          secondaryLeaveHandler
+        ) {
+          currentSecondaryCtaRef.removeEventListener(
+            "mouseenter",
+            secondaryEnterHandler
+          );
+          currentSecondaryCtaRef.removeEventListener(
+            "mouseleave",
+            secondaryLeaveHandler
+          );
         }
       };
     }, []);
@@ -254,7 +313,7 @@ export const HeroSection = styled(
               ) : null}
               {primaryCta || secondaryCta ? (
                 <div ref={ctaContainerRef} className="cta-container">
-                  {(!subscription && primaryCta) ? (
+                  {!subscription && primaryCta ? (
                     <button
                       ref={primaryCtaRef}
                       className="primary-cta"
@@ -297,8 +356,12 @@ export const HeroSection = styled(
     ${maxWidthContainer}
 
     @media (min-width: 992px) {
-      gap: 114px;
+      gap: 56px;
       margin: auto;
+    }
+
+     @media (min-width: 1950px) {
+      gap: 114px;
     }
 
     .content {
@@ -324,8 +387,12 @@ export const HeroSection = styled(
         max-width: 12ch;
 
         @media (min-width: 992px) {
-          font-size: 99.512px;
+          font-size: 69.512px;
           max-width: unset;
+        }
+
+        @media (min-width: 1950px) {
+          font-size: 99.512px;
         }
       }
 
@@ -354,21 +421,33 @@ export const HeroSection = styled(
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+
         @media (min-width: 992px) {
+          font-size: 19.9px;
+        }
+
+        @media (min-width: 1950px) {
           font-size: 28.432px;
         }
       }
 
       .cta-container {
-        padding-top: 14px;
+        padding-top: 33px;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        gap: 12px;
+        gap: 9px;
         width: 100%;
 
         @media (min-width: 992px) {
+          width: unset;
+          padding-top: 33px;
+          flex-direction: row;
+          gap: 16px;
+        }
+
+        @media (min-width: 1950px) {
           width: unset;
           padding-top: 49px;
           flex-direction: row;
@@ -377,7 +456,7 @@ export const HeroSection = styled(
 
         .primary-cta {
           border-radius: 8px;
-          border: 1.699px solid #fae3ca;
+          border: 1.699px solid transparent;
           background: #ff2626;
           padding: 11px 33px;
           color: #fff;
@@ -392,13 +471,17 @@ export const HeroSection = styled(
 
           @media (min-width: 992px) {
             width: unset;
-            padding: 21px 58px;
+            padding: 15px 40px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
-            font-size: 23.521px;
             will-change: transform, opacity, box-shadow;
             transform: translateZ(0);
+          }
+
+          @media (min-width: 1950px) {
+            padding: 21px 58px;
+            font-size: 23.521px;
           }
         }
 
@@ -417,15 +500,19 @@ export const HeroSection = styled(
           transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
 
-          @media (min-width: 992px) {
+         @media (min-width: 992px) {
             width: unset;
-            padding: 21px 58px;
+            padding: 15px 40px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
-            font-size: 23.521px;
             will-change: transform, opacity, box-shadow;
             transform: translateZ(0);
+          }
+
+          @media (min-width: 1950px) {
+            padding: 21px 58px;
+            font-size: 23.521px;
           }
         }
       }

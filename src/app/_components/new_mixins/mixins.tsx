@@ -33,7 +33,7 @@ export const responsivePadding = ({
   mobiledVpadding = "60px",
   tabletPadding = "32px",
   desktopPadding = "64px",
-  desktopVpadding = "120px",
+  desktopVpadding = "89px",
   desktopMdPadding = "120px",
   desktopMdVpadding = "120px",
 }: ResponsivePaddingProps = {}) => css`
