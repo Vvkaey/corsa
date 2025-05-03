@@ -1,9 +1,16 @@
 import styled from "styled-components";
-import { containerSidePadding } from "./styleConstants";
 import Image from "next/image";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import {
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../new_mixins/mixins";
 
 export const BehindTheScenes = styled(
   ({ className, htmlId }: { className?: string; htmlId?: string }) => {
+    const { width } = useWindowSize();
+    const isMobile = width && width < 992;
+
     return (
       <section className={className} id={htmlId}>
         <div className="container">
@@ -12,7 +19,8 @@ export const BehindTheScenes = styled(
               Behind The <span className="red-block">Scenes</span>
             </h2>
             <p className="subtitle">
-              How it all comes together. The good and the messy.
+              How it all comes together.{isMobile ? <br /> : null} The good and
+              the messy.
             </p>
           </div>
           <div className="content-container">
@@ -20,29 +28,32 @@ export const BehindTheScenes = styled(
               <Image src={"/behindScenes.png"} alt={"/behindScenes.png"} fill />
             </div>
             <p className="text-content">
-              Ever felt lost, not knowing what to do next? 🤔 Maybe you’ve had a
-              goal in mind 🎯 but no idea how to reach it.
+              Ever felt lost, not knowing what to do next? 🤔 You&apos;ve set
+              your aim on IIT-JEE or another engineering exam 🎯 but have no
+              idea how to crack it, or just trying to figure out how to plan
+              things after school.
               <br />
               <br /> We get it. 🙌 <br />
-              <br /> It’s hard to figure things out alone, the late nights
-              worrying if you’re doing the right thing 🌙💭, the frustration of
-              feeling stuck 😤. That’s where having the right mentor changes
-              everything.
+              <br /> It&apos;s tough figuring everything out on your own. The
+              late nights wondering if you&apos;re studying the right things
+              🌙💭, the stress of falling behind or feeling stuck 😤.
+              That&apos;s where the right mentor makes all the difference.
               <br />
-              <br /> A mentor isn’t just someone who gives advice, they’ve been
-              where you are. 🛤️ They’ve faced the same struggles, made mistakes,
-              and figured out what works. 💡 They’re here to guide you, share
-              what they’ve learned, and help you take the right steps. 🧭
-              Whether it’s figuring out your next move 🪜 or staying motivated
-              🔥
+              <br /> A mentor isn&apos;t just someone who gives advice.
+              They&apos;ve actually been through it. 🛤️ Faced the same chapters,
+              the same pressure, made mistakes, and figured out what really
+              works.
               <br />
-              <br /> Having the right mentor at the right time makes all the
-              difference. It’s the push you need to stop doubting yourself ❌🤔
-              and start confidently moving forward. ✅🚀 It’s about knowing
-              someone’s got your back 💪 and wants to see you succeed. 🌟
+              <br /> They&apos;re here to guide you, share proven strategies,
+              and help you move ahead with clarity. 🧭 From knowing what to
+              focus on 🪜 to planning everything smartly 🔥
               <br />
-              <br /> So, whether you’re here to get help or give it, you’re in
-              the right place. Lessss gooo! 🚀🙌
+              <br />
+              Our platform gives you access to the insights, strategies, and
+              resources you need to plan better. 📚 And the best part? You can
+              connect 1-on-1 with mentors from IITs, NITs, BITS and more
+              directly. Ask questions, clear doubts, and get structured
+              guidance. 🗣️🤝 Lessss goooooooooo! 🙌 🚀
             </p>
           </div>
         </div>
@@ -51,14 +62,14 @@ export const BehindTheScenes = styled(
   }
 )`
   background: #fff;
-    padding : 40px 0;
+  padding: 80px 0;
   font-family: var(--font-exo);
   margin: auto;
-  padding-top : 84px;
+  padding-top: 84px;
 
-  @media (min-width : 992px){
-      padding : 96px 0;
-      padding-top : 196px;
+  @media (min-width: 992px) {
+    padding: 96px 0;
+    padding-top: 196px;
   }
 
   .container {
@@ -66,9 +77,9 @@ export const BehindTheScenes = styled(
     display: flex;
     flex-direction: column;
     gap: 21px;
-    max-width: 1500px;
-     margin: auto;
-         ${containerSidePadding}
+    margin: auto;
+    ${sectionResponsivePadding()};
+    ${maxWidthContainer};
 
     @media (min-width: 992px) {
       gap: 17px;
@@ -79,10 +90,10 @@ export const BehindTheScenes = styled(
       flex-direction: column;
       gap: 12px;
       margin: auto;
-      text-align : center;
+      text-align: center;
 
       @media (min-width: 992px) {
-      text-align : unset;
+        text-align: unset;
         gap: 16px;
         margin: unset;
       }
@@ -100,6 +111,10 @@ export const BehindTheScenes = styled(
           font-size: 46px;
         }
 
+        @media (min-width: 1950px) {
+          font-size: 65px;
+        }
+
         .red-block {
           color: #fff;
           background: #ff2626;
@@ -107,18 +122,22 @@ export const BehindTheScenes = styled(
       }
 
       .subtitle {
-                  font-family: var(--font-fustat);
+        font-family: var(--font-fustat);
         margin: 0;
         color: #000;
-        font-size: 16px;
+        font-size: 17px;
         font-style: normal;
         font-weight: 600;
         line-height: 141.979%; /* 22.717px */
-        margin : auto;
+        margin: auto;
 
         @media (min-width: 992px) {
           width: 100%;
-           margin : unset;
+          margin: unset;
+        }
+
+         @media (min-width: 1950px) {
+            font-size: 24px;
         }
       }
     }
@@ -128,7 +147,7 @@ export const BehindTheScenes = styled(
       gap: 52px;
       width: 100%;
       flex-direction: column;
-      align-items : center;
+      align-items: center;
 
       @media (min-width: 992px) {
         flex-direction: row;
@@ -141,8 +160,13 @@ export const BehindTheScenes = styled(
         height: 304px;
 
         @media (min-width: 992px) {
-          width: 26%;
-          height: 304px;
+          width: 32%;
+          height: 455px;
+        }
+
+        @media (min-width: 1950px) {
+          width: 35%;
+          height: 648px;
         }
 
         img {
@@ -154,12 +178,16 @@ export const BehindTheScenes = styled(
       }
 
       .text-content {
-                  font-family: var(--font-fustat);
+        font-family: var(--font-fustat);
         color: #000;
-        font-size: 16px;
+        font-size: 17.5px;
         font-style: normal;
         font-weight: 600;
         line-height: 142.05%; /* 22.728px */
+
+        @media (min-width: 1950px) {
+            font-size: 25px;
+        }
       }
     }
   }
