@@ -508,17 +508,18 @@ export const Header = styled(({ className }: { className?: string }) => {
   }
 
   .nav-container {
-    margin: 15px 24px;
+    margin: 15px 0;
     display: flex;
     justify-content: space-between;
     ${maxWidthContainer};
     overflow: hidden;
-    padding: 14px 28px;
+    padding: 14px 0;
 
     @media (min-width: 992px) {
       padding: unset;
-      margin: 22px 120px;
+      margin: 22px 0;
       overflow: unset;
+      border : 1px solid red;
     }
 
     @media (min-width: 1800px) {

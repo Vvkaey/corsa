@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation"; // Hook to get the current page pathname
 import { useContext } from "react"; // Hook to access React context
 import styled from "styled-components"; // Allows for modular CSS using Styled Components
+import { maxWidthContainer, sectionResponsivePadding } from "../../new_mixins/mixins";
 
 export const Footer = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext); // Access global UI settings
@@ -63,8 +64,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
   width: 100vw;
   background: rgb(0, 0, 0);
 
-  .container {
-    max-width: 1500px;
+  .container {    
     margin: auto;
     backdrop-filter: blur(10px); /* Glassmorphism effect */
     font-family: var(--font-exo);
@@ -72,19 +72,22 @@ export const Footer = styled(({ className }: { className?: string }) => {
     display: flex;
     flex-direction: column;
     gap: 21px;
+    ${maxWidthContainer};
+    ${sectionResponsivePadding()};
 
     @media (min-width: 992px) {
       gap: 50px;
-      margin: 0px 120px;
+      // height: 95vh;
+      justify-content: flex-end;
     }
 
     @media (min-width: 1600px) {
       margin: 0px auto;
     }
 
-    @media (min-width: 1800px) {
+    @media (min-width: 1950px) {
       gap: 72px;
-      margin: 30px auto;
+      margin: 30px auto 0;
     }
 
     /* Copyright text */
@@ -92,15 +95,16 @@ export const Footer = styled(({ className }: { className?: string }) => {
       color: #fff;
       font-size: 16px;
       font-weight: 800;
-      padding: 0 24px;
+      padding: 7px 0;
       font-family: var(--font-fustat);
 
       @media (min-width: 992px) {
         font-size: 18px;
         padding: 0 60px 0 0;
+        padding-top : 18px;
       }
 
-      @media (min-width: 1800px) {
+      @media (min-width: 1950px) {
         padding-top: 24px;
         font-size: 25.589px;
       }
@@ -113,11 +117,16 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
       @media (min-width: 992px) {
         flex-direction: row;
+        margin-top : 120px;
+      }
+
+      @media (min-width: 1950px) {
+        margin-top : 200px;
       }
 
       /* Left block: greeting and CTA */
       .left-block {
-        padding: 59px 24px 44px;
+        padding: 86px 0px 54px;
 
         @media (min-width: 992px) {
           padding: 68px 60px 0px 0px;
@@ -133,7 +142,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
             font-size: 32px;
           }
 
-          @media (min-width: 1800px) {
+          @media (min-width: 1950px) {
             font-size: 45.491px;
           }
         }
@@ -147,7 +156,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
             padding-top: 48px;
           }
 
-          @media (min-width: 1800px) {
+          @media (min-width: 1950px) {
             padding-top: 74.5px;
           }
 
@@ -162,6 +171,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
             width: 100%;
             cursor: pointer;
             white-space: nowrap;
+            font-family: var(--font-fustat);
 
             @media (min-width: 992px) {
               border-radius: 11.673px;
@@ -178,7 +188,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
               }
             }
 
-            @media (min-width: 1800px) {
+            @media (min-width: 1950px) {
               font-size: 25.589px;
             }
           }
@@ -190,7 +200,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
         display: flex;
         justify-content: space-between;
         font-family: var(--font-fustat);
-        padding: 0 24px;
+       
 
         @media (min-width: 992px) {
           padding: 68px 0px 0px 60px;
@@ -205,7 +215,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           flex-direction: column;
           gap: 5px;
 
-          @media (min-width: 1800px) {
+          @media (min-width: 1950px) {
             gap: 22px;
           }
 
@@ -218,7 +228,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
               font-size: 18px;
             }
 
-            @media (min-width: 1800px) {
+            @media (min-width: 1950px) {
               font-size: 25.589px;
             }
           }
@@ -232,7 +242,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
               font-size: 18px;
             }
 
-            @media (min-width: 1800px) {
+            @media (min-width: 1950px) {
               font-size: 25.589px;
             }
           }
@@ -244,7 +254,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           flex-direction: column;
           gap: 5px;
 
-          @media (min-width: 1800px) {
+          @media (min-width: 1950px) {
             gap: 22px;
           }
 
@@ -258,7 +268,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
               font-size: 18px;
             }
 
-            @media (min-width: 1800px) {
+            @media (min-width: 1950px) {
               font-size: 25.589px;
             }
           }
@@ -269,13 +279,19 @@ export const Footer = styled(({ className }: { className?: string }) => {
     /* Logo styling */
     .logo-container {
       position: relative;
-      width: 90%;
-      height: 180px;
+      width: 100%;
+      height: 40px;
       margin: auto;
+      margin-bottom : 280px;
 
       @media (min-width: 992px) {
-        height: 200px;
+        height: 140px;
         width: 100%;
+         margin: 0 0 65px 0;
+      }
+
+      @media (min-width: 1950px) {
+      margin-bottom : 92.7px
       }
 
       img {
