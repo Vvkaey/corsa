@@ -112,6 +112,7 @@ export const PowerfulInsights = styled(
         gap: 13px;
       }
 
+
       .title {
         color: #000;
         font-size: 28px;
@@ -121,6 +122,10 @@ export const PowerfulInsights = styled(
         text-transform: capitalize;
 
         @media (min-width: 992px) {
+          font-size: 46px;
+        }
+
+         @media (min-width: 1950px) {
           font-size: 65.39px;
         }
       }
@@ -136,8 +141,12 @@ export const PowerfulInsights = styled(
         margin: auto;
 
         @media (min-width: 992px) {
-          font-size: 28.43px;
+          font-size: 20px;
           max-width: unset;
+        }
+
+        @media (min-width: 1950px) {
+          font-size: 28.43px;
         }
       }
     }
@@ -161,7 +170,7 @@ export const PowerfulInsights = styled(
       &::before {
         content: "";
         position: absolute;
-        width: 100%;
+        width: 80%;
         top: 0;
         left: 0;
         height: 1px;
@@ -175,13 +184,15 @@ export const PowerfulInsights = styled(
 
         @media (min-width: 992px) {
           display: unset;
+          margin: auto;
+          left: 10%;
         }
       }
 
       &::after {
         content: "";
         position: absolute;
-        width: 100%;
+        width: 80%;
         bottom: 0;
         left: 0;
         height: 1px;
@@ -195,6 +206,8 @@ export const PowerfulInsights = styled(
 
         @media (min-width: 992px) {
           display: unset;
+          margin: auto;
+           left: 10%;
         }
       }
 
@@ -257,6 +270,10 @@ export const PowerfulInsights = styled(
               line-height: 119.982%; /* 28.796px */
 
               @media (min-width: 992px) {
+                font-size: 24px;
+              }
+
+              @media (min-width: 1950px) {
                 font-size: 34.1px;
               }
             }
@@ -274,7 +291,11 @@ export const PowerfulInsights = styled(
               @media (min-width: 992px) {
                 max-width: 30ch;
                 font-weight: 700;
-                font-size: 22.7px;
+                font-size: 16px;
+              }
+
+               @media (min-width: 1950px) {
+                 font-size: 22.7px;
               }
             }
           }
