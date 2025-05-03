@@ -9,7 +9,10 @@ import {
   maxWidthContainer,
 } from "../new_mixins/mixins";
 import { IconShowcase } from "./IconShowcase";
-import { useMentorshipContext } from "@/app/_contexts/MentorshipContext";
+import {
+  BADGES,
+  useMentorshipContext,
+} from "@/app/_contexts/MentorshipContext";
 
 export const HeroSection = styled(
   ({
@@ -47,7 +50,7 @@ export const HeroSection = styled(
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
     const rootContainerRef = useRef<HTMLDivElement>(null);
 
-    const { subscription } = useMentorshipContext();
+    const { subscription, badge } = useMentorshipContext();
 
     useEffect(() => {
       // For SSR safety
@@ -322,6 +325,25 @@ export const HeroSection = styled(
                       {primaryCta}
                     </button>
                   ) : null}
+                  {subscription && badge === BADGES.MARSHALL ? (
+                    <button
+                      ref={secondaryCtaRef}
+                      className={subscription ? "primary-cta" : "secondary-cta"}
+                      onClick={onSecondaryCTAClick}
+                    >
+                      Add on Mentor Plan
+                    </button>
+                  ) : null}
+
+                  {subscription && badge === BADGES.TACTICAL_ACE ? (
+                    <button
+                      ref={secondaryCtaRef}
+                      className={subscription ? "primary-cta" : "secondary-cta"}
+                      onClick={onSecondaryCTAClick}
+                    >
+                      Add on Insight Plan
+                    </button>
+                  ) : null}
                   {secondaryCta ? (
                     <button
                       ref={secondaryCtaRef}
@@ -360,7 +382,7 @@ export const HeroSection = styled(
       margin: auto;
     }
 
-     @media (min-width: 1950px) {
+    @media (min-width: 1950px) {
       gap: 114px;
     }
 
@@ -500,7 +522,7 @@ export const HeroSection = styled(
           transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
 
-         @media (min-width: 992px) {
+          @media (min-width: 992px) {
             width: unset;
             padding: 15px 40px;
             font-size: 16.5px;
@@ -513,6 +535,13 @@ export const HeroSection = styled(
           @media (min-width: 1950px) {
             padding: 21px 58px;
             font-size: 23.521px;
+          }
+        }
+
+        .primary-cta,
+        .secondary-cta {
+          @media (min-width: 992px) {
+            min-width: 240px;
           }
         }
       }

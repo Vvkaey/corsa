@@ -11,7 +11,7 @@ import {
 } from "react";
 import { useAuth } from "../_contexts/AuthContext"; // Import the auth context
 
-enum BADGES {
+export enum BADGES {
   WINGMAN = "WINGMAN",
   MARSHALL = "MARSHALL",
   TACTICAL_ACE = "TACTICAL_ACE",
@@ -176,6 +176,8 @@ export interface MentorshipContextType {
   subscription: boolean;
   setSubscription: React.Dispatch<React.SetStateAction<boolean>>;
   setMentorSession: React.Dispatch<React.SetStateAction<number>>;
+  badge: BADGES;
+  setBadge: React.Dispatch<React.SetStateAction<BADGES>>;
   setAccessPlanDescription: React.Dispatch<React.SetStateAction<string>>;
   setAccessPlanIcon: React.Dispatch<
     React.SetStateAction<React.JSX.Element | undefined>
@@ -219,6 +221,8 @@ const initialMentorshipContext: MentorshipContextType = {
       />
     ),
   },
+  badge: BADGES.WINGMAN,
+  setBadge: () => undefined,
   setSubscription: () => undefined,
   setMentorSession: () => undefined,
   setAccessPlanDescription: () => undefined,
@@ -259,6 +263,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
     "Nothing's live yet, unlock what's next."
   );
   const [subscription, setSubscription] = useState(false);
+  const [badge, setBadge] = useState<BADGES>(BADGES.WINGMAN);
   const [accessPlanIcon, setAccessPlanIcon] = useState<
     React.JSX.Element | undefined
   >(
@@ -300,6 +305,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
         />
       );
       setBadgeDescription("Subscribe to unlock your mission gear!");
+      setBadge(BADGES.WINGMAN)
       setBadgeIcon(
         <Image
           src={"/wingsman-badge.svg"}
@@ -339,6 +345,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
       if (data.badge !== undefined) {
         const badge = badge_mapper[data.badge as keyof typeof badge_mapper] || BADGES.WINGMAN;
         const config = badge_config[badge];
+        setBadge(badge || BADGES.WINGMAN);
         
         // Use the config values or fall back to defaults
         setAccessPlanDescription(
@@ -452,6 +459,8 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
     setAccessPlanIcon,
     setBadgeDescription,
     setBadgeIcon,
+    badge,
+    setBadge,
     fetchUserStatus,
     isLoading,
   };
