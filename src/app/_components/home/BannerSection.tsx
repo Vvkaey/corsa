@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { containerSidePadding } from "./styleConstants";
 import { Circled } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { sectionResponsivePadding } from "../new_mixins/mixins";
 
 interface BannerItemProps {
   head: string | React.ReactNode;
@@ -64,10 +65,8 @@ export const BannerSection = styled(
   overflow: hidden;
   background: #fff;
 
-
   @media (min-width: 992px) {
-    display: flex;
-    padding: 100px 0;
+    padding: 100px 0px;
   }
 
   .banner-container {
@@ -79,7 +78,11 @@ export const BannerSection = styled(
     gap: 16px;
 
     @media (min-width: 992px) {
-      padding: 0 170px;
+      ${sectionResponsivePadding()}
+      gap: 17px;
+    }
+
+    @media (min-width: 1950px) {
       gap: 22.7px;
     }
 
@@ -144,13 +147,12 @@ export const BannerSection = styled(
 
       @media (min-width: 992px) {
         width: unset;
-        padding: 14px 83px 20px 83px;
-        border-left: rgba(0, 0, 0, 0.25) 1px solid;
+        padding: 14px 0px 20px 0px;
 
         &::before {
           display: inline;
           position: absolute;
-          left: -12px;
+          left: -10.5px;
           top: calc(10% - 11px);
           content: "";
           height: 22px;
@@ -159,8 +161,26 @@ export const BannerSection = styled(
           border: 1px solid #000;
           border-radius: 50%;
           display: inline-block;
+          z-index: 1;
+        }
+
+        &::after {
+          display: inline;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          content: "";
+          height: 100%;
+          width: 1.5px;
+          background: linear-gradient(180deg, #878787 0%, #E7E7E7 62.15%, #F1F1F1 94.77%, #FFF 140.93%);
+          display: inline-block;
+          z-index: 0;
         }
       }
+
+      @media (min-width: 1950px) {
+        padding: 31px 83px 20px 83px;
+}
 
       .banner-items {
         position: relative;
@@ -183,7 +203,7 @@ export const BannerSection = styled(
           width: 212px;
           height: 267px;
           background: red;
-          border-radius: 13.052px;
+          border-radius: 7.47px;
           border: 2px solid #000;
           background: #0c0c0c;
           overflow: hidden;
@@ -209,6 +229,13 @@ export const BannerSection = styled(
           }
 
           @media (min-width: 992px) {
+          border-radius: 5.62px;
+            width: 259px;
+            height: 260px;
+          }
+
+          @media (min-width: 1950px) {
+          border-radius: 13.052px;
             width: 283px;
             height: 282px;
           }
