@@ -90,6 +90,7 @@ export const RewardsSection = styled(
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    ${sectionResponsivePadding()};
   }
 
   .wrapper {
@@ -101,11 +102,11 @@ export const RewardsSection = styled(
     margin: auto;
     padding-bottom: 0;
     border-radius: none;
-    padding: 60px 0px 84px 0px;
+    padding: 68px 0px 84px 0px;
 
     @media (min-width: 992px) {
       border-radius: 30.016px;
-      padding: 40px 0px 40px 48px;
+      padding: 45px 0px 45px 48px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -126,7 +127,7 @@ export const RewardsSection = styled(
       background: #000;
       display: flex;
       flex-direction: column;
-      gap: 76px;
+      gap: 58px;
 
       @media (min-width: 992px) {
         padding: 0;
@@ -326,7 +327,7 @@ export const RewardsSection = styled(
           .primary-cta {
             width: 100%;
             display: flex;
-            padding: 5.585px 8.378px;
+            padding: 12px 8.378px;
             gap: 3.491px;
             justify-content: center;
             align-items: center;
@@ -335,6 +336,10 @@ export const RewardsSection = styled(
             border-radius: 9px;
             border: 0.349px solid #ff2626;
             background: #ff2626;
+            margin-top : 10px;
+            color: #fff;
+            font-family: var(--font-exo);
+            font-size: 18px;
 
             @media (min-width: 992px) {
               border-radius: 8.076px;
