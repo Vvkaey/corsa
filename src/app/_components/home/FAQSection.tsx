@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { containerSidePadding } from "./styleConstants";
 import { CaretUp } from "@/app/_assets/icons";
 import { useState } from "react";
+import { maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
 
 interface FaqDataProps {
   ques?: string | React.ReactNode;
@@ -40,22 +40,28 @@ const ContentBox = styled(
     overflow: hidden;
   }
 
+  &:last-child {
+    .ques-container {
+      border-bottom: none;
+    }
+  }
+
   button.ques-container {
     cursor: pointer;
     text-align: left;
     border: none;
     background: transparent;
     position: relative;
-    border-bottom: 1px solid #d4d4d4;
+    border-bottom: 1.35px solid #d4d4d4;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 19px 0px;
+    padding: 26px 0px;
     background: #fff;
     z-index: 2;
 
     @media (min-width: 992px) {
-      padding: 19px 10px;
+      padding: 24px 10px;
       width: 100%;
     }
 
@@ -67,9 +73,15 @@ const ContentBox = styled(
       font-weight: 600;
       line-height: 141.979%; /* 25.556px */
       margin: 0;
+      max-width: 62%;
 
       @media (min-width: 992px) {
         font-size: 20px;
+        max-width: unset;
+      }
+
+      @media (min-width: 1950px) {
+        font-size: 28.4px;
       }
     }
 
@@ -102,8 +114,13 @@ const ContentBox = styled(
     opacity: 0; /* Start invisible */
 
     @media (min-width: 992px) {
+    font-size: 17px;
       width: 100%;
     }
+
+    @media (min-width: 1950px) {
+        font-size: 20px;
+      }
   }
 
   /* Apply styles when open */
@@ -159,7 +176,7 @@ export const FAQSection = styled(
   position: relative;
   margin: auto;
   font-family: var(--font-exo);
-  padding: 40px 0;
+  padding: 40px 0 142px 0;
   border-bottom-right-radius: 36px;
   border-bottom-left-radius: 36px;
 
@@ -172,12 +189,13 @@ export const FAQSection = styled(
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 29px;
-    ${containerSidePadding}
+    gap: 40px;
+    ${sectionResponsivePadding()};
+    ${maxWidthContainer};
 
     @media (min-width: 992px) {
       gap: unset;
-      max-width: 1500px;
+      
       flex-direction: row;
     }
 
@@ -205,6 +223,10 @@ export const FAQSection = styled(
           width: 95%;
           font-weight: 800;
           font-size: 46px;
+        }
+
+        @media (min-width: 1950px) {
+         font-size: 65px;
         }
       }
     }

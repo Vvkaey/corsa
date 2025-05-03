@@ -5,19 +5,24 @@ import {
   FillOptionCircle,
 } from "@/app/_assets/icons";
 import { sectionResponsivePadding } from "../new_mixins/mixins";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
 export const RewardsSection = styled(
   ({ className }: { className?: string }) => {
+    const { width } = useWindowSize();
+    const isMobile = width && width < 992;
+
     return (
       <section className={className}>
         <div className="wrapper">
           <div className="container">
             <div className="left-block">
               <div className="head-container">
-                <h3 className="head">Let’s Make It Rewarding</h3>
+                <h3 className="head">Let&apos;s Make It Rewarding</h3>
                 <h3 className="subhead">
-                  Take a minute and get <span className="red-text">extended time</span>{" "}
-                  on first mentor session. Deal?
+                  Take a minute and get{" "}
+                  <span className="red-text">extended time</span> on first
+                  mentor session. Deal?
                 </h3>
               </div>
               {/* <div className="email-container">
@@ -36,11 +41,26 @@ export const RewardsSection = styled(
               <div className="tracker">
                 <div className="line" />
                 <div className="dots">
-                  <FillOptionCircle />
-                  <FillOptionCircle />
-                  <BlankOptionCircle />
-                  <BlankOptionCircle />
-                  <BlankOptionCircle />
+                  <FillOptionCircle
+                    width={isMobile ? 15 : 22}
+                    height={isMobile ? 15 : 22}
+                  />
+                  <FillOptionCircle
+                    width={isMobile ? 15 : 22}
+                    height={isMobile ? 15 : 22}
+                  />
+                  <BlankOptionCircle
+                    width={isMobile ? 15 : 22}
+                    height={isMobile ? 15 : 22}
+                  />
+                  <BlankOptionCircle
+                    width={isMobile ? 15 : 22}
+                    height={isMobile ? 15 : 22}
+                  />
+                  <BlankOptionCircle
+                    width={isMobile ? 15 : 22}
+                    height={isMobile ? 15 : 22}
+                  />
                 </div>
               </div>
               <div className="content">
@@ -49,19 +69,31 @@ export const RewardsSection = styled(
                 </p>
                 <div className="options">
                   <div className="option-element">
-                    <FillOptionCircle />
+                    <FillOptionCircle
+                      width={isMobile ? 15 : 22}
+                      height={isMobile ? 15 : 22}
+                    />
                     <p className="option">Clear explanations of concepts.</p>
                   </div>
                   <div className="option-element">
-                    <BlankOptionCircle />
+                    <BlankOptionCircle
+                      width={isMobile ? 15 : 22}
+                      height={isMobile ? 15 : 22}
+                    />
                     <p className="option">A structured study plan.</p>
                   </div>
                   <div className="option-element">
-                    <BlankOptionCircle />
+                    <BlankOptionCircle
+                      width={isMobile ? 15 : 22}
+                      height={isMobile ? 15 : 22}
+                    />
                     <p className="option"> More practice problems and tests.</p>
                   </div>
                   <div className="option-element">
-                    <BlankOptionCircle />
+                    <BlankOptionCircle
+                      width={isMobile ? 15 : 22}
+                      height={isMobile ? 15 : 22}
+                    />
                     <p className="option">Motivation and guidance.</p>
                   </div>
                 </div>
@@ -111,6 +143,10 @@ export const RewardsSection = styled(
       justify-content: space-between;
       align-items: center;
       max-height: 1100px;
+    }
+
+    @media (min-width: 1950px) {
+      padding: 71px 0px 57px 69px;
     }
 
     h2,
@@ -177,6 +213,10 @@ export const RewardsSection = styled(
               font-size: 36px;
               text-align: unset;
             }
+
+            @media (min-width: 1950px) {
+              font-size: 51px;
+            }
           }
 
           .subhead {
@@ -191,7 +231,13 @@ export const RewardsSection = styled(
             @media (min-width: 992px) {
               font-size: 20px;
               text-align: unset;
-              max-width : 39ch;
+              max-width: 39ch;
+            }
+
+            @media (min-width: 1950px) {
+              font-size: 28px;
+              text-align: unset;
+              max-width: 39ch;
             }
           }
         }
@@ -288,6 +334,14 @@ export const RewardsSection = styled(
             font-style: normal;
             font-weight: 600;
             line-height: normal;
+
+            @media (min-width: 992px) {
+              font-size: 16px;
+            }
+
+            @media (min-width: 1950px) {
+              font-size: 23px;
+            }
           }
 
           .options {
@@ -299,6 +353,10 @@ export const RewardsSection = styled(
               gap: 51px;
             }
 
+            @media (min-width: 1950px) {
+              gap: 40px;
+            }
+
             .option-element {
               display: flex;
               gap: 12px;
@@ -306,6 +364,10 @@ export const RewardsSection = styled(
 
               @media (min-width: 992px) {
                 gap: 6.7px;
+              }
+
+              @media (min-width: 992px) {
+                gap: 10px;
               }
 
               .option {
@@ -317,6 +379,10 @@ export const RewardsSection = styled(
 
                 @media (min-width: 992px) {
                   font-size: 16px;
+                }
+
+                @media (min-width: 992px) {
+                  font-size: 23px;
                 }
               }
             }
@@ -336,7 +402,7 @@ export const RewardsSection = styled(
             border-radius: 9px;
             border: 0.349px solid #ff2626;
             background: #ff2626;
-            margin-top : 10px;
+            margin-top: 10px;
             color: #fff;
             font-family: var(--font-exo);
             font-size: 18px;
@@ -346,6 +412,10 @@ export const RewardsSection = styled(
               border: 0.673px solid #ff2626;
               padding: 10.769px 16.153px;
               gap: 6.73px;
+            }
+
+            @media (min-width: 1950px) {
+              margin-top: 23px;
             }
           }
         }

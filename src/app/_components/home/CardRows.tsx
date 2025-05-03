@@ -363,6 +363,10 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         @media (min-width: 992px) {
           font-size: 46px;
         }
+
+         @media (min-width: 1950px) {
+          font-size: 65px;
+        }
       }
 
       p.subtitle {
@@ -376,6 +380,10 @@ export const CardRows = styled(({ className }: { className?: string }) => {
 
         @media (min-width: 992px) {
           font-size: 20px;
+        }
+
+         @media (min-width: 1950px) {
+          font-size: 28px;
         }
       }
 

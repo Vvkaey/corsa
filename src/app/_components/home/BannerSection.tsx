@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { containerSidePadding } from "./styleConstants";
-import { Circled } from "@/app/_assets/icons";
-import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { sectionResponsivePadding } from "../new_mixins/mixins";
+import TitleSubtitle from "./TitleSubtitle";
 
 interface BannerItemProps {
   head: string | React.ReactNode;
@@ -23,22 +22,22 @@ export const BannerSection = styled(
     className?: string;
     bannerContent?: BannerProps;
   }) => {
-    const { width } = useWindowSize();
 
     return (
       <section className={className}>
         <div className="banner-container">
           <div className="title-container">
-            <h3 className="title">{bannerContent?.title}</h3>
+          <TitleSubtitle
+              title={bannerContent?.title}
+              subtitle={bannerContent?.description}
+              theme="light"
+            />
+            {/* <h3 className="title">{bannerContent?.title}</h3> */}
             <div className="circled-container">
-              {width && width > 992 ? (
-                <Circled />
-              ) : (
-                <Circled width={128} height={62} />
-              )}
+             
             </div>
           </div>
-          <p className="subtitle">{bannerContent?.description}</p>
+          {/* <p className="subtitle">{bannerContent?.description}</p> */}
           <div className="banner-items-container">
             <div className="banner-items">
               {bannerContent?.banners?.map((item, idx) => {
@@ -82,13 +81,13 @@ export const BannerSection = styled(
       gap: 17px;
     }
 
-    @media (min-width: 1950px) {
-      gap: 22.7px;
+    @media (min-width: 1400px) {
+      gap: 37px;
     }
+
 
     .title-container {
       position: relative;
-      // border : 2px solid blue;
       .title {
         margin: 0;
         color: #000;
@@ -101,22 +100,11 @@ export const BannerSection = styled(
         ${containerSidePadding}
 
         @media (min-width: 992px) {
-          font-size: 62px;
-        }
-      }
-
-      .circled-container {
-        position: absolute;
-        top: -40%;
-        right: 39.5%;
-
-        @media (min-width: 992px) {
-          top: -32%;
-          right: 38.5%;
+          font-size: 46px;
         }
 
-        svg {
-          position: absolute;
+        @media (min-width: 1950px) {
+         font-size: 65px;
         }
       }
     }
@@ -134,8 +122,16 @@ export const BannerSection = styled(
       ${containerSidePadding}
 
       @media (min-width: 992px) {
-        font-size: 18px;
+        font-size: 20px;
         max-width: 65ch;
+      }
+
+      @media (min-width: 992px) {
+        font-size: 20px;
+      }
+
+      @media (min-width: 1950px) {
+        font-size: 28px;
       }
     }
 
@@ -196,6 +192,10 @@ export const BannerSection = styled(
           gap: 10px;
         }
 
+        @media (min-width: 1950px) {
+ max-width: 1230px;
+}
+
         .banner-item {
           display: flex;
           flex-direction: column-reverse;
@@ -236,8 +236,8 @@ export const BannerSection = styled(
 
           @media (min-width: 1950px) {
           border-radius: 13.052px;
-            width: 283px;
-            height: 282px;
+            width: 368px;
+            height: 368px;
           }
 
           .head {
@@ -263,6 +263,11 @@ export const BannerSection = styled(
               font-size: 48px;
               letter-spacing: -1.92px;
             }
+
+             @media (min-width: 1950px) {
+              font-size: 68px;
+              letter-spacing: -2.72px;
+            }
           }
 
           .description {
@@ -278,6 +283,10 @@ export const BannerSection = styled(
             @media (min-width: 992px) {
               font-size: 18px;
               padding: 0 5px;
+            }
+
+            @media (min-width: 1950px) {
+              font-size: 26px;
             }
           }
         }
