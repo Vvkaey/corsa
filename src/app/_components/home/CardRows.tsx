@@ -128,6 +128,15 @@ const DP = styled.div`
   height: 59px;
   border-radius: 50%;
   background: #d9d9d9;
+
+  @media (min-width: 992px) {
+    width: 40px;
+    height: 40px;
+  }
+  @media (min-width: 1950px) {
+    width: 59px;
+    height: 59px;
+  }
 `;
 
 const TextGroup = styled.div`
@@ -143,6 +152,13 @@ const FullName = styled.p`
   font-style: normal;
   font-weight: 600;
   line-height: 141.979%; /* 31.235px */
+
+  @media (min-width: 992px) {
+    font-size: 16px;
+  }
+  @media (min-width: 1950px) {
+    font-size: 22px;
+  }
 `;
 
 const Institute = styled.p`
@@ -152,6 +168,13 @@ const Institute = styled.p`
   font-style: normal;
   font-weight: 600;
   line-height: 141.979%; /* 28.396px */
+
+    @media (min-width: 992px) {
+    font-size: 14px;
+  }
+  @media (min-width: 1950px) {
+     font-size: 20px;
+  }
 `;
 
 const Content = styled.div`
@@ -161,6 +184,15 @@ const Content = styled.div`
   justify-content: center;
   align-items: flex-start;
   margin: 0 30px 0 120px;
+
+  @media (min-width: 992px) {
+  margin: 0 0 0 70px;
+   gap: 70px;
+  }
+  @media (min-width: 1950px) {
+  margin: 0 30px 0 120px;
+   gap: 100px;
+}
 `;
 
 const Text = styled.div`
@@ -175,6 +207,14 @@ const P = styled.p`
   font-weight: 600;
   line-height: 141.979%; /* 34.075px */
   max-width: 40ch;
+
+  @media (min-width: 992px) {
+  font-size: 17px;
+}
+
+  @media (min-width: 1950px) {
+  font-size: 24px;
+}
 `;
 const XLCardContainer = styled.div`
   min-width: 50%;
@@ -186,6 +226,14 @@ const XLCardContainer = styled.div`
 
   @media (max-width: 992px) {
     display: none;
+  }
+
+  @media (min-width: 992px) {
+  padding: 59px 73px 46px 55px;
+  }
+
+  @media (min-width: 1950px) {
+  padding: 84px 84px 60px 84px;
   }
 `;
 
@@ -201,6 +249,19 @@ const Quote = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: 119.982%;
+
+  @media (min-width: 992px) {
+  font-size: 160px;
+  top: -45px;
+  left: -90px;
+
+}
+
+@media (min-width: 1950px) {
+  font-size: 228px;
+  top: -65px;
+  left: -130px;
+}
 `;
 
 const XLCard = () => {
@@ -252,7 +313,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
   position: relative;
   font-family: var(--font-exo);
   overflow: hidden;
-  padding: 72px 0;
+  padding: 72px 0 102px 0;
 
   @media (min-width: 992px) {
     padding: 200px 0;
