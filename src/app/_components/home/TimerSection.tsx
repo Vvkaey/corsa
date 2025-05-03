@@ -115,12 +115,12 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
             Flex your reflex here.
             {width && width < 992 ? <br /> : null} (No scorecards)
           </h2>
-          <p className="subtitle">Get a mentor session on membership!</p>
+          <p className="subtitle">You Can Chill Without a Cutoff</p>
         </div>
         <div className="timer-container">
           <p className="tag">
             Can you stop the timer on exactly{" "}
-            <span className="red-text">5.30</span> seconds?
+            <span className="red-text">5.50</span> seconds?
           </p>
           <div className="timer">
             <p className="time">{formatTime()}</p>
@@ -199,6 +199,10 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       gap: 18px;
 
       @media (min-width: 992px) {
+        gap: 6px;
+      }
+
+      @media (min-width: 1950px) {
         gap: 9px;
       }
       .title {
@@ -221,7 +225,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         font-family: var(--font-fustat);
         color: #000;
         text-align: center;
-        font-size: 16px;
+        font-size: 17px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
@@ -256,9 +260,10 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         text-align: center;
         @media (min-width: 992px) {
           max-width: unset;
+           width: unset;
           font-size: 25.542px;
         }
-        @media (min-width: 1800px) {
+        @media (min-width: 1950px) {
           font-size: 36.31px;
         }
       }
@@ -279,11 +284,15 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
           text-transform: capitalize;
           min-width: 5ch; /* Fix for layout shift */
           font-variant-numeric: tabular-nums; /* Use monospace numbers */
-          font-family: "Courier New", monospace; /* Ensure monospace font */
-          padding-top: 20px;
+          font-family: var(--font-exo);
+          padding-top: 16px;
 
           @media (min-width: 992px) {
             padding: 0 20px;
+            font-size: 140px;
+          }
+
+           @media (min-width: 1950px) {
             font-size: 200.289px;
           }
         }
@@ -344,7 +353,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     }
 
     .cta-container {
-      padding-top: 40px;
+      padding-top: 20px;
       display: flex;
       gap: 15px;
 
@@ -356,11 +365,12 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         min-width: 120px;
         border-radius: 9.013px;
         border: 1.699px solid #fae3ca;
-        padding: 12px;
-        font-size: 17.67px;
+        padding: 16px 28px;
+        font-size: 13.292px;
         font-style: normal;
         line-height: normal;
         cursor: pointer;
+        min-width: 185px;
 
         @media (min-width: 992px) {
           font-size: 18.14px;
