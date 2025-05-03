@@ -89,12 +89,12 @@ export default function HomeClientWrapper({
   const router = useRouter();
 
   // Scroll to element function for navigation
-  const scrollToElement = (id: string): void => {
-    const container = document.getElementById(id);
-    if (container) {
-      container.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // const scrollToElement = (id: string): void => {
+  //   const container = document.getElementById(id);
+  //   if (container) {
+  //     container.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   useEffect(() => {
     console.log("flowContent:", flowContent);
@@ -113,8 +113,8 @@ export default function HomeClientWrapper({
             subHead="Community that leads together."
             primaryCta="Subscribe Plan"
             onPrimaryCtaClick={() => router.push("/pricing")}
-            secondaryCta="Why Stodaclub"
-            onSecondaryCTAClick={() => scrollToElement("behind-the-scenes")}
+            secondaryCta="Dashboard"
+            onSecondaryCTAClick={() => router.push("/dashboard")}
             subHeadB="Learnings from Scholars at"
             icons={icons}
           />

@@ -325,7 +325,7 @@ export const HeroSection = styled(
                   {secondaryCta ? (
                     <button
                       ref={secondaryCtaRef}
-                      className="secondary-cta"
+                      className={subscription ? "primary-cta" : "secondary-cta"}
                       onClick={onSecondaryCTAClick}
                     >
                       {secondaryCta}

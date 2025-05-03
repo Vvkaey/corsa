@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import {
-  maxWidthContainer,
-  responsivePadding,
-} from "../new_mixins/mixins";
+import { maxWidthContainer, responsivePadding } from "../new_mixins/mixins";
 
 interface ColItemProps {
   icon?: string | React.ReactNode;
@@ -112,7 +109,6 @@ export const PowerfulInsights = styled(
         gap: 13px;
       }
 
-
       .title {
         color: #000;
         font-size: 28px;
@@ -125,7 +121,7 @@ export const PowerfulInsights = styled(
           font-size: 46px;
         }
 
-         @media (min-width: 1950px) {
+        @media (min-width: 1950px) {
           font-size: 65.39px;
         }
       }
@@ -161,16 +157,24 @@ export const PowerfulInsights = styled(
       max-width: 34ch;
 
       @media (min-width: 992px) {
-      max-width: unset;
+        max-width: 90%;
         flex-direction: row;
         padding: unset;
         justify-content: center;
       }
 
+      @media (min-width: 1500px) {
+        max-width: 70%;
+        }
+
+       @media (min-width: 1950px) {
+        max-width: 98%;
+}
+
       &::before {
         content: "";
         position: absolute;
-        width: 80%;
+        width: 70%;
         top: 0;
         left: 0;
         height: 1px;
@@ -185,14 +189,14 @@ export const PowerfulInsights = styled(
         @media (min-width: 992px) {
           display: unset;
           margin: auto;
-          left: 10%;
+          left: 15%;
         }
       }
 
       &::after {
         content: "";
         position: absolute;
-        width: 80%;
+        width: 70%;
         bottom: 0;
         left: 0;
         height: 1px;
@@ -207,7 +211,7 @@ export const PowerfulInsights = styled(
         @media (min-width: 992px) {
           display: unset;
           margin: auto;
-           left: 10%;
+          left: 15%;
         }
       }
 
@@ -215,10 +219,20 @@ export const PowerfulInsights = styled(
         width: 100%;
         display: flex;
         flex-direction: column;
+        align-items: center;
+
         @media (min-width: 992px) {
+          justify-content: flex-start;
+          align-items: unset;
           padding: 51px 0;
           width: 33.33%;
           gap: 99px;
+        }
+
+        &:last-child {
+          @media (min-width: 992px) {
+            align-items: flex-end;
+          }
         }
 
         .col-item {
@@ -227,10 +241,18 @@ export const PowerfulInsights = styled(
           gap: 12.5px;
           align-items: flex-start;
           padding: 23px 0;
+          width: 30ch;
 
           @media (min-width: 992px) {
+            min-height: 150px;
+            // width: unset;
             padding: unset;
             gap: 13px;
+          }
+
+          @media (min-width: 1950px) {
+            min-height: 200px;
+            width: 47ch;
           }
 
           .icon-container {
@@ -238,7 +260,11 @@ export const PowerfulInsights = styled(
             top: 0;
 
             @media (min-width: 992px) {
-              top: 4px;
+              top: 3%;
+            }
+
+            @media (min-width: 1950px) {
+              top: 5%;
             }
 
             img {
@@ -294,8 +320,8 @@ export const PowerfulInsights = styled(
                 font-size: 16px;
               }
 
-               @media (min-width: 1950px) {
-                 font-size: 22.7px;
+              @media (min-width: 1950px) {
+                font-size: 22.7px;
               }
             }
           }

@@ -4,7 +4,7 @@ import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
 import { GlobalUIContext } from "@/app/_utils/hooks/globalUI";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState, useCallback } from "react";
 import styled from "styled-components";
@@ -401,9 +401,9 @@ export const Header = styled(({ className }: { className?: string }) => {
         </div>
         <div className="right-pan">
           <div className="nav-items">
-            <Link href="/dashboard" shallow={true} className="nav-item">
+            {/* <Link href="/dashboard" shallow={true} className="nav-item">
               Dashboard
-            </Link>
+            </Link> */}
             <BadgeProfileImg
               setShowMenu={setShowDeskHamMenu}
               showMenu={showDeskHamMenu}

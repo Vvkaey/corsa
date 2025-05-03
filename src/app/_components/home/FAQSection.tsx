@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { CaretUp } from "@/app/_assets/icons";
 import { useState } from "react";
-import { maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
+import {
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../new_mixins/mixins";
 
 interface FaqDataProps {
   ques?: string | React.ReactNode;
@@ -22,6 +25,7 @@ const ContentBox = styled(
             style={{
               transform: `rotate(${showDescription ? "0deg" : "180deg"})`,
               transition: "transform 0.3s ease-in-out",
+            
             }}
           />
         </button>
@@ -34,7 +38,7 @@ const ContentBox = styled(
 )`
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 100%;
 
   .ques-container {
     overflow: hidden;
@@ -72,12 +76,13 @@ const ContentBox = styled(
       font-style: normal;
       font-weight: 600;
       line-height: 141.979%; /* 25.556px */
-      margin: 0;
-      max-width: 62%;
+      margin: 0 16px;
+      max-width: 17ch;
 
       @media (min-width: 992px) {
         font-size: 20px;
         max-width: unset;
+        margin: 0;
       }
 
       @media (min-width: 1950px) {
@@ -87,6 +92,10 @@ const ContentBox = styled(
 
     svg {
       transform: rotate(180deg);
+
+      @media (max-width: 992px) {
+        margin-right: 16px;
+      }
     }
   }
   .description-wrapper {
@@ -114,13 +123,13 @@ const ContentBox = styled(
     opacity: 0; /* Start invisible */
 
     @media (min-width: 992px) {
-    font-size: 17px;
+      font-size: 17px;
       width: 100%;
     }
 
     @media (min-width: 1950px) {
-        font-size: 20px;
-      }
+      font-size: 20px;
+    }
   }
 
   /* Apply styles when open */
@@ -195,7 +204,7 @@ export const FAQSection = styled(
 
     @media (min-width: 992px) {
       gap: unset;
-      
+
       flex-direction: row;
     }
 
@@ -203,6 +212,10 @@ export const FAQSection = styled(
     .content-container {
       @media (min-width: 992px) {
         width: 50%;
+      }
+
+      @media (max-width: 992px) {
+        padding: 0 8px;
       }
     }
 
@@ -217,16 +230,17 @@ export const FAQSection = styled(
         font-weight: 700;
         line-height: normal;
         text-transform: capitalize;
-        margin: 0;
+        margin: 0 16px;
 
         @media (min-width: 992px) {
           width: 95%;
           font-weight: 800;
           font-size: 46px;
+          margin: 0;
         }
 
         @media (min-width: 1950px) {
-         font-size: 65px;
+          font-size: 65px;
         }
       }
     }

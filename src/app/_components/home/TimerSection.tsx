@@ -364,7 +364,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       .reset-btn {
         min-width: 120px;
         border-radius: 9.013px;
-        border: 1.699px solid #fae3ca;
+        border : none;
         padding: 16px 28px;
         font-size: 13.292px;
         font-style: normal;

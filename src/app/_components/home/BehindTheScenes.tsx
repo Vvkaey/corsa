@@ -167,7 +167,7 @@ export const BehindTheScenes = styled(
         @media (min-width: 1950px) {
           width: 35%;
           height: 648px;
-        }
+        } 
 
         img {
           width: 100%;
@@ -184,8 +184,11 @@ export const BehindTheScenes = styled(
         font-style: normal;
         font-weight: 600;
         line-height: 142.05%; /* 22.728px */
+        margin : 0 8px;
+        // border : 1px solid #d4d4d4;
 
         @media (min-width: 1950px) {
+        margin : unset;
             font-size: 25px;
         }
       }
