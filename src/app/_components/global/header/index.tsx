@@ -519,7 +519,6 @@ export const Header = styled(({ className }: { className?: string }) => {
       padding: unset;
       margin: 22px 0;
       overflow: unset;
-      border : 1px solid red;
     }
 
     @media (min-width: 1800px) {
