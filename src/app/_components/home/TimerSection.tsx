@@ -138,17 +138,17 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
           </div>
         </div>
         <div className="cta-container">
-          {!running ? (
+          {!running && displayTime.seconds === 0 ? (
             <button className="primary-cta" onClick={handleStart}>
               Start
             </button>
-          ) : (
+          ) : !(!running && displayTime.seconds > 0) ? (
             <button className="primary-cta" onClick={handleStop}>
-              Stop
+              Pause
             </button>
-          )}
+          ) : null}
           {!running && displayTime.seconds > 0 && (
-            <button className="reset-btn" onClick={handleReset}>
+            <button className="primary-cta" onClick={handleReset}>
               Reset
             </button>
           )}
@@ -260,7 +260,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         text-align: center;
         @media (min-width: 992px) {
           max-width: unset;
-           width: unset;
+          width: unset;
           font-size: 25.542px;
         }
         @media (min-width: 1950px) {
@@ -292,7 +292,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
             font-size: 140px;
           }
 
-           @media (min-width: 1950px) {
+          @media (min-width: 1950px) {
             font-size: 200.289px;
           }
         }
@@ -364,7 +364,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       .reset-btn {
         min-width: 120px;
         border-radius: 9.013px;
-        border : none;
+        border: none;
         padding: 16px 28px;
         font-size: 13.292px;
         font-style: normal;
@@ -374,7 +374,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
         @media (min-width: 992px) {
           font-size: 18.14px;
-           min-width: 313px;
+          min-width: 313px;
         }
 
         @media (min-width: 1800px) {
