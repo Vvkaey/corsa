@@ -10,6 +10,7 @@ import { useContext, useState, useCallback } from "react";
 import styled from "styled-components";
 // import { Badge } from "../Badge";
 import {
+  headerSpacing,
   maxWidthContainer,
   sectionResponsivePadding,
 } from "../../new_mixins/mixins";
@@ -90,7 +91,7 @@ export const DesktopNavItems = styled(
   width: 380px;
   position: absolute;
   right: -50%;
-  top: 170%;
+  top: 0;
   z-index: ${(props) => (props.showMenu ? "20" : "-1")};
   max-height: ${({ showMenu }) => (showMenu ? "1000px" : "0")};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -102,6 +103,15 @@ export const DesktopNavItems = styled(
   opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
   visibility: ${({ showMenu }) => (showMenu ? "visible" : "hidden")};
   pointer-events: ${({ showMenu }) => (showMenu ? "auto" : "none")};
+  ${headerSpacing()};
+
+  @media (min-width: 992px) {
+    top: -16px;
+  }
+
+  @media (min-width: 1950px) {
+    top: -23px;
+  }
 
   button.ham-item {
     color: #060606;
@@ -517,12 +527,12 @@ export const Header = styled(({ className }: { className?: string }) => {
 
     @media (min-width: 992px) {
       padding: unset;
-      margin: 22px 0;
+      margin: 16px 0;
       overflow: unset;
     }
 
-    @media (min-width: 1800px) {
-      margin: 30px auto;
+    @media (min-width: 1950px) {
+      margin: 23px auto;
     }
 
     .left-pan {

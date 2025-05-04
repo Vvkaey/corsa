@@ -7,7 +7,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation"; // Hook to get the current page pathname
 import { useContext } from "react"; // Hook to access React context
 import styled from "styled-components"; // Allows for modular CSS using Styled Components
-import { maxWidthContainer, sectionResponsivePadding } from "../../new_mixins/mixins";
+import {
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../../new_mixins/mixins";
 
 export const Footer = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext); // Access global UI settings
@@ -18,10 +21,10 @@ export const Footer = styled(({ className }: { className?: string }) => {
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
 
   const onApplyMentorClick = () => {
-     if(router){
+    if (router) {
       router.push("/apply-for-mentor");
-     }
-  }
+    }
+  };
 
   return (
     <div className={className}>
@@ -32,7 +35,9 @@ export const Footer = styled(({ className }: { className?: string }) => {
           <div className="left-block">
             <p className="cheers">Cheers!</p>
             <div className="cta-container">
-              <button className="primary-button" onClick={onApplyMentorClick} >Apply as mentor</button>
+              <button className="primary-button" onClick={onApplyMentorClick}>
+                Apply as mentor
+              </button>
             </div>
           </div>
 
@@ -43,8 +48,12 @@ export const Footer = styled(({ className }: { className?: string }) => {
               <p className="email">connect@corsaclub.io</p>
             </div>
             <div className="tnc-container">
-              <Link  href={"/privacy-policy"} className="privacy-policy">Privacy policy</Link>
-              <Link  href={"/terms-and-conditions"} className="tnc">Terms of service</Link>
+              <Link href={"/privacy-policy"} className="privacy-policy">
+                Privacy policy
+              </Link>
+              <Link href={"/terms-and-conditions"} className="tnc">
+                Terms of service
+              </Link>
             </div>
           </div>
         </div>
@@ -64,7 +73,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
   width: 100vw;
   background: rgb(0, 0, 0);
 
-  .container {    
+  .container {
     margin: auto;
     backdrop-filter: blur(10px); /* Glassmorphism effect */
     font-family: var(--font-exo);
@@ -101,7 +110,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
       @media (min-width: 992px) {
         font-size: 18px;
         padding: 0 60px 0 0;
-        padding-top : 18px;
+        padding-top: 18px;
       }
 
       @media (min-width: 1950px) {
@@ -117,11 +126,11 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
       @media (min-width: 992px) {
         flex-direction: row;
-        margin-top : 120px;
+        margin-top: 120px;
       }
 
       @media (min-width: 1950px) {
-        margin-top : 200px;
+        margin-top: 200px;
       }
 
       /* Left block: greeting and CTA */
@@ -200,7 +209,6 @@ export const Footer = styled(({ className }: { className?: string }) => {
         display: flex;
         justify-content: space-between;
         font-family: var(--font-fustat);
-       
 
         @media (min-width: 992px) {
           padding: 68px 0px 0px 60px;
@@ -266,6 +274,10 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
             @media (min-width: 992px) {
               font-size: 18px;
+
+              &:hover {
+                text-decoration: underline;
+              }
             }
 
             @media (min-width: 1950px) {
@@ -282,16 +294,16 @@ export const Footer = styled(({ className }: { className?: string }) => {
       width: 100%;
       height: 40px;
       margin: auto;
-      margin-bottom : 280px;
+      margin-bottom: 280px;
 
       @media (min-width: 992px) {
         height: 140px;
         width: 100%;
-         margin: 0 0 65px 0;
+        margin: 0 0 65px 0;
       }
 
       @media (min-width: 1950px) {
-      margin-bottom : 92.7px
+        margin-bottom: 92.7px;
       }
 
       img {

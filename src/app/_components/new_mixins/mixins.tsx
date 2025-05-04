@@ -120,6 +120,7 @@ type HeaderSpacingProps = {
   mobileSpacing?: string;
   tabletSpacing?: string;
   desktopSpacing?: string;
+  desktopLSpacing?: string;
 };
 
 /**
@@ -129,8 +130,10 @@ type HeaderSpacingProps = {
 export const headerSpacing = ({
   mobileSpacing = "60px", // Default space below header on mobile
   tabletSpacing = "80px", // Default space below header on tablet
-  desktopSpacing = "90px", // Default space below header on desktop
+  desktopSpacing = "64px", // Default space below header on desktop
+  desktopLSpacing = "90px", // Default space below header on desktop
 }: HeaderSpacingProps = {}) => css`
+
   margin-top: ${mobileSpacing};
 
   @media (min-width: 768px) {
@@ -139,6 +142,10 @@ export const headerSpacing = ({
 
   @media (min-width: 1024px) {
     margin-top: ${desktopSpacing};
+  }
+
+   @media (min-width: 1950px) {
+    margin-top: ${desktopLSpacing};
   }
 `;
 

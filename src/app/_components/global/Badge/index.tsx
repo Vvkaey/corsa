@@ -79,14 +79,19 @@ const BadgeProfileImgContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 31px;
+  height: 31px;
   filter: invert(0.5);
   transition: filter 0.1s ease-in-out;
   cursor: pointer;
   background: transparent;
   border: none;
   z-index: 21;
+
+  @media (min-width: 1950px) {
+ width: 44px;
+  height: 44px;
+}
 
   &:hover {
     filter: invert(0);
