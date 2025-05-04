@@ -406,7 +406,7 @@ export const Header = styled(({ className }: { className?: string }) => {
       <div className="nav-container">
         <div className="left-pan">
           <button className="image-container" onClick={OnLogoClick}>
-            <Image src="/header/logo.jpg" fill alt="corsa-logo" />
+            <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
           </button>
         </div>
         <div className="right-pan">
@@ -543,22 +543,22 @@ export const Header = styled(({ className }: { className?: string }) => {
       .image-container {
         position: relative;
         background: transparent;
-        width: 152px;
+        width: 182px;
         height: 16px;
         cursor: pointer;
         border: none;
 
         @media (min-width: 992px) {
-          width: 328px;
-          height: 32px;
-          right: 20px;
+          width: 300px;
+          height: 26px;
         }
 
         img {
           height: 100%;
           width: auto;
-          object-fit: contain;
-          transform: scale(2);
+          object-fit: cover;
+          flex-shrink: 0;
+          aspect-ratio: 230.63/22.71;
         }
       }
     }

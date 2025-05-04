@@ -63,7 +63,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
         {/* Footer logo */}
         <div className="logo-container">
-          <Image src="/footer/corsaFooter.svg" fill alt="corsa-logo" />
+          <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
         </div>
       </div>
     </div>
@@ -297,13 +297,14 @@ export const Footer = styled(({ className }: { className?: string }) => {
       margin-bottom: 280px;
 
       @media (min-width: 992px) {
-        height: 140px;
+        height: 130px;
         width: 100%;
         margin: 0 0 65px 0;
       }
 
       @media (min-width: 1950px) {
         margin-bottom: 92.7px;
+        height : 185px;
       }
 
       img {
