@@ -4,7 +4,11 @@ import styled from "styled-components";
 
 import { useRouter } from "next/navigation";
 import { Comparison } from "./Comparison";
-import { headerSpacing, sectionResponsivePadding } from "../new_mixins/mixins";
+import {
+  headerSpacing,
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../new_mixins/mixins";
 import { Footer } from "../global/footer";
 // import { Comparison } from "./Comparison";
 
@@ -27,6 +31,7 @@ const Header = styled.div`
   text-align: center;
   margin-bottom: 53px;
   ${sectionResponsivePadding()};
+  ${maxWidthContainer};
 
   @media (min-width: 992px) {
     margin-bottom: 73px;
@@ -57,8 +62,15 @@ const Title = styled.h1`
   }
 
   @media (min-width: 992px) {
-    font-size: 90px;
+    font-size: 64.28px;
     white-space: nowrap;
+    &:after {
+      font-size: 64.28px;
+    }
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 90px;
     &:after {
       font-size: 90px;
     }
@@ -77,7 +89,11 @@ const Subtitle = styled.p`
   margin-top: 17px;
 
   @media (min-width: 992px) {
-    margin-top: unset;
+    margin-top: 17px;
+    font-size: 20.6px;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 29.324px;
   }
 `;
@@ -124,10 +140,14 @@ const PlanCard = styled.div<StyledPlanCardProps>`
   }
 
   @media (min-width: 992px) {
-    padding: 77px 55px 51px;
-    border-radius: 8px;
-    border: 1px solid ${(props) => (props.$isPrimary ? "#4299e1" : "#e2e8f0")};
+    padding: 54px 40px 35px;
+    border-radius: 11.9px;
+    border: 1px solid ${(props) => (props.$isPrimary ? "#4299e1" : "#000")};
     background: ${(props) => (props.$isPrimary ? "#f7fafc" : "#ffffff")};
+  }
+
+   @media (min-width: 1950px) {
+padding: 77px 55px 51px;
   }
 `;
 
@@ -147,8 +167,13 @@ const PlanName = styled.h3`
   line-height: 125%; /* 125% */
 
   @media (min-width: 992px) {
+    font-size: 28.12px;
+    margin-bottom: 3.1rem;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 40px;
-    margin-bottom: 4rem;
+    // margin-bottom: 4rem;
   }
 `;
 
@@ -159,6 +184,10 @@ const PlanPrice = styled.div`
   justify-content: center;
 
   @media (min-width: 992px) {
+    margin: 35px 0 17px;
+  }
+
+  @media (min-width: 1950px) {
     margin: 81px 0 34px;
   }
 `;
@@ -208,7 +237,11 @@ const PlanDescription = styled.p`
   max-width: 85%;
 
   @media (min-width: 992px) {
-    max-width: unset;
+    max-width: 20ch;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 24px;
   }
 `;
@@ -222,6 +255,10 @@ const BenefitsList = styled.ul`
   width: 100%;
 
   @media (min-width: 992px) {
+    padding-top: 59px;
+  }
+
+   @media (min-width: 1950px) {
     padding-top: 100px;
   }
 `;
@@ -252,6 +289,11 @@ const BenefitItem = styled.li`
     width: 100%;
     font-weight: bold;
     margin-right: 0.75rem;
+
+    @media (min-width: 992px) {
+      bottom: 0;
+      height: 10px;
+    }
   }
 
   &:last-child {
@@ -402,6 +444,7 @@ const Plan: React.FC<PricingPlan> = ({
   return (
     <PlanCard $isPrimary={isPrimary}>
       <PlanName>{name}</PlanName>
+      
       <PlanDescription>{description}</PlanDescription>
       <PlanPrice>
         <Price>₹{price}</Price>

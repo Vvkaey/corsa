@@ -445,7 +445,7 @@ export const HeroSection = styled(
         line-height: normal;
 
         @media (min-width: 992px) {
-          font-size: 19.9px;
+          font-size: 20.9px;
         }
 
         @media (min-width: 1950px) {
@@ -493,7 +493,7 @@ export const HeroSection = styled(
 
           @media (min-width: 992px) {
             width: unset;
-            padding: 15px 40px;
+            padding: 10px 40px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
@@ -502,7 +502,7 @@ export const HeroSection = styled(
           }
 
           @media (min-width: 1950px) {
-            padding: 21px 58px;
+            padding: 15px 58px;
             font-size: 23.521px;
           }
         }
@@ -524,7 +524,7 @@ export const HeroSection = styled(
 
           @media (min-width: 992px) {
             width: unset;
-            padding: 15px 40px;
+             padding: 10px 40px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
@@ -533,7 +533,7 @@ export const HeroSection = styled(
           }
 
           @media (min-width: 1950px) {
-            padding: 21px 58px;
+            padding: 15px 58px;
             font-size: 23.521px;
           }
         }

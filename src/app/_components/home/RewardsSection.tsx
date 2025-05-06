@@ -381,7 +381,7 @@ export const RewardsSection = styled(
 
         @media (min-width: 992px) {
           padding-right: unset;
-          width: 50%;
+          width: 40%;
           padding: 58px 0 32px 0;
           gap: unset;
         }
@@ -405,12 +405,12 @@ export const RewardsSection = styled(
             line-height: normal;
 
             @media (min-width: 992px) {
-              font-size: 46px;
+              font-size: 36px;
               text-align: unset;
             }
 
             @media (min-width: 1950px) {
-              font-size: 65px;
+              font-size: 51px;
             }
           }
 
@@ -454,7 +454,7 @@ export const RewardsSection = styled(
           // padding: 58px 77px 32px 100px;
           padding: 50px 77px 31px 100px;
           gap: 0px;
-          width: 50%;
+          width: 56%;
         }
 
         @media (min-width: 1950px) {
@@ -515,9 +515,9 @@ export const RewardsSection = styled(
           overflow: hidden; /* Prevent content overflow */
 
           @media (min-width: 992px) {
-            gap: 43px;
-            height: 300px;
-            margin: 13px 0 40px 0;
+            gap: 23px;
+            height: 260px;
+            margin: 13px 0 30px 0;
           }
 
           @media (min-width: 1500px) {
@@ -526,8 +526,8 @@ export const RewardsSection = styled(
 
           @media (min-width: 1950px) {
             margin: 20px 0 40px 0;
-            gap: 60px;
-            height: 424px;
+            gap: 40px;
+            height: 334px;
           }
 
           .completion-message {
@@ -593,12 +593,12 @@ export const RewardsSection = styled(
             gap: 26px;
 
             @media (min-width: 992px) {
-              gap: 40px; /* Adjusted for more consistent spacing */
+              gap: 30px; /* Adjusted for more consistent spacing */
               margin-top: 7px;
             }
 
             @media (min-width: 1950px) {
-              gap: 56px;
+              gap: 38px;
             }
 
             .option-element {

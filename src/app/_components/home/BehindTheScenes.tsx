@@ -182,7 +182,7 @@ export const BehindTheScenes = styled(
         color: #000;
         font-size: 17.5px;
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 142.05%; /* 22.728px */
         margin : 0 8px;
         // border : 1px solid #d4d4d4;

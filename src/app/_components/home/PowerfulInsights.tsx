@@ -226,7 +226,7 @@ export const PowerfulInsights = styled(
           align-items: unset;
           padding: 51px 0;
           width: 33.33%;
-          gap: 99px;
+          gap: 69px;
         }
 
         &:last-child {
@@ -244,14 +244,15 @@ export const PowerfulInsights = styled(
           width: 30ch;
 
           @media (min-width: 992px) {
-            min-height: 150px;
+            min-height: 96px;
             // width: unset;
             padding: unset;
             gap: 13px;
+            width: 38ch;
           }
 
           @media (min-width: 1950px) {
-            min-height: 200px;
+            min-height: 120px;
             width: 47ch;
           }
 
