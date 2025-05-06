@@ -17,11 +17,16 @@ const ProductHeadTitle = styled.h4`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 29px;
+  font-size: 20.3px;
   font-style: normal;
   font-weight: 700;
   line-height: 45.626px; /* 157.33% */
   max-width: 20ch;
+
+  @media (min-width: 1950px) {
+ font-size: 29px;
+
+}
 `;
 
 const ProductHeadPricing = styled.p`
@@ -30,10 +35,15 @@ const ProductHeadPricing = styled.p`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-exo);
-  font-size: 31.855px;
+  font-size: 20.3px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  @media (min-width: 1950px) {
+
+  font-size: 31.855px;
+}
 
   &:after {
     content: "/Year";
@@ -41,10 +51,15 @@ const ProductHeadPricing = styled.p`
     leading-trim: both;
     text-edge: cap;
     font-family: var(--font-exo);
-    font-size: 19px;
+    font-size: 13.3px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+
+    @media (min-width: 1950px) {
+
+   font-size: 19px;
+}
   }
 `;
 
@@ -53,23 +68,33 @@ const ProductHeadCTA = styled.button`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 18.994px;
+  font-size: 13.3px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
-  border-radius: 8px;
-  border: 2px solid #ff2626;
-  margin-top: 13px;
+  border-radius: 5.6px;
+  border: 1.4px solid #ff2626;
+  margin-top: 10px;
   padding: 10px 18px;
   background: transparent;
+
+   @media (min-width: 1950px) {
+  margin-top: 13px;
+  border-radius: 8px;
+   font-size: 19px;
+}
 `;
 
 const ProductHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 4px;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 1950px) {
+  gap: 14px;
+}
 `;
 
 // Improve the table header styling for sticky positioning
@@ -99,12 +124,18 @@ const TableHeader = styled.table`
     color: #000;
     leading-trim: both;
     text-edge: cap;
-    font-size: 47.846px;
+    font-size: 33.6px;
     font-style: normal;
     font-family: var(--font-exo);
     font-weight: 600;
     line-height: normal;
     padding-left: 49px;
+
+
+    @media (min-width: 1950px) {
+font-size: 47.846px;
+
+}
   }
 `;
 
@@ -143,7 +174,7 @@ export const Comparison = styled(
                                   {COMPARISON_DATA[id]?.price}
                                 </ProductHeadPricing>
                                 <ProductHeadCTA>
-                                  {COMPARISON_DATA[id]?.cta}
+                                  {COMPARISON_DATA[id]?.cta}{" "}{COMPARISON_DATA[id]?.title.split(" ")[0]}
                                 </ProductHeadCTA>
                               </ProductHeader>
                             </div>

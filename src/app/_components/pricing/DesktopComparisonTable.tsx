@@ -14,20 +14,28 @@ const TableProperty = styled.div`
     color: #000;
     leading-trim: both;
     text-edge: cap;
-    font-size: 30.665px;
+    font-size: 21.5px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+
+    @media (min-width: 1950px) {
+    font-size: 30.665px;
+    }
   }
   
   p {
     color: #404040;
     leading-trim: both;
     text-edge: cap;
-    font-size: 20px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+
+        @media (min-width: 1950px) {
+    font-size: 20px;
+    }
   }
 `;
 

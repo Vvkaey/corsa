@@ -10,20 +10,20 @@ import {
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
 import { Footer } from "../global/footer";
+import ContactUs from "./ContactUs";
 // import { Comparison } from "./Comparison";
 
 // Styled Components
 const PageContainer = styled.div`
   margin: 0 auto;
-
   background: #fff;
   display: flex;
   flex-direction: column;
-  gap: 2vh;
   ${headerSpacing()};
+  padding-top: 53px;
 
-  @media (min-width: 992px) {
-    margin-top: 160px;
+  @media (min-width: 1950px) {
+    padding-top: 171px;
   }
 `;
 
@@ -33,8 +33,8 @@ const Header = styled.div`
   ${sectionResponsivePadding()};
   ${maxWidthContainer};
 
-  @media (min-width: 992px) {
-    margin-bottom: 73px;
+  @media (min-width: 1950px) {
+    margin-bottom: 48px;
   }
 `;
 
@@ -104,12 +104,19 @@ const PlansContainer = styled.div`
   justify-content: center;
   gap: 61px;
   ${sectionResponsivePadding()};
+  ${maxWidthContainer};
+  margin: 55px 0;
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
     gap: 32px;
   }
+
+  @media (min-width: 992px) {
+margin: 71px 0;
+
+}
 `;
 
 // Create a interface for the props we want to use for styling only
@@ -141,13 +148,14 @@ const PlanCard = styled.div<StyledPlanCardProps>`
 
   @media (min-width: 992px) {
     padding: 54px 40px 35px;
-    border-radius: 11.9px;
+    border-radius: 5.6px;
     border: 1px solid ${(props) => (props.$isPrimary ? "#4299e1" : "#000")};
     background: ${(props) => (props.$isPrimary ? "#f7fafc" : "#ffffff")};
   }
 
-   @media (min-width: 1950px) {
-padding: 77px 55px 51px;
+  @media (min-width: 1950px) {
+    border-radius: 11.9px;
+    padding: 77px 55px 51px;
   }
 `;
 
@@ -168,12 +176,12 @@ const PlanName = styled.h3`
 
   @media (min-width: 992px) {
     font-size: 28.12px;
-    margin-bottom: 3.1rem;
+    margin-bottom: 30px;
   }
 
   @media (min-width: 1950px) {
     font-size: 40px;
-    // margin-bottom: 4rem;
+    margin-bottom: 3.1rem;
   }
 `;
 
@@ -184,7 +192,7 @@ const PlanPrice = styled.div`
   justify-content: center;
 
   @media (min-width: 992px) {
-    margin: 35px 0 17px;
+    margin: 44px 0 17px;
   }
 
   @media (min-width: 1950px) {
@@ -200,8 +208,12 @@ const Price = styled.h2`
 
   @media (min-width: 992px) {
     color: #1a202c;
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 37px;
+    font-weight: 600;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 53px;
   }
 `;
 
@@ -212,13 +224,16 @@ const Period = styled.span`
   font-family: var(--font-exo);
   font-size: 16.6px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
   margin-left: 2px;
 
   @media (min-width: 992px) {
-    font-size: 24px;
     margin-left: 0.5rem;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 24px;
   }
 `;
 
@@ -237,7 +252,7 @@ const PlanDescription = styled.p`
   max-width: 85%;
 
   @media (min-width: 992px) {
-    max-width: 20ch;
+    max-width: 23ch;
     font-size: 16px;
   }
 
@@ -246,7 +261,7 @@ const PlanDescription = styled.p`
   }
 `;
 
-const BenefitsList = styled.ul`
+const BenefitsList = styled.div`
   list-style: none;
   padding: 0;
   margin: 0 0 1.5rem 0;
@@ -258,48 +273,46 @@ const BenefitsList = styled.ul`
     padding-top: 59px;
   }
 
-   @media (min-width: 1950px) {
+  @media (min-width: 1950px) {
     padding-top: 100px;
   }
 `;
 
-const BenefitItem = styled.li`
+const BenefitItem = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  // display: flex;
+  // align-items: center;
+  border-bottom: 1px solid #d2d2d2;
   color: #4a5568;
   font-family: var(--font-fustat);
   width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 25px;
+  gap: 7px;
 
-  &:before {
+  span {
     content: "✓";
     color: #ff2626;
     font-weight: bold;
     margin-right: 0.75rem;
+
+    @media (min-width: 1950px) {
+font-size: 24px;
+  }
   }
 
-  &:after {
-    position: absolute;
-    bottom: -6px;
-    content: "";
-    height: 6px;
-    border-bottom: 1px solid #d2d2d2;
-    width: 100%;
-    font-weight: bold;
-    margin-right: 0.75rem;
+  p {
+    position: relative;
+    font-size: 0.95rem;
 
-    @media (min-width: 992px) {
-      bottom: 0;
-      height: 10px;
+    @media (min-width: 1950px) {
+      font-size: 24px;
     }
   }
 
   &:last-child {
-    &:after {
-      border-bottom: none;
-    }
+    border-bottom: none;
   }
 `;
 
@@ -314,7 +327,7 @@ const CtaButton = styled.button<StyledButtonProps>`
   border-radius: 8px;
   border: ${(props) =>
     props.$isPrimary ? "1.013px solid #000" : "2.013px solid #ff2626"};
-  padding: 13px 43px;
+  padding: 10px 43px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -328,6 +341,10 @@ const CtaButton = styled.button<StyledButtonProps>`
 
   @media (min-width: 992px) {
     padding: 0.75rem 1.5rem;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 23.5px;
   }
 `;
 
@@ -349,9 +366,13 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   text-underline-offset: auto;
   text-underline-position: from-font;
   font-family: var(--font-fustat);
-  margin-top: 80px;
+  margin-top: 56px;
 
-  @media (min-width: 992px) {
+  @media (min-width: 1950px) {
+    margin-top: 25px;
+  }
+
+  @media (min-width: 1950px) {
     margin-top: 33px;
     font-size: 24px;
   }
@@ -441,10 +462,21 @@ const Plan: React.FC<PricingPlan> = ({
     }
   };
 
+  // Scroll to element function for navigation
+  const scrollToElement = (id: string): void => {
+    const container = document.getElementById(id);
+    if (container) {
+      container.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <PlanCard $isPrimary={isPrimary}>
-      <PlanName>{name}</PlanName>
-      
+      <PlanName>
+        {name.split(" ")[0]} <br />
+        Access Plan
+      </PlanName>
+
       <PlanDescription>{description}</PlanDescription>
       <PlanPrice>
         <Price>₹{price}</Price>
@@ -460,10 +492,15 @@ const Plan: React.FC<PricingPlan> = ({
       </CtaButton>
       <BenefitsList>
         {benefits.map((benefit) => (
-          <BenefitItem key={benefit.id}>{benefit.text}</BenefitItem>
+          <BenefitItem key={benefit.id}>
+            <span>✓</span>
+            <p>{benefit.text}</p>
+          </BenefitItem>
         ))}
       </BenefitsList>
-      <SeeAllNavigator>See All Benefits </SeeAllNavigator>
+      <SeeAllNavigator onClick={() => scrollToElement("product-comparision")}>
+        See All Benefits{" "}
+      </SeeAllNavigator>
     </PlanCard>
   );
 };
@@ -486,6 +523,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
         ))}
       </PlansContainer>
       <Comparison htmlId="product-comparision" />
+      <ContactUs />
       {/* <ProductComparisonTable /> */}
       <Footer />
     </PageContainer>
