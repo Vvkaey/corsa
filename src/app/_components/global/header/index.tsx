@@ -216,13 +216,15 @@ export const HamOverlay = styled(
       router.push("/");
     }, [logout, router]);
 
-    const onBgClick = useCallback(() => {
-      if (!setShowMenu) return;
-      setShowMenu(false);
-    }, [setShowMenu]);
+    const onButtonClick = useCallback(() => {
+      if (setShowMenu) {
+
+        setShowMenu(!showMenu);
+      }
+    }, [setShowMenu, showMenu]);
 
     return (
-      <div className={className} onClick={onBgClick}>
+      <div className={className} onClick={onButtonClick}>
         <div className="group-container">
           <button className="ham-item" onClick={redirectToDashboard}>
             Dashboard
@@ -495,7 +497,7 @@ export const Header = styled(({ className }: { className?: string }) => {
         )}
       </div>
       {showHamMenu && (
-        <HamOverlay showMenu={showHamMenu} setShowMenu={setShowDeskHamMenu} />
+        <HamOverlay showMenu={showHamMenu} setShowMenu={setShowHamMenu} />
       )}
     </header>
   );
