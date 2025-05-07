@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { headerSpacing, sectionResponsivePadding } from "../new_mixins/mixins";
+import { headerSpacing, maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
 import { Subtitle, Title } from "../dashboard/styled";
 
 export const StatusMessage = styled.div<{ type: "success" | "error" | "info" }>`
@@ -33,8 +33,9 @@ export const StatusMessage = styled.div<{ type: "success" | "error" | "info" }>`
 `;
 
 export const MentorApplicationContainer = styled.div`
-  ${sectionResponsivePadding()}
-  ${headerSpacing()}
+  ${maxWidthContainer};
+  ${sectionResponsivePadding()};
+  ${headerSpacing()};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,8 +45,14 @@ export const MentorApplicationContainer = styled.div`
   padding-top: 60px;
   padding-bottom: 170px;
 
+
   @media (min-width: 1025px) {
-    padding: 100px 117px;
+    padding-top: 100px;
+   gap: 82px;
+  }
+
+   @media (min-width: 1950px) {
+    padding-top: 100px ;
     gap: 112px;
   }
 `;
@@ -58,7 +65,7 @@ export const ApplicationHead = styled.div`
   gap: 14px;
 
   @media (min-width: 992px) {
-    gap: 20px;
+    gap: 0px;
   }
 `;
 
@@ -95,7 +102,7 @@ export const ApplicationForm = styled.div`
 
   @media (min-width: 1025px) {
     margin: 80px;
-    margin-top: 30px;
+    margin-top: unset;
   }
 
   @media (min-width: 1800px) {
@@ -115,23 +122,35 @@ export const FormGroup = styled.div`
   border-left: none;
   border-right: none;
 
-  @media (min-width: 1025px) {
-    margin-bottom: 1.25rem;
-    width: 30%;
-    border-width: 2px;
-  }
+     @media (min-width: 1025px) {
+       margin-bottom: 1.25rem;
+       width: 28%;
+       border-width: 2px;
+     }
+
+     @media (min-width: 1950px) {
+       margin-bottom: 1.25rem;
+       width: 30%;
+       border-width: 2px;
+     }
 
     .svg{
-  position: absolute;
-  right: 10px;
-  top: 40%;
-  transform: rotate(180deg);
-  pointer-events: none; // This ensures the SVG doesn't interfere with select clicks
+       position: absolute;
+       right: 10px;
+       top: 40%;
+       transform: rotate(180deg);
+       pointer-events: none; // This ensures the SVG doesn't interfere with select clicks
   
-  @media (min-width: 992px) {
-    right: 51px;
-  }
-}
+       @media (min-width: 992px) {
+         right: 51px;
+         transform: rotate(180deg) scale(0.7);
+       }
+
+        @media (min-width: 1950px) {
+         right: 51px;
+         transform: rotate(180deg) scale(1);
+       }
+    }
 `;
 
 export const Label = styled.label`
@@ -170,12 +189,16 @@ export const Input = styled.input`
   
   @media (min-width: 992px) {
     padding: 5px 21px;
-    font-size: 21.7px;
+    font-size: 15.27px;
     border-radius: 8px;
-    line-height: 34.3px;
+   line-height: 158.147%;
     border: none;
     outline: none;
     background-color: transparent;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 21.7px;
   }
 
   &:focus {
@@ -209,9 +232,13 @@ export const Select = styled.select`
 
   @media(min-width: 992px) {
       padding: 5px 21px;
-      font-size: 21.7px;
+      font-size: 15.27px;
       border-radius: 8px;
-      line-height: 34.3px;
+      line-height: 158.147%;
+  }
+
+    @media (min-width: 1950px) {
+    font-size: 21.7px;
   }
 
   &:focus {
@@ -241,6 +268,7 @@ cursor: pointer;
 `;
 
 export const OtpButton = styled(Button)`
+background-color: transparent;
 width: auto;
 white-space: nowrap;
 position: absolute;
@@ -254,14 +282,22 @@ font-family: var(--font-fustat);
  font-size: 16px;
 font-style: normal;
 font-weight: 500;
-line-height: 34.383px; /* 158.147% */
+line-height:  158.147%;
 
  &:disabled {
  background-color: transparent;
     cursor: not-allowed;
 }
 
+ &:hover {
+    background-color: transparent;
+}
+
 @media(min-width: 992px) {
+ font-size: 15.27px;
+  }
+
+  @media(min-width: 1950px) {
  font-size: 21.7px;
   }
 `;
@@ -309,10 +345,17 @@ cursor: pointer;
 }
 
 @media(min-width: 992px) {
-    font-size: 23.521px;
-    width: 315px;
-    margin: 0 calc((100%-315px) / 2);
-    padding: 16px 24px;
+    font-size: 16.5px;
+    width: 222px;
+    margin: 0 calc((100%-222px) / 2);
+    padding: 12px 21px;
     
 }
+
+@media(min-width: 1950px) {
+font-size: 23.521px;
+ width: 315px;
+    margin: 0 calc((100%-315px) / 2);
+
+  }
 `;

@@ -112,7 +112,7 @@ export const responsiveMargin = ({
 
 export const SectionPadding = styled.section`
 //   border: 5px solid red;
-  ${responsivePadding()}
+  ${responsivePadding()};
 `;
 
 // Type definitions for the header spacing mixin
@@ -151,6 +151,6 @@ export const headerSpacing = ({
 
 // Example of a first-component wrapper that can be extended
 export const FirstComponentWrapper = css`
-  ${headerSpacing()}
+  ${headerSpacing()};
   width: 100%;
 `;
