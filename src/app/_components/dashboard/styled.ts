@@ -33,11 +33,21 @@ export const MainSection = styled.section`
   padding: 65px 117px 100px;
   ${sectionResponsivePadding()};
   z-index: 1;
+
+
   @media (min-width: 992px) {
+    max-width: 850px;
     background: linear-gradient(0deg, #9f9d9d 3.35%, #0e0e0e 50.52%, #0e0e0e 143.11%);
       box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.25);
+    gap: 0px;
+     padding: 45px 70px 70px;
+  } 
+    
+  @media (min-width: 1950px) {
+  max-width: 1500px;
     gap: 17px;
-  }  
+     padding: 65px 117px 100px;
+  } 
 `;
 
 export const Title = styled.h2`
@@ -51,8 +61,12 @@ export const Title = styled.h2`
   max-width: 18ch;
 
   @media (min-width: 992px) {
-    font-size: 40px;
+    font-size: 28px;
     max-width: unset;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 40px;
   }
 `;
 
@@ -67,8 +81,14 @@ export const Subtitle = styled.p`
   max-width: 35ch;
 
   @media (min-width: 992px) {
-    font-size: 23px;
+    font-size: 16px;
     max-width: unset;
+    margin-top: 10px;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 23px;
+      margin-top: unset;
   }
 `;
 
@@ -90,6 +110,10 @@ export const CardsContainer = styled.div`
     margin-top: 17px;
     flex-direction: row;
     width: unset;
+      gap: 33px;
+  }
+
+  @media (min-width: 1950px) {
       gap: 48px;
   }
 `;
@@ -113,12 +137,18 @@ export const Card = styled.div`
   justify-content: center;
 
   @media (min-width: 992px) {
-    height: 367px;
-    width: 297px;
+    height: 258px;
+    width: 209px;
     align-items: center;
     justify-content: unset;
-    padding: 32px 15px;
+    padding: 22px 11px;
     flex-wrap: unset;
+  }
+
+   @media (min-width: 1950px) {
+    height: 367px;
+    width: 297px;
+    padding: 32px 15px;
   }
 `;
 
@@ -135,8 +165,12 @@ export const CardTitle = styled.div`
 
   @media (min-width: 992px) {
     text-align: center;
-    font-size: 21px;
+    font-size: 14.7px;
     width: unset;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 21px;
   }
 `;
 
@@ -149,7 +183,11 @@ export const Divider = styled.div`
   );
   height: 1px;
   width: 100%;
-  margin: 24px 0 17px 0;
+  margin: 14px 0 11px 0;
+
+  @media (min-width: 1950px) {
+    margin: 24px 0 17px 0;
+  }
 `;
 
 export const TagLine = styled.p`
@@ -165,10 +203,16 @@ export const TagLine = styled.p`
 
   @media (min-width: 992px) {
     text-align: center;
-    font-size: 20px;
-    width: 70%;
+    font-size: 14px;
+    width: 90%;
     max-width: unset;
     padding-top: unset;
+  }
+
+  @media (min-width: 1950px) {
+    text-align: center;
+    font-size: 20px;
+    width: 70%;
   }
 `;
 
@@ -189,11 +233,15 @@ export const Count = styled.p`
  
   @media (min-width: 992px) {
     display: unset;
-    font-size: 64.16px;
+    font-size: 45.112px;
     height: unset;
     text-align: unset;
     margin-top: 48px;
     font-weight: 800;
+  }
+
+   @media (min-width: 1950px) {
+    font-size: 64.16px;
   }
 `;
 
@@ -211,6 +259,10 @@ export const IconContainer = styled.div`
     @media (max-width: 992px) {
       object-fit: contain;
       width: auto;
+      height: 82px;
+    }
+
+    @media (max-width: 1950px) {
       height: 62px;
     }
   }
