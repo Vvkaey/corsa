@@ -20,7 +20,7 @@ export const CheckoutContainer = styled.div`
   }
 
   @media (min-width: 992px) {
-    padding-top: 0.5rem;
+    padding-top: 2%;
     justify-content: flex-start;
     position: fixed;
     top: 0;
@@ -28,13 +28,16 @@ export const CheckoutContainer = styled.div`
     right: 0;
   }
 
-  //  @media (min-width: 1500px) {
-  // }
+  @media (min-width: 1600px) {
+    padding-top: 0;
+  }
+
 
   @media (min-width: 2100px) {
     padding-top: 5rem;
     justify-content: center;
   }
+
 `;
 
 export const CheckoutGrid = styled.div`
@@ -57,7 +60,7 @@ export const CheckoutGrid = styled.div`
     gap: 2rem;
   }
 
-  @media (min-width: 2100px) {
+  @media (min-width: 1950px) {
     margin-top: 90px;
   }
 `;
@@ -91,7 +94,7 @@ export const ProductDetailsCard = styled.div`
     padding: 58px 49px;
   }
 
-  @media (min-width: 2100px) {
+  @media (min-width: 1950px) {
     padding: 68px 49px;
   }
 `;
@@ -112,11 +115,11 @@ export const ProductTitle = styled.h1`
     padding: unset;
     padding-left: 15px;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 26px;
     line-height: 125%;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
     font-size: 35.425px;
     margin-bottom: 50px;
   }
@@ -201,11 +204,11 @@ export const BenefitItem = styled.li`
   }
 
   @media (min-width: 992px) {
-    font-size: 20px;
+    font-size: 17.5px;
     padding: 20px 15px;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
     font-size: 25px;
     padding: 25px 15px;
   }
@@ -250,7 +253,7 @@ export const PaymentSection = styled.div`
     padding: 58px 49px;
   }
 
-  @media (min-width: 2100px) {
+  @media (min-width: 1950px) {
     padding: 68px 49px;
   }
 `;
@@ -269,12 +272,12 @@ export const SectionTitle = styled.h2`
 
   @media (min-width: 992px) {
     text-align: unset;
-    font-size: 22px;
+    font-size: 19.6px;
     line-height: 158.147%;
     margin-bottom: 21px;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
     font-size: 28px;
     margin-bottom: 31px;
   }
@@ -287,7 +290,7 @@ export const FormGroup = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
     margin-bottom: 1.25rem;
   }
 
@@ -308,6 +311,10 @@ position: relative;
   pointer-events: none; // This ensures the SVG doesn't interfere with select clicks
   
   @media (min-width: 992px) {
+    right: 12px;
+  }
+
+  @media (min-width: 1950px) {
     right: 51px;
   }
 }
@@ -342,12 +349,13 @@ export const Input = styled.input`
 
   @media (min-width: 992px) {
     padding: 12px 15px;
-    font-size: 16px;
-    border-radius: 8px;
+    font-size: 14.5px;
+    border-radius: 5.6px;
     border: 2px solid #969696;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
+  border-radius: 8px;
     font-size: 20px;
     padding: 18px 21px;
   }
@@ -380,15 +388,18 @@ export const Select = styled.select`
 
   @media (min-width: 992px) {
     padding: 12px 15px;
-    font-size: 16px;
-    border-radius: 8px;
+    font-size: 14.5px;
+    border-radius: 5.6px;
     border: 2px solid #969696;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
+      border-radius: 8px;
     font-size: 20px;
     padding: 18px 21px;
   }
+
+ 
 
   &:focus {
     outline: none;
@@ -459,13 +470,14 @@ export const PayButton = styled.button`
   gap: 15px;
 
   @media (min-width: 992px) {
-    padding: 16px 20px;
-    font-size: 20px;
-    border-radius: 8px;
-    margin-top: 0.2rem;
+    padding: 12px 20px;
+    font-size: 16.5px;
+    border-radius: 5.6px;
+    margin-top: 40px;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
+  border-radius: 8px;
     padding: 24px;
     margin-top: 1rem;
     font-size: 23.521px;
@@ -494,12 +506,13 @@ export const OrderSummary = styled.div`
     padding: 18px 0;
     background: #eef2f7;
     border: 2px solid #000;
-    border-radius: 8px;
-
-    margin-bottom: 0.75rem;
+    border-radius: 5.6px;
+margin-bottom: 40px;
+    
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
+  border-radius: 8px;
     padding: 28px 0;
     margin-bottom: 1.5rem;
   }
@@ -523,11 +536,11 @@ export const SummaryRow = styled.div`
   }
 
   @media (min-width: 992px) {
-    font-size: 20px;
+    font-size: 18.2px;
     padding: 0 30px;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
     font-size: 26px;
     padding: 0 40px;
   }
@@ -543,7 +556,7 @@ export const SummaryTotal = styled(SummaryRow)`
     padding-top: 0.5rem;
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1950px) {
     padding-bottom: 32px;
     margin-top: 0.5rem;
   }
@@ -562,7 +575,7 @@ export const SummaryTotal = styled(SummaryRow)`
       font-size: 25px;
     }
 
-    @media (min-width: 1500px) {
+    @media (min-width: 1950px) {
       font-size: 32px;
     }
 
@@ -577,16 +590,25 @@ export const SummaryTotal = styled(SummaryRow)`
       line-height: normal;
 
       @media (min-width: 992px) {
-        font-size: 20px;
+        font-size: 18.2px;
       }
 
-      @media (min-width: 992px) {
+      @media (min-width: 1950px) {
         font-size: 26px;
       }
     }
 
     &:last-child {
       position: relative;
+
+
+
+      @media (min-width: 992px) {
+        font-size: 22.5px;
+      }
+
+
+
       &:after {
         position: absolute;
         top: 100%;
@@ -603,11 +625,12 @@ export const SummaryTotal = styled(SummaryRow)`
         line-height: normal;
 
         @media (min-width: 992px) {
-          font-size: 17px;
+          font-size: 15.5px;
         }
 
-        @media (min-width: 1500px) {
+        @media (min-width: 1950px) {
           font-size: 22px;
+          left: -81%;
         }
       }
     }

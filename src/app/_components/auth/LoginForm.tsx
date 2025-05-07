@@ -198,7 +198,7 @@ const TncText = styled.p`
 
   @media (min-width: 992px) {
     margin: 15px auto;
-    font-size: 16px;
+    font-size: 9.8px;
   }
 
    @media (min-width: 1500px) {

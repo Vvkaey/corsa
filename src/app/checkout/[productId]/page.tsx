@@ -158,8 +158,8 @@ const CheckoutPage: React.FC = () => {
             {product.benefits.map((benefit) => (
               <BenefitItem key={benefit.id}>
                 <Tick
-                  width={isMobile ? 16 : 29}
-                  height={isMobile ? 10.5 : 17}
+                  width={isMobile ? 16 : (width && width > 1950) ? 29 : 21}
+                  height={isMobile ? 10.5 : (width && width > 1950) ? 17 : 12}
                 />
                 {benefit.text}
               </BenefitItem>

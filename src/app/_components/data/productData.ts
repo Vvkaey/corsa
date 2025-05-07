@@ -11,6 +11,8 @@ export type CheckoutPlanProps = {
   benefits: BenefitProps[];
   buttonText: string;
   productType: string;
+  subscribedCta?: string;
+  addOnCTa?: string;
 };
 
 export type PricingDataProps = {
@@ -37,6 +39,8 @@ export const pricingData = {
         { id: 3, text: "AMA Sessions" },
       ],
       buttonText: "Subscribe Insight",
+      subscribedCta: "Insight Subscribed",
+      addOnCTa: "Add On Insight",
       productType: "newsletter_subscription"
 
     },
@@ -53,6 +57,8 @@ export const pricingData = {
         { id: 4, text: "Extended Session Access" },
       ],
       buttonText: "Subscribe Mentor",
+      subscribedCta: "Mentor Subscribed",
+      addOnCTa: "Add On Mentor",
       productType: "session_pack"
 
     },
@@ -72,6 +78,8 @@ export const pricingData = {
         { id: 7, text: "Extended Session Access" },
       ],
       buttonText: "Subscribe Membership",
+      subscribedCta: "Membership Subscribed",
+      addOnCTa: "",
       productType: "combo_pack"
 
     },

@@ -353,7 +353,9 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               <Option value="11th">11th</Option>
               <Option value="12th">12th</Option>
             </Select>
-            <CaretUp className="svg" />
+            <CaretUp className="svg" width={(width ?? 0) > 1950 ? 15 : 12}
+              height={(width ?? 0) > 1950 ? 11 : 8}
+              />
             {formik.touched.board && formik.errors.board && (
               <ErrorText>{formik.errors.board}</ErrorText>
             )}
@@ -372,7 +374,9 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               <Option value="ICSE">ICSE</Option>
               <Option value="Other">Other</Option>
             </Select>
-            <CaretUp className="svg" />
+            <CaretUp className="svg" width={(width ?? 0) > 1950 ? 15 : 12}
+              height={(width ?? 0) > 1950 ? 11 : 8}
+              />
             {formik.touched.board && formik.errors.board && (
               <ErrorText>{formik.errors.board}</ErrorText>
             )}
@@ -408,7 +412,9 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               <Option value="Karnataka">Karnataka</Option>
               <Option value="Delhi NCR">Delhi NCR</Option>
             </Select>
-            <CaretUp className="svg" />
+            <CaretUp className="svg" width={(width ?? 0) > 1950 ? 15 : 12}
+              height={(width ?? 0) > 1950 ? 11 : 8}
+              />
             {formik.touched.state && formik.errors.state && (
               <ErrorText>{formik.errors.state}</ErrorText>
             )}

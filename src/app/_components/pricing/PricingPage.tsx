@@ -11,6 +11,7 @@ import {
 } from "../new_mixins/mixins";
 import { Footer } from "../global/footer";
 import ContactUs from "./ContactUs";
+import Image from "next/image";
 // import { Comparison } from "./Comparison";
 
 // Styled Components
@@ -114,9 +115,8 @@ const PlansContainer = styled.div`
   }
 
   @media (min-width: 992px) {
-margin: 71px 0;
-
-}
+    margin: 71px auto;
+  }
 `;
 
 // Create a interface for the props we want to use for styling only
@@ -298,8 +298,8 @@ const BenefitItem = styled.div`
     margin-right: 0.75rem;
 
     @media (min-width: 1950px) {
-font-size: 24px;
-  }
+      font-size: 24px;
+    }
   }
 
   p {
@@ -319,9 +319,18 @@ font-size: 24px;
 // Interface for styled button props
 interface StyledButtonProps {
   $isPrimary?: boolean;
+  $subscribed?: boolean;
 }
 
+const CTAContainer = styled.div`
+position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const CtaButton = styled.button<StyledButtonProps>`
+  position: relative;
   background: ${(props) => (props.$isPrimary ? "#fff" : "#FF2626")};
   color: ${(props) => (props.$isPrimary ? "#000" : "#FFF")};
   border-radius: 8px;
@@ -334,9 +343,17 @@ const CtaButton = styled.button<StyledButtonProps>`
   transition: all 0.2s ease-in-out;
   margin-top: auto;
   font-family: var(--font-fustat);
+
   &:hover {
     background: #ebf8ff;
     color: ${(props) => (props.$isPrimary ? "#000" : "#FF2626")};
+  }
+
+  &:disabled {
+    background: ${(props) => (props.$subscribed ? "transparent" : "#aeaeae")};
+    border: 1px solid ${(props) => (props.$subscribed ? "#FF2626" : "#aeaeae")};
+    cursor: not-allowed;
+    color: ${(props) => (props.$subscribed ? "#FF2626" : "#fff")};
   }
 
   @media (min-width: 992px) {
@@ -385,6 +402,17 @@ const ErrorMessage = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+const ImageContainer = styled.button`
+right : -22px;
+top : 0;
+position: absolute;
+background: transparent;
+border : none;
+cursor: pointer;
+align-self: flex-end;
+
+`
+
 // Types
 interface Benefit {
   id: number;
@@ -401,6 +429,10 @@ interface PricingPlan {
   isPrimary?: boolean;
   buttonText: string;
   productType: string | string[];
+  compatible?: boolean;
+  subscribed?: boolean;
+  subscribedCta: string;
+  addOnCTa: string;
 }
 
 interface PricingPageProps {
@@ -419,6 +451,9 @@ const Plan: React.FC<PricingPlan> = ({
   isPrimary,
   buttonText,
   productType,
+  compatible,
+  subscribed,
+  subscribedCta,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -483,13 +518,31 @@ const Plan: React.FC<PricingPlan> = ({
         <Period>/ {period}</Period>
       </PlanPrice>
       {error && <ErrorMessage>{error}</ErrorMessage>}
+      <CTAContainer>
       <CtaButton
         $isPrimary={isPrimary}
         onClick={handleSubscribe}
-        disabled={isLoading}
+        disabled={isLoading || !compatible || subscribed}
+        $subscribed={subscribed}
       >
-        {isLoading ? "Processing..." : buttonText}
+        {!compatible
+          ? "Not Compatible"
+          : isLoading
+          ? "Processing..."
+          : subscribed
+          ? subscribedCta
+          : buttonText}
       </CtaButton>
+     {!compatible ?  <ImageContainer>
+        <Image
+          src="/info_icon.png"
+          alt="info icon"
+          width={20}
+          height={20}
+          className="info-icon"
+        />
+      </ImageContainer> : null}
+      </CTAContainer>
       <BenefitsList>
         {benefits.map((benefit) => (
           <BenefitItem key={benefit.id}>
@@ -518,8 +571,13 @@ const PricingPage: React.FC<PricingPageProps> = ({
         <Subtitle>{subtitle}</Subtitle>
       </Header>
       <PlansContainer>
-        {plans.map((plan) => (
-          <Plan key={plan.id} {...plan} />
+        {plans.map((plan, idx) => (
+          <Plan
+            key={plan.id}
+            {...plan}
+            compatible={idx !== 2}
+            subscribed={idx === 1}
+          />
         ))}
       </PlansContainer>
       <Comparison htmlId="product-comparision" />
