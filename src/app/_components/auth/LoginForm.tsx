@@ -77,6 +77,11 @@ const Input = styled.input<{ disabled?: boolean }>`
   }
 
   @media (min-width: 992px) {
+    padding: 12px 26px;
+    font-size: 14.5px;
+  }
+
+   @media (min-width: 1950px) {
     padding: 15px 35px;
     font-size: 19.91px;
   }
@@ -121,6 +126,11 @@ const PrimaryButton = styled.button<{ disabled?: boolean }>`
   }
 
   @media (min-width: 992px) {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1950px) {
     padding: 21px;
     font-size: 22.754px;
   }
@@ -198,11 +208,12 @@ const TncText = styled.p`
 
   @media (min-width: 992px) {
     margin: 15px auto;
-    font-size: 9.8px;
+    font-size: 12.8px;
   }
 
    @media (min-width: 1500px) {
     margin: 23.5px auto;
+    font-size: 15.8px;
   }
 `;
 

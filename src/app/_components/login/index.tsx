@@ -18,20 +18,21 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   const isMobile = (width ?? 0) < 992;
   // const searchParams = useSearchParams();
 
-
-    // Get the redirect path from the URL (same as used in your login component)
-    // const redirectPath = searchParams.get("redirect") || "/";
-
+  // Get the redirect path from the URL (same as used in your login component)
+  // const redirectPath = searchParams.get("redirect") || "/";
 
   const handleGoogleLogin = () => {
     // Append the redirect parameter to your Google auth URL
     // const redirectUrl = encodeURIComponent(redirectPath);
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
   };
- 
+
   return (
     <button onClick={handleGoogleLogin} className={className}>
-      <GoogleIcon width={isMobile ? 16 : 29} height={isMobile ? 16 : 30} />{" "}
+      <GoogleIcon
+        width={isMobile ? 16 : (width ?? 0) > 1950 ? 29 : 20}
+        height={isMobile ? 16 : (width ?? 0) > 1950 ? 29 : 20}
+      />{" "}
       Continue with google
     </button>
   );
@@ -55,6 +56,11 @@ const GoogleSignInButton = styled(({ className }: { className?: string }) => {
   align-items: center;
 
   @media (min-width: 992px) {
+    padding: 12px 26px;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1950px) {
     padding: 15px 35px;
     font-size: 22.754px;
   }
@@ -99,7 +105,6 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
 
-
   const searchParams = useSearchParams();
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
@@ -119,23 +124,25 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
       <div className="root-container">
         <div className="left-panel">
           <div className="logo-container">
-            <Image src="/logo-svg.svg" fill alt="corsa-logo" />
+            <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
           </div>
           <div className="login-block">
-            { !isOTPRequested ? <GoogleSignInButton /> : null}
-            { !isOTPRequested ? <div className="horizontal-divider"></div> : null}
+            {!isOTPRequested ? <GoogleSignInButton /> : null}
+            {!isOTPRequested ? (
+              <div className="horizontal-divider"></div>
+            ) : null}
             <div className="register-block">
-              <LoginForm setIsOTPRequested={setIsOTPRequested}/>
+              <LoginForm setIsOTPRequested={setIsOTPRequested} />
             </div>
           </div>
         </div>
         <div className="right-panel">
-          {!isMobile ? (
+          {/* {!isMobile ? (
             <div className="bg-img-container-top">
               <Image src={"/login/dotted.png"} alt="dotted-image" fill />
             </div>
-          ) : null}
-          <div className="bg-img-container-bottom">
+          ) : null} */}
+          <div className="bg-img-container">
             {isMobile ? (
               <Image
                 src={"/login/airboard-mobile.png"}
@@ -143,7 +150,11 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
                 fill
               />
             ) : (
-              <Image src={"/login/dotted.png"} alt="dotted-image" fill />
+              <Image
+                src={"/login/airboard_login.png"}
+                alt="dotted-image"
+                fill
+              />
             )}
           </div>
           <div className="text">
@@ -282,6 +293,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
         justify-content: center;
         align-items: center;
       }
+
       .text {
         height: 60%;
         display: flex;
@@ -309,11 +321,15 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
         }
 
         @media (min-width: 992px) {
+          position: relative;
           height: 100%;
           font-size: 42.071px;
           line-height: 141.979%; /* 85.287px */
           letter-spacing: -1.201px;
           width: unset;
+          color: #fff;
+          z-index: 10;
+          background: transparent;
         }
 
         @media (min-width: 2000px) {
@@ -325,38 +341,45 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
         }
       }
 
-      .bg-img-container-top,
-      .bg-img-container-bottom {
+      // .bg-img-container-top,
+      .bg-img-container {
         position: absolute;
         width: 100%;
         height: 50%;
 
+        @media (min-width: 992px) {
+          height: 100%;
+          // display: none;
+          z-index: 0;
+          // width: 70vw;
+        }
+
         img {
-          // border: 1px solid red;
           opacity: 1;
           object-fit: contain;
           width: 100%;
           height: auto;
+          z-index: 0;
 
           @media (min-width: 992px) {
-            filter: invert(1);
-            object-fit: fill;
-            opacity: 0.6;
+            position: absolute;
+            object-fit: cover;
+            height: 100vh;
+            width: auto;
           }
         }
       }
 
-      .bg-img-container-bottom {
-        -webkit-transform: scaleY(-1);
-        transform: scaleY(-1);
+      .bg-img-container {
         bottom: 0;
         top: unset;
 
         @media (max-width: 992px) {
           height: 100%;
+          -webkit-transform: scaleY(-1);
+          transform: scaleY(-1);
         }
       }
     }
   }
 `;
-
