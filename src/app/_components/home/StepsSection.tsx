@@ -11,7 +11,13 @@ import TitleSubtitle from "./TitleSubtitle";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+
+// Register the ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Define proper types
 interface FlowColAProps {
@@ -50,76 +56,218 @@ export const StepsSection = styled(
     const gsapContext = useGsapContext();
     const sectionRootRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
-    const stepTitleRef = useRef<HTMLDivElement>(null);
-
+    const stepsRef = useRef<HTMLDivElement>(null);
+    
+    // Individual step refs - with proper typing
+    const stepRefs = useRef<HTMLDivElement[]>([]);
+    
     const { width } = useWindowSize();
+    const isMobile = width && width < 992;
 
     useIsomorphicLayoutEffect(() => {
-      if (!sectionRootRef.current || !titleRef.current || !stepTitleRef.current)
+      if (!sectionRootRef.current || !titleRef.current || !stepsRef.current)
         return;
 
       gsapContext.add(() => {
+        // Get all steps
+        const steps = stepRefs.current;
+        const mediaContainers = steps.map(step => step?.querySelector('.media-container'));
+        const textContainers = steps.map(step => step?.querySelector('.text-container'));
+        const mobileDescriptions = steps.map(step => step?.querySelector('.mbl-description'));
+        
         // Set initial state for content elements
         gsap.set(titleRef.current, {
           autoAlpha: 0,
           y: 75,
         });
+        
+        // Set initial state for steps
+        steps.forEach((step, index) => {
+          if (!step) return;
+          
+          // Different initial states based on even/odd index
+          const isEven = index % 2 === 0;
+          const direction = isEven ? -1 : 1;
+          
+          // Set initial states for media containers
+          if (mediaContainers[index]) {
+            gsap.set(mediaContainers[index], {
+              autoAlpha: 0,
+              x: isMobile ? 0 : (direction * 50),
+              y: isMobile ? 50 : 0,
+              scale: 0.95,
+            });
+          }
+          
+          // Set initial states for text containers
+          if (textContainers[index]) {
+            gsap.set(textContainers[index], {
+              autoAlpha: 0,
+              x: isMobile ? 0 : (direction * -50), // Opposite direction
+              y: isMobile ? 30 : 0,
+            });
+          }
+          
+          // Set initial states for mobile descriptions
+          if (mobileDescriptions[index] && isMobile) {
+            gsap.set(mobileDescriptions[index], {
+              autoAlpha: 0,
+              y: 20,
+            });
+          }
+        });
 
-        // gsap.set(stepTitleRef.current, {
-        //   autoAlpha: 0,
-        //   y: 50,
-        // });
-
-        const tl = gsap.timeline({
+        // Main timeline for intro title animation
+        const mainTl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRootRef.current,
-            start: "top 65%",
+            start: "top 70%",
             end: "top 30%",
-            scrub: 0.5,
-             markers: false, // Set to true for debugging, false for production
+            scrub: 1.2,
+            // markers: false,
           },
         });
 
-        tl.to(titleRef.current, {
+        mainTl.to(titleRef.current, {
           autoAlpha: 1,
           y: 0,
-          duration: 0.5,
+          duration: 0.8,
+          ease: "power2.out",
+        });
+        
+        // Create separate timelines for each step
+        steps.forEach((step, index) => {
+          if (!step) return;
+          
+          const stepTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: step,
+              start: "top 75%", // Start animation when step is 75% in viewport
+              end: "center center", // End when step is centered
+              scrub: 1,
+              // markers: false,
+            },
+          });
+          
+          // Different animation sequences based on mobile/desktop
+          if (isMobile) {
+            // Mobile animations - vertical sequence
+            if (textContainers[index]) {
+              stepTl.to(textContainers[index], {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.7,
+                ease: "power2.out",
+              });
+            }
+            
+            if (mediaContainers[index]) {
+              stepTl.to(mediaContainers[index], {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.7,
+                ease: "power2.out",
+              }, ">-0.3"); // Slight overlap
+            }
+            
+            if (mobileDescriptions[index]) {
+              stepTl.to(mobileDescriptions[index], {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.5,
+                ease: "power2.out",
+              }, ">-0.2");
+            }
+          } else {
+            // Desktop animations - horizontal sequence
+            const isEven = index % 2 === 0;
+            
+            // For even items, animate image first
+            if (isEven) {
+              if (mediaContainers[index]) {
+                stepTl.to(mediaContainers[index], {
+                  autoAlpha: 1,
+                  x: 0,
+                  scale: 1,
+                  duration: 0.7,
+                  ease: "power2.out",
+                });
+              }
+              
+              if (textContainers[index]) {
+                stepTl.to(textContainers[index], {
+                  autoAlpha: 1,
+                  x: 0,
+                  duration: 0.7,
+                  ease: "power2.out",
+                }, ">-0.4");
+              }
+            } else {
+              // For odd items, animate text first
+              if (textContainers[index]) {
+                stepTl.to(textContainers[index], {
+                  autoAlpha: 1,
+                  x: 0,
+                  duration: 0.7,
+                  ease: "power2.out",
+                });
+              }
+              
+              if (mediaContainers[index]) {
+                stepTl.to(mediaContainers[index], {
+                  autoAlpha: 1,
+                  x: 0,
+                  scale: 1,
+                  duration: 0.7,
+                  ease: "power2.out",
+                }, ">-0.4");
+              }
+            }
+          }
         });
 
         return () => {
-          // Clean up this specific ScrollTrigger
-          if (tl.scrollTrigger) {
-            tl.scrollTrigger.kill();
+          // Clean up ScrollTriggers properly
+          if (mainTl.scrollTrigger) {
+            mainTl.scrollTrigger.kill();
           }
+          
+          // Kill all scroll triggers for step timelines
+          ScrollTrigger.getAll().forEach(trigger => {
+            trigger.kill();
+          });
         };
       });
 
       return () => {
         gsapContext.revert();
       };
-    }, [width, gsapContext]);
-
-    // Debugging check
-    console.log("Rendering StepsSection with items:", flowItems?.length);
+    }, [width, gsapContext, isMobile]);
 
     return (
       <section className={className} ref={sectionRootRef}>
         <div className="steps-container">
-          
-            <div ref={titleRef}>
-              <TitleSubtitle
-                title={`"We've got your back, 
+          <div ref={titleRef}>
+            <TitleSubtitle
+              title={`"We've got your back, 
 Let's `}
-                redspan={`Make it happen."`}
-                subtitle={`"No fluff. No big promises. Just real conversations 
+              redspan={`Make it happen."`}
+              subtitle={`"No fluff. No big promises. Just real conversations 
 with mentors who get things done. Here's how we help you step up."`}
-              />
-            </div>
+            />
+          </div>
           
-          <div className="steps">
+          <div className="steps" ref={stepsRef}>
             {flowItems && flowItems.length > 0 ? (
               flowItems.map((item, idx) => (
-                <div className="step" key={idx}>
+                <div 
+                  className="step" 
+                  key={idx}
+                  ref={el => {
+                    if (el) stepRefs.current[idx] = el;
+                  }}
+                >
                   <div className="text-container">
                     <div className="text-a">
                       <div className="icon-container">
@@ -127,7 +275,7 @@ with mentors who get things done. Here's how we help you step up."`}
                       </div>
                     </div>
                     <div className="text-b">
-                      <h2 className="title" ref={stepTitleRef}>
+                      <h2 className="title">
                         {item?.colB?.title}
                       </h2>
                       <p className="description">{item?.colB?.subtitle}</p>
@@ -135,7 +283,6 @@ with mentors who get things done. Here's how we help you step up."`}
                   </div>
                   <div className="media-container">
                     <div className="img-container">
-                      {" "}
                       <Image
                         src={item?.colC?.img}
                         alt={`Step ${idx + 1}: ${
@@ -197,6 +344,7 @@ with mentors who get things done. Here's how we help you step up."`}
 
     .titleSubWr {
       overflow: hidden;
+      will-change: transform, opacity;
     }
 
     .steps {
@@ -219,6 +367,7 @@ with mentors who get things done. Here's how we help you step up."`}
         align-items: center;
         flex-direction: column;
         gap: 13px;
+        will-change: transform, opacity; /* Performance optimization */
 
         @media (min-width: 992px) {
           flex-direction: row;
@@ -445,7 +594,7 @@ with mentors who get things done. Here's how we help you step up."`}
           display: flex;
           gap: 8px;
           justify-content: flex-start;
-          // will-change: transform, opacity; /* Performance optimization */
+          will-change: transform, opacity; /* Performance optimization */
 
           @media (min-width: 992px) {
             justify-content: center;
@@ -562,7 +711,7 @@ with mentors who get things done. Here's how we help you step up."`}
           justify-content: center;
           align-items: center;
           overflow: hidden;
-          // will-change: transform, opacity; /* Performance optimization */
+          will-change: transform, opacity, scale; /* Performance optimization */
 
           @media (min-width: 992px) {
             border-radius: 18px;
@@ -619,7 +768,7 @@ with mentors who get things done. Here's how we help you step up."`}
           text-align: center;
           line-height: 141.979%; /* 25.556px */
           max-width: 85%;
-          // will-change: opacity, transform; /* Performance optimization */
+          will-change: opacity, transform; /* Performance optimization */
 
           @media (min-width: 992px) {
             display: none;
