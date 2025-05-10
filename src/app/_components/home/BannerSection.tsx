@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { containerSidePadding } from "./styleConstants";
 import { sectionResponsivePadding } from "../new_mixins/mixins";
 import TitleSubtitle from "./TitleSubtitle";
+import { useRef } from "react";
+import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
+import gsap from "gsap";
 
 interface BannerItemProps {
   head: string | React.ReactNode;
@@ -22,24 +27,97 @@ export const BannerSection = styled(
     className?: string;
     bannerContent?: BannerProps;
   }) => {
+    const rootContainerRef = useRef<HTMLDivElement>(null);
+    const bannerItemsRef = useRef<HTMLDivElement>(null);
+    const gsapContext = useGsapContext();
+    const { width } = useWindowSize();
+    const titleRef = useRef<HTMLDivElement>(null);
+
+    useIsomorphicLayoutEffect(() => {
+      if (!rootContainerRef.current || !bannerItemsRef.current) return;
+
+      gsapContext.add(() => {
+        // Get banner items and title
+        const bannerItems = bannerItemsRef.current?.querySelectorAll(".banner-item");
+
+        if (!bannerItems || bannerItems.length === 0) {
+          console.warn("No banner items found to animate");
+          return;
+        }
+
+        // Set initial state for elements
+        gsap.set(bannerItems, {
+          autoAlpha: 0,
+          y: 60, // Increase starting offset for smoother entry
+        });
+
+        gsap.set(titleRef.current, {
+          autoAlpha: 0,
+          y: 60,
+        });
+
+        // Create master timeline
+        const masterTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: rootContainerRef.current,
+            start: "top 70%", // Start animation when top of section hits 70% of viewport
+            end: "center center", // End when center of section is at center of viewport
+            scrub: 1.5, // Slower, smoother scrubbing effect (higher number = slower scrub)
+            // markers: false, // Remove this for production
+          },
+        });
+
+        // First animate the title with a nice ease
+        masterTl.to(titleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8, // Longer duration for smoother animation
+          ease: "power2.out", // Smoother ease
+        });
+
+        // Then stagger the banner items one by one with a slower sequence
+        bannerItems.forEach((item) => {
+          masterTl.to(
+            item,
+            {
+              autoAlpha: 1,
+              y: 0, 
+              duration: 0.8, // Longer duration for smoother animation
+              ease: "power1.inOut", // Gentler ease
+            },
+            `>-0.5` // Start a bit before previous animation ends for a smoother overlap
+          );
+        });
+
+        return () => {
+          // Clean up this specific ScrollTrigger
+          if (masterTl.scrollTrigger) {
+            masterTl.scrollTrigger.kill();
+          }
+        };
+      });
+
+      return () => {
+        gsapContext.revert();
+      };
+    }, [width, gsapContext]);
+
     return (
-      <section className={className}>
+      <section className={className} ref={rootContainerRef}>
         <div className="banner-container">
-          <div className="title-container">
+          <div className="title-container" ref={titleRef}>
             <TitleSubtitle
               title={bannerContent?.title}
               subtitle={bannerContent?.description}
               theme="light"
             />
-            {/* <h3 className="title">{bannerContent?.title}</h3> */}
             <div className="circled-container"></div>
           </div>
-          {/* <p className="subtitle">{bannerContent?.description}</p> */}
           <div className="banner-items-container">
-            <div className="banner-items">
+            <div className="banner-items" ref={bannerItemsRef}>
               {bannerContent?.banners?.map((item, idx) => {
                 return (
-                  <div className="banner-item" key={idx}>
+                  <div className={`banner-item banner-item-${idx}`} key={idx}>
                     <h3 className="head">{item?.head}</h3>
                     <p className="description">{item?.description}</p>
                   </div>
@@ -72,9 +150,9 @@ export const BannerSection = styled(
     justify-content: center;
     align-items: center;
     gap: 16px;
- ${sectionResponsivePadding()}
+    ${sectionResponsivePadding()}
+
     @media (min-width: 992px) {
-     
       gap: 17px;
     }
 
@@ -84,6 +162,8 @@ export const BannerSection = styled(
 
     .title-container {
       position: relative;
+      will-change: transform, opacity; /* Performance optimization */
+      
       .title {
         margin: 0;
         color: #000;
@@ -139,7 +219,7 @@ export const BannerSection = styled(
       justify-content: center;
 
       @media (min-width: 992px) {
-      justify-content: unset;
+        justify-content: unset;
         width: unset;
         padding: 14px 0px 20px 0px;
 
@@ -193,7 +273,7 @@ export const BannerSection = styled(
         max-width: 1030px;
 
         @media (min-width: 992px) {
-         width: unset;
+          width: unset;
           flex-direction: row;
           flex-wrap: wrap;
           gap: 10px;
@@ -219,10 +299,11 @@ export const BannerSection = styled(
           flex-grow: 0;
           justify-content: space-between;
           align-items: center;
-
+          will-change: transform, opacity; /* Performance optimization */
+          transform-origin: center center;
 
           @media (min-width: 992px) {
-          flex-direction: column-reverse;
+            flex-direction: column-reverse;
             border-radius: 5.62px;
             width: 259px;
             height: 260px;
@@ -233,8 +314,6 @@ export const BannerSection = styled(
             width: 368px;
             height: 368px;
           }
-
-
 
           &:nth-child(odd) {
             padding: 8px 16px;
@@ -294,10 +373,9 @@ export const BannerSection = styled(
             display: flex;
             align-items: center;
 
-
             @media (min-width: 992px) {
-            display: unset;
-            margin : unset;
+              display: unset;
+              margin: unset;
               font-size: 18px;
               padding: 0 5px;
             }

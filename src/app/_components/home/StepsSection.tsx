@@ -52,10 +52,11 @@ export const StepsSection = styled(
     const titleRef = useRef<HTMLDivElement>(null);
     const stepTitleRef = useRef<HTMLDivElement>(null);
 
-     const { width } = useWindowSize();
+    const { width } = useWindowSize();
 
     useIsomorphicLayoutEffect(() => {
-      if (!sectionRootRef.current || !titleRef.current || !stepTitleRef.current) return;
+      if (!sectionRootRef.current || !titleRef.current || !stepTitleRef.current)
+        return;
 
       gsapContext.add(() => {
         // Set initial state for content elements
@@ -68,37 +69,34 @@ export const StepsSection = styled(
         //   autoAlpha: 0,
         //   y: 50,
         // });
-      
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRootRef.current,
-          start: "-25% top", // Trigger when 30% of section of previous section is visible
-          end: "20% top",
-          scrub: 0.5,
-          // markers: true, // Set to true for debugging, false for production
-        },
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRootRef.current,
+            start: "top 65%",
+            end: "top 30%",
+            scrub: 0.5,
+             markers: false, // Set to true for debugging, false for production
+          },
+        });
+
+        tl.to(titleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+        });
+
+        return () => {
+          // Clean up this specific ScrollTrigger
+          if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
+          }
+        };
       });
-
-      tl.to(titleRef.current, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.5,
-      })
-
-
-      return () => {
-        // Clean up this specific ScrollTrigger
-        if (tl.scrollTrigger) {
-          tl.scrollTrigger.kill();
-        }
-      };
-    });
 
       return () => {
         gsapContext.revert();
       };
-
     }, [width, gsapContext]);
 
     // Debugging check
@@ -107,31 +105,31 @@ export const StepsSection = styled(
     return (
       <section className={className} ref={sectionRootRef}>
         <div className="steps-container">
-          <div ref={titleRef}>
-            <TitleSubtitle
-              title={`"We've got your back, 
+          
+            <div ref={titleRef}>
+              <TitleSubtitle
+                title={`"We've got your back, 
 Let's `}
-              redspan={`Make it happen."`}
-              subtitle={`"No fluff. No big promises. Just real conversations 
+                redspan={`Make it happen."`}
+                subtitle={`"No fluff. No big promises. Just real conversations 
 with mentors who get things done. Here's how we help you step up."`}
-            />
-          </div>
-          <div className="steps" >
+              />
+            </div>
+          
+          <div className="steps">
             {flowItems && flowItems.length > 0 ? (
               flowItems.map((item, idx) => (
-                <div
-                  className="step"
-                  key={idx}
-                 
-                >
-                  <div className="text-container" >
+                <div className="step" key={idx}>
+                  <div className="text-container">
                     <div className="text-a">
                       <div className="icon-container">
                         {/* <Image src={item?.colB?.img} alt={item?.colB?.img} fill /> */}
                       </div>
                     </div>
-                    <div className="text-b" >
-                      <h2 className="title" ref={stepTitleRef}>{item?.colB?.title}</h2>
+                    <div className="text-b">
+                      <h2 className="title" ref={stepTitleRef}>
+                        {item?.colB?.title}
+                      </h2>
                       <p className="description">{item?.colB?.subtitle}</p>
                     </div>
                   </div>
@@ -149,9 +147,7 @@ with mentors who get things done. Here's how we help you step up."`}
                       />
                     </div>
                   </div>
-                  <p className="mbl-description" >
-                    {item?.colB?.subtitle}
-                  </p>
+                  <p className="mbl-description">{item?.colB?.subtitle}</p>
                 </div>
               ))
             ) : (
@@ -198,6 +194,11 @@ with mentors who get things done. Here's how we help you step up."`}
       padding: 150px 0 152px 0;
       gap: 130px;
     }
+
+    .titleSubWr {
+      overflow: hidden;
+    }
+
     .steps {
       position: relative;
       width: 100%;
