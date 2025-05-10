@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ClientProviders from "./_components/ClientProviders";
+import { GsapProvider } from './_components/GsapProvider';
 
 const geistSans = Exo_2({
   variable: "--font-exo",
@@ -14,6 +15,7 @@ const getFustat = Fustat({
   variable: "--font-fustat",
   subsets: ["latin"],
 });
+
 
 export const metadata: Metadata = {
   title: "Your Mentorship Network - Community that leads together",
@@ -40,6 +42,7 @@ export const viewport = {
   // Any other viewport configurations
 }
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,9 +51,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${getFustat.variable} ${styles.body}`}>
+        <GsapProvider>
         <ClientProviders>
           {children}
         </ClientProviders>
+        </GsapProvider>
         <SpeedInsights />
       </body>
     </html>

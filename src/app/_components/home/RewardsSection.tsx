@@ -7,9 +7,9 @@ import {
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import { useState, useEffect, useRef } from "react";
-import { useGsapComponent } from "@/app/_contexts/GsapContext";
-import gsap from "gsap";
+import { useState, useRef } from "react";
+
+// import gsap from "gsap";
 import { RedSpan } from "../dashboard/styled";
 
 // Define the question data structure
@@ -27,10 +27,11 @@ export const RewardsSection = styled(
   ({ className }: { className?: string }) => {
     const { width } = useWindowSize();
     const isMobile = width && width < 992;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [currentStep, setCurrentStep] = useState(0);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isCompleted, setIsCompleted] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
-    const { createAnimation, isMounted } = useGsapComponent("rewards-section");
 
     // Initialize questions
     const [questions, setQuestions] = useState<Question[]>([
@@ -105,82 +106,82 @@ export const RewardsSection = styled(
     // Handle next button click
     const handleNext = () => {
       // Check if any option is selected
-      const hasSelection = questions[currentStep].options.some(
-        (option) => option.selected
-      );
+      // const hasSelection = questions[currentStep].options.some(
+      //   (option) => option.selected
+      // );
 
-      if (!hasSelection) return; // Don't proceed if no option is selected
+      // if (!hasSelection) return; // Don't proceed if no option is selected
 
-      if (currentStep < questions.length - 1) {
-        // Animate progress bar to next step
-        if (isMounted) {
-          createAnimation(".progress", (el) => {
-            return gsap.to(el, {
-              width: `${((currentStep + 1) / questions.length) * 100}%`,
-              duration: 0.4,
-              ease: "power2.inOut",
-              onComplete: () => {
-                setCurrentStep((prev) => prev + 1);
-              },
-            });
-          });
-        } else {
-          setCurrentStep((prev) => prev + 1);
-        }
-      } else {
-        // Complete the survey and fill progress bar to 100%
-        if (isMounted) {
-          createAnimation(".progress", (el) => {
-            return gsap.to(el, {
-              width: "100%", // Ensure it's 100%
-              duration: 0.4,
-              ease: "power2.inOut",
-            });
-          });
+      // if (currentStep < questions.length - 1) {
+      //   // Animate progress bar to next step
+      //   if (isMounted) {
+      //     createAnimation(".progress", (el) => {
+      //       return gsap.to(el, {
+      //         width: `${((currentStep + 1) / questions.length) * 100}%`,
+      //         duration: 0.4,
+      //         ease: "power2.inOut",
+      //         onComplete: () => {
+      //           setCurrentStep((prev) => prev + 1);
+      //         },
+      //       });
+      //     });
+      //   } else {
+      //     setCurrentStep((prev) => prev + 1);
+      //   }
+      // } else {
+      //   // Complete the survey and fill progress bar to 100%
+      //   if (isMounted) {
+      //     createAnimation(".progress", (el) => {
+      //       return gsap.to(el, {
+      //         width: "100%", // Ensure it's 100%
+      //         duration: 0.4,
+      //         ease: "power2.inOut",
+      //       });
+      //     });
 
-          // Set a delay before showing completion to ensure animation finishes
-          setTimeout(() => {
-            setIsCompleted(true);
-          }, 500);
-        } else {
-          setIsCompleted(true);
-        }
-      }
+      //     // Set a delay before showing completion to ensure animation finishes
+      //     setTimeout(() => {
+      //       setIsCompleted(true);
+      //     }, 500);
+      //   } else {
+      //     setIsCompleted(true);
+      //   }
+      // }
     };
 
     // Initialize useEffect for progress bar updates
-    useEffect(() => {
-      if (isMounted && !isCompleted) {
-        // Animate progress bar based on current step
-        createAnimation(".progress", (el) => {
-          return gsap.to(el, {
-            width: `${(currentStep / questions.length) * 100}%`,
-            duration: 0.5,
-            ease: "power2.out",
-          });
-        });
-      }
-    }, [
-      isMounted,
-      createAnimation,
-      currentStep,
-      isCompleted,
-      questions.length,
-    ]);
+    // useEffect(() => {
+    //   if (isMounted && !isCompleted) {
+    //     // Animate progress bar based on current step
+    //     createAnimation(".progress", (el) => {
+    //       return gsap.to(el, {
+    //         width: `${(currentStep / questions.length) * 100}%`,
+    //         duration: 0.5,
+    //         ease: "power2.out",
+    //       });
+    //     });
+    //   }
+    // }, [
+    //   isMounted,
+    //   createAnimation,
+    //   currentStep,
+    //   isCompleted,
+    //   questions.length,
+    // ]);
 
-    useEffect(() => {
-      // When isCompleted changes to true, ensure the progress bar is at 100%
-      if (isCompleted && isMounted) {
-        // Force the progress to 100% when completion screen is shown
-        createAnimation(".progress", (el) => {
-          return gsap.to(el, {
-            width: "100%",
-            duration: 0.1,
-            ease: "none",
-          });
-        });
-      }
-    }, [isCompleted, isMounted, createAnimation]);
+    // useEffect(() => {
+    //   // When isCompleted changes to true, ensure the progress bar is at 100%
+    //   if (isCompleted && isMounted) {
+    //     // Force the progress to 100% when completion screen is shown
+    //     createAnimation(".progress", (el) => {
+    //       return gsap.to(el, {
+    //         width: "100%",
+    //         duration: 0.1,
+    //         ease: "none",
+    //       });
+    //     });
+    //   }
+    // }, [isCompleted, isMounted, createAnimation]);
 
     const currentQuestion = questions[currentStep];
 

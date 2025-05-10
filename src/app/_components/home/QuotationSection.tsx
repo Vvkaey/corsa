@@ -1,5 +1,15 @@
+"use client";
+
 import styled from "styled-components";
 import { sectionResponsivePadding } from "../new_mixins/mixins";
+import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
+import { useRef } from "react";
+import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import gsap from "gsap";
+
+// No registration here - it's done in GsapProvider
+
 export const QuotationSection = styled(
   ({
     className,
@@ -10,89 +20,141 @@ export const QuotationSection = styled(
     description?: string | React.ReactNode;
     author?: string | React.ReactNode;
   }) => {
+    const gsapContext = useGsapContext();
+    const quoteRef = useRef<HTMLParagraphElement>(null);
+    const authorRef = useRef<HTMLParagraphElement>(null);
+    const sectionRootRef = useRef<HTMLDivElement>(null);
+    const { width } = useWindowSize();
+
+    useIsomorphicLayoutEffect(() => {
+      if (!sectionRootRef.current || !quoteRef.current || !authorRef.current)
+        return;
+
+      gsapContext.add(() => {
+        // Set initial state for content elements
+        gsap.set([quoteRef.current, authorRef.current], {
+          autoAlpha: 0,
+          y: 50,
+        });
+
+        // Create animation timeline for content
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRootRef.current,
+            start: "-30% top", // Trigger when 30% of section is scrolled
+            end: "20% top",
+            scrub: 0.5,
+            markers: false, // Set to true for debugging, false for production
+          },
+        });
+
+        // Animate quote and author together with a slight stagger
+        tl.to(quoteRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.3,
+        })
+        .to(authorRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.2,
+        }, "-=0.2"); // Start author animation when quote is 2/3 done
+
+        return () => {
+          // Clean up this specific ScrollTrigger
+          if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
+          }
+        };
+      });
+
+      return () => {
+        gsapContext.revert();
+      };
+    }, [width, gsapContext]);
+
     return (
-      <section className={className}>
-        <div className="img-container">
-          {/* <Image src={"/quotation/q_vid.gif"} alt="quotation-img" fill priority={true}/> */}
+      <section className={className} ref={sectionRootRef} data-scroll-section>
+        <div className="video-wrapper">
+          <video
+            autoPlay
+            loop
+            muted
+            src="/light-red.mp4"
+            className="background-video"
+          />
+          <div className="overlay"></div>
         </div>
-        <div className="content">
-          <p className="quote">{description}</p>
-          <p className="author">{author}</p>
-        </div>
-        <div className="unicorn-studio">
-          <video autoPlay loop muted src="/light-red.mp4" />
+
+        <div className="content-container">
+          <p className="quote" ref={quoteRef}>
+            {description}
+          </p>
+          <p className="author" ref={authorRef}>
+            {author}
+          </p>
         </div>
       </section>
     );
   }
 )`
   position: relative;
-  height: 100vh;
+  height: 100vh; /* Tall section to ensure scrolling */
   width: 100%;
-  font-family: var(--font-exo);
+  background: #000000;
 
-  @media (min-width: 992px) {
-    margin: 0 0 100px 0;
-  }
-
-  .unicorn-studio {
-    width: 100%;
-    height: 100%;
-    position: absolute;
+  /* Video wrapper - this is the element that sticks */
+  .video-wrapper {
+    position: sticky;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100vh;
     overflow: hidden;
+    z-index: 1;
 
-    &::before {
+    /* The actual video */
+    .background-video {
       position: absolute;
-      content: "";
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.65);
-      z-index: 1;
       top: 0;
       left: 0;
-    }
-
-    video {
-      position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    /* Dark overlay */
+    .overlay {
+      position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 2;
     }
   }
 
-  .img-container {
-    width: 100%;
-    height: 100%;
+  /* Content container - this also sticks to overlay the video */
+  .content-container {
     position: absolute;
     top: 0;
     left: 0;
-    background: #000;
-    img {
-      position: absolute;
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-    }
-  }
-  .content {
-    position: relative;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 54px;
-    z-index: 5;
-    background: rgba(0, 0, 0, 0.4);
+    z-index: 10;
     ${sectionResponsivePadding()};
+    pointer-events: none; /* Allow clicks to pass through to video if needed */
+    font-family: var(--font-exo);
     @media (min-width: 992px) {
       gap: 14px;
     }
+
     .quote {
       width: 90%;
       margin: 0;
@@ -115,6 +177,7 @@ export const QuotationSection = styled(
         letter-spacing: 0.78px;
       }
     }
+
     .author {
       margin: 0;
       color: #898989;
@@ -136,4 +199,18 @@ export const QuotationSection = styled(
       }
     }
   }
+
+  /* Hide anything below the viewport */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100vh; /* Start after first viewport */
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Cover the rest of the section */
+    background-color: #000; /* Match section background */
+    z-index: 0; /* Below the sticky elements */
+  }
 `;
+
+export default QuotationSection;
