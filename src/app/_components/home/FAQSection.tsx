@@ -1,10 +1,22 @@
+"use client";
+
 import styled from "styled-components";
 import { CaretUp } from "@/app/_assets/icons";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   maxWidthContainer,
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
+import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
+import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+
+// Register the ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface FaqDataProps {
   ques?: string | React.ReactNode;
@@ -12,10 +24,12 @@ interface FaqDataProps {
 }
 
 const ContentBox = styled(
-  ({ className, data }: { className?: string; data?: FaqDataProps }) => {
+  ({ className, data }: { className?: string; data?: FaqDataProps; index: number }) => {
     const [showDescription, setShowDescription] = useState(false);
+    const contentRef = useRef<HTMLDivElement>(null);
+    
     return (
-      <div className={className}>
+      <div className={className} ref={contentRef}>
         <button
           className="ques-container"
           onClick={() => setShowDescription((prev) => !prev)}
@@ -24,7 +38,7 @@ const ContentBox = styled(
           <CaretUp
             style={{
               transform: `rotate(${showDescription ? "0deg" : "180deg"})`,
-              transition: "transform 0.3s ease-in-out",
+              transition: "transform 0.27s ease-in-out", /* 10% faster */
             
             }}
           />
@@ -39,6 +53,10 @@ const ContentBox = styled(
   display: flex;
   flex-direction: column;
   width: 100%;
+  opacity: 0; /* Initially hidden for animation */
+  transform: translateY(20px); /* Reduced from 30px for faster animation */
+  transition: opacity 0.45s ease, transform 0.45s ease; /* 10% faster transitions */
+  will-change: transform, opacity;
 
   .ques-container {
     overflow: hidden;
@@ -101,7 +119,7 @@ const ContentBox = styled(
   .description-wrapper {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1); /* 10% faster */
   }
 
   .description-wrapper.open {
@@ -117,8 +135,8 @@ const ContentBox = styled(
     font-style: normal;
     line-height: 120%;
     padding: 0; /* Start with no padding */
-    transition: opacity 0.4s ease 0.1s,
-      /* Slight delay on opacity */ transform 0.4s ease, padding 0.4s ease;
+    transition: opacity 0.36s ease 0.09s, /* 10% faster transitions */
+      transform 0.36s ease, padding 0.36s ease;
     transform: translateY(0);
     opacity: 0; /* Start invisible */
 
@@ -151,6 +169,12 @@ const ContentBox = styled(
       padding-left: 10px; /* No padding when closed */
     }
   }
+  
+  /* Animation class added by GSAP */
+  &.fadeIn {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;
 
 export const FAQSection = styled(
@@ -163,16 +187,104 @@ export const FAQSection = styled(
     title?: string;
     data?: FaqDataProps[];
   }) => {
+    const sectionRef = useRef<HTMLElement>(null);
+    const titleRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    // const faqItemsRef = useRef<HTMLDivElement[]>([]);
+    
+    const gsapContext = useGsapContext();
+    const { width } = useWindowSize();
+    const isMobile = width && width < 992;
+    
+    useIsomorphicLayoutEffect(() => {
+      if (!sectionRef.current || !titleRef.current || !contentRef.current) return;
+      
+      gsapContext.add(() => {
+        // Get all FAQ boxes
+        const faqItems = contentRef.current?.querySelectorAll('.faq-item');
+        
+        // Set initial states
+        gsap.set(titleRef.current, {
+          autoAlpha: 0,
+          y: 50,
+        });
+        
+        // Create primary timeline
+        const mainTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "top 35%", // Shorter end point for faster completion
+            scrub: 1, // Reduced from 1.2 for faster animation
+          },
+        });
+        
+        // Animate title
+        mainTl.to(titleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7, // Reduced from 0.8 (10% faster)
+          ease: "power2.out",
+        });
+        
+        // Create a single timeline for all FAQ items for better synchronization
+        const faqTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: "top 80%",
+            end: "top 40%", // Shorter end point for faster completion
+            scrub: 0.7, // Faster scrub
+          }
+        });
+        
+        // Add all FAQ items to the same timeline for better sync
+        if (faqItems && faqItems.length) {
+          faqItems.forEach((item, index) => {
+            // Stagger but with faster timing
+            faqTl.to(item, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6, // Reduced from 0.7 (10% faster)
+              ease: "power2.out",
+            }, index * 0.08); // Reduced stagger time for faster sequence
+          });
+        }
+        
+        return () => {
+          // Clean up ScrollTriggers properly
+          if (mainTl.scrollTrigger) {
+            mainTl.scrollTrigger.kill();
+          }
+          
+          // Kill all scroll triggers
+          ScrollTrigger.getAll().forEach(trigger => {
+            trigger.kill();
+          });
+        };
+      });
+      
+      return () => {
+        gsapContext.revert();
+      };
+    }, [width, gsapContext, isMobile, data]);
+    
     return (
-      <section className={className} id="faq-section">
+      <section className={className} id="faq-section" ref={sectionRef}>
         <div className="faq-container">
-          <div className="title-container">
+          <div className="title-container" ref={titleRef}>
             <h2 className="title">{title}</h2>
           </div>
-          <div className="content-container">
+          <div className="content-container" ref={contentRef}>
             {data?.length
-              ? data.map((data, idx) => {
-                  return <ContentBox key={idx} data={data} />;
+              ? data.map((item, idx) => {
+                  return (
+                    <ContentBox 
+                      key={idx} 
+                      data={item} 
+                      index={idx}
+                      className="faq-item"
+                    />
+                  );
                 })
               : null}
           </div>
@@ -204,7 +316,6 @@ export const FAQSection = styled(
 
     @media (min-width: 992px) {
       gap: unset;
-
       flex-direction: row;
     }
 
@@ -221,6 +332,7 @@ export const FAQSection = styled(
 
     .title-container {
       display: flex;
+      will-change: transform, opacity;
 
       .title {
         width: 100%;
