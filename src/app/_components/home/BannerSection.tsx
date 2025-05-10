@@ -37,8 +37,11 @@ export const BannerSection = styled(
       if (!rootContainerRef.current || !bannerItemsRef.current) return;
 
       gsapContext.add(() => {
-        // Get banner items and title
+        // Get banner items, title, and vertical line elements
         const bannerItems = bannerItemsRef.current?.querySelectorAll(".banner-item");
+        const bannerContainer = bannerItemsRef.current?.closest(".banner-items-container");
+        const verticalDot = bannerContainer?.querySelector(".vertical-dot");
+        const verticalLine = bannerContainer?.querySelector(".vertical-line");
 
         if (!bannerItems || bannerItems.length === 0) {
           console.warn("No banner items found to animate");
@@ -55,6 +58,21 @@ export const BannerSection = styled(
           autoAlpha: 0,
           y: 60,
         });
+
+        // Set initial state for the dot and line
+        if (verticalDot) {
+          gsap.set(verticalDot, {
+            autoAlpha: 0,
+            scale: 0.5,
+          });
+        }
+
+        if (verticalLine) {
+          gsap.set(verticalLine, {
+            scaleY: 0,
+            transformOrigin: "top center",
+          });
+        }
 
         // Create master timeline
         const masterTl = gsap.timeline({
@@ -74,6 +92,25 @@ export const BannerSection = styled(
           duration: 0.8, // Longer duration for smoother animation
           ease: "power2.out", // Smoother ease
         });
+
+        // Animate the dot
+        if (verticalDot) {
+          masterTl.to(verticalDot, {
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+          }, ">-0.3");
+        }
+
+        // Animate the vertical line growing down
+        if (verticalLine) {
+          masterTl.to(verticalLine, {
+            scaleY: 1,
+            duration: 1.2,
+            ease: "power1.inOut",
+          }, ">-0.4");
+        }
 
         // Then stagger the banner items one by one with a slower sequence
         bannerItems.forEach((item) => {
@@ -114,6 +151,9 @@ export const BannerSection = styled(
             <div className="circled-container"></div>
           </div>
           <div className="banner-items-container">
+            {/* Adding vertical dot and line elements for animation */}
+            <div className="vertical-dot"></div>
+            <div className="vertical-line"></div>
             <div className="banner-items" ref={bannerItemsRef}>
               {bannerContent?.banners?.map((item, idx) => {
                 return (
@@ -222,29 +262,27 @@ export const BannerSection = styled(
         justify-content: unset;
         width: unset;
         padding: 14px 0px 20px 0px;
-
-        &::before {
-          display: inline;
+        position: relative;
+        
+        /* The vertical dot and line elements will be animated instead of using pseudo-elements */
+        .vertical-dot {
           position: absolute;
           left: -10.5px;
           top: calc(10% - 11px);
-          content: "";
           height: 22px;
           width: 22px;
           background-color: #fff;
           border: 1px solid #000;
           border-radius: 50%;
-          display: inline-block;
           z-index: 1;
+          will-change: transform, opacity;
         }
-
-        &::after {
-          display: inline;
+        
+        .vertical-line {
           position: absolute;
           left: 0;
-          bottom: 0;
-          content: "";
-          height: 100%;
+          top: calc(10% + 11px); /* Position right below the dot */
+          height: calc(90% - 11px); /* Cover rest of the container height */
           width: 1.5px;
           background: linear-gradient(
             180deg,
@@ -253,8 +291,9 @@ export const BannerSection = styled(
             #f1f1f1 94.77%,
             #fff 140.93%
           );
-          display: inline-block;
           z-index: 0;
+          will-change: transform;
+          transform-origin: top center;
         }
       }
 
