@@ -1,5 +1,13 @@
 import styled from "styled-components";
-import { maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
+import {
+  maxWidthContainer,
+  sectionResponsivePadding,
+} from "../new_mixins/mixins";
+import { useRef } from "react";
+import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
+import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import gsap from "gsap";
 
 export const Card = styled(({ className }: { className?: string }) => {
   return (
@@ -169,11 +177,11 @@ const Institute = styled.p`
   font-weight: 600;
   line-height: 141.979%; /* 28.396px */
 
-    @media (min-width: 992px) {
+  @media (min-width: 992px) {
     font-size: 14px;
   }
   @media (min-width: 1950px) {
-     font-size: 20px;
+    font-size: 20px;
   }
 `;
 
@@ -186,13 +194,13 @@ const Content = styled.div`
   margin: 0 30px 0 120px;
 
   @media (min-width: 992px) {
-  margin: 0 0 0 70px;
-   gap: 70px;
+    margin: 0 0 0 70px;
+    gap: 70px;
   }
   @media (min-width: 1950px) {
-  margin: 0 30px 0 120px;
-   gap: 100px;
-}
+    margin: 0 30px 0 120px;
+    gap: 100px;
+  }
 `;
 
 const Text = styled.div`
@@ -209,12 +217,12 @@ const P = styled.p`
   max-width: 40ch;
 
   @media (min-width: 992px) {
-  font-size: 17px;
-}
+    font-size: 17px;
+  }
 
   @media (min-width: 1950px) {
-  font-size: 24px;
-}
+    font-size: 24px;
+  }
 `;
 const XLCardContainer = styled.div`
   min-width: 50%;
@@ -229,11 +237,11 @@ const XLCardContainer = styled.div`
   }
 
   @media (min-width: 992px) {
-  padding: 59px 73px 46px 55px;
+    padding: 59px 73px 46px 55px;
   }
 
   @media (min-width: 1950px) {
-  padding: 84px 84px 60px 84px;
+    padding: 84px 84px 60px 84px;
   }
 `;
 
@@ -251,17 +259,16 @@ const Quote = styled.div`
   line-height: 119.982%;
 
   @media (min-width: 992px) {
-  font-size: 160px;
-  top: -45px;
-  left: -90px;
+    font-size: 160px;
+    top: -45px;
+    left: -90px;
+  }
 
-}
-
-@media (min-width: 1950px) {
-  font-size: 228px;
-  top: -65px;
-  left: -130px;
-}
+  @media (min-width: 1950px) {
+    font-size: 228px;
+    top: -65px;
+    left: -130px;
+  }
 `;
 
 const XLCard = () => {
@@ -289,11 +296,53 @@ const XLCard = () => {
 };
 
 export const CardRows = styled(({ className }: { className?: string }) => {
+  const sectionRootRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subTitleRef = useRef<HTMLHeadingElement>(null);
+  const gsapContext = useGsapContext();
+  const { width } = useWindowSize();
+
+  useIsomorphicLayoutEffect(() => {
+    if (!sectionRootRef.current || !titleRef.current || !subTitleRef) return;
+
+    gsapContext.add(() => {
+      gsap.set(titleRef.current, {
+        autoAlpha: 0,
+        y: 50,
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRootRef.current,
+          start: "top 50%",
+          end: "top 10%",
+          scrub: 0.5,
+          markers: false,
+        },
+      });
+
+      tl.to(titleRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.5,
+      })
+      
+      
+      
+    });
+
+    return () => {
+      gsapContext.revert();
+    };
+  }, [width, gsapContext]);
+
   return (
-    <section className={className}>
+    <section className={className} ref={sectionRootRef}>
       <div className="container">
-        <div className="head-container">
-          <h2 className="title">High Fives</h2>
+        <div className="head-container" ref={titleRef}>
+          <h2 className="title" >
+            High Fives
+          </h2>
           <p className="subtitle">
             What <span className="red-text">keeps us going.</span>
           </p>
@@ -364,7 +413,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
           font-size: 46px;
         }
 
-         @media (min-width: 1950px) {
+        @media (min-width: 1950px) {
           font-size: 65px;
         }
       }
@@ -377,12 +426,13 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         font-style: normal;
         font-weight: 600;
         line-height: 141.979%; /* 28.396px */
+        
 
         @media (min-width: 992px) {
           font-size: 20px;
         }
 
-         @media (min-width: 1950px) {
+        @media (min-width: 1950px) {
           font-size: 28px;
         }
       }

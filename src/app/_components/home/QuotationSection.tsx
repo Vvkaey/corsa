@@ -41,7 +41,7 @@ export const QuotationSection = styled(
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRootRef.current,
-            start: "-30% top", // Trigger when 30% of section is scrolled
+            start: "-30% top", // Trigger when 30% of section of previous section is visible
             end: "20% top",
             scrub: 0.5,
             markers: false, // Set to true for debugging, false for production
@@ -52,13 +52,14 @@ export const QuotationSection = styled(
         tl.to(quoteRef.current, {
           autoAlpha: 1,
           y: 0,
-          duration: 0.3,
+          duration: 0.5,
+
         })
         .to(authorRef.current, {
           autoAlpha: 1,
           y: 0,
           duration: 0.2,
-        }, "-=0.2"); // Start author animation when quote is 2/3 done
+        }, "-=0.25"); // Start author animation when quote is 2/3 done
 
         return () => {
           // Clean up this specific ScrollTrigger
