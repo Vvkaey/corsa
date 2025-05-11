@@ -124,9 +124,7 @@ export const PowerfulInsights = styled(
           }
         };
       });
-
-
-    }, [width]);
+    }, [width, gsapContext]);
 
     return (
       <section className={className} ref={sectionRef}>
