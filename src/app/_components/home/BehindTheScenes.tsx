@@ -9,7 +9,7 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useEffect, useRef } from "react";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const BehindTheScenes = styled(
   ({ className, htmlId }: { className?: string; htmlId?: string }) => {

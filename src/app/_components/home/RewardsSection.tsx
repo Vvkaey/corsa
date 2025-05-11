@@ -11,7 +11,7 @@ import { useState, useRef, useEffect } from "react";
 import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { RedSpan } from "../dashboard/styled";
 
 // Register the ScrollTrigger plugin
