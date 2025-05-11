@@ -63,6 +63,19 @@ export const StepsSection = styled(
     
     const { width } = useWindowSize();
     const isMobile = width && width < 992;
+    
+    // Add state to track if initial setup is complete
+    const [isInitialized, setIsInitialized] = React.useState(false);
+
+    // Helper function to check if element is in viewport
+    // const isElementInViewport = (el: HTMLElement | null) => {
+    //   if (!el) return false;
+    //   const rect = el.getBoundingClientRect();
+    //   return (
+    //     rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+    //     rect.bottom >= 0
+    //   );
+    // };
 
     useIsomorphicLayoutEffect(() => {
       if (!sectionRootRef.current || !titleRef.current || !stepsRef.current)
@@ -75,13 +88,21 @@ export const StepsSection = styled(
         const textContainers = steps.map(step => step?.querySelector('.text-container'));
         const mobileDescriptions = steps.map(step => step?.querySelector('.mbl-description'));
         
+        // *** MOBILE VISIBILITY FIX ONLY ***
+        // On mobile, ensure everything is visible initially
+        if (isMobile) {
+          // Make the container visible immediately
+          gsap.set(sectionRootRef.current, { visibility: "visible", opacity: 1 });
+          gsap.set(titleRef.current, { visibility: "visible", opacity: 1 });
+        }
+        
         // Set initial state for content elements
         gsap.set(titleRef.current, {
-          autoAlpha: 0,
-          y: 75,
+          autoAlpha: isMobile ? 1 : 0, // Always visible on mobile
+          y: isMobile ? 50 : 75,
         });
         
-        // Set initial state for steps
+        // Set initial state for steps - PRESERVE ORIGINAL ANIMATIONS
         steps.forEach((step, index) => {
           if (!step) return;
           
@@ -92,7 +113,7 @@ export const StepsSection = styled(
           // Set initial states for media containers
           if (mediaContainers[index]) {
             gsap.set(mediaContainers[index], {
-              autoAlpha: 0,
+              autoAlpha: isMobile ? 1 : 0, // Always visible on mobile
               x: isMobile ? 0 : (direction * 50),
               y: isMobile ? 50 : 0,
               scale: 0.95,
@@ -102,7 +123,7 @@ export const StepsSection = styled(
           // Set initial states for text containers
           if (textContainers[index]) {
             gsap.set(textContainers[index], {
-              autoAlpha: 0,
+              autoAlpha: isMobile ? 1 : 0, // Always visible on mobile
               x: isMobile ? 0 : (direction * -50), // Opposite direction
               y: isMobile ? 30 : 0,
             });
@@ -111,19 +132,19 @@ export const StepsSection = styled(
           // Set initial states for mobile descriptions
           if (mobileDescriptions[index] && isMobile) {
             gsap.set(mobileDescriptions[index], {
-              autoAlpha: 0,
+              autoAlpha: 1, // Always visible on mobile
               y: 20,
             });
           }
         });
 
-        // Main timeline for intro title animation
+        // Main timeline for intro title animation - KEEP ORIGINAL
         const mainTl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRootRef.current,
-            start: "top 70%",
-            end: "top 30%",
-            scrub: 1.2,
+            start: isMobile ? "top 85%" : "top 70%", // Adjust start for mobile
+            end: isMobile ? "top 60%" : "top 30%",   // Adjust end for mobile
+            scrub: isMobile ? 0.5 : 1.2, // Faster scrub on mobile
             // markers: false,
           },
         });
@@ -135,52 +156,49 @@ export const StepsSection = styled(
           ease: "power2.out",
         });
         
-        // Create separate timelines for each step
+        // Create separate timelines for each step - PRESERVE ORIGINAL WITH MOBILE FIXES
         steps.forEach((step, index) => {
           if (!step) return;
           
           const stepTl = gsap.timeline({
             scrollTrigger: {
               trigger: step,
-              start: "top 75%", // Start animation when step is 75% in viewport
-              end: "center center", // End when step is centered
-              scrub: 1,
+              start: isMobile ? "top 85%" : "top 75%", // Start animation earlier on mobile
+              end: isMobile ? "bottom 60%" : "center center", // Different end point for mobile
+              scrub: isMobile ? 0.5 : 1, // Faster scrub on mobile
               // markers: false,
             },
           });
           
-          // Different animation sequences based on mobile/desktop
+          // Different animation sequences based on mobile/desktop - KEEP ORIGINAL LOGIC
           if (isMobile) {
             // Mobile animations - vertical sequence
             if (textContainers[index]) {
               stepTl.to(textContainers[index], {
-                autoAlpha: 1,
                 y: 0,
-                duration: 0.7,
+                duration: 0.5, // Faster on mobile
                 ease: "power2.out",
               });
             }
             
             if (mediaContainers[index]) {
               stepTl.to(mediaContainers[index], {
-                autoAlpha: 1,
                 y: 0,
                 scale: 1,
-                duration: 0.7,
+                duration: 0.5, // Faster on mobile
                 ease: "power2.out",
               }, ">-0.3"); // Slight overlap
             }
             
             if (mobileDescriptions[index]) {
               stepTl.to(mobileDescriptions[index], {
-                autoAlpha: 1,
                 y: 0,
-                duration: 0.5,
+                duration: 0.3, // Faster on mobile
                 ease: "power2.out",
               }, ">-0.2");
             }
           } else {
-            // Desktop animations - horizontal sequence
+            // Desktop animations - horizontal sequence - KEEP ORIGINAL
             const isEven = index % 2 === 0;
             
             // For even items, animate image first
@@ -226,7 +244,40 @@ export const StepsSection = styled(
             }
           }
         });
+        
+        // *** MOBILE VISIBILITY FIX ONLY ***
+        // Add fallback to ensure visibility after a delay on mobile
+        if (isMobile) {
+          const fallbackTimer = setTimeout(() => {
+            // Force refresh ScrollTrigger
+            ScrollTrigger.refresh();
+            
+            // If we're on mobile and some elements might be invisible, make them visible
+            steps.forEach((step) => {
+              if (!step) return;
+              
+              const mediaContainer = step.querySelector('.media-container');
+              const textContainer = step.querySelector('.text-container');
+              const mblDescription = step.querySelector('.mbl-description');
+              
+              if (mediaContainer) gsap.set(mediaContainer, { autoAlpha: 1, y: 0, scale: 1 });
+              if (textContainer) gsap.set(textContainer, { autoAlpha: 1, y: 0 });
+              if (mblDescription) gsap.set(mblDescription, { autoAlpha: 1, y: 0 });
+            });
+            
+            // Make title visible too
+            if (titleRef.current) {
+              gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
+            }
+            
+            setIsInitialized(true);
+          }, 1000);
+          
+          // Clean up the timer during cleanup
+          return () => clearTimeout(fallbackTimer);
+        }
 
+        // Original cleanup logic
         return () => {
           // Clean up ScrollTriggers properly
           if (mainTl.scrollTrigger) {
@@ -237,6 +288,26 @@ export const StepsSection = styled(
           ScrollTrigger.getAll().forEach(trigger => {
             trigger.kill();
           });
+          
+          // *** MOBILE VISIBILITY FIX ONLY ***
+          // Make sure everything is visible when cleaning up
+          if (isMobile) {
+            steps.forEach((step) => {
+              if (!step) return;
+              
+              const mediaContainer = step.querySelector('.media-container');
+              const textContainer = step.querySelector('.text-container');
+              const mblDescription = step.querySelector('.mbl-description');
+              
+              if (mediaContainer) gsap.set(mediaContainer, { autoAlpha: 1, y: 0, scale: 1 });
+              if (textContainer) gsap.set(textContainer, { autoAlpha: 1, y: 0 });
+              if (mblDescription) gsap.set(mblDescription, { autoAlpha: 1, y: 0 });
+            });
+            
+            if (titleRef.current) {
+              gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
+            }
+          }
         };
       });
 
@@ -246,7 +317,10 @@ export const StepsSection = styled(
     }, [width, gsapContext, isMobile]);
 
     return (
-      <section className={className} ref={sectionRootRef}>
+      <section
+        className={`${className} ${isMobile ? 'mobile-view' : ''} ${isInitialized ? 'initialized' : ''}`}
+        ref={sectionRootRef}
+      >
         <div className="steps-container">
           <div ref={titleRef}>
             <TitleSubtitle
@@ -314,6 +388,31 @@ with mentors who get things done. Here's how we help you step up."`}
   margin: auto;
   background: #fff;
   overflow: hidden; /* Prevent animations from causing horizontal scroll */
+
+  /* *** MOBILE VISIBILITY FIX ONLY *** */
+  /* Add these classes for mobile visibility fixes */
+  &.mobile-view {
+    visibility: visible !important;
+    
+    .steps-container, 
+    .titleSubWr,
+    .step {
+      visibility: visible !important;
+    }
+  }
+  
+  &.initialized,
+  &.mobile-view.initialized {
+    .step .text-container,
+    .step .media-container,
+    .step .mbl-description {
+      @media (max-width: 991px) {
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+    }
+  }
+  /* *** END MOBILE VISIBILITY FIX *** */
 
   .error-message {
     color: white;
