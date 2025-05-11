@@ -22,6 +22,7 @@ export const AuthProgress = styled(
       const token = searchParams.get("token");
       // Get redirect path or default to home page
       const redirectPath = searchParams.get("redirect") || "/";
+      console.log(message)
 
       if (token) {
         // Store token in localStorage
@@ -48,6 +49,7 @@ export const AuthProgress = styled(
 
         return () => clearTimeout(timeout);
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams, router, loading]);
 
     return (
@@ -55,9 +57,9 @@ export const AuthProgress = styled(
         <div className="img-container">
           <VideoLoadingScreen videoSrc="/loading.mp4" />
         </div>
-        <div className="progress">
+        {/* <div className="progress">
           <h1>
-            {loading ? "Verifying authentication" : message}
+            {loading ? "" : message}
             <span className="dots" />
           </h1>
           {loading && (
@@ -65,7 +67,7 @@ export const AuthProgress = styled(
               <span className="spinner"></span>
             </div>
           )}
-        </div>
+        </div> */}
       </section>
     );
   }

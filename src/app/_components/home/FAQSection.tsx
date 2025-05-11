@@ -24,7 +24,7 @@ interface FaqDataProps {
 }
 
 const ContentBox = styled(
-  ({ className, data }: { className?: string; data?: FaqDataProps; index: number }) => {
+  ({ className, data }: { className?: string; data?: FaqDataProps; }) => {
     const [showDescription, setShowDescription] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
     
@@ -39,7 +39,6 @@ const ContentBox = styled(
             style={{
               transform: `rotate(${showDescription ? "0deg" : "180deg"})`,
               transition: "transform 0.27s ease-in-out", /* 10% faster */
-            
             }}
           />
         </button>
@@ -53,10 +52,12 @@ const ContentBox = styled(
   display: flex;
   flex-direction: column;
   width: 100%;
-  opacity: 0; /* Initially hidden for animation */
-  transform: translateY(20px); /* Reduced from 30px for faster animation */
-  transition: opacity 0.45s ease, transform 0.45s ease; /* 10% faster transitions */
-  will-change: transform, opacity;
+  /* Initial state for animations - will be controlled by GSAP */
+  opacity: 0; 
+  transform: translateY(60px); /* Match the banner section's 60px offset */
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  will-change: transform, opacity; /* Performance optimization */
+  transform-origin: center center;
 
   .ques-container {
     overflow: hidden;
@@ -81,6 +82,7 @@ const ContentBox = styled(
     padding: 26px 0px;
     background: #fff;
     z-index: 2;
+    width: 100%; /* Ensure full width on mobile */
 
     @media (min-width: 992px) {
       padding: 24px 10px;
@@ -95,7 +97,7 @@ const ContentBox = styled(
       font-weight: 600;
       line-height: 141.979%; /* 25.556px */
       margin: 0 16px;
-      max-width: 17ch;
+      max-width: 85%; /* Allow more text to be visible on mobile */
 
       @media (min-width: 992px) {
         font-size: 20px;
@@ -134,7 +136,7 @@ const ContentBox = styled(
     font-size: 16px;
     font-style: normal;
     line-height: 120%;
-    padding: 0; /* Start with no padding */
+    padding: 0 16px; /* Add padding for mobile */
     transition: opacity 0.36s ease 0.09s, /* 10% faster transitions */
       transform 0.36s ease, padding 0.36s ease;
     transform: translateY(0);
@@ -143,6 +145,7 @@ const ContentBox = styled(
     @media (min-width: 992px) {
       font-size: 17px;
       width: 100%;
+      padding: 0 10px;
     }
 
     @media (min-width: 1950px) {
@@ -152,7 +155,7 @@ const ContentBox = styled(
 
   /* Apply styles when open */
   .description-wrapper.open .description {
-    padding: 19px 0px; /* Add padding when open */
+    padding: 19px 16px; /* Add padding when open for mobile */
     opacity: 1;
 
     @media (min-width: 992px) {
@@ -163,11 +166,6 @@ const ContentBox = styled(
   /* Styles when closed */
   .description-wrapper:not(.open) .description {
     transform: translateY(-10px);
-
-    @media (min-width: 992px) {
-      padding-right: 10px; /* No padding when closed */
-      padding-left: 10px; /* No padding when closed */
-    }
   }
   
   /* Animation class added by GSAP */
@@ -190,7 +188,6 @@ export const FAQSection = styled(
     const sectionRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-    // const faqItemsRef = useRef<HTMLDivElement[]>([]);
     
     const gsapContext = useGsapContext();
     const { width } = useWindowSize();
@@ -203,67 +200,75 @@ export const FAQSection = styled(
         // Get all FAQ boxes
         const faqItems = contentRef.current?.querySelectorAll('.faq-item');
         
-        // Set initial states
-        gsap.set(titleRef.current, {
-          autoAlpha: 0,
-          y: 50,
-        });
+        if (!faqItems || faqItems.length === 0) {
+          console.warn("No FAQ items found to animate");
+          return;
+        }
         
-        // Create primary timeline
-        const mainTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            end: "top 35%", // Shorter end point for faster completion
-            scrub: 1, // Reduced from 1.2 for faster animation
-          },
-        });
-        
-        // Animate title
-        mainTl.to(titleRef.current, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.7, // Reduced from 0.8 (10% faster)
-          ease: "power2.out",
-        });
-        
-        // Create a single timeline for all FAQ items for better synchronization
-        const faqTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: contentRef.current,
-            start: "top 80%",
-            end: "top 40%", // Shorter end point for faster completion
-            scrub: 0.7, // Faster scrub
-          }
-        });
-        
-        // Add all FAQ items to the same timeline for better sync
-        if (faqItems && faqItems.length) {
-          faqItems.forEach((item, index) => {
-            // Stagger but with faster timing
-            faqTl.to(item, {
-              opacity: 1,
-              y: 0,
-              duration: 0.6, // Reduced from 0.7 (10% faster)
-              ease: "power2.out",
-            }, index * 0.08); // Reduced stagger time for faster sequence
+        // Set initial states for animations
+        if (titleRef.current) {
+          gsap.set(titleRef.current, {
+            opacity: 0,
+            y: 50,
           });
         }
         
-        return () => {
-          // Clean up ScrollTriggers properly
-          if (mainTl.scrollTrigger) {
-            mainTl.scrollTrigger.kill();
+        // Set initial state for all FAQ items
+        gsap.set(faqItems, {
+          opacity: 0, 
+          y: 50,
+        });
+        
+        // Create the master timeline
+        const masterTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+          }
+        });
+        
+        // First animate the title
+        if (titleRef.current) {
+          masterTl.to(titleRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+          });
+        }
+        
+        // Then animate each FAQ item one by one
+        faqItems.forEach((item) => {
+          masterTl.to(item, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          }, ">");  // ">" means "start after previous animation completes"
+        });
+        
+        // Add fallback to ensure visibility after 2 seconds
+        const fallbackTimeout = setTimeout(() => {
+          if (document.hidden) return;
+          
+          if (titleRef.current && window.getComputedStyle(titleRef.current).opacity < "1") {
+            gsap.set(titleRef.current, { opacity: 1, y: 0 });
           }
           
-          // Kill all scroll triggers
-          ScrollTrigger.getAll().forEach(trigger => {
-            trigger.kill();
+          faqItems.forEach(item => {
+            if (window.getComputedStyle(item).opacity < "1") {
+              gsap.set(item, { opacity: 1, y: 0 });
+            }
           });
+        }, 2000);
+        
+        return () => {
+          clearTimeout(fallbackTimeout);
+          if (masterTl.scrollTrigger) {
+            masterTl.scrollTrigger.kill();
+          }
         };
       });
-      
-
     }, [width, isMobile, data]);
     
     return (
@@ -279,7 +284,6 @@ export const FAQSection = styled(
                     <ContentBox 
                       key={idx} 
                       data={item} 
-                      index={idx}
                       className="faq-item"
                     />
                   );
@@ -295,9 +299,10 @@ export const FAQSection = styled(
   position: relative;
   margin: auto;
   font-family: var(--font-exo);
-  padding: 40px 0 142px 0;
+  padding: 40px 0 80px 0;
   border-bottom-right-radius: 36px;
   border-bottom-left-radius: 36px;
+  overflow: hidden; /* Add this to match banner section */
 
   @media (min-width: 992px) {
     padding: 96px 0;
@@ -322,15 +327,11 @@ export const FAQSection = styled(
       @media (min-width: 992px) {
         width: 50%;
       }
-
-      @media (max-width: 992px) {
-        padding: 0 8px;
-      }
     }
 
     .title-container {
       display: flex;
-      will-change: transform, opacity;
+      will-change: transform, opacity; /* Performance optimization */
 
       .title {
         width: 100%;

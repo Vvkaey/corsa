@@ -5,55 +5,21 @@ import {
   maxWidthContainer,
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
+import {  useRef } from "react";
 import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
-import { useEffect, useRef } from "react";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const BehindTheScenes = styled(
   ({ className, htmlId }: { className?: string; htmlId?: string }) => {
-    const gsapContext = useGsapContext();
     const { width } = useWindowSize();
-    const container = useRef<HTMLDivElement>(null);
-    const stickyWrapperRef = useRef<HTMLDivElement>(null);
     const isMobile = width && width < 992;
+    const container = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const subTitleRef = useRef<HTMLParagraphElement>(null);
+    const gsapContext = useGsapContext();
 
-    // Use GSAP ScrollTrigger instead of CSS sticky
-    useEffect(() => {
-      if (
-        !container.current ||
-        !stickyWrapperRef.current ||
-        typeof window === "undefined"
-      )
-        return;
 
-      // Clear any existing ScrollTriggers to prevent duplicates
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-
-      const stickyAnimation = gsap.timeline({
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.2,
-          pin: stickyWrapperRef.current,
-          pinSpacing: false,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-        },
-      });
-
-      // Debug info
-      console.log("BehindTheScenes: ScrollTrigger initialized");
-
-      return () => {
-        // Clean up the ScrollTrigger when the component unmounts
-        if (stickyAnimation.scrollTrigger) {
-          stickyAnimation.scrollTrigger.kill();
-        }
-      };
-    }, []);
 
     const animationInit = () => {
       if (!container.current || !window) return;
@@ -66,9 +32,10 @@ export const BehindTheScenes = styled(
           },
           scrollTrigger: {
             trigger: container.current,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 0.2,
+            start: isMobile ? "top 10%" : "top 40%",
+            end: isMobile ? "top -50%" : "top 5%",
+            scrub: 1,
+            markers: true,
             immediateRender: false,
             invalidateOnRefresh: true,
           },
@@ -85,8 +52,8 @@ export const BehindTheScenes = styled(
           },
           {
             autoAlpha: 0.5,
-            duration: 0.35,
-            stagger: 0.2,
+            duration: 1,
+            stagger: 0.1,
           },
           0.2
         );
@@ -94,14 +61,14 @@ export const BehindTheScenes = styled(
         tl.fromTo(
           ".tc-1 > span",
           {
-            autoAlpha: 0.5,
+            autoAlpha: 0.2,
           },
           {
             autoAlpha: 1,
-            duration: 0.35,
-            stagger: 0.2,
+            duration: 1,
+            stagger: 0.1,
           },
-          0.2
+          "0.2"
         );
 
         tl.addPause(5.5);
@@ -129,30 +96,69 @@ export const BehindTheScenes = styled(
           intersectionObserver.current.disconnect();
         }
       };
-    }, []);
+    }, [width, gsapContext]);
+
+
+    useIsomorphicLayoutEffect(() => {
+      if ( !titleRef.current || !subTitleRef.current || !container.current) return;
+  
+      gsapContext.add(() => {
+        // Set initial states
+        gsap.set([titleRef.current, subTitleRef.current], {
+          autoAlpha: 0,
+          y: 50,
+        });
+        
+  
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top 65%",
+            end: "top 15%",
+            scrub: 0.8,
+          },
+        });
+  
+        // Animate title and subtitle
+        tl.to(titleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+        })
+        .to(subTitleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+        }, "-=0.3")
+        
+        
+        return () => {
+          if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
+          }
+        };
+      });
+  
+  
+    }, [width, gsapContext]);
 
     return (
       <section className={className} id={htmlId} ref={container}>
-        <div className="sticky-wrapper" ref={stickyWrapperRef}>
-          <div className="container">
-            <div className="head-container">
-              <h2 className="title">
-                Behind The <span className="red-block">Scenes</span>
-              </h2>
-              <p className="subtitle">
-                How it all comes together.{isMobile ? <br /> : null} The good
-                and the messy.
-              </p>
+        <div className="container">
+          <div className="head-container">
+            <h2 className="title" ref={titleRef}>
+              Behind The <span className="red-block">Scenes</span>
+            </h2>
+            <p className="subtitle" ref={subTitleRef}>
+              How it all comes together.{isMobile ? <br /> : null} The good and
+              the messy.
+            </p>
+          </div>
+          <div className="content-container">
+            <div className="img-container">
+              <Image src={"/behindScenes.png"} alt={"/behindScenes.png"} fill />
             </div>
-            <div className="content-container">
-              {(width ?? 0) > 992 ? <div className="img-container">
-                <Image
-                  src={"/behindScenes.png"}
-                  alt={"Behind the scenes image"}
-                  fill
-                />
-              </div> : null}
-              <p className="text-content tc-1">
+            <p className="text-content tc-1">
                 <span> Ever </span>
                 <span> felt </span>
                 <span>lost, </span>
@@ -343,38 +349,26 @@ export const BehindTheScenes = styled(
                 <span>Lessss </span>
                 <span>goooooooooo! </span>
                 <span>🙌 🚀</span>
-              </p>
-            </div>
+            </p>
           </div>
         </div>
       </section>
     );
   }
 )`
-  height: 250vh;
-  width: 100%;
-  position: relative;
   background: #fff;
+  padding: 80px 0;
+  font-family: var(--font-exo);
+  margin: auto;
+  padding-top: 84px;
 
-  .sticky-wrapper {
-    width: 100%;
-    height: 100vh;
-    background: #fff;
-    padding: 80px 0;
-    font-family: var(--font-exo);
-    margin: auto;
-    padding-top: 84px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    @media (min-width: 992px) {
-      padding: 96px 0;
-      padding-top: 96px;
-    }
+  @media (min-width: 992px) {
+    padding: 96px 0;
+    padding-top: 196px;
   }
 
   .container {
+    // width: 100%;
     display: flex;
     flex-direction: column;
     gap: 21px;
@@ -437,8 +431,8 @@ export const BehindTheScenes = styled(
           margin: unset;
         }
 
-        @media (min-width: 1950px) {
-          font-size: 24px;
+         @media (min-width: 1950px) {
+            font-size: 24px;
         }
       }
     }
@@ -468,7 +462,7 @@ export const BehindTheScenes = styled(
         @media (min-width: 1950px) {
           width: 35%;
           height: 648px;
-        }
+        } 
 
         img {
           width: 100%;
@@ -485,11 +479,12 @@ export const BehindTheScenes = styled(
         font-style: normal;
         font-weight: 500;
         line-height: 142.05%; /* 22.728px */
-        margin: 0 8px;
+        margin : 0 8px;
+        // border : 1px solid #d4d4d4;
 
         @media (min-width: 1950px) {
-          margin: unset;
-          font-size: 25px;
+        margin : unset;
+            font-size: 25px;
         }
       }
     }
