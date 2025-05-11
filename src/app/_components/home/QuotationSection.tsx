@@ -70,7 +70,7 @@ export const QuotationSection = styled(
       });
 
 
-    }, [width]);
+    }, [width, gsapContext]);
 
     return (
       <section className={className} ref={sectionRootRef} data-scroll-section>

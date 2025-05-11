@@ -96,7 +96,7 @@ export const BannerSection = styled(
           }
         };
       });
-    }, [width]);
+    }, [width, gsapContext]);
 
     return (
       <section className={className} ref={rootContainerRef}>
