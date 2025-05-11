@@ -125,10 +125,8 @@ export const PowerfulInsights = styled(
         };
       });
 
-      return () => {
-        gsapContext.revert();
-      };
-    }, [width, gsapContext]);
+
+    }, [width]);
 
     return (
       <section className={className} ref={sectionRef}>

@@ -94,10 +94,7 @@ export const StepsSection = styled(
         };
       });
 
-      return () => {
-        gsapContext.revert();
-      };
-    }, [width, gsapContext]);
+    }, [width]);
 
     // Debugging check
     console.log("Rendering StepsSection with items:", flowItems?.length);

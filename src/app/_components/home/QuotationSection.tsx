@@ -69,10 +69,8 @@ export const QuotationSection = styled(
         };
       });
 
-      return () => {
-        gsapContext.revert();
-      };
-    }, [width, gsapContext]);
+
+    }, [width]);
 
     return (
       <section className={className} ref={sectionRootRef} data-scroll-section>

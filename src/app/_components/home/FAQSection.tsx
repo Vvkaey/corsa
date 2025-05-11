@@ -263,10 +263,8 @@ export const FAQSection = styled(
         };
       });
       
-      return () => {
-        gsapContext.revert();
-      };
-    }, [width, gsapContext, isMobile, data]);
+
+    }, [width, isMobile, data]);
     
     return (
       <section className={className} id="faq-section" ref={sectionRef}>

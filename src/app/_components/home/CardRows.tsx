@@ -331,9 +331,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
       
     });
 
-    return () => {
-      gsapContext.revert();
-    };
+
   }, [width, gsapContext]);
 
   return (
