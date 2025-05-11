@@ -11,13 +11,7 @@ import TitleSubtitle from "./TitleSubtitle";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-
-// Register the ScrollTrigger plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 // Define proper types
 interface FlowColAProps {
@@ -56,257 +50,46 @@ export const StepsSection = styled(
     const gsapContext = useGsapContext();
     const sectionRootRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
-    const stepsRef = useRef<HTMLDivElement>(null);
-    
-    // Individual step refs - with proper typing
-    const stepRefs = useRef<HTMLDivElement[]>([]);
-    
-    const { width } = useWindowSize();
-    const isMobile = width && width < 992;
-    
-    // Add state to track if initial setup is complete
-    const [isInitialized, setIsInitialized] = React.useState(false);
+    const stepTitleRef = useRef<HTMLDivElement>(null);
 
-    // Helper function to check if element is in viewport
-    // const isElementInViewport = (el: HTMLElement | null) => {
-    //   if (!el) return false;
-    //   const rect = el.getBoundingClientRect();
-    //   return (
-    //     rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
-    //     rect.bottom >= 0
-    //   );
-    // };
+    const { width } = useWindowSize();
 
     useIsomorphicLayoutEffect(() => {
-      if (!sectionRootRef.current || !titleRef.current || !stepsRef.current)
+      if (!sectionRootRef.current || !titleRef.current || !stepTitleRef.current)
         return;
 
       gsapContext.add(() => {
-        // Get all steps
-        const steps = stepRefs.current;
-        const mediaContainers = steps.map(step => step?.querySelector('.media-container'));
-        const textContainers = steps.map(step => step?.querySelector('.text-container'));
-        const mobileDescriptions = steps.map(step => step?.querySelector('.mbl-description'));
-        
-        // *** MOBILE VISIBILITY FIX ONLY ***
-        // On mobile, ensure everything is visible initially
-        if (isMobile) {
-          // Make the container visible immediately
-          gsap.set(sectionRootRef.current, { visibility: "visible", opacity: 1 });
-          gsap.set(titleRef.current, { visibility: "visible", opacity: 1 });
-        }
-        
         // Set initial state for content elements
         gsap.set(titleRef.current, {
-          autoAlpha: isMobile ? 1 : 0, // Always visible on mobile
-          y: isMobile ? 50 : 75,
-        });
-        
-        // Set initial state for steps - PRESERVE ORIGINAL ANIMATIONS
-        steps.forEach((step, index) => {
-          if (!step) return;
-          
-          // Different initial states based on even/odd index
-          const isEven = index % 2 === 0;
-          const direction = isEven ? -1 : 1;
-          
-          // Set initial states for media containers
-          if (mediaContainers[index]) {
-            gsap.set(mediaContainers[index], {
-              autoAlpha: isMobile ? 1 : 0, // Always visible on mobile
-              x: isMobile ? 0 : (direction * 50),
-              y: isMobile ? 50 : 0,
-              scale: 0.95,
-            });
-          }
-          
-          // Set initial states for text containers
-          if (textContainers[index]) {
-            gsap.set(textContainers[index], {
-              autoAlpha: isMobile ? 1 : 0, // Always visible on mobile
-              x: isMobile ? 0 : (direction * -50), // Opposite direction
-              y: isMobile ? 30 : 0,
-            });
-          }
-          
-          // Set initial states for mobile descriptions
-          if (mobileDescriptions[index] && isMobile) {
-            gsap.set(mobileDescriptions[index], {
-              autoAlpha: 1, // Always visible on mobile
-              y: 20,
-            });
-          }
+          autoAlpha: 0,
+          y: 75,
         });
 
-        // Main timeline for intro title animation - KEEP ORIGINAL
-        const mainTl = gsap.timeline({
+        // gsap.set(stepTitleRef.current, {
+        //   autoAlpha: 0,
+        //   y: 50,
+        // });
+
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRootRef.current,
-            start: isMobile ? "top 85%" : "top 70%", // Adjust start for mobile
-            end: isMobile ? "top 60%" : "top 30%",   // Adjust end for mobile
-            scrub: isMobile ? 0.5 : 1.2, // Faster scrub on mobile
-            // markers: false,
+            start: "top 65%",
+            end: "top 30%",
+            scrub: 0.5,
+             markers: false, // Set to true for debugging, false for production
           },
         });
 
-        mainTl.to(titleRef.current, {
+        tl.to(titleRef.current, {
           autoAlpha: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power2.out",
+          duration: 0.5,
         });
-        
-        // Create separate timelines for each step - PRESERVE ORIGINAL WITH MOBILE FIXES
-        steps.forEach((step, index) => {
-          if (!step) return;
-          
-          const stepTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: step,
-              start: isMobile ? "top 85%" : "top 75%", // Start animation earlier on mobile
-              end: isMobile ? "bottom 60%" : "center center", // Different end point for mobile
-              scrub: isMobile ? 0.5 : 1, // Faster scrub on mobile
-              // markers: false,
-            },
-          });
-          
-          // Different animation sequences based on mobile/desktop - KEEP ORIGINAL LOGIC
-          if (isMobile) {
-            // Mobile animations - vertical sequence
-            if (textContainers[index]) {
-              stepTl.to(textContainers[index], {
-                y: 0,
-                duration: 0.5, // Faster on mobile
-                ease: "power2.out",
-              });
-            }
-            
-            if (mediaContainers[index]) {
-              stepTl.to(mediaContainers[index], {
-                y: 0,
-                scale: 1,
-                duration: 0.5, // Faster on mobile
-                ease: "power2.out",
-              }, ">-0.3"); // Slight overlap
-            }
-            
-            if (mobileDescriptions[index]) {
-              stepTl.to(mobileDescriptions[index], {
-                y: 0,
-                duration: 0.3, // Faster on mobile
-                ease: "power2.out",
-              }, ">-0.2");
-            }
-          } else {
-            // Desktop animations - horizontal sequence - KEEP ORIGINAL
-            const isEven = index % 2 === 0;
-            
-            // For even items, animate image first
-            if (isEven) {
-              if (mediaContainers[index]) {
-                stepTl.to(mediaContainers[index], {
-                  autoAlpha: 1,
-                  x: 0,
-                  scale: 1,
-                  duration: 0.7,
-                  ease: "power2.out",
-                });
-              }
-              
-              if (textContainers[index]) {
-                stepTl.to(textContainers[index], {
-                  autoAlpha: 1,
-                  x: 0,
-                  duration: 0.7,
-                  ease: "power2.out",
-                }, ">-0.4");
-              }
-            } else {
-              // For odd items, animate text first
-              if (textContainers[index]) {
-                stepTl.to(textContainers[index], {
-                  autoAlpha: 1,
-                  x: 0,
-                  duration: 0.7,
-                  ease: "power2.out",
-                });
-              }
-              
-              if (mediaContainers[index]) {
-                stepTl.to(mediaContainers[index], {
-                  autoAlpha: 1,
-                  x: 0,
-                  scale: 1,
-                  duration: 0.7,
-                  ease: "power2.out",
-                }, ">-0.4");
-              }
-            }
-          }
-        });
-        
-        // *** MOBILE VISIBILITY FIX ONLY ***
-        // Add fallback to ensure visibility after a delay on mobile
-        if (isMobile) {
-          const fallbackTimer = setTimeout(() => {
-            // Force refresh ScrollTrigger
-            ScrollTrigger.refresh();
-            
-            // If we're on mobile and some elements might be invisible, make them visible
-            steps.forEach((step) => {
-              if (!step) return;
-              
-              const mediaContainer = step.querySelector('.media-container');
-              const textContainer = step.querySelector('.text-container');
-              const mblDescription = step.querySelector('.mbl-description');
-              
-              if (mediaContainer) gsap.set(mediaContainer, { autoAlpha: 1, y: 0, scale: 1 });
-              if (textContainer) gsap.set(textContainer, { autoAlpha: 1, y: 0 });
-              if (mblDescription) gsap.set(mblDescription, { autoAlpha: 1, y: 0 });
-            });
-            
-            // Make title visible too
-            if (titleRef.current) {
-              gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
-            }
-            
-            setIsInitialized(true);
-          }, 1000);
-          
-          // Clean up the timer during cleanup
-          return () => clearTimeout(fallbackTimer);
-        }
 
-        // Original cleanup logic
         return () => {
-          // Clean up ScrollTriggers properly
-          if (mainTl.scrollTrigger) {
-            mainTl.scrollTrigger.kill();
-          }
-          
-          // Kill all scroll triggers for step timelines
-          ScrollTrigger.getAll().forEach(trigger => {
-            trigger.kill();
-          });
-          
-          // *** MOBILE VISIBILITY FIX ONLY ***
-          // Make sure everything is visible when cleaning up
-          if (isMobile) {
-            steps.forEach((step) => {
-              if (!step) return;
-              
-              const mediaContainer = step.querySelector('.media-container');
-              const textContainer = step.querySelector('.text-container');
-              const mblDescription = step.querySelector('.mbl-description');
-              
-              if (mediaContainer) gsap.set(mediaContainer, { autoAlpha: 1, y: 0, scale: 1 });
-              if (textContainer) gsap.set(textContainer, { autoAlpha: 1, y: 0 });
-              if (mblDescription) gsap.set(mblDescription, { autoAlpha: 1, y: 0 });
-            });
-            
-            if (titleRef.current) {
-              gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
-            }
+          // Clean up this specific ScrollTrigger
+          if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
           }
         };
       });
@@ -314,34 +97,29 @@ export const StepsSection = styled(
       return () => {
         gsapContext.revert();
       };
-    }, [width, gsapContext, isMobile]);
+    }, [width, gsapContext]);
+
+    // Debugging check
+    console.log("Rendering StepsSection with items:", flowItems?.length);
 
     return (
-      <section
-        className={`${className} ${isMobile ? 'mobile-view' : ''} ${isInitialized ? 'initialized' : ''}`}
-        ref={sectionRootRef}
-      >
+      <section className={className} ref={sectionRootRef}>
         <div className="steps-container">
-          <div ref={titleRef}>
-            <TitleSubtitle
-              title={`"We've got your back, 
-Let's `}
-              redspan={`Make it happen."`}
-              subtitle={`"No fluff. No big promises. Just real conversations 
-with mentors who get things done. Here's how we help you step up."`}
-            />
-          </div>
           
-          <div className="steps" ref={stepsRef}>
+            <div ref={titleRef}>
+              <TitleSubtitle
+                title={`"We've got your back, 
+Let's `}
+                redspan={`Make it happen."`}
+                subtitle={`"No fluff. No big promises. Just real conversations 
+with mentors who get things done. Here's how we help you step up."`}
+              />
+            </div>
+          
+          <div className="steps">
             {flowItems && flowItems.length > 0 ? (
               flowItems.map((item, idx) => (
-                <div 
-                  className="step" 
-                  key={idx}
-                  ref={el => {
-                    if (el) stepRefs.current[idx] = el;
-                  }}
-                >
+                <div className="step" key={idx}>
                   <div className="text-container">
                     <div className="text-a">
                       <div className="icon-container">
@@ -349,7 +127,7 @@ with mentors who get things done. Here's how we help you step up."`}
                       </div>
                     </div>
                     <div className="text-b">
-                      <h2 className="title">
+                      <h2 className="title" ref={stepTitleRef}>
                         {item?.colB?.title}
                       </h2>
                       <p className="description">{item?.colB?.subtitle}</p>
@@ -357,6 +135,7 @@ with mentors who get things done. Here's how we help you step up."`}
                   </div>
                   <div className="media-container">
                     <div className="img-container">
+                      {" "}
                       <Image
                         src={item?.colC?.img}
                         alt={`Step ${idx + 1}: ${
@@ -389,31 +168,6 @@ with mentors who get things done. Here's how we help you step up."`}
   background: #fff;
   overflow: hidden; /* Prevent animations from causing horizontal scroll */
 
-  /* *** MOBILE VISIBILITY FIX ONLY *** */
-  /* Add these classes for mobile visibility fixes */
-  &.mobile-view {
-    visibility: visible !important;
-    
-    .steps-container, 
-    .titleSubWr,
-    .step {
-      visibility: visible !important;
-    }
-  }
-  
-  &.initialized,
-  &.mobile-view.initialized {
-    .step .text-container,
-    .step .media-container,
-    .step .mbl-description {
-      @media (max-width: 991px) {
-        visibility: visible !important;
-        opacity: 1 !important;
-      }
-    }
-  }
-  /* *** END MOBILE VISIBILITY FIX *** */
-
   .error-message {
     color: white;
     padding: 20px;
@@ -443,7 +197,6 @@ with mentors who get things done. Here's how we help you step up."`}
 
     .titleSubWr {
       overflow: hidden;
-      will-change: transform, opacity;
     }
 
     .steps {
@@ -466,7 +219,6 @@ with mentors who get things done. Here's how we help you step up."`}
         align-items: center;
         flex-direction: column;
         gap: 13px;
-        will-change: transform, opacity; /* Performance optimization */
 
         @media (min-width: 992px) {
           flex-direction: row;
@@ -693,7 +445,7 @@ with mentors who get things done. Here's how we help you step up."`}
           display: flex;
           gap: 8px;
           justify-content: flex-start;
-          will-change: transform, opacity; /* Performance optimization */
+          // will-change: transform, opacity; /* Performance optimization */
 
           @media (min-width: 992px) {
             justify-content: center;
@@ -810,7 +562,7 @@ with mentors who get things done. Here's how we help you step up."`}
           justify-content: center;
           align-items: center;
           overflow: hidden;
-          will-change: transform, opacity, scale; /* Performance optimization */
+          // will-change: transform, opacity; /* Performance optimization */
 
           @media (min-width: 992px) {
             border-radius: 18px;
@@ -867,7 +619,7 @@ with mentors who get things done. Here's how we help you step up."`}
           text-align: center;
           line-height: 141.979%; /* 25.556px */
           max-width: 85%;
-          will-change: opacity, transform; /* Performance optimization */
+          // will-change: opacity, transform; /* Performance optimization */
 
           @media (min-width: 992px) {
             display: none;

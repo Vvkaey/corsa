@@ -68,7 +68,7 @@ export const BehindTheScenes = styled(
             trigger: container.current,
             start: "top top",
             end: "bottom bottom",
-            scrub: 1,
+            scrub: 0.2,
             immediateRender: false,
             invalidateOnRefresh: true,
           },
@@ -85,7 +85,7 @@ export const BehindTheScenes = styled(
           },
           {
             autoAlpha: 0.5,
-            duration: 1,
+            duration: 0.35,
             stagger: 0.2,
           },
           0.2
@@ -98,7 +98,7 @@ export const BehindTheScenes = styled(
           },
           {
             autoAlpha: 1,
-            duration: 1,
+            duration: 0.35,
             stagger: 0.2,
           },
           0.2
@@ -351,7 +351,7 @@ export const BehindTheScenes = styled(
     );
   }
 )`
-  height: 100vh;
+  height: 250vh;
   width: 100%;
   position: relative;
   background: #fff;
