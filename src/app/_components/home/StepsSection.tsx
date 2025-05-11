@@ -94,7 +94,7 @@ export const StepsSection = styled(
         };
       });
 
-    }, [width]);
+    }, [width, gsapContext]);
 
     // Debugging check
     console.log("Rendering StepsSection with items:", flowItems?.length);
