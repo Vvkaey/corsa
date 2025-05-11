@@ -146,7 +146,6 @@ export const RewardsSection = styled(
         };
       });
 
-
     }, [gsapContext]);
 
     // Handle option selection

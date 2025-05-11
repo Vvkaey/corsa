@@ -8,7 +8,7 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {

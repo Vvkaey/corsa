@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
