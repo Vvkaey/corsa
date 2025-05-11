@@ -78,7 +78,13 @@ const ProductHeadCTA = styled.button`
   padding: 10px 18px;
   background: transparent;
 
+  @media (min-width: 992px) {
+ width: 200px;
+
+}
+
    @media (min-width: 1950px) {
+  width: 305px;
   margin-top: 13px;
   border-radius: 8px;
    font-size: 19px;

@@ -358,10 +358,12 @@ const CtaButton = styled.button<StyledButtonProps>`
 
   @media (min-width: 992px) {
     padding: 0.75rem 1.5rem;
+     width: 205px;
   }
 
   @media (min-width: 1950px) {
     font-size: 23.5px;
+    width: 375px;
   }
 `;
 
