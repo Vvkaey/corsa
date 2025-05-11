@@ -1,7 +1,6 @@
 // PricingPage.tsx
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-
 import { useRouter } from "next/navigation";
 import { Comparison } from "./Comparison";
 import {
@@ -12,7 +11,13 @@ import {
 import { Footer } from "../global/footer";
 import ContactUs from "./ContactUs";
 import Image from "next/image";
-// import { Comparison } from "./Comparison";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Styled Components
 const PageContainer = styled.div`
@@ -22,6 +27,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   ${headerSpacing()};
   padding-top: 53px;
+  overflow-x: hidden; /* Prevent horizontal scroll during animations */
 
   @media (min-width: 1950px) {
     padding-top: 171px;
@@ -33,6 +39,8 @@ const Header = styled.div`
   margin-bottom: 53px;
   ${sectionResponsivePadding()};
   ${maxWidthContainer};
+  opacity: 0; /* Start invisible for animation */
+  transform: translateY(20px); /* Start slightly below for animation */
 
   @media (min-width: 1950px) {
     margin-bottom: 48px;
@@ -101,12 +109,12 @@ const Subtitle = styled.p`
 
 const PlansContainer = styled.div`
   display: flex;
-  // flex-wrap: wrap;
   justify-content: center;
   gap: 61px;
   ${sectionResponsivePadding()};
   ${maxWidthContainer};
   margin: 55px 0;
+  opacity: 0; /* Start invisible for animation */
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -135,8 +143,10 @@ const PlanCard = styled.div<StyledPlanCardProps>`
   max-width: 476px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   align-items: center;
+  opacity: 0; /* Start invisible for staggered animation */
+  transform: translateY(30px); /* Start below for animation */
 
   border-radius: 11.813px;
   border: 1.39px solid #000;
@@ -144,6 +154,10 @@ const PlanCard = styled.div<StyledPlanCardProps>`
 
   &:hover {
     transform: translateY(-5px);
+    box-shadow: ${(props) =>
+      props.$isPrimary
+        ? "0 15px 20px -5px rgba(66, 153, 225, 0.2)"
+        : "0 10px 15px -3px rgba(0, 0, 0, 0.15)"};
   }
 
   @media (min-width: 992px) {
@@ -280,8 +294,6 @@ const BenefitsList = styled.div`
 
 const BenefitItem = styled.div`
   position: relative;
-  // display: flex;
-  // align-items: center;
   border-bottom: 1px solid #d2d2d2;
   color: #4a5568;
   font-family: var(--font-fustat);
@@ -290,6 +302,14 @@ const BenefitItem = styled.div`
   align-items: center;
   padding: 10px 25px;
   gap: 7px;
+  opacity: 0.8; /* Start slightly faded for animation */
+  transform: translateX(5px); /* Slight offset for animation */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  &.benefit-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
   span {
     content: "✓";
@@ -323,7 +343,7 @@ interface StyledButtonProps {
 }
 
 const CTAContainer = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -340,13 +360,19 @@ const CtaButton = styled.button<StyledButtonProps>`
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
   margin-top: auto;
   font-family: var(--font-fustat);
+  transform: scale(1);
 
   &:hover {
-    background: #ebf8ff;
-    color: ${(props) => (props.$isPrimary ? "#000" : "#FF2626")};
+    background: ${(props) => (props.$isPrimary ? "#ebf8ff" : "#e01f1f")};
+    color: ${(props) => (props.$isPrimary ? "#000" : "#FFF")};
+    transform: scale(1.03);
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 
   &:disabled {
@@ -354,11 +380,12 @@ const CtaButton = styled.button<StyledButtonProps>`
     border: 1px solid ${(props) => (props.$subscribed ? "#FF2626" : "#aeaeae")};
     cursor: not-allowed;
     color: ${(props) => (props.$subscribed ? "#FF2626" : "#fff")};
+    transform: scale(1);
   }
 
   @media (min-width: 992px) {
     padding: 0.75rem 1.5rem;
-     width: 205px;
+    width: 205px;
   }
 
   @media (min-width: 1950px) {
@@ -386,6 +413,12 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   text-underline-position: from-font;
   font-family: var(--font-fustat);
   margin-top: 56px;
+  transition: color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    color: #ff2626;
+    transform: translateY(-2px);
+  }
 
   @media (min-width: 1950px) {
     margin-top: 25px;
@@ -405,15 +438,76 @@ const ErrorMessage = styled.div`
 `;
 
 const ImageContainer = styled.button`
-right : -22px;
-top : 0;
-position: absolute;
-background: transparent;
-border : none;
-cursor: pointer;
-align-self: flex-end;
+  right: -22px;
+  top: 0;
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: transform 0.3s ease;
 
-`
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+// Loading animation component
+const LoadingOverlay = styled.div<{ $isLoading: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: ${(props) => (props.$isLoading ? 1 : 0)};
+  visibility: ${(props) => (props.$isLoading ? "visible" : "hidden")};
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+`;
+
+const LoadingContent = styled.div`
+  text-align: center;
+`;
+
+const LoadingText = styled.h2`
+  font-family: var(--font-exo);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #000;
+  
+  span {
+    display: inline-block;
+    animation: textReveal 0.6s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    
+    @keyframes textReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #ff2626;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  animation: spin 1s linear infinite;
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
 
 // Types
 interface Benefit {
@@ -460,36 +554,45 @@ const Plan: React.FC<PricingPlan> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const planRef = useRef<HTMLDivElement>(null);
+  const benefitsRef = useRef<HTMLDivElement>(null);
+
+  // Set up scroll animations for benefits
+  useEffect(() => {
+    if (!benefitsRef.current) return;
+
+    const benefitItems = benefitsRef.current.querySelectorAll('.benefit-item');
+    
+    if (benefitItems.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('benefit-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+    );
+
+    benefitItems.forEach(item => {
+      observer.observe(item);
+    });
+
+    return () => {
+      benefitItems.forEach(item => {
+        observer.unobserve(item);
+      });
+    };
+  }, []);
+
   const handleSubscribe = async () => {
     setIsLoading(true);
     setError(null);
 
-    // Token to use until login functionality is implemented
-    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWFmYWQxYzIzMzIyYzRmNzRkNjJlZSIsImlhdCI6MTc0MzUxNDU4NX0.ml3wjGCEjjXwPppJoj-kzhYklwbAWpxmgMbnKe5cpok";
-
     try {
-      //   const response = await fetch('https://corsa-backend-seven.vercel.app/api/payments/create-order', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Authorization': `Bearer ${token}`
-      //     },
-      //     body: JSON.stringify({ productType }),
-      //   });
-
-      //   const data = await response.json();
-
-      //   if (!response.ok) {
-      //     throw new Error(data.message || 'Failed to create order');
-      //   }
-
-      //   // Handle successful response
-      //   console.log('Order created:', data);
-
-      //   // If the API returns a URL to redirect to for payment, redirect the user
-      //   if (data.url) {
-      //     window.location.href = data.url;
-      //   }
       router.push(`/checkout/${productType}`);
     } catch (err) {
       console.error("Error creating order:", err);
@@ -508,7 +611,7 @@ const Plan: React.FC<PricingPlan> = ({
   };
 
   return (
-    <PlanCard $isPrimary={isPrimary}>
+    <PlanCard $isPrimary={isPrimary} ref={planRef} className="plan-card">
       <PlanName>
         {name.split(" ")[0]} <br />
         Access Plan
@@ -521,33 +624,36 @@ const Plan: React.FC<PricingPlan> = ({
       </PlanPrice>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <CTAContainer>
-      <CtaButton
-        $isPrimary={isPrimary}
-        onClick={handleSubscribe}
-        disabled={isLoading || !compatible || subscribed}
-        $subscribed={subscribed}
-      >
-        {!compatible
-          ? "Not Compatible"
-          : isLoading
-          ? "Processing..."
-          : subscribed
-          ? subscribedCta
-          : buttonText}
-      </CtaButton>
-     {!compatible ?  <ImageContainer>
-        <Image
-          src="/info_icon.png"
-          alt="info icon"
-          width={20}
-          height={20}
-          className="info-icon"
-        />
-      </ImageContainer> : null}
+        <CtaButton
+          $isPrimary={isPrimary}
+          onClick={handleSubscribe}
+          disabled={isLoading || !compatible || subscribed}
+          $subscribed={subscribed}
+          className="cta-button"
+        >
+          {!compatible
+            ? "Not Compatible"
+            : isLoading
+            ? "Processing..."
+            : subscribed
+            ? subscribedCta
+            : buttonText}
+        </CtaButton>
+        {!compatible ? (
+          <ImageContainer>
+            <Image
+              src="/info_icon.png"
+              alt="info icon"
+              width={20}
+              height={20}
+              className="info-icon"
+            />
+          </ImageContainer>
+        ) : null}
       </CTAContainer>
-      <BenefitsList>
+      <BenefitsList ref={benefitsRef}>
         {benefits.map((benefit) => (
-          <BenefitItem key={benefit.id}>
+          <BenefitItem key={benefit.id} className="benefit-item">
             <span>✓</span>
             <p>{benefit.text}</p>
           </BenefitItem>
@@ -566,27 +672,114 @@ const PricingPage: React.FC<PricingPageProps> = ({
   subtitle,
   plans,
 }) => {
+  const [pageLoading, setPageLoading] = useState(true);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const plansContainerRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  // Split the title into spans for animated reveal
+  const titleLetters = "Pricing".split('').map((letter, i) => (
+    <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>{letter}</span>
+  ));
+
+  // Initial page load animation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Set up animations after initial load
+  useEffect(() => {
+    if (pageLoading || !headerRef.current || !plansContainerRef.current || !pageRef.current) return;
+
+    const tl = gsap.timeline({
+      defaults: {
+        ease: "power2.out",
+      },
+    });
+
+    // Animate header
+    tl.to(headerRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+    });
+
+    // Animate plans container
+    tl.to(plansContainerRef.current, {
+      opacity: 1,
+      duration: 0.8,
+    }, "-=0.4");
+
+    // Animate each plan card with stagger
+    tl.to(".plan-card", {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.2,
+    }, "-=0.4");
+
+    // Set up scroll animations for components further down the page
+    gsap.utils.toArray<HTMLElement>('.comparison-section, .contact-section').forEach((section) => {
+      gsap.from(section, {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          end: "top 60%",
+          toggleActions: "play none none none",
+          scrub: 1,
+        }
+      });
+    });
+
+    return () => {
+      // Clean up animations
+      if (tl) tl.kill();
+      ScrollTrigger.getAll().forEach(trigger => {
+        trigger.kill();
+      });
+    };
+  }, [pageLoading]);
+
   return (
-    <PageContainer>
-      <Header>
-        <Title>{title}</Title>
-        <Subtitle>{subtitle}</Subtitle>
-      </Header>
-      <PlansContainer>
-        {plans.map((plan, idx) => (
-          <Plan
-            key={plan.id}
-            {...plan}
-            compatible={idx !== 2}
-            subscribed={idx === 1}
-          />
-        ))}
-      </PlansContainer>
-      <Comparison htmlId="product-comparision" />
-      <ContactUs />
-      {/* <ProductComparisonTable /> */}
-      <Footer />
-    </PageContainer>
+    <>
+      <LoadingOverlay $isLoading={pageLoading}>
+        <LoadingContent>
+          <LoadingText>{titleLetters}</LoadingText>
+          <LoadingSpinner />
+        </LoadingContent>
+      </LoadingOverlay>
+
+      <PageContainer ref={pageRef}>
+        <Header ref={headerRef}>
+          <Title>{title}</Title>
+          <Subtitle>{subtitle}</Subtitle>
+        </Header>
+        <PlansContainer ref={plansContainerRef}>
+          {plans.map((plan, idx) => (
+            <Plan
+              key={plan.id}
+              {...plan}
+              compatible={idx !== 2}
+              subscribed={idx === 1}
+            />
+          ))}
+        </PlansContainer>
+        <div className="comparison-section">
+          <Comparison htmlId="product-comparision" />
+        </div>
+        <div className="contact-section">
+          <ContactUs />
+        </div>
+        <Footer />
+      </PageContainer>
+    </>
   );
 };
 
