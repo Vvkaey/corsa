@@ -27,7 +27,7 @@ const SubscriptionStickyCtaSection = styled.section<{ $show: boolean }>`
     right: 0;
     width: 100%;
     height: 1px; /* Give the shadow element a height */
-    box-shadow: 0 1px 42px 85px rgba(0, 0, 0, 0.88);
+    box-shadow: 0 1px 44px 85px rgba(0, 0, 0, 0.78);
   }
 
   @media (min-width : 992px){
