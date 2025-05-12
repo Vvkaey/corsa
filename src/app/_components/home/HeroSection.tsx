@@ -28,6 +28,7 @@ export const HeroSection = styled(
     subHeadB,
     icons,
     compactContainerB = false,
+    htmlId
   }: {
     className?: string;
     head?: string | JSX.Element;
@@ -41,6 +42,7 @@ export const HeroSection = styled(
     subHeadB?: string | JSX.Element;
     icons?: Record<string, string>[];
     compactContainerB?: boolean;
+    htmlId?: string;
   }) => {
     // Create refs for animation
     const headingRef = useRef<HTMLHeadingElement>(null);
@@ -290,7 +292,7 @@ export const HeroSection = styled(
     }, []);
 
     return (
-      <section className={className}>
+      <section className={className} id={htmlId}>
         <SectionPadding>
           <div
             ref={rootContainerRef}

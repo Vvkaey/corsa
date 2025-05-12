@@ -35,7 +35,7 @@ export const BehindTheScenes = styled(
             start: isMobile ? "top 10%" : "top 40%",
             end: isMobile ? "top -50%" : "top 5%",
             scrub: 1,
-            markers: true,
+            markers: false,
             immediateRender: false,
             invalidateOnRefresh: true,
           },

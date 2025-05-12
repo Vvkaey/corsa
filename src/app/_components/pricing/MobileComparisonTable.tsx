@@ -196,3 +196,6 @@ export const MobileTableContainer = styled.section`
 `;
 
 export default MobileComparisonTable;
+
+
+

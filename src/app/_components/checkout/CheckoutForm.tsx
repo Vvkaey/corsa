@@ -96,7 +96,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
         );
         if (firstErrorField) {
           firstErrorField.scrollIntoView({
-            behavior: "smooth",
+          behavior: "smooth",
             block: "center",
           });
           firstErrorField.focus();
