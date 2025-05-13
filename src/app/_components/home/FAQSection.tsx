@@ -198,67 +198,67 @@ export const FAQSection = styled(
         // Set initial states for animations - using autoAlpha instead of opacity
         gsap.set(titleRef.current, {
           autoAlpha: 0,
-          y: 60
+          y: 60, // Match the 60px offset from BannerSection
         });
         
         // Set initial state for all FAQ items
         gsap.set(faqItems, {
           autoAlpha: 0,
-          y: 50
+          y: 60, // Match the 60px offset from BannerSection
         });
         
-        // Create the animation timeline
-        const tl = gsap.timeline({
+        // Create master timeline with ScrollTrigger similar to BannerSection
+        const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 75%",
+            start: "top 70%", // Match BannerSection's trigger point
             end: "center center",
-            scrub: 1,
+            scrub: 1.5, // Slower, smoother scrubbing effect like BannerSection
             // markers: false, // Enable for debugging
           }
         });
         
-        // First animate the title with proper easing
-        tl.to(titleRef.current, {
+        // First animate the title with a nice ease - similar to BannerSection
+        masterTl.to(titleRef.current, {
           autoAlpha: 1,
           y: 0,
-          duration: 0.6,
-          ease: "power2.out"
+          duration: 0.8, // Longer duration for smoother animation
+          ease: "power2.out", // Smoother ease
         });
         
-        // Then animate each FAQ item in stack fashion (one after the other)
+        // Then animate each FAQ item with staggered timing - similar to BannerSection's approach
         faqItems.forEach((item) => {
-          tl.to(item, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "power2.out"
-          }, ">");  // ">" means "start after previous animation completes"
+          masterTl.to(
+            item,
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.8, // Match BannerSection's duration
+              ease: "power1.inOut", // Match BannerSection's easing
+            },
+            `>-0.5` // Start a bit before previous animation ends for a smoother overlap
+          );
         });
         
-        // Add fallback for visibility
+        // Add fallback to ensure visibility after 2.5 seconds
         const fallbackTimeout = setTimeout(() => {
           if (document.hidden) return;
           
-          if (titleRef.current) {
-            const opacity = Number(gsap.getProperty(titleRef.current, "autoAlpha"));
-            if (opacity < 0.5) {
-              gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
-            }
+          if (titleRef.current && Number(gsap.getProperty(titleRef.current, "autoAlpha")) < 0.5) {
+            gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
           }
           
           faqItems.forEach(item => {
-            const opacity = Number(gsap.getProperty(item, "autoAlpha"));
-            if (opacity < 0.5) {
+            if (Number(gsap.getProperty(item, "autoAlpha")) < 0.5) {
               gsap.set(item, { autoAlpha: 1, y: 0 });
             }
           });
-        }, 2000);
+        }, 2500);
         
         return () => {
           clearTimeout(fallbackTimeout);
-          if (tl.scrollTrigger) {
-            tl.scrollTrigger.kill();
+          if (masterTl.scrollTrigger) {
+            masterTl.scrollTrigger.kill();
           }
         };
       });
