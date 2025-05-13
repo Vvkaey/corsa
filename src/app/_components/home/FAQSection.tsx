@@ -212,8 +212,9 @@ export const FAQSection = styled(
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 70%", // Match BannerSection's trigger point
-            end: "center center",
+            end: "top 20%",
             scrub: 1.5, // Slower, smoother scrubbing effect like BannerSection
+            markers : true,
             // markers: false, // Enable for debugging
           }
         });
@@ -262,7 +263,7 @@ export const FAQSection = styled(
           }
         };
       });
-    }, [width, isMobile, data]);
+    }, [width, isMobile, data, gsapContext]);
     
     return (
       <section className={className} id="faq-section" ref={sectionRef}>
