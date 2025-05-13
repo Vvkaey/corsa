@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { Comparison } from "./Comparison";
+// import { Comparison } from "./Comparison";
 import {
   headerSpacing,
   maxWidthContainer,
@@ -13,6 +13,9 @@ import ContactUs from "./ContactUs";
 import Image from "next/image";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+// import ComparisonNew from "./ComparisonNew";
+// import StickyTest from "./StickyTest";
+import Comparison from "./Comparison";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -771,9 +774,12 @@ const PricingPage: React.FC<PricingPageProps> = ({
             />
           ))}
         </PlansContainer>
-        <div className="comparison-section">
-          <Comparison htmlId="product-comparision" />
-        </div>
+        <Comparison htmlId="product-comparision" />
+        {/* <div className="comparison-section">
+          
+        </div> */}
+        {/* <StickyTest />
+        <ComparisonNew /> */}
         <div className="contact-section">
           <ContactUs />
         </div>

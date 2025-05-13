@@ -130,34 +130,13 @@ const HeaderContentWrapper = styled.div`
   width: 100%;
 `;
 
-// Fixed Header styles that will be applied when header is fixed
-const FixedHeaderStyles = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  z-index: 1000;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  display: none;
-  
-  &.show {
-    display: block;
-  }
-  
-  .fixed-header-content {
-    max-width: 1260px;
-    margin: 0 auto;
-    ${sectionResponsivePadding()}
-  }
-`;
 
 // Original Table Header 
 const TableHeader = styled.div`
   width: 100%;
   background: #fff;
-  z-index: 50;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  z-index: 8;
+  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #e0e0e0;
   position: relative;
 
@@ -195,6 +174,32 @@ const TableHeader = styled.div`
     }
   }
 `;
+
+
+// Fixed Header that will display when original header is not visible
+const FixedHeaderStyles = styled(TableHeader)`
+  position: fixed;
+  top: 66px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 9;
+  // box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  display: none;
+
+margin: 0 auto;
+  
+  &.show {
+    display: block;
+  }
+  
+  .fixed-header-content {
+    margin: 0 auto;
+    ${sectionResponsivePadding()}
+    max-width: 1800px;
+  }
+`;
+
 
 // Table Body Container
 const TableBodyContainer = styled.div`
@@ -240,16 +245,17 @@ export const Comparison = styled(
       
       // Function to handle scroll
       const handleScroll = () => {
-        if (!headerRef.current || !fixedHeaderRef.current) return;
+        if (!headerRef.current || !fixedHeaderRef.current || !sectionRef.current) return;
         
         const headerRect = headerRef.current.getBoundingClientRect();
+        const sectionRect = sectionRef.current.getBoundingClientRect();
         
-        // When the header would move out of view, show the fixed version
-        if (headerRect.top <= 0) {
+        // When the header would move out of view but we're still within the section, show the fixed version
+        if (headerRect.top <= 0 && sectionRect.bottom > 0) {
           fixedHeaderRef.current.classList.add('show');
           // Add space to prevent content jump when header becomes fixed
           if (bodyRef.current) {
-            bodyRef.current.style.marginTop = `${headerRef.current.offsetHeight}px`;
+            bodyRef.current.style.marginTop = `${headerRef.current.offsetHeight - 66}px`;
           }
         } else {
           fixedHeaderRef.current.classList.remove('show');
@@ -266,8 +272,21 @@ export const Comparison = styled(
       // Initial check
       handleScroll();
       
+      // Update fixed header on resize
+      const handleResize = () => {
+        const headerContent = headerRef.current?.innerHTML || '';
+        const contentWrapper = fixedHeaderRef.current?.querySelector('.fixed-header-content');
+        if (contentWrapper) {
+          contentWrapper.innerHTML = headerContent;
+        }
+        handleScroll();
+      };
+      
+      window.addEventListener('resize', handleResize);
+      
       return () => {
         window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleResize);
       };
     }, [isMobile]);
 

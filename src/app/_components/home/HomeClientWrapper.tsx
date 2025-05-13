@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { useRouter } from "next/navigation";
 import { theme } from "../theme";
@@ -18,7 +18,6 @@ import { RewardsSection } from "./RewardsSection";
 import { Footer } from "../global/footer";
 import StepsSection from "./StepsSection";
 import { QuotationSection } from "./QuotationSection";
-import SubscriptionStickyCta from "./SubscriptionStickyCta";
 
 // Define proper types for the flow content
 interface FlowColA {
@@ -88,34 +87,34 @@ export default function HomeClientWrapper({
 }: HomeClientWrapperProps) {
   const router = useRouter();
 
-  const [showStickyCta, setShowStickyCta] = useState(false);
+  // const [showStickyCta, setShowStickyCta] = useState(false);
 
-  useEffect(() => {
-    // Create an intersection observer to monitor the hero banner
-    const heroElement = document.getElementById("hero-banner");
+  // useEffect(() => {
+  //   // Create an intersection observer to monitor the hero banner
+  //   const heroElement = document.getElementById("hero-banner");
     
-    if (heroElement) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          // When hero banner is NOT in viewport, show the sticky CTA
-          setShowStickyCta(!entries[0].isIntersecting);
-        },
-        {
-          // Adjust threshold as needed - 0.1 means when 10% of the element is visible
-          threshold: 0.1,
-          // Use a small rootMargin to trigger slightly before the element leaves viewport
-          rootMargin: "-10px 0px 0px 0px"
-        }
-      );
+  //   if (heroElement) {
+  //     const observer = new IntersectionObserver(
+  //       (entries) => {
+  //         // When hero banner is NOT in viewport, show the sticky CTA
+  //         setShowStickyCta(!entries[0].isIntersecting);
+  //       },
+  //       {
+  //         // Adjust threshold as needed - 0.1 means when 10% of the element is visible
+  //         threshold: 0.1,
+  //         // Use a small rootMargin to trigger slightly before the element leaves viewport
+  //         rootMargin: "-10px 0px 0px 0px"
+  //       }
+  //     );
       
-      observer.observe(heroElement);
+  //     observer.observe(heroElement);
       
-      // Clean up observer on component unmount
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, []);
+  //     // Clean up observer on component unmount
+  //     return () => {
+  //       observer.disconnect();
+  //     };
+  //   }
+  // }, []);
 
   // Scroll to element function for navigation
   // const scrollToElement = (id: string): void => {
@@ -133,7 +132,7 @@ export default function HomeClientWrapper({
     <ThemeProvider theme={theme}>
       <div>
         <main>
-          <SubscriptionStickyCta showStickyCta={showStickyCta} />
+          {/* <SubscriptionStickyCta showStickyCta={showStickyCta} /> */}
           <HeroSection
             head={
               <>

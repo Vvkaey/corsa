@@ -144,6 +144,7 @@ export const DesktopComparisonTable = styled(
   border-collapse: collapse;
   z-index: 1;
   table-layout: fixed; /* Ensures consistent column widths */
+  // border : 2px solid red;
 
   tr {
     border-top: 1.3px solid #e0e0e0;
