@@ -52,10 +52,6 @@ const ContentBox = styled(
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* Initial state for animations - will be controlled by GSAP */
-  opacity: 0; 
-  transform: translateY(60px); /* Match the banner section's 60px offset */
-  transition: opacity 0.45s ease, transform 0.45s ease;
   will-change: transform, opacity; /* Performance optimization */
   transform-origin: center center;
 
@@ -167,12 +163,6 @@ const ContentBox = styled(
   .description-wrapper:not(.open) .description {
     transform: translateY(-10px);
   }
-  
-  /* Animation class added by GSAP */
-  &.fadeIn {
-    opacity: 1;
-    transform: translateY(0);
-  }
 `;
 
 export const FAQSection = styled(
@@ -205,67 +195,70 @@ export const FAQSection = styled(
           return;
         }
         
-        // Set initial states for animations
-        if (titleRef.current) {
-          gsap.set(titleRef.current, {
-            opacity: 0,
-            y: 50,
-          });
-        }
+        // Set initial states for animations - using autoAlpha instead of opacity
+        gsap.set(titleRef.current, {
+          autoAlpha: 0,
+          y: 60
+        });
         
         // Set initial state for all FAQ items
         gsap.set(faqItems, {
-          opacity: 0, 
-          y: 50,
+          autoAlpha: 0,
+          y: 50
         });
         
-        // Create the master timeline
-        const masterTl = gsap.timeline({
+        // Create the animation timeline
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 75%",
+            end: "center center",
+            scrub: 1,
+            // markers: false, // Enable for debugging
           }
         });
         
-        // First animate the title
-        if (titleRef.current) {
-          masterTl.to(titleRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power2.out",
-          });
-        }
+        // First animate the title with proper easing
+        tl.to(titleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        });
         
-        // Then animate each FAQ item one by one
+        // Then animate each FAQ item in stack fashion (one after the other)
         faqItems.forEach((item) => {
-          masterTl.to(item, {
-            opacity: 1,
+          tl.to(item, {
+            autoAlpha: 1,
             y: 0,
-            duration: 0.5,
-            ease: "power2.out",
+            duration: 0.4,
+            ease: "power2.out"
           }, ">");  // ">" means "start after previous animation completes"
         });
         
-        // Add fallback to ensure visibility after 2 seconds
+        // Add fallback for visibility
         const fallbackTimeout = setTimeout(() => {
           if (document.hidden) return;
           
-          if (titleRef.current && window.getComputedStyle(titleRef.current).opacity < "1") {
-            gsap.set(titleRef.current, { opacity: 1, y: 0 });
+          if (titleRef.current) {
+            const opacity = Number(gsap.getProperty(titleRef.current, "autoAlpha"));
+            if (opacity < 0.5) {
+              gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
+            }
           }
           
           faqItems.forEach(item => {
-            if (window.getComputedStyle(item).opacity < "1") {
-              gsap.set(item, { opacity: 1, y: 0 });
+            const opacity = Number(gsap.getProperty(item, "autoAlpha"));
+            if (opacity < 0.5) {
+              gsap.set(item, { autoAlpha: 1, y: 0 });
             }
           });
         }, 2000);
         
         return () => {
           clearTimeout(fallbackTimeout);
-          if (masterTl.scrollTrigger) {
-            masterTl.scrollTrigger.kill();
+          if (tl.scrollTrigger) {
+            tl.scrollTrigger.kill();
           }
         };
       });
