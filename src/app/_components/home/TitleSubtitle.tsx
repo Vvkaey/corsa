@@ -165,11 +165,12 @@ const Title = styled.div<{ theme: "dark" | "light" }>`
     font-family: var(--font-exo);
     font-size: 28px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: normal;
     text-transform: capitalize;
     margin: 0 auto;
     @media (min-width: 992px) {
+    font-weight: 600;
       max-width: ${({ theme }) => (theme == "dark" ? "70%" : "unset")};
       leading-trim: both;
       text-edge: cap;
@@ -188,12 +189,13 @@ const SubTitle = styled.h2<{ theme: "dark" | "light" }>`
   font-family: var(--font-fustat);
   font-size: 16px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 141.979%; /* 22.717px */
   max-width: 90%;
   @media (min-width: 992px) {
     max-width: 58%;
     leading-trim: both;
+     font-weight: 500;
     text-edge: cap;
     font-size: 19.9px;
   }
