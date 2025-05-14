@@ -54,13 +54,13 @@ export const DesktopNavItems = styled(
 
       if (router) {
         router.push(href);
-        setShowMenu(false);
+        if (setShowMenu) setShowMenu(false);
       }
     }, [router, setShowMenu, isAuthenticated]);
 
     const logoutUser = useCallback(() => {
       logout();
-      setShowMenu(false);
+      if (setShowMenu) setShowMenu(false);
     }, [logout, setShowMenu]);
 
     return (
@@ -206,8 +206,7 @@ export const HamOverlay = styled(
         : "/login?redirect=/dashboard";
       if (router) {
         router.push(href);
-        if (!setShowMenu) return;
-        setShowMenu(false);
+        if (setShowMenu) setShowMenu(false);
       }
     }, [router, setShowMenu, isAuthenticated]);
 

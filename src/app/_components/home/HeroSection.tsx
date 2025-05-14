@@ -397,8 +397,8 @@ export const HeroSection = styled(
         .cta-wrapper{
          position: relative;
          overflow: hidden;
-        //  border : 2px solid blue;
-         width: 100%;
+        width: 90%;
+        margin: auto;
         .primary-cta {
           position: relative;
           border-radius: 8px;
@@ -413,7 +413,7 @@ export const HeroSection = styled(
           font-family: var(--font-fustat);
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
-          width: 90%;
+          width: 100%;
           overflow: hidden;
 
           &::after {
@@ -466,7 +466,7 @@ export const HeroSection = styled(
           font-family: var(--font-fustat);
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
-          // width: 90%;
+           width: 100%;
           overflow: hidden;
 
            &::after {
