@@ -338,7 +338,7 @@ export const RewardsSection = styled(
                     <br />
                     <span className="completion-sub">
                       You&apos;ve unlocked <RedSpan>extended time</RedSpan> on
-                      your first mentor session!
+                      your <br/> first mentor session!
                     </span>
                   </p>
                 </div>
@@ -668,6 +668,7 @@ export const RewardsSection = styled(
               @media (min-width: 992px) {
                 font-size: 20px;
                 line-height: 110%;
+                max-width: 15ch;
               }
 
               @media (min-width: 1950px) {

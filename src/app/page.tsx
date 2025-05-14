@@ -52,21 +52,21 @@ const INSIGHTS_DATA = {
   colA: [
     {
       icon: <BrownBgTick />,
-      title: `Data-Backed Insights`,
+      title: `Data Backed Insights`,
       description: `Just real data and analytics to 
 drive smarter decisions.
 `,
     },
     {
       icon: <BrownBgTick />,
-      title: `Trend-Driven Updates`,
+      title: `Trend Driven Updates`,
       description: `Stay ahead with insights into emerging practices.`,
     },
   ],
   colB: [
     {
       icon: <BrownBgTick />,
-      title: `Action-Oriented Guidance`,
+      title: `Action Oriented Guidance`,
       description: `Clear steps to help you achieve tangible progress.`,
     },
     {

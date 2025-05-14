@@ -170,7 +170,7 @@ const Title = styled.div<{ theme: "dark" | "light" }>`
     text-transform: capitalize;
     margin: 0 auto;
     @media (min-width: 992px) {
-      max-width: ${({ theme }) => (theme == "dark" ? "70%" : "unset")};
+      max-width: ${({ theme }) => (theme == "dark" ? "18ch" : "unset")};
       leading-trim: both;
       text-edge: cap;
       font-size: 67.669px;

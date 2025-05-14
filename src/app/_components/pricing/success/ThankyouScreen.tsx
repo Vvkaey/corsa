@@ -28,7 +28,7 @@ const ThankyouScreen = ({
   const router = useRouter();
 
   const redirect = useCallback(() => {
-    router.replace("/");
+    router.replace("/dashboard");
   }, [router]);
 
   // Timer effect
@@ -76,7 +76,7 @@ const ThankyouScreen = ({
       </ThankyouBox>
       <Note>
         Redirecting in {secondsLeft} seconds. You are being redirected to the
-        homepage
+        dashboard.
       </Note>
     </ThankyouContainer>
   );

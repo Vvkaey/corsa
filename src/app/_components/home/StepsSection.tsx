@@ -250,8 +250,8 @@ export const StepsSection = styled(
               title={`"We've got your back, 
 Let's `}
               redspan={`Make it happen."`}
-              subtitle={`"No fluff. No big promises. Just real conversations 
-with mentors who get things done. Here's how we help you step up."`}
+              subtitle={`No fluff. No big promises. Just real conversations 
+with mentors who get things done. Here's how we help you step up.`}
             />
           </div>
           
