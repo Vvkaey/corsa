@@ -673,7 +673,7 @@ with mentors who get things done. Here's how we help you step up."`}
               @media (min-width: 992px) {
                 text-align: left;
                 font-size: 36px;
-                max-width: 16ch;
+                max-width: 18ch;
               }
 
               @media (min-width: 1320px) {
