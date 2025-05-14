@@ -162,7 +162,7 @@ export const DesktopComparisonTable = styled(
 
     &:first-child {
       text-align: left;
-      padding: 38px 10px 42px 49px;
+      padding: 19px 10px 21px 49px;
     }
 
     &:not(:first-child) {

@@ -40,13 +40,13 @@ export const MainSection = styled.section`
     background: linear-gradient(0deg, #9f9d9d 3.35%, #0e0e0e 50.52%, #0e0e0e 143.11%);
       box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.25);
     gap: 0px;
-     padding: 45px 70px 70px;
+     padding: 45px 70px 40px;
   } 
     
   @media (min-width: 1950px) {
   max-width: 1500px;
     gap: 17px;
-     padding: 65px 117px 100px;
+     padding: 65px 117px 75px;
   } 
 `;
 
