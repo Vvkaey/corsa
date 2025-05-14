@@ -188,7 +188,7 @@ const SubTitle = styled.h2<{ theme: "dark" | "light" }>`
   font-family: var(--font-fustat);
   font-size: 16px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 141.979%; /* 22.717px */
   max-width: 90%;
   @media (min-width: 992px) {

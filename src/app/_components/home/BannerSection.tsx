@@ -364,7 +364,7 @@ export const BannerSection = styled(
             color: #fff;
             font-size: 16px;
             font-style: normal;
-            font-weight: 600;
+            font-weight: 500;
             line-height: 141.979%; /* 25.556px */
             display: flex;
             align-items: center;
