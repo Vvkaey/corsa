@@ -165,7 +165,7 @@ const Title = styled.div<{ theme: "dark" | "light" }>`
     font-family: var(--font-exo);
     font-size: 28px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     line-height: normal;
     text-transform: capitalize;
     margin: 0 auto;
