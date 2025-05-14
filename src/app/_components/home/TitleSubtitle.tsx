@@ -170,7 +170,6 @@ const Title = styled.div<{ theme: "dark" | "light" }>`
     text-transform: capitalize;
     margin: 0 auto;
     @media (min-width: 992px) {
-    font-weight: 600;
       max-width: ${({ theme }) => (theme == "dark" ? "70%" : "unset")};
       leading-trim: both;
       text-edge: cap;
@@ -195,7 +194,6 @@ const SubTitle = styled.h2<{ theme: "dark" | "light" }>`
   @media (min-width: 992px) {
     max-width: 58%;
     leading-trim: both;
-     font-weight: 500;
     text-edge: cap;
     font-size: 19.9px;
   }
