@@ -85,7 +85,7 @@ const ProductHeadCTA = styled.button`
   background: transparent;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
-  
+
   &:hover {
     background-color: #ff2626;
     color: white;
@@ -130,8 +130,7 @@ const HeaderContentWrapper = styled.div`
   width: 100%;
 `;
 
-
-// Original Table Header 
+// Original Table Header
 const TableHeader = styled.div`
   width: 100%;
   background: #fff;
@@ -175,11 +174,10 @@ const TableHeader = styled.div`
   }
 `;
 
-
 // Fixed Header that will display when original header is not visible
 const FixedHeaderStyles = styled(TableHeader)`
   position: fixed;
-  top: 66px;
+  top: 45px;
   left: 0;
   width: 100%;
   background: #fff;
@@ -187,12 +185,16 @@ const FixedHeaderStyles = styled(TableHeader)`
   // box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   display: none;
 
-margin: 0 auto;
-  
+  margin: 0 auto;
+
   &.show {
     display: block;
   }
-  
+
+  @media (min-width: 992px) {
+    top: 62px;
+  }
+
   .fixed-header-content {
     margin: 0 auto;
     ${sectionResponsivePadding()}
@@ -200,18 +202,19 @@ margin: 0 auto;
   }
 `;
 
-
 // Table Body Container
 const TableBodyContainer = styled.div`
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+   border: 2px solid blue;
+
 `;
 
 // Scrollable inner content
 const ScrollableContent = styled.div`
   width: 100%;
-  padding-bottom: 120px;
+  height: auto;
 `;
 
 // Main comparison component
@@ -228,142 +231,164 @@ export const Comparison = styled(
     const contentRef = useRef<HTMLDivElement>(null);
     const isMobile = (width ?? 0) < 768;
     const gsapContext = useGsapContext();
-    
+
     // Create a separate fixed header for reliability
     useEffect(() => {
       if (!headerRef.current || !fixedHeaderRef.current) return;
-      
+
       // Clone the header content
       const headerContent = headerRef.current.innerHTML;
-      const contentWrapper = document.createElement('div');
-      contentWrapper.className = 'fixed-header-content';
+      const contentWrapper = document.createElement("div");
+      contentWrapper.className = "fixed-header-content";
       contentWrapper.innerHTML = headerContent;
-      
+
       // Clear and append
-      fixedHeaderRef.current.innerHTML = '';
+      fixedHeaderRef.current.innerHTML = "";
       fixedHeaderRef.current.appendChild(contentWrapper);
-      
+
       // Function to handle scroll
       const handleScroll = () => {
-        if (!headerRef.current || !fixedHeaderRef.current || !sectionRef.current) return;
-        
+        if (
+          !headerRef.current ||
+          !fixedHeaderRef.current ||
+          !sectionRef.current
+        )
+          return;
+
         const headerRect = headerRef.current.getBoundingClientRect();
         const sectionRect = sectionRef.current.getBoundingClientRect();
-        
+
         // When the header would move out of view but we're still within the section, show the fixed version
-        if (headerRect.top <= 0 && sectionRect.bottom > 0) {
-          fixedHeaderRef.current.classList.add('show');
+        if (headerRect.top <= 62 && sectionRect.bottom > 0) {
+          fixedHeaderRef.current.classList.add("show");
           // Add space to prevent content jump when header becomes fixed
-          if (bodyRef.current) {
-            bodyRef.current.style.marginTop = `${headerRef.current.offsetHeight - 66}px`;
-          }
+          // if (bodyRef.current) {
+          //   bodyRef.current.style.marginTop = `${headerRef.current.offsetHeight - 66}px`;
+          // }
         } else {
-          fixedHeaderRef.current.classList.remove('show');
+          fixedHeaderRef.current.classList.remove("show");
           // Remove extra space
-          if (bodyRef.current) {
-            bodyRef.current.style.marginTop = '0';
-          }
+          // if (bodyRef.current) {
+          //   bodyRef.current.style.marginTop = '0';
+          // }
         }
       };
-      
+
       // Attach scroll listener
-      window.addEventListener('scroll', handleScroll);
-      
+      window.addEventListener("scroll", handleScroll);
+
       // Initial check
       handleScroll();
-      
+
       // Update fixed header on resize
       const handleResize = () => {
-        const headerContent = headerRef.current?.innerHTML || '';
-        const contentWrapper = fixedHeaderRef.current?.querySelector('.fixed-header-content');
+        const headerContent = headerRef.current?.innerHTML || "";
+        const contentWrapper = fixedHeaderRef.current?.querySelector(
+          ".fixed-header-content"
+        );
         if (contentWrapper) {
           contentWrapper.innerHTML = headerContent;
         }
         handleScroll();
       };
-      
-      window.addEventListener('resize', handleResize);
-      
+
+      window.addEventListener("resize", handleResize);
+
       return () => {
-        window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("resize", handleResize);
       };
     }, [isMobile]);
 
     // Set up GSAP for content scrolling
     useIsomorphicLayoutEffect(() => {
-      if (!sectionRef.current || !headerRef.current || !bodyRef.current || !contentRef.current || !wrapperRef.current || !containerRef.current) return;
+      if (
+        !sectionRef.current ||
+        !headerRef.current ||
+        !bodyRef.current ||
+        !contentRef.current ||
+        !wrapperRef.current ||
+        !containerRef.current
+      )
+        return;
 
       const headerHeight = headerRef.current.offsetHeight;
       const contentHeight = contentRef.current.scrollHeight;
-      
+
       // Set the section height to ensure adequate scrolling space
       const setHeights = () => {
-        // Make the section height large enough to allow for scrolling through all content
-        const totalHeight = headerHeight + contentHeight + 100;
-        const minHeight = Math.max(totalHeight, window.innerHeight * 2);
-        sectionRef.current!.style.height = `${minHeight}px`;
-        
-        console.log(`Setting component height to ${minHeight}px`);
+        // Make the section height large e+nough to allow for scrolling through all content
+        const totalHeight = contentHeight - 200;
+        // // const minHeight = Math.max(totalHeight, window.innerHeight * 2);
+        if (sectionRef.current) {
+          sectionRef.current.style.height = `${totalHeight}px`;
+        }
+
+        // console.log(`Setting component height to ${totalHeight}px`);
       };
-      
+
       // Set initial heights
       setHeights();
-      
+
       gsapContext.add(() => {
         console.log("Setting up comparison table with separate fixed header");
-        
+
         // Clean up any existing ScrollTriggers
-        ScrollTrigger.getAll().forEach(st => st.kill());
-        
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+
         // Create scroll animation for the table content
         const tableScroll = gsap.timeline({
           scrollTrigger: {
             trigger: bodyRef.current,
             start: `top top+=${headerHeight}`,
-            end: `+=${contentHeight}`,
+            end: `+=${contentHeight}*0.25`,
             scrub: 0.1,
             invalidateOnRefresh: true,
-          }
+          },
         });
-        
+
         // Animate table content scrolling
         tableScroll.to(contentRef.current, {
           y: -contentHeight,
           ease: "none",
-          duration: 1
+          duration: 1,
         });
-        
+
         return () => {
           // Clean up
           if (tableScroll.scrollTrigger) tableScroll.scrollTrigger.kill();
-          ScrollTrigger.getAll().forEach(st => st.kill());
+          ScrollTrigger.getAll().forEach((st) => st.kill());
         };
       });
-      
+
       // Handle resize
-      window.addEventListener('resize', () => {
+      window.addEventListener("resize", () => {
         setHeights();
         // Also update the fixed header on resize
         if (headerRef.current && fixedHeaderRef.current) {
           const headerContent = headerRef.current.innerHTML;
-          const contentWrapper = fixedHeaderRef.current.querySelector('.fixed-header-content');
+          const contentWrapper = fixedHeaderRef.current.querySelector(
+            ".fixed-header-content"
+          );
           if (contentWrapper) {
             contentWrapper.innerHTML = headerContent;
           }
         }
       });
-      
+
       return () => {
-        window.removeEventListener('resize', setHeights);
+        window.removeEventListener("resize", setHeights);
       };
     }, [gsapContext, width, isMobile]);
 
     return (
       <div className={className} id={htmlId} ref={sectionRef}>
         {/* Fixed header element that stays at the top of screen */}
-        <FixedHeaderStyles ref={fixedHeaderRef} className="fixed-header"></FixedHeaderStyles>
-        
+        <FixedHeaderStyles
+          ref={fixedHeaderRef}
+          className="fixed-header"
+        ></FixedHeaderStyles>
+
         <ComparisonContainer ref={containerRef}>
           <HeaderContentWrapper ref={wrapperRef}>
             {!isMobile ? (
@@ -388,7 +413,8 @@ export const Comparison = styled(
                                   {COMPARISON_DATA[id]?.price}
                                 </ProductHeadPricing>
                                 <ProductHeadCTA>
-                                  {COMPARISON_DATA[id]?.cta}{" "}{COMPARISON_DATA[id]?.title.split(" ")[0]}
+                                  {COMPARISON_DATA[id]?.cta}{" "}
+                                  {COMPARISON_DATA[id]?.title.split(" ")[0]}
                                 </ProductHeadCTA>
                               </ProductHeader>
                             </div>
@@ -400,7 +426,10 @@ export const Comparison = styled(
                 </TableHeader>
 
                 {/* Desktop Table Body */}
-                <TableBodyContainer ref={bodyRef} className="table-body-container">
+                <TableBodyContainer
+                  ref={bodyRef}
+                  className="table-body-container"
+                >
                   <ScrollableContent ref={contentRef}>
                     <DesktopComparisonTable
                       data={COMPARISON_DATA}
@@ -412,14 +441,18 @@ export const Comparison = styled(
             ) : (
               <>
                 {/* Mobile Table Header - Original */}
-                <TableHeader ref={headerRef} className="thead-sticky mobile-header">
-                  <h2 className="comparator-head">
-                    Compare plans & benefits
-                  </h2>
+                <TableHeader
+                  ref={headerRef}
+                  className="thead-sticky mobile-header"
+                >
+                  <h2 className="comparator-head">Compare plans & benefits</h2>
                 </TableHeader>
-                
+
                 {/* Mobile Table Body */}
-                <TableBodyContainer ref={bodyRef} className="table-body-container">
+                <TableBodyContainer
+                  ref={bodyRef}
+                  className="table-body-container"
+                >
                   <ScrollableContent ref={contentRef}>
                     <MobileComparisonTable
                       data={COMPARISON_DATA}
@@ -439,12 +472,13 @@ export const Comparison = styled(
   position: relative;
   background: #fff;
   grid-column: 0 / 10;
-  height: 200vh; /* Initial height, will be adjusted by JS */
-  
+  // min-height: auto;
+  // height: auto;
+  border: 2px solid red;
   /* Mobile header styling */
   .mobile-header {
     padding: 20px;
-    
+
     .comparator-head {
       color: #000;
       font-size: 28px;
@@ -455,6 +489,5 @@ export const Comparison = styled(
     }
   }
 `;
-
 
 export default Comparison;

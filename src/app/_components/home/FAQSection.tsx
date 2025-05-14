@@ -181,7 +181,7 @@ export const FAQSection = styled(
     
     const gsapContext = useGsapContext();
     const { width } = useWindowSize();
-    const isMobile = width && width < 992;
+    // const isMobile = width && width < 992;
     
     useIsomorphicLayoutEffect(() => {
       if (!sectionRef.current || !titleRef.current || !contentRef.current) return;
@@ -214,7 +214,7 @@ export const FAQSection = styled(
             start: "top 70%", // Match BannerSection's trigger point
             end: "top 15%",
             scrub: 1.5, // Slower, smoother scrubbing effect like BannerSection
-            markers : true,
+            // markers : true,
             // markers: false, // Enable for debugging
           }
         });
@@ -242,28 +242,28 @@ export const FAQSection = styled(
         });
         
         // Add fallback to ensure visibility after 2.5 seconds
-        const fallbackTimeout = setTimeout(() => {
-          if (document.hidden) return;
+        // const fallbackTimeout = setTimeout(() => {
+        //   if (document.hidden) return;
           
-          if (titleRef.current && Number(gsap.getProperty(titleRef.current, "autoAlpha")) < 0.5) {
-            gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
-          }
+        //   if (titleRef.current && Number(gsap.getProperty(titleRef.current, "autoAlpha")) < 0.5) {
+        //     gsap.set(titleRef.current, { autoAlpha: 1, y: 0 });
+        //   }
           
-          faqItems.forEach(item => {
-            if (Number(gsap.getProperty(item, "autoAlpha")) < 0.5) {
-              gsap.set(item, { autoAlpha: 1, y: 0 });
-            }
-          });
-        }, 2500);
+        //   faqItems.forEach(item => {
+        //     if (Number(gsap.getProperty(item, "autoAlpha")) < 0.5) {
+        //       gsap.set(item, { autoAlpha: 1, y: 0 });
+        //     }
+        //   });
+        // }, 2500);
         
         return () => {
-          clearTimeout(fallbackTimeout);
+          // clearTimeout(fallbackTimeout);
           if (masterTl.scrollTrigger) {
             masterTl.scrollTrigger.kill();
           }
         };
       });
-    }, [width, isMobile, data, gsapContext]);
+    }, [width, gsapContext]);
     
     return (
       <section className={className} id="faq-section" ref={sectionRef}>
