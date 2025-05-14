@@ -101,13 +101,16 @@ export const HeroSection = styled(
           opacity: 0
         });
 
+
+
         // Primary CTA
         if (primaryCtaRef.current && !subscription) {
           gsap.set(primaryCtaRef.current, {
             opacity: 1, // Make it visible from the start
-            width: '0%', // Start with 0 width
-            padding: '11px 0', // Remove horizontal padding initially
+            width: '10%', // Start with 0 width
+             // Remove horizontal padding initially
             overflow: 'hidden',
+             x: -350,
             whiteSpace: 'nowrap'
           });
         }
@@ -116,9 +119,10 @@ export const HeroSection = styled(
         if (secondaryCtaRef.current) {
           gsap.set(secondaryCtaRef.current, {
             opacity: 1, // Make it visible from the start
-            width: '0%', // Start with 0 width
-            padding: '11px 0', // Remove horizontal padding initially
+            width: '10%', // Start with 0 width
+             // Remove horizontal padding initially
             overflow: 'hidden',
+              x: 350,
             whiteSpace: 'nowrap'
           });
         }
@@ -152,20 +156,22 @@ export const HeroSection = styled(
         if (primaryCtaRef.current && !subscription) {
           tl.to(primaryCtaRef.current, {
             width: '90%', // Expand to full width
-            padding: '11px 33px', // Restore full padding
+            // padding: '11px 33px', // Restore full padding
             duration: 0.6, // Slightly longer duration for visibility
+              x: 0,
             ease: "power1.out" // Different easing for better visibility
-          }, "-=0.3"); // Overlap with CTA container animation
+          }, "-=0.5"); // Overlap with CTA container animation
         }
 
         // Secondary CTA button - start with small delay
         if (secondaryCtaRef.current) {
           tl.to(secondaryCtaRef.current, {
             width: '90%', // Expand to full width
-            padding: '11px 33px', // Restore full padding
+            // padding: '11px 33px', // Restore full padding
             duration: 0.6, // Slightly longer duration for visibility
+              x: 0,
             ease: "power1.out" // Different easing for better visibility
-          }, "-=0.2"); // Small overlap with primary button
+          }, "-=0.5"); // Small overlap with primary button
         }
 
         // Setup ripple effect for hover (using existing CSS animation)
@@ -205,6 +211,7 @@ export const HeroSection = styled(
               {primaryCta || secondaryCta ? (
                 <div ref={ctaContainerRef} className="cta-container">
                   {!subscription && primaryCta ? (
+                     <div className="cta-wrapper">
                     <button
                       ref={primaryCtaRef}
                       className="primary-cta"
@@ -212,8 +219,10 @@ export const HeroSection = styled(
                     >
                       {primaryCta}
                     </button>
+                    </div>
                   ) : null}
                   {subscription && badge === BADGES.MARSHALL ? (
+                     <div className="cta-wrapper">
                     <button
                       ref={secondaryCtaRef}
                       className={subscription ? "primary-cta" : "secondary-cta"}
@@ -221,9 +230,11 @@ export const HeroSection = styled(
                     >
                       Add on Mentor Plan
                     </button>
+                    </div>
                   ) : null}
 
                   {subscription && badge === BADGES.TACTICAL_ACE ? (
+                     <div className="cta-wrapper">
                     <button
                       ref={secondaryCtaRef}
                       className={subscription ? "primary-cta" : "secondary-cta"}
@@ -231,8 +242,10 @@ export const HeroSection = styled(
                     >
                       Add on Insight Plan
                     </button>
+                     </div>
                   ) : null}
                   {secondaryCta ? (
+                    <div className="cta-wrapper">
                     <button
                       ref={secondaryCtaRef}
                       className={subscription ? "primary-cta" : "secondary-cta"}
@@ -240,7 +253,9 @@ export const HeroSection = styled(
                     >
                       {secondaryCta}
                     </button>
+                    </div>
                   ) : null}
+
                 </div>
               ) : null}
             </div>
@@ -379,6 +394,11 @@ export const HeroSection = styled(
           gap: 16px;
         }
 
+        .cta-wrapper{
+         position: relative;
+         overflow: hidden;
+        //  border : 2px solid blue;
+         width: 100%;
         .primary-cta {
           position: relative;
           border-radius: 8px;
@@ -399,8 +419,8 @@ export const HeroSection = styled(
           &::after {
             content: "";
             position: absolute;
-            top: 50%;
-            left: 50%;
+             top: calc(50% - 2.5px + 5px);
+            left:  50%;
             width: 5px;
             height: 5px;
             background: rgba(255, 255, 255, 0.4);
@@ -446,7 +466,7 @@ export const HeroSection = styled(
           font-family: var(--font-fustat);
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
-          width: 90%;
+          // width: 90%;
           overflow: hidden;
 
            &::after {
@@ -470,12 +490,12 @@ export const HeroSection = styled(
           }
 
           @media (min-width: 992px) {
-            width: unset;
+            // width: unset;
             padding: 10px 40px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
-            will-change: transform, opacity, box-shadow;
+            will-change: transform, opacity, box-shadow, width;
             transform: translateZ(0);
           }
 
@@ -495,6 +515,7 @@ export const HeroSection = styled(
             min-width: 290px;
           }
         }
+}
       }
     }
   }

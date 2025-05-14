@@ -229,7 +229,6 @@ const TableBodyContainer = styled.div`
   width: 100%;
   position: relative;
   overflow: auto;
-  border: 2px solid blue;
 `;
 
 // Scrollable inner content
@@ -495,7 +494,7 @@ export const Comparison = styled(
   grid-column: 0 / 10;
   // min-height: auto;
   // height: auto;
-  border: 2px solid red;
+
   /* Mobile header styling */
   .mobile-header {
     padding: 20px;

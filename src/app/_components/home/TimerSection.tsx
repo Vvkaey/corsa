@@ -71,15 +71,15 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       
       gsap.set(ctaRef.current, {
         autoAlpha: 0,
-        y: 20,
+        x: -220,
       });
       
       // Create main timeline
       const mainTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 75%",
-          end: "top 30%",
+          start: "top 55%",
+          end: "top 20%",
           scrub: 1,
         },
       });
@@ -108,9 +108,9 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       
       mainTl.to(ctaRef.current, {
         autoAlpha: 1,
-        y: 0,
+        x: 0,
         duration: 0.4,
-        ease: "power2.out",
+        ease: "linear.out",
       }, ">-0.15");
       
       return () => {
@@ -352,6 +352,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
             </p>
           </div>
         </div>
+        <div className="cta-wrapper">
         <div className="cta-container" ref={ctaRef}>
           {!running && displayTime.seconds === 0 ? (
             <button className="primary-cta" onClick={handleStart}>
@@ -367,6 +368,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
               Reset
             </button>
           )}
+        </div>
         </div>
       </div>
     </section>
@@ -585,7 +587,12 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       }
     }
 
+    .cta-wrapper{
+    position: relative;
+    overflow: hidden;
+
     .cta-container {
+
       padding-top: 20px;
       display: flex;
       gap: 15px;
@@ -610,8 +617,8 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
          &::after {
             content: "";
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: calc(50% - 2.5px + 8px);
+            left:  calc(50% - 2.5px);
             width: 5px;
             height: 5px;
             background: rgba(255, 255, 255, 0.4);
@@ -655,5 +662,6 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         }
       }
     }
+}
   }
 `;

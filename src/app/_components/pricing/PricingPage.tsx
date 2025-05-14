@@ -18,6 +18,8 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import Comparison from "./Comparison";
 import { rippleAnimation } from "../mentor-application/styled";
 
+
+
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -373,11 +375,11 @@ const CtaButton = styled.button<StyledButtonProps>`
   &::after {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: calc(50% - 2.5px + 5px);
+    left: calc(50% - 2.5px);
     width: 5px;
     height: 5px;
-    background:  rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.4);
     opacity: 0;
     border-radius: 100%;
     transform: scale(1, 1) translate(-50%, -50%);
@@ -585,6 +587,8 @@ const Plan: React.FC<PricingPlan> = ({
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
 
+
+
   // Set up scroll animations for benefits
   useEffect(() => {
     if (!benefitsRef.current) return;
@@ -630,6 +634,8 @@ const Plan: React.FC<PricingPlan> = ({
     }
   };
 
+ 
+
   // Scroll to element function for navigation
   const scrollToElement = (id: string): void => {
     const container = document.getElementById(id);
@@ -658,6 +664,7 @@ const Plan: React.FC<PricingPlan> = ({
           disabled={isLoading || !compatible || subscribed}
           $subscribed={subscribed}
           className="cta-button"
+
         >
           {!compatible
             ? "Not Compatible"
