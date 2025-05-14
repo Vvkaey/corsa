@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { JSX } from "react";
 import {
@@ -13,6 +13,10 @@ import {
   BADGES,
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
+import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
+import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import gsap from "gsap";
 
 export const HeroSection = styled(
   ({
@@ -45,254 +49,136 @@ export const HeroSection = styled(
     htmlId?: string;
   }) => {
     // Create refs for animation
+    const sectionRef = useRef<HTMLElement>(null);
+    const rootContainerRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const subHeadingRef = useRef<HTMLHeadingElement>(null);
     const ctaContainerRef = useRef<HTMLDivElement>(null);
     const primaryCtaRef = useRef<HTMLButtonElement>(null);
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
-    const rootContainerRef = useRef<HTMLDivElement>(null);
 
     const { subscription, badge } = useMentorshipContext();
+    const { width } = useWindowSize();
+    const isMobile = (width ?? 0) < 768;
+    const gsapContext = useGsapContext();
 
-    useEffect(() => {
-      // For SSR safety
-      if (typeof window === "undefined") return;
+    useIsomorphicLayoutEffect(() => {
+      if (!sectionRef.current || !rootContainerRef.current) return;
 
-      // Store ref values at the beginning of the effect
-      const currentHeadingRef = headingRef.current;
-      const currentSubHeadingRef = subHeadingRef.current;
-      const currentCtaContainerRef = ctaContainerRef.current;
-      const currentPrimaryCtaRef = primaryCtaRef.current;
-      const currentSecondaryCtaRef = secondaryCtaRef.current;
-
-      // Create event handlers with named functions for proper cleanup
-      const primaryEnterHandler = currentPrimaryCtaRef
-        ? () => {
-            currentPrimaryCtaRef.style.transform = "translateY(-3px)";
-            currentPrimaryCtaRef.style.boxShadow =
-              "0 10px 20px rgba(255, 38, 38, 0.2)";
-          }
-        : undefined;
-
-      const primaryLeaveHandler = currentPrimaryCtaRef
-        ? () => {
-            currentPrimaryCtaRef.style.transform = "translateY(0)";
-            currentPrimaryCtaRef.style.boxShadow = "0 0 0 rgba(255, 38, 38, 0)";
-          }
-        : undefined;
-
-      const secondaryEnterHandler = currentSecondaryCtaRef
-        ? () => {
-            currentSecondaryCtaRef.style.transform = "translateY(-3px)";
-            currentSecondaryCtaRef.style.boxShadow =
-              "0 10px 20px rgba(255, 38, 38, 0.1)";
-          }
-        : undefined;
-
-      const secondaryLeaveHandler = currentSecondaryCtaRef
-        ? () => {
-            currentSecondaryCtaRef.style.transform = "translateY(0)";
-            currentSecondaryCtaRef.style.boxShadow =
-              "0 0 0 rgba(255, 38, 38, 0)";
-          }
-        : undefined;
-
-      try {
-        // Check if we're on mobile (screen width < 768px)
-        const isMobile = window.innerWidth < 768;
-
-        // Skip animations on mobile
+      gsapContext.add(() => {
+        // Skip animations on mobile - immediately show everything
         if (isMobile) {
           // Make all elements visible immediately without animations
-          if (currentHeadingRef) {
-            currentHeadingRef.style.opacity = "1";
-            currentHeadingRef.style.transform = "none";
-          }
-
-          if (currentSubHeadingRef) {
-            currentSubHeadingRef.style.opacity = "1";
-            currentSubHeadingRef.style.transform = "none";
-          }
-
-          if (currentCtaContainerRef) {
-            currentCtaContainerRef.style.opacity = "1";
-            currentCtaContainerRef.style.transform = "none";
-          }
-
-          if (currentPrimaryCtaRef) {
-            currentPrimaryCtaRef.style.opacity = "1";
-            currentPrimaryCtaRef.style.transform = "none";
-            currentPrimaryCtaRef.style.scale = "1";
-          }
-
-          if (currentSecondaryCtaRef) {
-            currentSecondaryCtaRef.style.opacity = "1";
-            currentSecondaryCtaRef.style.transform = "none";
-            currentSecondaryCtaRef.style.scale = "1";
-          }
+          gsap.set([
+            headingRef.current, 
+            subHeadingRef.current, 
+            ctaContainerRef.current, 
+            primaryCtaRef.current, 
+            secondaryCtaRef.current
+          ], {
+            opacity: 1,
+            clearProps: "transform"
+          });
           return;
         }
 
-        // Desktop animations
-        // Initial setup - set initial state
-        if (currentHeadingRef) {
-          currentHeadingRef.style.opacity = "0";
-          currentHeadingRef.style.transform = "translateY(20px)";
-          currentHeadingRef.style.transition =
-            "opacity 0.9s ease, transform 0.9s ease";
+        // Set initial states for desktop animations
+        // Heading
+        gsap.set(headingRef.current, {
+          opacity: 0,
+          y: 10 // Smaller offset for faster animation
+        });
+
+        // Subheading
+        gsap.set(subHeadingRef.current, {
+          opacity: 0,
+          y: 10 // Smaller offset for faster animation
+        });
+
+        // CTA container
+        gsap.set(ctaContainerRef.current, {
+          opacity: 0
+        });
+
+        // Primary CTA
+        if (primaryCtaRef.current && !subscription) {
+          gsap.set(primaryCtaRef.current, {
+            opacity: 1, // Make it visible from the start
+            width: '0%', // Start with 0 width
+            padding: '11px 0', // Remove horizontal padding initially
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          });
         }
 
-        if (currentSubHeadingRef) {
-          currentSubHeadingRef.style.opacity = "0";
-          currentSubHeadingRef.style.transform = "translateY(20px)";
-          currentSubHeadingRef.style.transition =
-            "opacity 0.8s ease, transform 0.8s ease";
+        // Secondary CTA
+        if (secondaryCtaRef.current) {
+          gsap.set(secondaryCtaRef.current, {
+            opacity: 1, // Make it visible from the start
+            width: '0%', // Start with 0 width
+            padding: '11px 0', // Remove horizontal padding initially
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          });
         }
 
-        if (currentCtaContainerRef) {
-          currentCtaContainerRef.style.opacity = "0";
-          currentCtaContainerRef.style.transition = "opacity 0.7s ease";
-        }
-
-        if (currentPrimaryCtaRef) {
-          currentPrimaryCtaRef.style.opacity = "0";
-          currentPrimaryCtaRef.style.transform = "translateY(15px)";
-          currentPrimaryCtaRef.style.scale = "0.95";
-          currentPrimaryCtaRef.style.transition =
-            "opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease";
-        }
-
-        if (currentSecondaryCtaRef) {
-          currentSecondaryCtaRef.style.opacity = "0";
-          currentSecondaryCtaRef.style.transform = "translateY(15px)";
-          currentSecondaryCtaRef.style.scale = "0.95";
-          currentSecondaryCtaRef.style.transition =
-            "opacity 0.7s ease, transform 0.7s ease, scale 0.7s ease";
-        }
-
-        // Trigger animations with appropriate timing
-        setTimeout(() => {
-          if (currentHeadingRef) {
-            currentHeadingRef.style.opacity = "1";
-            currentHeadingRef.style.transform = "translateY(0)";
-          }
-
-          setTimeout(() => {
-            if (currentSubHeadingRef) {
-              currentSubHeadingRef.style.opacity = "1";
-              currentSubHeadingRef.style.transform = "translateY(0)";
-            }
-
-            setTimeout(() => {
-              if (currentCtaContainerRef) {
-                currentCtaContainerRef.style.opacity = "1";
-              }
-
-              setTimeout(() => {
-                if (currentPrimaryCtaRef) {
-                  currentPrimaryCtaRef.style.opacity = "1";
-                  currentPrimaryCtaRef.style.transform = "translateY(0)";
-                  currentPrimaryCtaRef.style.scale = "1";
-                }
-
-                setTimeout(() => {
-                  if (currentSecondaryCtaRef) {
-                    currentSecondaryCtaRef.style.opacity = "1";
-                    currentSecondaryCtaRef.style.transform = "translateY(0)";
-                    currentSecondaryCtaRef.style.scale = "1";
-                  }
-                }, 250); // Delay between primary and secondary button
-              }, 100); // Delay before buttons
-            }, 200); // Delay before CTA container
-          }, 300); // Delay before subheading
-        }, 200); // Initial delay for heading
-
-        // Add hover animations for buttons (desktop only)
-        if (
-          currentPrimaryCtaRef &&
-          primaryEnterHandler &&
-          primaryLeaveHandler
-        ) {
-          currentPrimaryCtaRef.addEventListener(
-            "mouseenter",
-            primaryEnterHandler
-          );
-          currentPrimaryCtaRef.addEventListener(
-            "mouseleave",
-            primaryLeaveHandler
-          );
-        }
-
-        if (
-          currentSecondaryCtaRef &&
-          secondaryEnterHandler &&
-          secondaryLeaveHandler
-        ) {
-          currentSecondaryCtaRef.addEventListener(
-            "mouseenter",
-            secondaryEnterHandler
-          );
-          currentSecondaryCtaRef.addEventListener(
-            "mouseleave",
-            secondaryLeaveHandler
-          );
-        }
-      } catch (error) {
-        console.error("Animation error in HeroSection:", error);
-
-        // Fallback: ensure content is visible even if animation fails
-        const elements = [
-          currentHeadingRef,
-          currentSubHeadingRef,
-          currentCtaContainerRef,
-          currentPrimaryCtaRef,
-          currentSecondaryCtaRef,
-        ];
-
-        elements.forEach((el) => {
-          if (el) {
-            el.style.opacity = "1";
-            el.style.transform = "none";
+        // Create animation timeline with faster, more synchronous timing
+        const tl = gsap.timeline({
+          defaults: {
+            duration: 0.5, // Faster animations
+            ease: "power2.out" 
           }
         });
-      }
 
-      // Cleanup event listeners with proper references
-      return () => {
-        if (
-          currentPrimaryCtaRef &&
-          primaryEnterHandler &&
-          primaryLeaveHandler
-        ) {
-          currentPrimaryCtaRef.removeEventListener(
-            "mouseenter",
-            primaryEnterHandler
-          );
-          currentPrimaryCtaRef.removeEventListener(
-            "mouseleave",
-            primaryLeaveHandler
-          );
+        // Heading animation
+        tl.to(headingRef.current, {
+          opacity: 1,
+          y: 0
+        });
+
+        // Subheading animation - start almost immediately 
+        tl.to(subHeadingRef.current, {
+          opacity: 1,
+          y: 0
+        }, "-=0.3"); // Overlap with the heading animation
+
+        // CTA container - start almost immediately
+        tl.to(ctaContainerRef.current, {
+          opacity: 1
+        }, "-=0.3"); // Overlap with the subheading animation
+
+        // Primary CTA button - start almost immediately
+        if (primaryCtaRef.current && !subscription) {
+          tl.to(primaryCtaRef.current, {
+            width: '90%', // Expand to full width
+            padding: '11px 33px', // Restore full padding
+            duration: 0.6, // Slightly longer duration for visibility
+            ease: "power1.out" // Different easing for better visibility
+          }, "-=0.3"); // Overlap with CTA container animation
         }
 
-        if (
-          currentSecondaryCtaRef &&
-          secondaryEnterHandler &&
-          secondaryLeaveHandler
-        ) {
-          currentSecondaryCtaRef.removeEventListener(
-            "mouseenter",
-            secondaryEnterHandler
-          );
-          currentSecondaryCtaRef.removeEventListener(
-            "mouseleave",
-            secondaryLeaveHandler
-          );
+        // Secondary CTA button - start with small delay
+        if (secondaryCtaRef.current) {
+          tl.to(secondaryCtaRef.current, {
+            width: '90%', // Expand to full width
+            padding: '11px 33px', // Restore full padding
+            duration: 0.6, // Slightly longer duration for visibility
+            ease: "power1.out" // Different easing for better visibility
+          }, "-=0.2"); // Small overlap with primary button
         }
-      };
-    }, []);
+
+        // Setup ripple effect for hover (using existing CSS animation)
+        // Implementation will use the ripple CSS animation already defined
+        
+        return () => {
+          tl.kill();
+        };
+      });
+    }, [subscription, width, isMobile, gsapContext]);
 
     return (
-      <section className={className} id={htmlId}>
+      <section className={className} id={htmlId} ref={sectionRef}>
         <SectionPadding>
           <div
             ref={rootContainerRef}
@@ -302,7 +188,7 @@ export const HeroSection = styled(
                 : "root-container"
             }`}
           >
-            <div className="content">
+            <div className="content" ref={contentRef}>
               {head ? (
                 <h2
                   ref={headingRef}
@@ -455,6 +341,21 @@ export const HeroSection = styled(
         }
       }
 
+      @keyframes ripple {
+        0% {
+          opacity: 1;
+          transform: scale(0, 0);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(25, 25);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(40, 40);
+        }
+      }
+
       .cta-container {
         padding-top: 33px;
         display: flex;
@@ -479,6 +380,7 @@ export const HeroSection = styled(
         }
 
         .primary-cta {
+          position: relative;
           border-radius: 8px;
           border: 1.699px solid transparent;
           background: #ff2626;
@@ -492,6 +394,27 @@ export const HeroSection = styled(
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
+          overflow: hidden;
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+          }
+
+          &:hover {
+            &::after {
+              animation: ripple 0.6s ease-out;
+            }
+          }
 
           @media (min-width: 992px) {
             width: unset;
@@ -510,6 +433,7 @@ export const HeroSection = styled(
         }
 
         .secondary-cta {
+          position: relative;
           border-radius: 8px;
           border: 1.699px solid #e03233;
           padding: 11px 33px;
@@ -523,10 +447,31 @@ export const HeroSection = styled(
           cursor: pointer;
           transition: background-color 0.3s ease, color 0.3s ease;
           width: 90%;
+          overflow: hidden;
+
+           &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+          }
+
+          &:hover {
+            &::after {
+              animation: ripple 0.6s ease-out;
+            }
+          }
 
           @media (min-width: 992px) {
             width: unset;
-             padding: 10px 40px;
+            padding: 10px 40px;
             font-size: 16.5px;
             leading-trim: both;
             text-edge: cap;
@@ -544,6 +489,10 @@ export const HeroSection = styled(
         .secondary-cta {
           @media (min-width: 992px) {
             min-width: 240px;
+          }
+
+          @media (min-width: 1950px) {
+            min-width: 290px;
           }
         }
       }

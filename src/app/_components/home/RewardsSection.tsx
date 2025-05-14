@@ -822,7 +822,7 @@ export const RewardsSection = styled(
 
             &:hover:not(.disabled) {
               background-color: #e61e1e;
-              transform: translateY(-1px); /* Subtler lift */
+              // transform: translateY(-1px); /* Subtler lift */
 
               &::after {
                 animation: ripple 0.6s ease-out;

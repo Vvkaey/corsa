@@ -607,6 +607,26 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         min-width: 185px;
         transition: background-color 0.3s ease;
 
+         &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+          }
+
+          &:hover {
+            &::after {
+              animation: ripple 0.6s ease-out;
+            }
+          }
+
         @media (min-width: 992px) {
           font-size: 18.14px;
           min-width: 313px;

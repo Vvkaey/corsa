@@ -182,6 +182,8 @@ export const Footer = styled(({ className }: { className?: string }) => {
             white-space: nowrap;
             font-family: var(--font-fustat);
 
+            
+
             @media (min-width: 992px) {
               border-radius: 11.673px;
               border: 0.834px solid #ffeac8;

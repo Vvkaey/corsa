@@ -269,17 +269,17 @@ const MentorApplication = () => {
     console.log("Form submitting:", values);
     const { setSubmitting, validateForm } = formikHelpers;
 
-    // Animate submit button
-    const submitButton = document.querySelector('button[type="submit"]');
-    if (submitButton && !isMobile) {
-      gsap.to(submitButton, {
-        scale: 0.95,
-        duration: 0.2,
-        yoyo: true,
-        repeat: 1,
-        ease: "power2.inOut"
-      });
-    }
+    // // Animate submit button
+    // const submitButton = document.querySelector('button[type="submit"]');
+    // // if (submitButton && !isMobile) {
+    // //   gsap.to(submitButton, {
+    // //     scale: 0.95,
+    // //     duration: 0.2,
+    // //     yoyo: true,
+    // //     repeat: 1,
+    // //     ease: "power2.inOut"
+    // //   });
+    // // }
 
     // Check if email is verified before submitting the form
     if (!emailVerified) {
@@ -971,37 +971,37 @@ const MentorApplication = () => {
                 }}
                 disabled={isLoading.submit || formik.isSubmitting}
                 className={isLoading.submit ? "loading" : ""}
-                ref={(el: HTMLButtonElement | null) => {
-                  if (el && !isMobile) {
-                    // Add hover animation to submit button
-                    const handleMouseEnter = () => {
-                      gsap.to(el, {
-                        backgroundColor: "#e61e1e",
-                        scale: 1.03,
-                        duration: 0.3,
-                        ease: "power1.out"
-                      });
-                    };
+                // ref={(el: HTMLButtonElement | null) => {
+                //   if (el && !isMobile) {
+                //     // Add hover animation to submit button
+                //     // const handleMouseEnter = () => {
+                //     //   gsap.to(el, {
+                //     //     backgroundColor: "#e61e1e",
+                //     //     scale: 1.03,
+                //     //     duration: 0.3,
+                //     //     ease: "power1.out"
+                //     //   });
+                //     // };
                     
-                    const handleMouseLeave = () => {
-                      gsap.to(el, {
-                        backgroundColor: "#ff2626",
-                        scale: 1,
-                        duration: 0.3,
-                        ease: "power1.out"
-                      });
-                    };
+                //     // const handleMouseLeave = () => {
+                //     //   gsap.to(el, {
+                //     //     backgroundColor: "#ff2626",
+                //     //     scale: 1,
+                //     //     duration: 0.3,
+                //     //     ease: "power1.out"
+                //     //   });
+                //     // };
                     
-                    el.addEventListener('mouseenter', handleMouseEnter);
-                    el.addEventListener('mouseleave', handleMouseLeave);
+                //     // el.addEventListener('mouseenter', handleMouseEnter);
+                //     // el.addEventListener('mouseleave', handleMouseLeave);
                     
-                    // Clean up event listeners
-                    return () => {
-                      el.removeEventListener('mouseenter', handleMouseEnter);
-                      el.removeEventListener('mouseleave', handleMouseLeave);
-                    };
-                  }
-                }}
+                //     // Clean up event listeners
+                //     // return () => {
+                //     //   el.removeEventListener('mouseenter', handleMouseEnter);
+                //     //   el.removeEventListener('mouseleave', handleMouseLeave);
+                //     // };
+                //   }
+                // }}
               >
                 {isLoading.submit ? "Submitting..." : "Submit"}
               </SubmitButton>

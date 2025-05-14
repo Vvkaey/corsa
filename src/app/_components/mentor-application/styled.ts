@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { headerSpacing, maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
 import { Subtitle, Title } from "../dashboard/styled";
 
@@ -20,15 +20,13 @@ export const StatusMessage = styled.div<{ type: "success" | "error" | "info" }>`
         : "#e2e8f0"};
   border-radius: 4px;
   height: fit-content;
-      position: absolute;
-    top: -50px;
-    font-size: 12px;
+  position: absolute;
+  top: -50px;
+  font-size: 12px;
 
-
-    @media (min-width: 1024px) {
-  font-size: 0.875rem;
+  @media (min-width: 1024px) {
+    font-size: 0.875rem;
     top: -80px;
-
   }
 `;
 
@@ -45,14 +43,13 @@ export const MentorApplicationContainer = styled.div`
   padding-top: 60px;
   padding-bottom: 170px;
 
-
   @media (min-width: 1025px) {
     padding-top: 100px;
-   gap: 82px;
+    gap: 82px;
   }
 
-   @media (min-width: 1950px) {
-    padding-top: 100px ;
+  @media (min-width: 1950px) {
+    padding-top: 100px;
     gap: 112px;
   }
 `;
@@ -122,35 +119,35 @@ export const FormGroup = styled.div`
   border-left: none;
   border-right: none;
 
-     @media (min-width: 1025px) {
-       margin-bottom: 1.25rem;
-       width: 28%;
-       border-width: 2px;
-     }
+  @media (min-width: 1025px) {
+    margin-bottom: 1.25rem;
+    width: 28%;
+    border-width: 2px;
+  }
 
-     @media (min-width: 1950px) {
-       margin-bottom: 1.25rem;
-       width: 30%;
-       border-width: 2px;
-     }
+  @media (min-width: 1950px) {
+    margin-bottom: 1.25rem;
+    width: 30%;
+    border-width: 2px;
+  }
 
-    .svg{
-       position: absolute;
-       right: 10px;
-       top: 40%;
-       transform: rotate(180deg);
-       pointer-events: none; // This ensures the SVG doesn't interfere with select clicks
+  .svg {
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    transform: rotate(180deg);
+    pointer-events: none; // This ensures the SVG doesn't interfere with select clicks
   
-       @media (min-width: 992px) {
-         right: 51px;
-         transform: rotate(180deg) scale(0.7);
-       }
-
-        @media (min-width: 1950px) {
-         right: 51px;
-         transform: rotate(180deg) scale(1);
-       }
+    @media (min-width: 992px) {
+      right: 51px;
+      transform: rotate(180deg) scale(0.7);
     }
+
+    @media (min-width: 1950px) {
+      right: 51px;
+      transform: rotate(180deg) scale(1);
+    }
+  }
 `;
 
 export const Label = styled.label`
@@ -164,11 +161,9 @@ export const Label = styled.label`
 `;
 
 export const InputGroup = styled.div`
-
   display: flex;
   gap: 10px;
   align-items: center;
-
 `;
 
 export const Input = styled.input`
@@ -191,7 +186,7 @@ export const Input = styled.input`
     padding: 5px 21px;
     font-size: 15.27px;
     border-radius: 8px;
-   line-height: 158.147%;
+    line-height: 158.147%;
     border: none;
     outline: none;
     background-color: transparent;
@@ -207,7 +202,7 @@ export const Input = styled.input`
   }
 
   &:is(:-webkit-autofill, :autofill) {
-    opacity : 0.75;
+    opacity: 0.75;
   }
 `;
 
@@ -230,132 +225,164 @@ export const Select = styled.select`
   -moz-appearance: none;
   background: transparent;
 
-  @media(min-width: 992px) {
-      padding: 5px 21px;
-      font-size: 15.27px;
-      border-radius: 8px;
-      line-height: 158.147%;
+  @media (min-width: 992px) {
+    padding: 5px 21px;
+    font-size: 15.27px;
+    border-radius: 8px;
+    line-height: 158.147%;
   }
 
-    @media (min-width: 1950px) {
+  @media (min-width: 1950px) {
     font-size: 21.7px;
   }
 
   &:focus {
     outline: none;
     box-shadow: none;
-}
-
-
+  }
 `;
 
 export const Button = styled.button`
-background-color: #4299e1;
-color: white;
-padding: 0.5rem 1rem;
-border: none;
-border-radius: 4px;
-cursor: pointer;
+  background-color: #4299e1;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 
   &:hover {
     background-color: #3182ce;
-}
+  }
 
   &:disabled {
     background-color: #a0aec0;
     cursor: not-allowed;
-}
+  }
 `;
 
 export const OtpButton = styled(Button)`
-background-color: transparent;
-width: auto;
-white-space: nowrap;
-position: absolute;
-right: 20px;
-border : none;
-background: transparent;
-color: #000;
-leading-trim: both;
-text-edge: cap;
-font-family: var(--font-fustat);
- font-size: 16px;
-font-style: normal;
-font-weight: 500;
-line-height:  158.147%;
+  background-color: transparent;
+  width: auto;
+  white-space: nowrap;
+  position: absolute;
+  right: 20px;
+  border: none;
+  background: transparent;
+  color: #000;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 158.147%;
 
- &:disabled {
- background-color: transparent;
-    cursor: not-allowed;
-}
-
- &:hover {
+  &:disabled {
     background-color: transparent;
-}
-
-@media(min-width: 992px) {
- font-size: 15.27px;
+    cursor: not-allowed;
   }
 
-  @media(min-width: 1950px) {
- font-size: 21.7px;
+  &:hover {
+    background-color: transparent;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 15.27px;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 21.7px;
   }
 `;
 
 export const ErrorText = styled.div`
-position: absolute;
-color: #ff2626;
-font-size: 10px;
-margin-top: 5px;
-font-weight: 500;
-margin-left: 10px;
-font-family: var(--font-fustat);
+  position: absolute;
+  color: #ff2626;
+  font-size: 10px;
+  margin-top: 5px;
+  font-weight: 500;
+  margin-left: 10px;
+  font-family: var(--font-fustat);
 
-@media(min-width: 1025px) {
+  @media (min-width: 1025px) {
     font-size: 14px;
     margin-left: 21px;
-}
+  }
 `;
 
+export const rippleAnimation = keyframes`
+
+
+        0% {
+          opacity: 1;
+          transform: scale(0, 0);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(25, 25);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(40, 40);
+        }
+      
+
+  `
+
 export const SubmitButton = styled.button`
-padding: 12px 24px;
-width: 100%;
-display: flex;
-align-items: center;
-justify-content: center;
-background: #ff2626;
-border-radius: 8px;
-justify-self: center;
-color: #fff;
-leading-trim: both;
-text-edge: cap;
-font-family: var(--font-fustat);
-font-size: 14.4px;
-font-style: normal;
-font-weight: 800;
-line-height: normal;
-border: none;
-cursor: pointer;
+position: relative;
+  padding: 12px 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ff2626;
+  border-radius: 8px;
+  justify-self: center;
+  color: #fff;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 14.4px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+
+  
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
 
   &:hover {
-    background: #ff2626;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
-    transform: translateY(-2px);
-}
+    &::after {
+      animation: ${rippleAnimation} 0.6s ease-out;
+    }
+  }
 
-@media(min-width: 992px) {
+  @media (min-width: 992px) {
     font-size: 16.5px;
     width: 222px;
     margin: 0 calc((100%-222px) / 2);
     padding: 12px 21px;
-    
-}
+  }
 
-@media(min-width: 1950px) {
-font-size: 23.521px;
- width: 315px;
+  @media (min-width: 1950px) {
+    font-size: 23.521px;
+    width: 315px;
     margin: 0 calc((100%-315px) / 2);
-
   }
 `;

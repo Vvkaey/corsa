@@ -14,6 +14,7 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { rippleAnimation } from "../mentor-application/styled";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -70,6 +71,7 @@ const ProductHeadPricing = styled.p`
 `;
 
 const ProductHeadCTA = styled.button`
+position: relative;
   color: #ff2626;
   leading-trim: both;
   text-edge: cap;
@@ -85,10 +87,30 @@ const ProductHeadCTA = styled.button`
   background: transparent;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 38, 38, 0.2);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+
 
   &:hover {
-    background-color: #ff2626;
-    color: white;
+    // background-color: #ff2626;
+    // color: white;
+
+     &::after {
+      animation: ${rippleAnimation} 0.6s ease-out;
+    }
   }
 
   @media (min-width: 992px) {
@@ -207,8 +229,7 @@ const TableBodyContainer = styled.div`
   width: 100%;
   position: relative;
   overflow: auto;
-   border: 2px solid blue;
-
+  border: 2px solid blue;
 `;
 
 // Scrollable inner content

@@ -16,6 +16,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 // import ComparisonNew from "./ComparisonNew";
 // import StickyTest from "./StickyTest";
 import Comparison from "./Comparison";
+import { rippleAnimation } from "../mentor-application/styled";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -367,11 +368,30 @@ const CtaButton = styled.button<StyledButtonProps>`
   margin-top: auto;
   font-family: var(--font-fustat);
   transform: scale(1);
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background:  rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
 
   &:hover {
     background: ${(props) => (props.$isPrimary ? "#ebf8ff" : "#e01f1f")};
     color: ${(props) => (props.$isPrimary ? "#000" : "#FFF")};
-    transform: scale(1.03);
+    // transform: scale(1.03);
+
+    &::after {
+      animation: ${rippleAnimation} 0.6s ease-out;
+    }
   }
 
   &:active {
@@ -416,11 +436,12 @@ const SeeAllNavigator = styled.button<StyledButtonProps>`
   text-underline-position: from-font;
   font-family: var(--font-fustat);
   margin-top: 56px;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     color: #ff2626;
-    transform: translateY(-2px);
+    // transform: translateY(-2px);
   }
 
   @media (min-width: 1950px) {
@@ -481,13 +502,13 @@ const LoadingText = styled.h2`
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #000;
-  
+
   span {
     display: inline-block;
     animation: textReveal 0.6s forwards;
     opacity: 0;
     transform: translateY(20px);
-    
+
     @keyframes textReveal {
       to {
         opacity: 1;
@@ -505,10 +526,14 @@ const LoadingSpinner = styled.div`
   height: 50px;
   margin: 0 auto;
   animation: spin 1s linear infinite;
-  
+
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -564,28 +589,28 @@ const Plan: React.FC<PricingPlan> = ({
   useEffect(() => {
     if (!benefitsRef.current) return;
 
-    const benefitItems = benefitsRef.current.querySelectorAll('.benefit-item');
-    
+    const benefitItems = benefitsRef.current.querySelectorAll(".benefit-item");
+
     if (benefitItems.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('benefit-visible');
+            entry.target.classList.add("benefit-visible");
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
     );
 
-    benefitItems.forEach(item => {
+    benefitItems.forEach((item) => {
       observer.observe(item);
     });
 
     return () => {
-      benefitItems.forEach(item => {
+      benefitItems.forEach((item) => {
         observer.unobserve(item);
       });
     };
@@ -681,8 +706,10 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const pageRef = useRef<HTMLDivElement>(null);
 
   // Split the title into spans for animated reveal
-  const titleLetters = "Pricing".split('').map((letter, i) => (
-    <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>{letter}</span>
+  const titleLetters = "Pricing".split("").map((letter, i) => (
+    <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+      {letter}
+    </span>
   ));
 
   // Initial page load animation
@@ -696,7 +723,13 @@ const PricingPage: React.FC<PricingPageProps> = ({
 
   // Set up animations after initial load
   useEffect(() => {
-    if (pageLoading || !headerRef.current || !plansContainerRef.current || !pageRef.current) return;
+    if (
+      pageLoading ||
+      !headerRef.current ||
+      !plansContainerRef.current ||
+      !pageRef.current
+    )
+      return;
 
     const tl = gsap.timeline({
       defaults: {
@@ -712,39 +745,49 @@ const PricingPage: React.FC<PricingPageProps> = ({
     });
 
     // Animate plans container
-    tl.to(plansContainerRef.current, {
-      opacity: 1,
-      duration: 0.8,
-    }, "-=0.4");
+    tl.to(
+      plansContainerRef.current,
+      {
+        opacity: 1,
+        duration: 0.8,
+      },
+      "-=0.4"
+    );
 
     // Animate each plan card with stagger
-    tl.to(".plan-card", {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.2,
-    }, "-=0.4");
+    tl.to(
+      ".plan-card",
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.2,
+      },
+      "-=0.4"
+    );
 
     // Set up scroll animations for components further down the page
-    gsap.utils.toArray<HTMLElement>('.comparison-section, .contact-section').forEach((section) => {
-      gsap.from(section, {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          end: "top 60%",
-          toggleActions: "play none none none",
-          scrub: 1,
-        }
+    gsap.utils
+      .toArray<HTMLElement>(".comparison-section, .contact-section")
+      .forEach((section) => {
+        gsap.from(section, {
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "top 60%",
+            toggleActions: "play none none none",
+            scrub: 1,
+          },
+        });
       });
-    });
 
     return () => {
       // Clean up animations
       if (tl) tl.kill();
-      ScrollTrigger.getAll().forEach(trigger => {
+      ScrollTrigger.getAll().forEach((trigger) => {
         trigger.kill();
       });
     };
