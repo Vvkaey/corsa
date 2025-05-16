@@ -18,8 +18,6 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import Comparison from "./Comparison";
 import { rippleAnimation } from "../mentor-application/styled";
 
-
-
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -479,65 +477,65 @@ const ImageContainer = styled.button`
 `;
 
 // Loading animation component
-const LoadingOverlay = styled.div<{ $isLoading: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  opacity: ${(props) => (props.$isLoading ? 1 : 0)};
-  visibility: ${(props) => (props.$isLoading ? "visible" : "hidden")};
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-`;
+// const LoadingOverlay = styled.div<{ $isLoading: boolean }>`
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: #ffffff;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   z-index: 9999;
+//   opacity: ${(props) => (props.$isLoading ? 1 : 0)};
+//   visibility: ${(props) => (props.$isLoading ? "visible" : "hidden")};
+//   transition: opacity 0.5s ease, visibility 0.5s ease;
+// `;
 
-const LoadingContent = styled.div`
-  text-align: center;
-`;
+// const LoadingContent = styled.div`
+//   text-align: center;
+// `;
 
-const LoadingText = styled.h2`
-  font-family: var(--font-exo);
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #000;
+// const LoadingText = styled.h2`
+//   font-family: var(--font-exo);
+//   font-size: 2rem;
+//   margin-bottom: 1rem;
+//   color: #000;
 
-  span {
-    display: inline-block;
-    animation: textReveal 0.6s forwards;
-    opacity: 0;
-    transform: translateY(20px);
+//   span {
+//     display: inline-block;
+//     animation: textReveal 0.6s forwards;
+//     opacity: 0;
+//     transform: translateY(20px);
 
-    @keyframes textReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-`;
+//     @keyframes textReveal {
+//       to {
+//         opacity: 1;
+//         transform: translateY(0);
+//       }
+//     }
+//   }
+// `;
 
-const LoadingSpinner = styled.div`
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #ff2626;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  animation: spin 1s linear infinite;
+// const LoadingSpinner = styled.div`
+//   border: 5px solid #f3f3f3;
+//   border-top: 5px solid #ff2626;
+//   border-radius: 50%;
+//   width: 50px;
+//   height: 50px;
+//   margin: 0 auto;
+//   animation: spin 1s linear infinite;
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
+//   @keyframes spin {
+//     0% {
+//       transform: rotate(0deg);
+//     }
+//     100% {
+//       transform: rotate(360deg);
+//     }
+//   }
+// `;
 
 // Types
 interface Benefit {
@@ -587,8 +585,6 @@ const Plan: React.FC<PricingPlan> = ({
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
 
-
-
   // Set up scroll animations for benefits
   useEffect(() => {
     if (!benefitsRef.current) return;
@@ -634,8 +630,6 @@ const Plan: React.FC<PricingPlan> = ({
     }
   };
 
- 
-
   // Scroll to element function for navigation
   const scrollToElement = (id: string): void => {
     const container = document.getElementById(id);
@@ -664,7 +658,6 @@ const Plan: React.FC<PricingPlan> = ({
           disabled={isLoading || !compatible || subscribed}
           $subscribed={subscribed}
           className="cta-button"
-
         >
           {!compatible
             ? "Not Compatible"
@@ -712,20 +705,16 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const plansContainerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
 
-  // Split the title into spans for animated reveal
-  const titleLetters = "Pricing".split("").map((letter, i) => (
-    <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-      {letter}
-    </span>
-  ));
+  // // Split the title into spans for animated reveal
+  // const titleLetters = "Pricing".split("").map((letter, i) => (
+  //   <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+  //     {letter}
+  //   </span>
+  // ));
 
   // Initial page load animation
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setPageLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
+    setPageLoading(false);
   }, []);
 
   // Set up animations after initial load
@@ -802,12 +791,12 @@ const PricingPage: React.FC<PricingPageProps> = ({
 
   return (
     <>
-      <LoadingOverlay $isLoading={pageLoading}>
+      {/* <LoadingOverlay $isLoading={pageLoading}>
         <LoadingContent>
           <LoadingText>{titleLetters}</LoadingText>
           <LoadingSpinner />
         </LoadingContent>
-      </LoadingOverlay>
+      </LoadingOverlay> */}
 
       <PageContainer ref={pageRef}>
         <Header ref={headerRef}>
