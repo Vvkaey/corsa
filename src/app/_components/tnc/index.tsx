@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {
   headerSpacing,
   maxWidthContainer,
-  responsivePadding,
+  sectionResponsivePadding,
 } from "../new_mixins/mixins";
 import { ReactNode } from "react";
 
@@ -53,8 +53,8 @@ export default ListPageComponent;
 const TncContainer = styled.section`
   background: #fff;
   ${headerSpacing()};
-  padding: 183px 0;
-  ${responsivePadding()};
+  padding: 123px 0;
+  ${sectionResponsivePadding()};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,6 +63,10 @@ const TncContainer = styled.section`
   ${maxWidthContainer}
   color: #000;
   @media (min-width: 992px) {
+    gap: 66px;
+  }
+
+  @media (min-width: 1950px) {
     gap: 93px;
   }
 `;
@@ -78,6 +82,10 @@ const TncTitle = styled.h1`
   width: 100%;
 
   @media (min-width: 992px) {
+    font-size: 34px;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 54px;
   }
 `;
@@ -91,6 +99,10 @@ const TncContent = styled.ol`
   list-style-type: decimal; /* Ensures numbering for ordered list */
 
   @media (min-width: 992px) {
+    gap: 56px;
+  }
+
+  @media (min-width: 1950px) {
     gap: 79px;
   }
 `;
@@ -101,7 +113,11 @@ const TncItem = styled.li`
   flex-direction: column;
   gap: 10px;
   @media (min-width: 992px) {
-    gap: 39px;
+    gap: 10px;
+  }
+
+   @media (min-width: 1950px) {
+    gap: 27px;
   }
 `;
 const TncItemTitle = styled.h2`
@@ -113,6 +129,9 @@ const TncItemTitle = styled.h2`
   font-weight: 700;
   line-height: 141.311%; /* 45.22px */
   @media (min-width: 992px) {
+    font-size: 22px;
+  }
+    @media (min-width: 1950px) {
     font-size: 32px;
   }
 `;
@@ -128,6 +147,10 @@ const TncItemDescription = styled.h2`
   margin-left: 20px;
 
   @media (min-width: 992px) {
+    font-size: 17.5px;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 22px;
   }
 `;
@@ -148,6 +171,10 @@ const Pointer = styled.li`
   margin-left: 20px;
 
   @media (min-width: 992px) {
+    font-size: 17.5px;
+  }
+
+  @media (min-width: 1950px) {
     font-size: 22px;
   }
 `;
