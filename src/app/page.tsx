@@ -149,7 +149,7 @@ const FLOW_CONTENT = [
         "Once signed up, You'll receive updates directly in your mail, tailored to your selected plan.",
     },
     colC: {
-      img: "/steps/step-b.png",
+      img: "/steps/step-b-new.png",
     },
   },
   {
