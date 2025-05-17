@@ -217,7 +217,6 @@ export const HamOverlay = styled(
 
     const onButtonClick = useCallback(() => {
       if (setShowMenu) {
-
         setShowMenu(!showMenu);
       }
     }, [setShowMenu, showMenu]);
@@ -560,6 +559,10 @@ export const Header = styled(({ className }: { className?: string }) => {
           object-fit: cover;
           flex-shrink: 0;
           aspect-ratio: 230.63/22.71;
+
+          @media (min-width: 992px) and (max-width: 1950px) {
+            transform: scale(0.85);
+          }
         }
       }
     }
