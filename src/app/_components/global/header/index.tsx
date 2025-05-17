@@ -84,7 +84,6 @@ export const DesktopNavItems = styled(
   display: flex;
   flex-direction: column;
   gap: 18px;
-  position: relative;
   background: #fff;
   padding: 24px 28px 290px;
   border-radius: 0px 0px 12px 12px;
@@ -106,10 +105,14 @@ export const DesktopNavItems = styled(
   ${headerSpacing()};
 
   @media (min-width: 992px) {
-    top: -16px;
+    position: fixed;
+    top: 0;
+    right: 0;
   }
 
-  @media (min-width: 1950px) {
+  @media (min-width: 2500px) {
+    position: absolute;
+    right: -50%;
     top: -23px;
   }
 
@@ -243,7 +246,7 @@ export const HamOverlay = styled(
 )`
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
-  top: 50px;
+  top: 47px;
   left: 0;
   height: 100vh;
 
@@ -255,7 +258,6 @@ export const HamOverlay = styled(
 
   @media (min-width: 992px) {
     top: 0;
-
     display: none;
   }
 
@@ -587,7 +589,12 @@ export const Header = styled(({ className }: { className?: string }) => {
         justify-content: center;
 
         @media (min-width: 992px) {
+          position: unset;
           gap: 51px;
+        }
+
+        @media (min-width: 2500px) {
+          position: relative;
         }
 
         .nav-item {
