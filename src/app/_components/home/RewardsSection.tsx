@@ -109,7 +109,7 @@ export const RewardsSection = styled(
       },
     ]);
 
-    const progress = isCompleted ? 100 : (currentStep / questions.length) * 100;
+    const progress = isCompleted ? 100 : (currentStep / (questions.length - 1)) * 100;
 
     // Initialize animation for section entry
     useIsomorphicLayoutEffect(() => {
@@ -590,13 +590,13 @@ export const RewardsSection = styled(
             justify-content: space-between;
             position: absolute;
             left: 0;
-            top: 0;
+            top: 1px;
             width: 100%;
             z-index: 2; /* Ensure dots are above the line */
 
             @media (min-width: 992px) {
               top: -2px;
-              left: -1px;
+              left: 0px;
             }
           }
         }
