@@ -406,7 +406,7 @@ export const HeroSection = styled(
           background: #ff2626;
           padding: 11px 33px;
           color: #fff;
-          font-size: 14px;
+          font-size: 16px;
           font-style: normal;
           font-weight: 800;
           line-height: normal;
@@ -459,7 +459,7 @@ export const HeroSection = styled(
           padding: 11px 33px;
           background: transparent;
           color: #ff2626;
-          font-size: 14px;
+          font-size: 16px;
           font-style: normal;
           font-weight: 800;
           line-height: normal;
