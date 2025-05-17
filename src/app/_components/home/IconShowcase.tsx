@@ -5,7 +5,7 @@ import Image from "next/image";
 import { JSX, useEffect, useRef, useState } from "react";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
-// IconShowcase component with fixed mobile animation
+// IconShowcase component with fixed animations for both mobile and desktop
 export const IconShowcase = styled(
   ({
     className,
@@ -19,15 +19,18 @@ export const IconShowcase = styled(
     icons?: Record<string, string>[];
   }) => {
     const { width = 0 } = useWindowSize();
+    
+    // Mobile states
     const [showFirstGroup, setShowFirstGroup] = useState(true);
     const [showSecondGroup, setShowSecondGroup] = useState(false);
     const [showThirdGroup, setShowThirdGroup] = useState(false);
     const [showForthGroup, setShowForthGroup] = useState(false);
-    const [showDesktopFirstGroup, setShowDesktopFirstGroup] = useState(true);
-    const [showDesktopSecondGroup, setShowDesktopSecondGroup] = useState(false);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-    // Create refs for animation
+    const [showFifthGroup, setShowFifthGroup] = useState(false);
+    
+    // Desktop states
+    const [isFirstDesktopGroup, setIsFirstDesktopGroup] = useState(true);
+    
+    // Refs for animation
     const headRef = useRef<HTMLHeadingElement>(null);
     const subHeadRef = useRef<HTMLHeadingElement>(null);
     const iconContainerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +44,7 @@ export const IconShowcase = styled(
       }
     };
 
-    // Handle one-time animations for headers
+    // Handle hover effects for desktop icons
     useEffect(() => {
       // For SSR safety
       if (typeof window === "undefined") return;
@@ -97,83 +100,47 @@ export const IconShowcase = styled(
       };
     }, [width]);
 
-    // Handle desktop icon rotation
+    // Handle desktop icon rotation - simplified
     useEffect(() => {
       if (typeof window === "undefined" || width < 992) return;
       
-      // Initialize
-      setShowDesktopFirstGroup(true);
-      setShowDesktopSecondGroup(false);
+      console.log("Desktop animation effect running");
       
-      // Desktop rotation function
-      const rotateDesktopGroups = () => {
-        if (showDesktopFirstGroup) {
-          // Hide first group
-          setShowDesktopFirstGroup(false);
-          
-          // After fade-out, show second group
-          setTimeout(() => {
-            setShowDesktopSecondGroup(true);
-          }, 700);
-        } else {
-          // Hide second group
-          setShowDesktopSecondGroup(false);
-          
-          // After fade-out, show first group
-          setTimeout(() => {
-            setShowDesktopFirstGroup(true);
-          }, 700);
-        }
-      };
+      // Create interval to toggle desktop group
+      const intervalId = setInterval(() => {
+        console.log("Desktop animation toggle", isFirstDesktopGroup);
+        setIsFirstDesktopGroup(prev => !prev);
+      }, 4000);
       
-      // Set interval for rotation
-      const desktopIntervalId = setInterval(rotateDesktopGroups, 7000);
-      
-      // Cleanup
+      // Cleanup function
       return () => {
-        clearInterval(desktopIntervalId);
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-        }
+        console.log("Cleaning up desktop animation");
+        clearInterval(intervalId);
       };
-    }, [width, showDesktopFirstGroup, showDesktopSecondGroup]);
+    }, [width, isFirstDesktopGroup]);
 
     // Handle mobile-specific animations
     useEffect(() => {
       // Skip for desktop or SSR
-      if (width >= 992 || typeof window === "undefined") {
-        return;
-      }
-
-      // Make header and subheader visible immediately
-      if (headRef.current) {
-        headRef.current.style.opacity = "1";
-      }
-
-      if (subHeadRef.current) {
-        subHeadRef.current.style.opacity = "1";
-      }
-
-      if (iconContainerRef.current) {
-        iconContainerRef.current.style.opacity = "1";
-      }
-
-      // Initialize with first group active
+      if (width >= 992 || typeof window === "undefined") return;
+      
+      console.log("Mobile animation effect running");
+      
+      // Initialize state
       setShowFirstGroup(true);
       setShowSecondGroup(false);
       setShowThirdGroup(false);
       setShowForthGroup(false);
-
-      let currentGroup = 1;
-      let isTransitioning = false;
+      setShowFifthGroup(false);
       
-      // Set an interval to rotate between groups
-      const intervalId = setInterval(() => {
-        if (isTransitioning) return;
-        isTransitioning = true;
+      let currentGroup = 1;
+      const animationTimers: NodeJS.Timeout[] = [];
+      
+      const rotateGroups = () => {
+        console.log("Mobile rotating to next group", currentGroup);
         
-        // First fade out the current group
-        switch(currentGroup) {
+        // Hide current group
+        switch (currentGroup) {
           case 1:
             setShowFirstGroup(false);
             break;
@@ -186,54 +153,58 @@ export const IconShowcase = styled(
           case 4:
             setShowForthGroup(false);
             break;
+          case 5:
+            setShowFifthGroup(false);
+            break;
         }
         
-        // After a delay for fade-out, show the next group
-        timerRef.current = setTimeout(() => {
-          currentGroup = currentGroup % 4 + 1;
-          
-          // Show only the current group
+        // Move to next group
+        currentGroup = currentGroup % 5 + 1;
+        
+        // After fade-out, show next group
+        const timer = setTimeout(() => {
+          // Show only the new current group
           setShowFirstGroup(currentGroup === 1);
           setShowSecondGroup(currentGroup === 2);
           setShowThirdGroup(currentGroup === 3);
           setShowForthGroup(currentGroup === 4);
-          
-          // Reset transition flag after animation completes
-          timerRef.current = setTimeout(() => {
-            isTransitioning = false;
-          }, 700);
-        }, 700); // Delay between hiding and showing (wait for fade-out)
+          setShowFifthGroup(currentGroup === 5);
+        }, 700);
         
-      }, 4000); // Rotate every 4 seconds
-
-      // Clean up interval on unmount
+        // Store timer for cleanup
+        animationTimers.push(timer);
+      };
+      
+      // Start rotation interval
+      const intervalId = setInterval(rotateGroups, 4000);
+      
+      // Cleanup
       return () => {
         clearInterval(intervalId);
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-        }
+        animationTimers.forEach(timer => clearTimeout(timer));
       };
     }, [width]);
 
     // Divide icons into groups for mobile
-    const firstGroupIcons = icons?.slice(0, 3) || [];
-    const secondGroupIcons = icons?.slice(3, 6) || [];
-    const thirdGroupIcons = icons?.slice(6, 8) || [];
-    const fourGroupIcons = icons?.slice(8, 10) || [];
+    const firstGroupIcons = icons?.slice(0, 2) || [];
+    const secondGroupIcons = icons?.slice(2, 4) || [];
+    const thirdGroupIcons = icons?.slice(4, 6) || [];
+    const fourGroupIcons = icons?.slice(6, 8) || [];
+    const fiveGroupIcons = icons?.slice(8, 10) || [];
 
     return (
       <section className={className}>
         <div className="content">
-          {/* Header with no animation */}
+          {/* Header */}
           {head ? (
-            <h3 className="head">
+            <h3 className="head" ref={headRef}>
               {head}
             </h3>
           ) : null}
           
-          {/* Subhead with no animation */}
+          {/* Subhead */}
           {subHead ? (
-            <h4 className="sub-head">
+            <h4 className="sub-head" ref={subHeadRef}>
               {subHead}
             </h4>
           ) : null}
@@ -241,15 +212,14 @@ export const IconShowcase = styled(
           {icons?.length ? (
             <div
               className="marquee-container"
-              style={{ display: "flex", position: "relative" }}
               ref={iconContainerRef}
             >
-              {/* Desktop view */}
+              {/* Desktop view - Two groups of 5 icons each that rotate */}
               {width >= 992 && (
                 <div className="desktop-groups-container">
                   <div
                     className={`icon-container desktop-container ${
-                      showDesktopFirstGroup ? "show" : "hide"
+                      isFirstDesktopGroup ? "show" : "hide"
                     }`}
                   >
                     {icons.slice(0, 5).map((item, index) => (
@@ -261,8 +231,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={width > 1950 ? 92 : width > 992 ? 65 : 35}
-                          height={width > 1950 ? 92 : width > 992 ? 65 : 35}
+                          width={width > 1950 ? 92 : 65}
+                          height={width > 1950 ? 92 : 65}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -272,7 +242,7 @@ export const IconShowcase = styled(
 
                   <div
                     className={`icon-container desktop-container ${
-                      showDesktopSecondGroup ? "show" : "hide"
+                      !isFirstDesktopGroup ? "show" : "hide"
                     }`}
                   >
                     {icons.slice(5, 10).map((item, index) => (
@@ -284,8 +254,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={width > 1950 ? 92 : width > 992 ? 65 : 35}
-                          height={width > 1950 ? 92 : width > 992 ? 65 : 35}
+                          width={width > 1950 ? 92 : 65}
+                          height={width > 1950 ? 92 : 65}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -295,9 +265,9 @@ export const IconShowcase = styled(
                 </div>
               )}
 
-              {/* Mobile view - simplified alternating groups */}
+              {/* Mobile view - five groups that rotate */}
               {width < 992 && (
-                <>
+                <div className="mobile-groups-container">
                   <div
                     className={`${
                       showFirstGroup
@@ -379,7 +349,27 @@ export const IconShowcase = styled(
                       </div>
                     ))}
                   </div>
-                </>
+                  <div
+                    className={`${
+                      showFifthGroup
+                        ? "icon-container mobile-container abs show"
+                        : "icon-container mobile-container abs hide"
+                    }`}
+                  >
+                    {fiveGroupIcons.map((item, index) => (
+                      <div key={`fifth-${index}`} className="icon">
+                        <Image
+                          src={item.icon}
+                          alt={item.name || "icon"}
+                          width={35}
+                          height={35}
+                          style={{ objectFit: "contain" }}
+                        />
+                        <p className="icon-text">{item.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
           ) : null}
@@ -435,9 +425,8 @@ export const IconShowcase = styled(
       @media (min-width: 992px) {
         text-align: center;
         max-width: 36ch;
-        font-weight: 600;
-        font-size: 19.9px;
         font-weight: 500;
+        font-size: 19.9px;
       }
 
       @media (min-width: 1950px) {
@@ -464,6 +453,14 @@ export const IconShowcase = styled(
         position: relative;
         width: 100%;
         height: 170px;
+        display: flex;
+        justify-content: center;
+      }
+      
+      .mobile-groups-container {
+        position: relative;
+        width: 100%;
+        height: 80px;
         display: flex;
         justify-content: center;
       }

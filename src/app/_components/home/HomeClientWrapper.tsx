@@ -140,7 +140,7 @@ export default function HomeClientWrapper({
               </>
             }
             subHead="Community that leads together."
-            primaryCta="Subscribe Plan"
+            primaryCta="Subscribe a plan"
             onPrimaryCtaClick={() => router.push("/pricing")}
             secondaryCta="Dashboard"
             onSecondaryCTAClick={() => router.push("/dashboard")}

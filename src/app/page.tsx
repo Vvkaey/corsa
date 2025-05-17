@@ -24,27 +24,27 @@ const ICONS = [
   },
   {
     name: "IIT Guwahati",
-    icon: "/iconE.svg",
+    icon: "/iconGuwahati.svg",
   },
   {
     name: "NIT Trichy",
-    icon: "/iconA.svg",
+    icon: "/iconTrichy.svg",
   },
   {
     name: "BITS Pilani",
-    icon: "/iconB.svg",
+    icon: "/iconPilani.svg",
   },
   {
     name: "VIT Vellore",
-    icon: "/iconC.svg",
+    icon: "/iconVellorw.svg",
   },
   {
     name: "IIIT Hyderabad",
-    icon: "/iconD.svg",
+    icon: "/iconIIIT.svg",
   },
   {
     name: "NIT Allahabad",
-    icon: "/iconE.svg",
+    icon: "/iconMotilal.svg",
   },
 ];
 
