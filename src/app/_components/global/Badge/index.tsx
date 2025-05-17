@@ -4,6 +4,8 @@ import styled from "styled-components";
 // import Image from "next/image";
 import { DesktopNavItems } from "../header";
 import Image from "next/image";
+import { useAuth } from "@/app/_contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 /**
  * Badge types enumeration
@@ -89,9 +91,9 @@ const BadgeProfileImgContainer = styled.button`
   z-index: 21;
 
   @media (min-width: 1950px) {
- width: 44px;
-  height: 44px;
-}
+    width: 44px;
+    height: 44px;
+  }
 
   &:hover {
     filter: invert(0);
@@ -165,13 +167,27 @@ export const BadgeProfileImg: React.FC<BadgeProps> = ({
     }
   };
 
+  const router = useRouter();
+
+  const { isAuthenticated } = useAuth();
+
+  const onLoginNavItem = () => {
+    if (router) {
+      router.push("/login");
+    }
+  };
+
   // Get the corresponding badge configuration
   // const config = BADGE_CONFIG[badgeType];
 
   return (
     <>
-      <BadgeProfileImgContainer className={className} onClick={onProfileClick}>
-        {/* {config.image && (
+      {isAuthenticated ? (
+        <BadgeProfileImgContainer
+          className={className}
+          onClick={onProfileClick}
+        >
+          {/* {config.image && (
         "/header/user.svg"
           <Image
             src={config.image}
@@ -180,13 +196,18 @@ export const BadgeProfileImg: React.FC<BadgeProps> = ({
             style={{ borderRadius: "50%" }}
           />
         )}  */}
-        <Image
-          src={"/header/user.svg"}
-          alt={"user-profile-icon"}
-          fill
-          style={{ borderRadius: "50%" }}
-        />
-      </BadgeProfileImgContainer>
+          <Image
+            src={"/header/user.svg"}
+            alt={"user-profile-icon"}
+            fill
+            style={{ borderRadius: "50%" }}
+          />
+        </BadgeProfileImgContainer>
+      ) : (
+        <button className="login-nav-btn" onClick={onLoginNavItem}>
+          Login
+        </button>
+      )}
       <DesktopNavItems
         showMenu={showMenu}
         setShowMenu={setShowMenu || (() => {})}

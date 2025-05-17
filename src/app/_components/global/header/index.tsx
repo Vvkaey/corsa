@@ -47,16 +47,16 @@ export const DesktopNavItems = styled(
       }
     }, [router, setShowMenu, showMenu]);
 
-    const redirectToDashboard = useCallback(() => {
-      const href = isAuthenticated
-        ? "/dashboard"
-        : "/login?redirect=/dashboard";
+    // const redirectToDashboard = useCallback(() => {
+    //   const href = isAuthenticated
+    //     ? "/dashboard"
+    //     : "/login?redirect=/dashboard";
 
-      if (router) {
-        router.push(href);
-        if (setShowMenu) setShowMenu(false);
-      }
-    }, [router, setShowMenu, isAuthenticated]);
+    //   if (router) {
+    //     router.push(href);
+    //     if (setShowMenu) setShowMenu(false);
+    //   }
+    // }, [router, setShowMenu, isAuthenticated]);
 
     const logoutUser = useCallback(() => {
       logout();
@@ -65,9 +65,10 @@ export const DesktopNavItems = styled(
 
     return (
       <div className={className}>
-        <button className="ham-item" onClick={redirectToDashboard}>
+        {/* <button className="ham-item" onClick={redirectToDashboard}>
           Dashboard
-        </button>
+        </button> */}
+        {!isAuthenticated ? <></> : <p className="ham-item">User</p>}
         {!isAuthenticated ? (
           <button className="ham-item" onClick={redirectToLogin}>
             Login
@@ -114,6 +115,20 @@ export const DesktopNavItems = styled(
     position: absolute;
     right: -50%;
     top: -23px;
+  }
+
+  .ham-item {
+    color: #060606;
+    font-family: var(--font-fustat);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    background: transparent;
+    text-align: left;
+    opacity: 0.6;
+    padding: 16px 0;
+    border-bottom: 1px solid #ddd;
   }
 
   button.ham-item {
@@ -203,15 +218,15 @@ export const HamOverlay = styled(
       }
     }, [router, setShowMenu]);
 
-    const redirectToDashboard = useCallback(() => {
-      const href = isAuthenticated
-        ? "/dashboard"
-        : "/login?redirect=/dashboard";
-      if (router) {
-        router.push(href);
-        if (setShowMenu) setShowMenu(false);
-      }
-    }, [router, setShowMenu, isAuthenticated]);
+    // const redirectToDashboard = useCallback(() => {
+    //   const href = isAuthenticated
+    //     ? "/dashboard"
+    //     : "/login?redirect=/dashboard";
+    //   if (router) {
+    //     router.push(href);
+    //     if (setShowMenu) setShowMenu(false);
+    //   }
+    // }, [router, setShowMenu, isAuthenticated]);
 
     const logoutUser = useCallback(() => {
       logout();
@@ -227,9 +242,10 @@ export const HamOverlay = styled(
     return (
       <div className={className} onClick={onButtonClick}>
         <div className="group-container">
-          <button className="ham-item" onClick={redirectToDashboard}>
+          {/* <button className="ham-item" onClick={redirectToDashboard}>
             Dashboard
-          </button>
+          </button> */}
+          {isAuthenticated ? <p className="ham-item">User</p> : null}
           {!isAuthenticated ? (
             <button className="ham-item" onClick={redirectToLogin}>
               Login
@@ -290,21 +306,26 @@ export const HamOverlay = styled(
       right: 0;
     }
 
-    button.ham-item {
+    .ham-item {
       color: #060606;
       font-family: var(--font-fustat);
       font-size: 18px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
-      background: transparent;
       text-align: left;
       opacity: 0.6;
+      border-bottom: 1px solid #ddd;
+      padding: 16px 0;
+    }
+
+    button.ham-item {
+      background: transparent;
       border: none;
       cursor: pointer;
-      padding: 16px 0;
+      text-align: left;
       border-bottom: 1px solid #ddd;
-
+      padding: 16px 0;
       &:hover,
       &:active {
         opacity: 1;
@@ -597,6 +618,23 @@ export const Header = styled(({ className }: { className?: string }) => {
           position: relative;
         }
 
+        .login-nav-btn {
+            font-size: 17.5px;
+            font-weight: 800;
+            font-family: var(--font-fustat);
+            background: transparent;
+            border: none;
+            color : #fff;
+
+            @media (max-width: 992px) {
+              display: none;
+            }
+
+            @media (min-width: 1950px) {
+              font-size: 23.5px;
+            }
+          }
+
         .nav-item {
           color: rgb(255, 255, 255);
           opacity: 0.65;
@@ -618,6 +656,8 @@ export const Header = styled(({ className }: { className?: string }) => {
           @media (min-width: 992px) {
             font-size: 22.746px;
           }
+
+          
         }
       }
     }
