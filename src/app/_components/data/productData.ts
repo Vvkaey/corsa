@@ -30,7 +30,7 @@ export const pricingData = {
     {
       id: 1,
       name: "Insight Access Plan",
-      price: 1399,
+      price: 1299,
       period: "Year",
       description: "Curated insights and exclusive benefits",
       benefits: [
@@ -47,7 +47,7 @@ export const pricingData = {
     {
       id: 2,
       name: "Mentor Access Plan",
-      price: 2699,
+      price: 2499,
       period: "Year",
       description: "Advanced features for growing businesses",
       benefits: [
@@ -65,7 +65,7 @@ export const pricingData = {
     {
       id: 3,
       name: "Membership Access Plan",
-      price: 3799,
+      price: 3499,
       period: "Year",
       description: "Everything you need for large organizations",
       benefits: [
@@ -122,7 +122,7 @@ export const COMPARISON_DATA = [
   {
     title: "Insight Access",
     id: 0,
-    price: "₹ 2,999",
+    price: "₹ 1,299",
     cta: "Subscribe",
     redirection: "",
     insider_pass: {
@@ -185,7 +185,7 @@ export const COMPARISON_DATA = [
   {
     title: "Mentor Access",
     id: 1,
-    price: "₹ 2,699",
+    price: "₹ 2,499",
     cta: "Subscribe",
     redirection: "",
     insider_pass: {
@@ -248,7 +248,7 @@ export const COMPARISON_DATA = [
   {
     title: "Membership Access",
     id: 2,
-    price: "₹ 3,799",
+    price: "₹ 3,199",
     cta: "Subscribe",
     redirection: "",
     insider_pass: {
