@@ -477,7 +477,7 @@ export const IconShowcase = styled(
         &.desktop-container {
           gap: 72px;
           padding-top: 26px;
-          transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+          transition: opacity 0.7s ease-in-out;
           position: absolute;
           top: 0;
           left: 0;
@@ -485,12 +485,12 @@ export const IconShowcase = styled(
 
           &.show {
             opacity: 1;
-            transform: translateY(0);
+            // transform: translateY(0);
           }
 
           &.hide {
             opacity: 0;
-            transform: translateY(15px);
+            // transform: translateY(15px);
             pointer-events: none;
           }
 
@@ -502,14 +502,14 @@ export const IconShowcase = styled(
 
         &.show {
           opacity: 1;
-          transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
-          transform: translateY(0);
+          transition: opacity 0.9s ease-in;
+          // transform: translateY(0);
         }
 
         &.hide {
           opacity: 0;
-          transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
-          transform: translateY(10px);
+          transition: opacity 0.6s ease-out;
+          // transform: translateY(10px);
           pointer-events: none;
         }
 
@@ -524,7 +524,7 @@ export const IconShowcase = styled(
           width: 100%;
           justify-content: space-evenly;
           padding: 0 20px;
-          transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+          transition: opacity 0.7s ease-in-out;
 
           /* We need a fixed height to prevent layout shifts */
           min-height: 70px;
