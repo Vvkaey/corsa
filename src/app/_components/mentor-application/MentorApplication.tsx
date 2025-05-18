@@ -9,7 +9,6 @@ import {
   MentorApplicationContainer,
   OtpButton,
   Select,
-  StatusMessage,
   SubmitButton,
 } from "./styled";
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from "formik";
@@ -43,6 +42,7 @@ type InputEvent = React.FocusEvent<HTMLInputElement | HTMLSelectElement>;
 const MentorApplication = () => {
   const [emailVerified, setEmailVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [message, setMessage] = useState({
     text: "",
     type: "info" as "success" | "error" | "info",
@@ -243,7 +243,7 @@ const MentorApplication = () => {
     mentoringExperience: Yup.string().required(
       "Mentoring experience is required"
     ),
-    mentoringSessions: Yup.string().required("Mentoring sessions are required"),
+    mentoringSessions: Yup.string().required("Mentoring session availability is required"),
     mentoringApproach: Yup.string().required("Mentoring approach is required"),
   });
 
@@ -889,7 +889,7 @@ const MentorApplication = () => {
                 style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
               >
                 <Label htmlFor="mentoringSessions">
-                  Mentoring Sessions Availability
+                  Mentoring Session Availability
                 </Label>
                 <Select
                   onFocus={() => handleFieldFocus(10)}
@@ -899,7 +899,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.mentoringSessions}
                 >
-                  <option value="">Mentoring Sessions Availability</option>
+                  <option value="">Mentoring Session Availability</option>
                   <option value="20/month">20/month</option>
                   <option value="30/month">30/month</option>
                   <option value="40/month">40/month</option>
@@ -944,7 +944,7 @@ const MentorApplication = () => {
                   )}
               </FormGroup>
               
-              {message.text && (
+              {/* {message.text && (
                 <StatusMessage 
                   type={message.type}
                   ref={(el: HTMLDivElement | null) => {
@@ -960,7 +960,7 @@ const MentorApplication = () => {
                 >
                   {message.text}
                 </StatusMessage>
-              )}
+              )} */}
               
               <SubmitButton
                 type="submit"

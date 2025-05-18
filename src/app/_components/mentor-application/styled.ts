@@ -67,7 +67,7 @@ export const ApplicationHead = styled.div`
 `;
 
 export const ApplicationTitle = styled(Title)`
-  color: #505050;
+  color: #000;
 
   @media (max-width: 992px) {
     max-width: 18ch;
@@ -170,7 +170,7 @@ export const Input = styled.input`
   width: 100%;
   padding: 5px 10px;
   transition: border-color 0.2s;
-  color: #8a8a8a;
+  color: #000;
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
@@ -184,7 +184,7 @@ export const Input = styled.input`
   
   @media (min-width: 992px) {
     padding: 5px 21px;
-    font-size: 15.27px;
+    font-size: 16.27px;
     border-radius: 8px;
     line-height: 158.147%;
     border: none;
@@ -210,7 +210,7 @@ export const Select = styled.select`
   width: 100%;
   padding: 5px 7.5px;
   transition: border-color 0.2s;
-  color: #8a8a8a;
+   color: #000;
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
@@ -227,7 +227,7 @@ export const Select = styled.select`
 
   @media (min-width: 992px) {
     padding: 5px 21px;
-    font-size: 15.27px;
+    font-size: 16.27px;
     border-radius: 8px;
     line-height: 158.147%;
   }
