@@ -437,15 +437,19 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               </>
             ) : (
               <>
+              <div className="pay-img-container"
+              style={{
+                width: isMobile ? 19.5 : 25,
+                height: isMobile ? 19.5 : 25,
+                position: "relative",
+              }}
+              >
                 <Image
-                  src="/paybtn.svg"
+                  src="/paybtnL.png"
                   alt="pay-bg"
-                  width={isMobile ? 18 : 25}
-                  height={isMobile ? 18 : 25}
-                  style={{
-                    objectFit: "contain",
-                  }}
+                  fill
                 />
+                </div>
                 Pay Now - ₹ {product.price}
               </>
             )}
