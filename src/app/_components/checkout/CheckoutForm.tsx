@@ -65,7 +65,7 @@ const validationSchema = Yup.object({
   board: Yup.string().required("Board is required"),
   phone: Yup.string()
     .required("Phone number is required")
-    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+    .matches(/^[0-9]{10}$/, "Enter 10 digits"),
   state: Yup.string().required("State is required"),
 });
 
@@ -439,8 +439,8 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               <>
               <div className="pay-img-container"
               style={{
-                width: isMobile ? 19.5 : 25,
-                height: isMobile ? 19.5 : 25,
+                width: isMobile ? 18.5 : 25,
+                height: isMobile ? 18.5 : 25,
                 position: "relative",
               }}
               >
