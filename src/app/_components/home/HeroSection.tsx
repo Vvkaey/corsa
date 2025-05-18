@@ -32,7 +32,7 @@ export const HeroSection = styled(
     subHeadB,
     icons,
     compactContainerB = false,
-    htmlId
+    htmlId,
   }: {
     className?: string;
     head?: string | JSX.Element;
@@ -70,16 +70,19 @@ export const HeroSection = styled(
         // Skip animations on mobile - immediately show everything
         if (isMobile) {
           // Make all elements visible immediately without animations
-          gsap.set([
-            headingRef.current, 
-            subHeadingRef.current, 
-            ctaContainerRef.current, 
-            primaryCtaRef.current, 
-            secondaryCtaRef.current
-          ], {
-            opacity: 1,
-            clearProps: "transform"
-          });
+          gsap.set(
+            [
+              headingRef.current,
+              subHeadingRef.current,
+              ctaContainerRef.current,
+              primaryCtaRef.current,
+              secondaryCtaRef.current,
+            ],
+            {
+              opacity: 1,
+              clearProps: "transform",
+            }
+          );
           return;
         }
 
@@ -87,31 +90,29 @@ export const HeroSection = styled(
         // Heading
         gsap.set(headingRef.current, {
           opacity: 0,
-          y: 10 // Smaller offset for faster animation
+          y: 10, // Smaller offset for faster animation
         });
 
         // Subheading
         gsap.set(subHeadingRef.current, {
           opacity: 0,
-          y: 10 // Smaller offset for faster animation
+          y: 10, // Smaller offset for faster animation
         });
 
         // CTA container
         gsap.set(ctaContainerRef.current, {
-          opacity: 0
+          opacity: 0,
         });
-
-
 
         // Primary CTA
         if (primaryCtaRef.current && !subscription) {
           gsap.set(primaryCtaRef.current, {
             opacity: 1, // Make it visible from the start
-            width: '10%', // Start with 0 width
-             // Remove horizontal padding initially
-            overflow: 'hidden',
-             x: -350,
-            whiteSpace: 'nowrap'
+            width: "10%", // Start with 0 width
+            // Remove horizontal padding initially
+            overflow: "hidden",
+            x: -350,
+            whiteSpace: "nowrap",
           });
         }
 
@@ -119,11 +120,11 @@ export const HeroSection = styled(
         if (secondaryCtaRef.current) {
           gsap.set(secondaryCtaRef.current, {
             opacity: 1, // Make it visible from the start
-            width: '10%', // Start with 0 width
-             // Remove horizontal padding initially
-            overflow: 'hidden',
-              x: 350,
-            whiteSpace: 'nowrap'
+            width: "10%", // Start with 0 width
+            // Remove horizontal padding initially
+            overflow: "hidden",
+            x: 350,
+            whiteSpace: "nowrap",
           });
         }
 
@@ -131,52 +132,68 @@ export const HeroSection = styled(
         const tl = gsap.timeline({
           defaults: {
             duration: 0.5, // Faster animations
-            ease: "power2.out" 
-          }
+            ease: "power2.out",
+          },
         });
 
         // Heading animation
         tl.to(headingRef.current, {
           opacity: 1,
-          y: 0
+          y: 0,
         });
 
-        // Subheading animation - start almost immediately 
-        tl.to(subHeadingRef.current, {
-          opacity: 1,
-          y: 0
-        }, "-=0.3"); // Overlap with the heading animation
+        // Subheading animation - start almost immediately
+        tl.to(
+          subHeadingRef.current,
+          {
+            opacity: 1,
+            y: 0,
+          },
+          "-=0.3"
+        ); // Overlap with the heading animation
 
         // CTA container - start almost immediately
-        tl.to(ctaContainerRef.current, {
-          opacity: 1
-        }, "-=0.3"); // Overlap with the subheading animation
+        tl.to(
+          ctaContainerRef.current,
+          {
+            opacity: 1,
+          },
+          "-=0.3"
+        ); // Overlap with the subheading animation
 
         // Primary CTA button - start almost immediately
         if (primaryCtaRef.current && !subscription) {
-          tl.to(primaryCtaRef.current, {
-            width: '90%', // Expand to full width
-            // padding: '11px 33px', // Restore full padding
-            duration: 0.6, // Slightly longer duration for visibility
+          tl.to(
+            primaryCtaRef.current,
+            {
+              width: "90%", // Expand to full width
+              // padding: '11px 33px', // Restore full padding
+              duration: 0.6, // Slightly longer duration for visibility
               x: 0,
-            ease: "power1.out" // Different easing for better visibility
-          }, "-=0.5"); // Overlap with CTA container animation
+              ease: "power1.out", // Different easing for better visibility
+            },
+            "-=0.5"
+          ); // Overlap with CTA container animation
         }
 
         // Secondary CTA button - start with small delay
         if (secondaryCtaRef.current) {
-          tl.to(secondaryCtaRef.current, {
-            width: '90%', // Expand to full width
-            // padding: '11px 33px', // Restore full padding
-            duration: 0.6, // Slightly longer duration for visibility
+          tl.to(
+            secondaryCtaRef.current,
+            {
+              width: "90%", // Expand to full width
+              // padding: '11px 33px', // Restore full padding
+              duration: 0.6, // Slightly longer duration for visibility
               x: 0,
-            ease: "power1.out" // Different easing for better visibility
-          }, "-=0.5"); // Small overlap with primary button
+              ease: "power1.out", // Different easing for better visibility
+            },
+            "-=0.5"
+          ); // Small overlap with primary button
         }
 
         // Setup ripple effect for hover (using existing CSS animation)
         // Implementation will use the ripple CSS animation already defined
-        
+
         return () => {
           tl.kill();
         };
@@ -211,51 +228,60 @@ export const HeroSection = styled(
               {primaryCta || secondaryCta ? (
                 <div ref={ctaContainerRef} className="cta-container">
                   {!subscription && primaryCta ? (
-                     <div className="cta-wrapper">
-                    <button
-                      ref={primaryCtaRef}
-                      className="primary-cta"
-                      onClick={onPrimaryCtaClick}
-                    >
-                      {primaryCta}
-                    </button>
+                    <div className="cta-wrapper">
+                      <button
+                        ref={primaryCtaRef}
+                        className="primary-cta"
+                        onClick={onPrimaryCtaClick}
+                      >
+                        {primaryCta}
+                      </button>
                     </div>
                   ) : null}
                   {subscription && badge === BADGES.MARSHALL ? (
-                     <div className="cta-wrapper">
-                    <button
-                      ref={secondaryCtaRef}
-                      className={subscription ? "primary-cta" : "secondary-cta"}
-                      onClick={onSecondaryCTAClick}
-                    >
-                      Add on Mentor Plan
-                    </button>
+                    <div className="cta-wrapper">
+                      <button
+                        ref={secondaryCtaRef}
+                        className={
+                          subscription ? "primary-cta" : "secondary-cta"
+                        }
+                        onClick={onSecondaryCTAClick}
+                      >
+                        Add on Mentor Plan
+                      </button>
                     </div>
                   ) : null}
 
                   {subscription && badge === BADGES.TACTICAL_ACE ? (
-                     <div className="cta-wrapper">
-                    <button
-                      ref={secondaryCtaRef}
-                      className={subscription ? "primary-cta" : "secondary-cta"}
-                      onClick={onSecondaryCTAClick}
-                    >
-                      Add on Insight Plan
-                    </button>
-                     </div>
-                  ) : null}
-                  {secondaryCta ? (
                     <div className="cta-wrapper">
-                    <button
-                      ref={secondaryCtaRef}
-                      className={subscription ? "primary-cta" : "secondary-cta"}
-                      onClick={onSecondaryCTAClick}
-                    >
-                      {secondaryCta}
-                    </button>
+                      <button
+                        ref={secondaryCtaRef}
+                        className={
+                          subscription ? "primary-cta" : "secondary-cta"
+                        }
+                        onClick={onSecondaryCTAClick}
+                      >
+                        Add on Insight Plan
+                      </button>
                     </div>
                   ) : null}
-
+                  {secondaryCta ? (
+                    <div
+                      className={
+                        BADGES.TOP_GUN ? "cta-wrapper full" : "cta-wrapper"
+                      }
+                    >
+                      <button
+                        ref={secondaryCtaRef}
+                        className={
+                          subscription ? "primary-cta" : "secondary-cta"
+                        }
+                        onClick={onSecondaryCTAClick}
+                      >
+                        {secondaryCta}
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
@@ -394,128 +420,134 @@ export const HeroSection = styled(
           gap: 16px;
         }
 
-        .cta-wrapper{
-         position: relative;
-         overflow: hidden;
-        width: 90%;
-        margin: auto;
-        .primary-cta {
+        .cta-wrapper {
           position: relative;
-          border-radius: 8px;
-          border: 1.699px solid transparent;
-          background: #ff2626;
-          padding: 11px 33px;
-          color: #fff;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 800;
-          line-height: normal;
-          font-family: var(--font-fustat);
-          cursor: pointer;
-          transition: background-color 0.3s ease, color 0.3s ease;
-          width: 100%;
           overflow: hidden;
+          width: 90%;
+          margin: auto;
+          .primary-cta {
+            position: relative;
+            border-radius: 8px;
+            border: 1.699px solid transparent;
+            background: #ff2626;
+            padding: 11px 33px;
+            color: #fff;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+            font-family: var(--font-fustat);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 100%;
+            overflow: hidden;
 
-          &::after {
-            content: "";
-            position: absolute;
-             top: calc(50% - 2.5px + 5px);
-            left:  50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.4);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%, -50%);
-            transform-origin: 50% 50%;
-          }
-
-          &:hover {
             &::after {
-              animation: ripple 0.6s ease-out;
+              content: "";
+              position: absolute;
+              top: calc(50% - 2.5px + 5px);
+              left: 50%;
+              width: 5px;
+              height: 5px;
+              background: rgba(255, 255, 255, 0.4);
+              opacity: 0;
+              border-radius: 100%;
+              transform: scale(1, 1) translate(-50%, -50%);
+              transform-origin: 50% 50%;
+            }
+
+            &:hover {
+              &::after {
+                animation: ripple 0.6s ease-out;
+              }
+            }
+
+            @media (min-width: 992px) {
+              width: unset;
+              padding: 10px 40px;
+              font-size: 16.5px;
+              leading-trim: both;
+              text-edge: cap;
+              will-change: transform, opacity, box-shadow;
+              transform: translateZ(0);
+            }
+
+            @media (min-width: 1950px) {
+              padding: 15px 58px;
+              font-size: 23.521px;
             }
           }
 
-          @media (min-width: 992px) {
-            width: unset;
-            padding: 10px 40px;
-            font-size: 16.5px;
-            leading-trim: both;
-            text-edge: cap;
-            will-change: transform, opacity, box-shadow;
-            transform: translateZ(0);
-          }
+          .secondary-cta {
+            position: relative;
+            border-radius: 8px;
+            border: 1.699px solid #e03233;
+            padding: 11px 33px;
+            background: transparent;
+            color: #ff2626;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+            font-family: var(--font-fustat);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 100%;
+            overflow: hidden;
 
-          @media (min-width: 1950px) {
-            padding: 15px 58px;
-            font-size: 23.521px;
-          }
-        }
-
-        .secondary-cta {
-          position: relative;
-          border-radius: 8px;
-          border: 1.699px solid #e03233;
-          padding: 11px 33px;
-          background: transparent;
-          color: #ff2626;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 800;
-          line-height: normal;
-          font-family: var(--font-fustat);
-          cursor: pointer;
-          transition: background-color 0.3s ease, color 0.3s ease;
-           width: 100%;
-          overflow: hidden;
-
-           &::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.4);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%, -50%);
-            transform-origin: 50% 50%;
-          }
-
-          &:hover {
             &::after {
-              animation: ripple 0.6s ease-out;
+              content: "";
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 5px;
+              height: 5px;
+              background: rgba(255, 255, 255, 0.4);
+              opacity: 0;
+              border-radius: 100%;
+              transform: scale(1, 1) translate(-50%, -50%);
+              transform-origin: 50% 50%;
+            }
+
+            &:hover {
+              &::after {
+                animation: ripple 0.6s ease-out;
+              }
+            }
+
+            @media (min-width: 992px) {
+              // width: unset;
+              padding: 10px 40px;
+              font-size: 16.5px;
+              leading-trim: both;
+              text-edge: cap;
+              will-change: transform, opacity, box-shadow, width;
+              transform: translateZ(0);
+            }
+
+            @media (min-width: 1950px) {
+              padding: 15px 58px;
+              font-size: 23.521px;
             }
           }
 
-          @media (min-width: 992px) {
-            // width: unset;
-            padding: 10px 40px;
-            font-size: 16.5px;
-            leading-trim: both;
-            text-edge: cap;
-            will-change: transform, opacity, box-shadow, width;
-            transform: translateZ(0);
-          }
+          .primary-cta,
+          .secondary-cta {
+            @media (min-width: 992px) {
+              min-width: 240px;
+            }
 
-          @media (min-width: 1950px) {
-            padding: 15px 58px;
-            font-size: 23.521px;
+            @media (min-width: 1950px) {
+              min-width: 290px;
+            }
           }
         }
 
-        .primary-cta,
-        .secondary-cta {
+        .full {
           @media (min-width: 992px) {
-            min-width: 240px;
-          }
-
-          @media (min-width: 1950px) {
-            min-width: 290px;
+            width: 100%;
           }
         }
-}
       }
     }
   }
