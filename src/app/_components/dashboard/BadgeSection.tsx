@@ -188,9 +188,9 @@ export const BadgeSection = () => {
     const card = cardRefs.current[index];
     if (card) {
       gsap.to(card, {
-        y: -10,
-        scale: 1.03,
-        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+        // y: -10,
+        // scale: 1.03,
+        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.5)",
         duration: 0.3,
         ease: "power2.out"
       });
@@ -203,8 +203,8 @@ export const BadgeSection = () => {
     const card = cardRefs.current[index];
     if (card) {
       gsap.to(card, {
-        y: 0,
-        scale: 1,
+        // y: 0,
+        // scale: 1,
         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.05)",
         duration: 0.3,
         ease: "power2.out"

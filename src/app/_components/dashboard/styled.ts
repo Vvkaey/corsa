@@ -12,7 +12,7 @@ export const BadgeSectionContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(0deg, #9f9d9d 3.35%, #0e0e0e 50.52%, #0e0e0e 143.11%);
+  background: linear-gradient(180deg, #0E0E0E 3.35%, #0E0E0E 56.52%, #9F9D9D 143.11%);
   @media (min-width: 992px) {
     background: url("/2078.svg") center center fixed;
     background-size: cover;
@@ -37,7 +37,7 @@ export const MainSection = styled.section`
 
   @media (min-width: 992px) {
     max-width: 850px;
-    background: linear-gradient(0deg, #9f9d9d 3.35%, #0e0e0e 50.52%, #0e0e0e 143.11%);
+    background: linear-gradient(180deg, #0E0E0E 3.35%, #0E0E0E 56.52%, #9F9D9D 143.11%);
       box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.25);
     gap: 0px;
      padding: 45px 70px 40px;
