@@ -60,17 +60,17 @@ export const Card = styled(({
       gsap.fromTo(cardRef.current,
         {
           opacity: 0,
-          x: 30,
+          // x: 30,
           scale: 0.95,
-          rotate: -2,
+          // rotate: -2,
         },
         {
           opacity: 1,
-          x: 0,
+           x: 0,
           scale: 1,
-          rotate: 0,
-          duration: 0.8,
-          ease: "power2.out",
+           rotate: 0,
+          duration: 0.9,
+          ease: "ease.in",
           onComplete: () => {
             // Animate quote after card appears
             if (quoteRef.current) {
@@ -84,6 +84,7 @@ export const Card = styled(({
                   opacity: 1,
                   duration: 0.8,
                   ease: "elastic.out(1.2, 0.5)",
+                  yoyo: true,
                   onComplete: () => {
                     // Add subtle hover animation after initial animation
                     gsap.to(quoteRef.current, {
@@ -97,20 +98,23 @@ export const Card = styled(({
                 }
               );
             }
-          }
+          },
+          stagger: 0.05
         }
       );
     } else {
       // If not active, fade out and move out of view
       gsap.to(cardRef.current, {
-        opacity: 0,
-        x: -30,
-        scale: 0.95,
-        duration: 0.6,
-        ease: "power2.in",
+        opacity: 0.3,
+          x: -900,
+        scale: 0,
+         rotate: 10,
+        duration: 0.9,
+   ease: "ease.out",
+   stagger: 0.05,
         onComplete: () => {
           // Reset position for next animation
-          gsap.set(cardRef.current, { x: 30 });
+          gsap.set(cardRef.current, { x: 200, rotate: -20, });
         }
       });
       
@@ -506,11 +510,11 @@ const XLCard = ({ activeIndex }: { activeIndex: number }) => {
       // Add entrance animation for the card
       gsap.fromTo(cardRef.current,
         {
-          y: 30,
+          // y: 30,
           opacity: 0
         },
         {
-          y: 0,
+          // y: 0,
           opacity: 1,
           duration: 0.8,
           ease: "power2.out"
@@ -554,36 +558,36 @@ const CarouselContainer = styled.div`
 `;
 
 // Dots for carousel navigation with aria labels
-const DotContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-`;
+// const DotContainer = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 10px;
+//   margin-top: 20px;
+// `;
 
 // Use className to control the active state instead of props
-const Dot = styled.button`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #555;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+// const Dot = styled.button`
+//   width: 10px;
+//   height: 10px;
+//   border-radius: 50%;
+//   background: #555;
+//   border: none;
+//   padding: 0;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease, transform 0.3s ease;
   
-  &.active {
-    background: #FF2626;
-  }
+//   &.active {
+//     background: #FF2626;
+//   }
   
-  &:hover {
-    transform: scale(1.2);
-  }
+//   &:hover {
+//     transform: scale(1.2);
+//   }
   
-  &:focus {
-    outline: none;
-  }
-`;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
 export const CardRows = styled(({ className }: { className?: string }) => {
   const sectionRootRef = useRef<HTMLDivElement>(null);
@@ -702,7 +706,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
             ))}
           </CarouselContainer>
           
-          <DotContainer>
+          {/* <DotContainer>
             {cardData.map((card, index) => (
               <Dot 
                 key={card.id} 
@@ -711,7 +715,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
                 aria-label={`View testimonial ${index + 1}`}
               />
             ))}
-          </DotContainer>
+          </DotContainer> */}
         </div>
       </div>
     </section>
