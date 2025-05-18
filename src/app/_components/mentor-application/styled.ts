@@ -310,6 +310,22 @@ export const ErrorText = styled.div`
   }
 `;
 
+export const ErrorTextCheckout = styled(ErrorText)`
+  position: absolute;
+  color: #ff2626;
+  font-size: 10px;
+  margin-top: 5px;
+  font-weight: 500;
+  margin-left: 16px;
+  font-family: var(--font-fustat);
+  bottom: -2px;
+
+  @media (min-width: 1025px) {
+    font-size: 12.5px;
+    margin-left: 18px;
+  }
+`;
+
 export const rippleAnimation = keyframes`
 
 

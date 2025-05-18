@@ -13,12 +13,51 @@ import Image from "next/image";
 
 import * as Yup from "yup";
 import { CaretUp } from "@/app/_assets/icons";
-import { ErrorText } from "../mentor-application/styled";
+import { ErrorTextCheckout as ErrorText } from "../mentor-application/styled";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/_utils/hooks/useAuth";
 import { CheckoutPlanProps } from "../data/productData";
+
+const IN_STATES = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttarakhand",
+    "Uttar Pradesh",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli",
+    "Daman and Diu",
+    "Delhi",
+    "Lakshadweep",
+    "Puducherry"
+]
 
 interface RazorpayOptions {
   key: string;
@@ -349,14 +388,16 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               value={formik.values.grade}
               required
             >
-              <Option value="10th">10th</Option>
-              <Option value="11th">11th</Option>
-              <Option value="12th">12th</Option>
+              <Option value="9">Class 9</Option>
+              <Option value="10">Class 10</Option>
+              <Option value="11">Class 11</Option>
+              <Option value="12">Class 12</Option>
+              <Option value="Passout">Passout</Option>
             </Select>
             <CaretUp className="svg" width={(width ?? 0) > 1950 ? 15 : 12}
               height={(width ?? 0) > 1950 ? 11 : 8}
               />
-            {formik.touched.board && formik.errors.board && (
+            {formik.touched.grade && formik.errors.board && (
               <ErrorText>{formik.errors.board}</ErrorText>
             )}
           </HalfWidthFormGroup>
@@ -372,7 +413,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
             >
               <Option value="CBSE">CBSE</Option>
               <Option value="ICSE">ICSE</Option>
-              <Option value="Other">Other</Option>
+              <Option value="Other">State Board</Option>
             </Select>
             <CaretUp className="svg" width={(width ?? 0) > 1950 ? 15 : 12}
               height={(width ?? 0) > 1950 ? 11 : 8}
@@ -407,10 +448,15 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               value={formik.values.state}
               required
             >
-              <Option value="Haryana">Haryana</Option>
+              {IN_STATES.map((state) => (
+                <Option key={state} value={state}>
+                  {state}
+                </Option>
+              ))}
+              {/* <Option value="Haryana">Haryana</Option>
               <Option value="Uttar Pradesh">Uttar Pradesh</Option>
               <Option value="Karnataka">Karnataka</Option>
-              <Option value="Delhi NCR">Delhi NCR</Option>
+              <Option value="Delhi NCR">Delhi NCR</Option> */}
             </Select>
             <CaretUp className="svg" width={(width ?? 0) > 1950 ? 15 : 12}
               height={(width ?? 0) > 1950 ? 11 : 8}
@@ -439,8 +485,8 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               <>
               <div className="pay-img-container"
               style={{
-                width: isMobile ? 18.5 : 25,
-                height: isMobile ? 18.5 : 25,
+                width: isMobile ? 18.72 : 24.48,
+                height: isMobile ? 18.46 : 24.14,
                 position: "relative",
               }}
               >
