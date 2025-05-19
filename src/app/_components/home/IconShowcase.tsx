@@ -281,8 +281,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={35}
-                          height={35}
+                         fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -301,8 +300,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={35}
-                          height={35}
+                           fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -321,8 +319,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={35}
-                          height={35}
+                           fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -341,8 +338,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={35}
-                          height={35}
+                          fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -361,8 +357,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                          width={35}
-                          height={35}
+                           fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -528,6 +523,15 @@ export const IconShowcase = styled(
 
           /* We need a fixed height to prevent layout shifts */
           min-height: 70px;
+
+          .icon{
+          @media (max-width: 992px) {
+
+        //  position: relative;
+         width: 35px;
+         height: 35px;
+
+          }
         }
 
         .icon {
@@ -552,6 +556,8 @@ export const IconShowcase = styled(
             font-style: normal;
             font-weight: 400;
             line-height: normal;
+            position: absolute;
+            bottom: -20px;
           }
 
           img {
