@@ -61,6 +61,7 @@ export const DesktopNavItems = styled(
     const logoutUser = useCallback(() => {
       logout();
       if (setShowMenu) setShowMenu(false);
+      if(window) window.location.reload();
     }, [logout, setShowMenu]);
 
     return (
