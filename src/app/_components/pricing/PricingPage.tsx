@@ -154,7 +154,7 @@ const PlanCard = styled.div<StyledPlanCardProps>`
 
   border-radius: 11.813px;
   border: 1.39px solid #000;
-  background: #f5f5f5;
+  background: transparent;
 
   &:hover {
     transform: translateY(-5px);
