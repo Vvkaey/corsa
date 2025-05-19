@@ -7,6 +7,7 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { RedSpan } from "../dashboard/styled";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -20,6 +21,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
   });
   const [running, setRunning] = useState(false);
   const [reward, setReward] = useState(false);
+  const [perfectReward, setPerfectReward] = useState(false);
 
   const { width } = useWindowSize();
   const gsapContext = useGsapContext();
@@ -33,6 +35,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
   const unitsRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const rewardRef = useRef<HTMLDivElement>(null);
+  const perfectRewardRef = useRef<HTMLDivElement>(null);
 
   // Use refs to track timing without causing re-renders
   const timerRef = useRef<{
@@ -193,7 +196,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
   // Animate only the reward message
   useEffect(() => {
-    if (!rewardRef.current) return;
+    if (!rewardRef.current || !perfectRewardRef.current) return;
 
     // Show reward message for any time over 5 seconds
     if (reward) {
@@ -218,7 +221,30 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         y: 15,
       });
     }
-  }, [reward]);
+
+    if (perfectReward) {
+      // Show reward message with animation
+      gsap.fromTo(
+        perfectRewardRef.current,
+        {
+          autoAlpha: 0,
+          y: 15,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        }
+      );
+    } else {
+      // Hide reward message
+      gsap.set(perfectRewardRef.current, {
+        autoAlpha: 0,
+        y: 15,
+      });
+    }
+  }, [reward, perfectReward]);
 
   // No time animations at all - remove this completely
   // useEffect(() => {
@@ -227,7 +253,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
   // Animate reward message
   useEffect(() => {
-    if (!rewardRef.current) return;
+    if (!rewardRef.current || !perfectRewardRef.current) return;
 
     if (reward) {
       // Show reward message with animation
@@ -251,7 +277,30 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         y: 15,
       });
     }
-  }, [reward]);
+
+    if (perfectReward) {
+      // Show reward message with animation
+      gsap.fromTo(
+        perfectRewardRef.current,
+        {
+          autoAlpha: 0,
+          y: 15,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        }
+      );
+    } else {
+      // Hide reward message
+      gsap.set(perfectRewardRef.current, {
+        autoAlpha: 0,
+        y: 15,
+      });
+    }
+  }, [reward, perfectReward]);
 
   // Animate button state changes
   useEffect(() => {
@@ -324,10 +373,13 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     setDisplayTime({ seconds: finalSeconds, centiseconds: finalCentiseconds });
 
     // Check for reward condition - now show for anything above 5 seconds
-    if (finalSeconds >= 5) {
+    if (finalSeconds < 5 && finalSeconds !== 5 && finalCentiseconds !== 50) {
       setReward(true);
+    } else if (finalSeconds > 5) {
+      setPerfectReward(true);
     } else {
       setReward(false);
+      setPerfectReward(false);
     }
   };
 
@@ -341,6 +393,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     // Then update state
     setRunning(false);
     setReward(false);
+    setPerfectReward(false);
     timerRef.current.startTime = null;
     timerRef.current.elapsedBeforeStop = 0;
     timeValuesRef.current = { seconds: 0, centiseconds: 0 };
@@ -378,7 +431,16 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
               ref={rewardRef}
               style={{ opacity: 0 }}
             >
-              Congratulations! You&apos;ve earned a mentor session!
+              <RedSpan>Almost</RedSpan> tapped greatness. But you&apos;re still
+              cooler than inorganic chemistry. 🧪
+            </p>
+            <p
+              className="reward-message"
+              ref={perfectRewardRef}
+              style={{ opacity: 0 }}
+            >
+              <RedSpan>AIR 1 </RedSpan>in Reflexology 🏆 Even Heisenberg
+              couldn&apos;t predict that stop.
             </p>
           </div>
         </div>
@@ -607,22 +669,31 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         align-items: center;
         justify-content: center;
         margin-top: 20px;
+        position: relative;
+        min-width: 49ch;
 
         @media (min-width: 992px) {
           min-height: 60px;
+           min-width: 45ch;
+          
         }
       }
 
       .reward-message {
-        color: #ff2626;
+        position: absolute;
+        color: #000;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16.5px;
         width: 75%;
         text-align: center;
         will-change: transform, opacity;
+        top : 30px;
 
         @media (min-width: 992px) {
+        font-size: 18px;
           font-size: 24px;
+          width: 45ch;
+          
         }
       }
     }
