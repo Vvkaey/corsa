@@ -670,7 +670,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         justify-content: center;
         margin-top: 20px;
         position: relative;
-        min-width: 49ch;
+        min-width: 39ch;
 
         @media (min-width: 992px) {
           min-height: 60px;
