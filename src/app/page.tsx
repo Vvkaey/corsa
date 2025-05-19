@@ -104,7 +104,7 @@ const FAQ_DATA = [
   },
   {
     ques: `What else can I access besides mentorship?`,
-    ans: `dd on to our Insight Access Plan! They're packed with exclusive perks that'll help you for sure, or subscribe to the membership access plan for full access.`,
+    ans: `Add on to our Insight Access Plan! They're packed with exclusive perks that'll help you for sure, or subscribe to the membership access plan for full access`,
   },
   {
     ques: `What if I face issues or need help?`,
