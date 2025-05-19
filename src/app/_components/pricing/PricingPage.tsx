@@ -585,36 +585,6 @@ const Plan: React.FC<PricingPlan> = ({
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
 
-  // Set up scroll animations for benefits
-  useEffect(() => {
-    if (!benefitsRef.current) return;
-
-    const benefitItems = benefitsRef.current.querySelectorAll(".benefit-item");
-
-    if (benefitItems.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("benefit-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
-    );
-
-    benefitItems.forEach((item) => {
-      observer.observe(item);
-    });
-
-    return () => {
-      benefitItems.forEach((item) => {
-        observer.unobserve(item);
-      });
-    };
-  }, []);
 
   const handleSubscribe = async () => {
     setIsLoading(true);
