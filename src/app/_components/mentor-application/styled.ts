@@ -318,11 +318,16 @@ export const ErrorTextCheckout = styled(ErrorText)`
   font-weight: 500;
   margin-left: 16px;
   font-family: var(--font-fustat);
-  bottom: -2px;
+  bottom: -13px;
 
-  @media (min-width: 1025px) {
-    font-size: 12.5px;
-    margin-left: 18px;
+  @media (min-width: 992px) {
+   font-size: 10px;
+  }
+
+  @media (min-width: 1950px) {
+  bottom: -18px;
+    font-size: 13px;
+    margin-left: 23px;
   }
 `;
 
