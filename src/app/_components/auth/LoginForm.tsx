@@ -87,14 +87,14 @@ const Input = styled.input<{ disabled?: boolean }>`
   }
 `;
 
-const ErrorMessage = styled.div`
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #f87171;
-  border-radius: 0.375rem;
-  background-color: #fee2e2;
-  color: #b91c1c;
-`;
+// const ErrorMessage = styled.div`
+//   padding: 0.75rem 1rem;
+//   margin-bottom: 1rem;
+//   border: 1px solid #f87171;
+//   border-radius: 0.375rem;
+//   background-color: #fee2e2;
+//   color: #b91c1c;
+// `;
 
 // const HelperText = styled.p`
 //   font-size: 0.875rem;
@@ -241,19 +241,17 @@ const TncText = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin: 3px auto;
+  margin: 10px auto;
 
   a {
     text-decoration: underline;
   }
 
   @media (min-width: 992px) {
-    margin: 5px auto;
     font-size: 12.8px;
   }
 
   @media (min-width: 1500px) {
-   margin: 8px auto;
     font-size: 15.8px;
   }
 `;
@@ -356,8 +354,8 @@ export default function LoginForm({
         {otpRequested ? "Verify OTP" : "Login to Your Account"}
       </FormTitle> */}
 
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      {formError && <ErrorMessage>{formError}</ErrorMessage>}
+      {/* {error && <ErrorMessage>{error}</ErrorMessage>}
+      {formError && <ErrorMessage>{formError}</ErrorMessage>} */}
       {otpRequested && otpSent && !error && !formError && (
         <SuccessMessage>
           We sent a temporary login code to {email}
