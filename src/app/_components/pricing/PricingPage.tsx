@@ -585,7 +585,6 @@ const Plan: React.FC<PricingPlan> = ({
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
 
-
   const handleSubscribe = async () => {
     setIsLoading(true);
     setError(null);
@@ -682,9 +681,13 @@ const PricingPage: React.FC<PricingPageProps> = ({
   //   </span>
   // ));
 
+
   // Initial page load animation
   useEffect(() => {
     setPageLoading(false);
+    if (window) {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   // Set up animations after initial load
