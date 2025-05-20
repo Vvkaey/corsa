@@ -52,7 +52,7 @@ const Input = styled.input<{ disabled?: boolean }>`
   transition: border-color 0.2s, box-shadow 0.2s;
   background-color: transparent;
 
-  color:rgb(244, 239, 239);
+  color: rgb(244, 239, 239);
   font-family: var(--font-fustat);
   font-size: 15px;
   font-style: normal;
@@ -81,7 +81,7 @@ const Input = styled.input<{ disabled?: boolean }>`
     font-size: 16px;
   }
 
-   @media (min-width: 1950px) {
+  @media (min-width: 1950px) {
     padding: 15px 35px;
     font-size: 19.91px;
   }
@@ -126,41 +126,74 @@ const PrimaryButton = styled.button<{ disabled?: boolean }>`
   }
 
   @media (min-width: 992px) {
-    padding: 12px;
+    padding: 11px;
     font-size: 16px;
   }
 
   @media (min-width: 1950px) {
-    padding: 21px;
+    padding: 19px;
     font-size: 22.754px;
   }
 `;
 
-const SecondaryButton = styled.button<{ disabled?: boolean }>`
-  width: 100%;
-  padding: 11px 19px;
-  border: none;
-  border-radius: 8px;
-  border: 2.014px solid #fff;
-  color: #000;
+// const SecondaryButton = styled.button<{ disabled?: boolean }>`
+//   width: 100%;
+//   padding: 11px 19px;
+//   border: none;
+//   border-radius: 8px;
+//   border: 2.014px solid #fff;
+//   color: #000;
+//   leading-trim: both;
+//   text-edge: cap;
+//   font-family: var(--font-fustat);
+//   font-size: 16px;
+//   font-style: normal;
+//   font-weight: 700;
+//   line-height: normal;
+//   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+//   transition: background-color 0.2s, opacity 0.2s;
+//   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
+
+//   &:hover {
+//     background-color: ${(props) => (props.disabled ? "white" : "#eff6ff")};
+//   }
+
+//   @media (min-width: 992px) {
+//     padding: 11px;
+//     font-size: 16px;
+//   }
+
+//   @media (min-width: 1950px) {
+//     padding: 19px;
+//     font-size: 22.754px;
+//   }
+// `;
+
+const FlatButton = styled.button`
+  margin-bottom: 9px;
+  color: #c4c4c4;
+  text-align: center;
   leading-trim: both;
   text-edge: cap;
-  font-family: var(--font-fustat);
-  font-size: 16px;
+  font-family: Fustat;
+  font-size: 14px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   line-height: normal;
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-  transition: background-color 0.2s, opacity 0.2s;
-  opacity: ${(props) => (props.disabled ? "0.5" : "1")};
-
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "white" : "#eff6ff")};
-  }
+  border: none;
+  background: transparent;
+  width: 100%;
 
   @media (min-width: 992px) {
-    padding: 21px;
-    font-size: 22.754px;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 20px;
+  }
+
+  &:hover {
+    color: #eff6ff;
   }
 `;
 
@@ -176,6 +209,14 @@ const SuccessMessage = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (min-width: 992px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 20px;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -200,19 +241,19 @@ const TncText = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin: 20px auto;
+  margin: 3px auto;
 
   a {
     text-decoration: underline;
   }
 
   @media (min-width: 992px) {
-    margin: 15px auto;
+    margin: 5px auto;
     font-size: 12.8px;
   }
 
-   @media (min-width: 1500px) {
-    margin: 23.5px auto;
+  @media (min-width: 1500px) {
+   margin: 8px auto;
     font-size: 15.8px;
   }
 `;
@@ -323,6 +364,12 @@ export default function LoginForm({
         </SuccessMessage>
       )}
 
+      {otpRequested && otpSent && !error && !formError && (
+        <FlatButton type="button" onClick={handleResendOTP} disabled={loading}>
+          Resend Login code
+        </FlatButton>
+      )}
+
       {!otpRequested ? (
         // Email form
         <form onSubmit={handleRequestOTP}>
@@ -383,13 +430,13 @@ export default function LoginForm({
               {loading ? "Verifying..." : "Verify & Login"}
             </PrimaryButton>
 
-            <SecondaryButton
+            {/* <SecondaryButton
               type="button"
               onClick={handleResendOTP}
               disabled={loading}
             >
               Resend OTP
-            </SecondaryButton>
+            </SecondaryButton> */}
 
             {/* <SecondaryButton
               type="button"
