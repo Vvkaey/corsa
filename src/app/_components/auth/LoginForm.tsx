@@ -52,9 +52,9 @@ const Input = styled.input<{ disabled?: boolean }>`
   transition: border-color 0.2s, box-shadow 0.2s;
   background-color: transparent;
 
-  color: #818181;
+  color:rgb(244, 239, 239);
   font-family: var(--font-fustat);
-  font-size: 14px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -78,7 +78,7 @@ const Input = styled.input<{ disabled?: boolean }>`
 
   @media (min-width: 992px) {
     padding: 12px 26px;
-    font-size: 14.5px;
+    font-size: 16px;
   }
 
    @media (min-width: 1950px) {
