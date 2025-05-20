@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useRef, useEffect } from "react";
+import styled from "styled-components";
 
 interface VideoLoadingScreenProps {
   videoSrc: string;
@@ -24,15 +24,19 @@ const VideoLoadingContainer = styled.div`
   background-color: #000;
   z-index: 9999;
   overflow: hidden;
+
 `;
 
 const VideoElement = styled.video`
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: auto;
+     object-fit: contain;
+
+  @media (min-width: 992px) {
+   width: 60%;
+   height: auto;
+   object-fit: contain;
+  }
 `;
 
 const ContentOverlay = styled.div`
@@ -57,23 +61,33 @@ const LoadingMessage = styled.h2`
 
 const LoadingDots = styled.span`
   display: inline-block;
-  
+
   &::after {
-    content: '';
+    content: "";
     animation: dots 1.5s steps(5, end) infinite;
   }
-  
+
   @keyframes dots {
-    0%, 20% { content: ''; }
-    40% { content: '.'; }
-    60% { content: '..'; }
-    80%, 100% { content: '...'; }
+    0%,
+    20% {
+      content: "";
+    }
+    40% {
+      content: ".";
+    }
+    60% {
+      content: "..";
+    }
+    80%,
+    100% {
+      content: "...";
+    }
   }
 `;
 
 /**
  * VideoLoadingScreen - A loading screen component that plays an MP4 video
- * 
+ *
  * @param videoSrc - Path to the MP4 video file
  * @param message - Loading message to display (default: "Loading")
  * @param onVideoEnd - Optional callback function when video ends
@@ -85,7 +99,7 @@ const VideoLoadingScreen: React.FC<VideoLoadingScreenProps> = ({
   message = "",
   onVideoEnd,
   loop = true,
-  className
+  className,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -100,7 +114,7 @@ const VideoLoadingScreen: React.FC<VideoLoadingScreenProps> = ({
         }
       };
 
-      videoElement.addEventListener('ended', handleVideoEnd);
+      videoElement.addEventListener("ended", handleVideoEnd);
 
       // Ensure video plays automatically
       const playVideo = async () => {
@@ -115,14 +129,14 @@ const VideoLoadingScreen: React.FC<VideoLoadingScreenProps> = ({
 
       // Cleanup function
       return () => {
-        videoElement.removeEventListener('ended', handleVideoEnd);
+        videoElement.removeEventListener("ended", handleVideoEnd);
       };
     }
   }, [onVideoEnd]);
 
   return (
     <VideoLoadingContainer className={className}>
-      <VideoElement 
+      <VideoElement
         ref={videoRef}
         src={videoSrc}
         autoPlay
@@ -130,11 +144,14 @@ const VideoLoadingScreen: React.FC<VideoLoadingScreenProps> = ({
         playsInline
         loop={loop}
       />
-      {message ? <ContentOverlay>
-        <LoadingMessage>
-          {message}<LoadingDots />
-        </LoadingMessage>
-      </ContentOverlay> : null}
+      {message ? (
+        <ContentOverlay>
+          <LoadingMessage>
+            {message}
+            <LoadingDots />
+          </LoadingMessage>
+        </ContentOverlay>
+      ) : null}
     </VideoLoadingContainer>
   );
 };

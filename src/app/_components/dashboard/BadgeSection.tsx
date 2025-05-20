@@ -49,10 +49,10 @@ export const BadgeSection = () => {
   const { isAuthenticated } = useAuth();
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
-  
+
   // Add state to track initial render
   const [initialRender, setInitialRender] = useState(true);
-  
+
   // Refs for animation
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -95,7 +95,7 @@ export const BadgeSection = () => {
       }
 
       // Cards should also be immediately visible
-      cardRefs.current.forEach(ref => {
+      cardRefs.current.forEach((ref) => {
         if (ref) {
           ref.style.opacity = "1";
           ref.style.visibility = "visible";
@@ -168,13 +168,13 @@ export const BadgeSection = () => {
       tl.fromTo(
         cardRefs.current,
         { autoAlpha: 0, y: 20, scale: 0.95 },
-        { 
-          autoAlpha: 1, 
-          y: 0, 
+        {
+          autoAlpha: 1,
+          y: 0,
           scale: 1,
-          duration: 0.5, 
+          duration: 0.5,
           stagger: 0.15, // Stagger with a small delay
-          ease: "back.out(1.2)" 
+          ease: "back.out(1.2)",
         },
         "-=0.4"
       );
@@ -184,7 +184,7 @@ export const BadgeSection = () => {
   // Card hover animations
   const handleCardMouseEnter = (index: number) => {
     if (isMobile) return; // Skip animations on mobile for better performance
-    
+
     const card = cardRefs.current[index];
     if (card) {
       gsap.to(card, {
@@ -192,14 +192,14 @@ export const BadgeSection = () => {
         // scale: 1.03,
         boxShadow: "0 10px 25px rgba(0, 0, 0, 0.5)",
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
   };
 
   const handleCardMouseLeave = (index: number) => {
     if (isMobile) return; // Skip animations on mobile for better performance
-    
+
     const card = cardRefs.current[index];
     if (card) {
       gsap.to(card, {
@@ -207,14 +207,14 @@ export const BadgeSection = () => {
         // scale: 1,
         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.05)",
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
   };
 
   // Animation for loading overlay
   useEffect(() => {
-    const loadingOverlay = document.querySelector('.loading-overlay');
+    const loadingOverlay = document.querySelector(".loading-overlay");
     if (loadingOverlay) {
       if (isLoading) {
         gsap.fromTo(
@@ -225,40 +225,64 @@ export const BadgeSection = () => {
       } else {
         gsap.to(loadingOverlay, {
           autoAlpha: 0,
-          duration: 0.3
+          duration: 0.3,
         });
       }
     }
   }, [isLoading]);
 
   return (
-    <BadgeSectionContainer ref={containerRef} style={{ opacity: 1, visibility: 'visible' }}>
-      {isLoading && (
+    <BadgeSectionContainer
+      ref={containerRef}
+      style={{ opacity: 1, visibility: "visible" }}
+    >
+      {!isLoading && (
         <LoadingOverlay className="loading-overlay">
           <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
         </LoadingOverlay>
       )}
       <MainSection>
-        <Title ref={titleRef} style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}>
+        <Title
+          ref={titleRef}
+          style={{
+            opacity: 1,
+            visibility: "visible",
+            transform: "translateY(0px)",
+          }}
+        >
           Your Space, <RedSpan>Your Stats.</RedSpan> All in One Place
         </Title>
-        <Subtitle ref={subtitleRef} style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}>
+        <Subtitle
+          ref={subtitleRef}
+          style={{
+            opacity: 1,
+            visibility: "visible",
+            transform: "translateY(0px)",
+          }}
+        >
           Every action here is a chance to learn something real, get clarity,
           and make progress.
         </Subtitle>
-        <CardsContainer ref={cardsContainerRef} style={{ opacity: 1, visibility: 'visible' }}>
-          <Card 
+        <CardsContainer
+          ref={cardsContainerRef}
+          style={{ opacity: 1, visibility: "visible" }}
+        >
+          <Card
             ref={(el) => {
               cardRefs.current[0] = el;
             }}
-            style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+            style={{
+              opacity: 1,
+              visibility: "visible",
+              transform: "translateY(0px)",
+            }}
             onMouseEnter={() => handleCardMouseEnter(0)}
             onMouseLeave={() => handleCardMouseLeave(0)}
           >
             <CardTitle>{mentorSession.title}</CardTitle>
             {!isMobile ? <Divider /> : null}
             <TagLine>{mentorSession.description}</TagLine>
-            <Count 
+            <Count
               ref={(el: HTMLDivElement | null) => {
                 if (el && !isMobile && !initialRender) {
                   // Animate the count number with a counter effect
@@ -271,7 +295,7 @@ export const BadgeSection = () => {
                       ease: "power2.out",
                       onUpdate: () => {
                         el.textContent = Math.round(obj.val).toString();
-                      }
+                      },
                     });
                   } else {
                     el.textContent = mentorSession.sessionCount.toString();
@@ -282,28 +306,32 @@ export const BadgeSection = () => {
               {mentorSession.sessionCount}
             </Count>
           </Card>
-          <Card 
+          <Card
             ref={(el) => {
               cardRefs.current[1] = el;
             }}
-            style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+            style={{
+              opacity: 1,
+              visibility: "visible",
+              transform: "translateY(0px)",
+            }}
             onMouseEnter={() => handleCardMouseEnter(1)}
             onMouseLeave={() => handleCardMouseLeave(1)}
           >
             <CardTitle>{accessPlan.title}</CardTitle>
             {!isMobile ? <Divider /> : null}
             <TagLine>{accessPlan.description}</TagLine>
-            <IconContainer 
+            <IconContainer
               ref={(el: HTMLDivElement | null) => {
                 if (el && !isMobile && !initialRender) {
                   // Add a subtle pulse animation to the icon
                   gsap.fromTo(
                     el,
                     { scale: 0.9 },
-                    { 
+                    {
                       scale: 1,
                       duration: 0.8,
-                      ease: "elastic.out(1, 0.3)"
+                      ease: "elastic.out(1, 0.3)",
                     }
                   );
                 }
@@ -312,29 +340,33 @@ export const BadgeSection = () => {
               {accessPlan.planIcon}
             </IconContainer>
           </Card>
-          <Card 
+          <Card
             ref={(el) => {
               cardRefs.current[2] = el;
             }}
-            style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+            style={{
+              opacity: 1,
+              visibility: "visible",
+              transform: "translateY(0px)",
+            }}
             onMouseEnter={() => handleCardMouseEnter(2)}
             onMouseLeave={() => handleCardMouseLeave(2)}
           >
             <CardTitle>{communityBadge.title}</CardTitle>
             {!isMobile ? <Divider /> : null}
             <TagLine>{communityBadge.description}</TagLine>
-            <IconContainer 
+            <IconContainer
               ref={(el: HTMLDivElement | null) => {
                 if (el && !isMobile && !initialRender) {
                   // Add a subtle rotate animation for the badge
                   gsap.fromTo(
                     el,
                     { rotate: -10, scale: 0.9 },
-                    { 
+                    {
                       rotate: 0,
                       scale: 1,
                       duration: 0.8,
-                      ease: "elastic.out(1, 0.3)"
+                      ease: "elastic.out(1, 0.3)",
                     }
                   );
                 }
