@@ -223,12 +223,12 @@ export const Divider = styled.hr<{ pixelpadding?: string }>`
 
   @media (min-width: 992px) {
     margin: ${({ pixelpadding }) =>
-      pixelpadding ? `${pixelpadding} 0` : "18px 0"};
+    pixelpadding ? `${pixelpadding} 0` : "18px 0"};
   }
 
   @media (min-width: 1500px) {
     margin: ${({ pixelpadding }) =>
-      pixelpadding ? `${pixelpadding} 0` : "22px 0"};
+    pixelpadding ? `${pixelpadding} 0` : "22px 0"};
   }
 `;
 
@@ -375,6 +375,7 @@ export const Select = styled.select`
   appearance: none; /* Hides default arrow */
   -webkit-appearance: none; /* Safari */
   -moz-appearance: none; /* Firefox */
+  
 
   color: #000;
   leading-trim: both;
@@ -386,6 +387,8 @@ export const Select = styled.select`
   line-height: normal;
   border-radius: 5px;
   border: 1px solid #000;
+
+  
 
   @media (min-width: 992px) {
     padding: 12px 15px;
@@ -407,6 +410,7 @@ export const Select = styled.select`
     // border-color: #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
+
 `;
 
 export const Option = styled.option`
