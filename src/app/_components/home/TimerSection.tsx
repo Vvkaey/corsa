@@ -674,8 +674,7 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
         @media (min-width: 992px) {
           min-height: 60px;
-           min-width: 45ch;
-          
+          min-width: 45ch;
         }
       }
 
@@ -687,13 +686,12 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         width: 75%;
         text-align: center;
         will-change: transform, opacity;
-        top : 30px;
+        top: 30px;
 
         @media (min-width: 992px) {
-        font-size: 18px;
+          font-size: 18px;
           font-size: 24px;
           width: 45ch;
-          
         }
       }
     }
@@ -717,8 +715,9 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
           border-radius: 9.013px;
           font-family: var(--font-exo);
           border: none;
-          padding: 16px 28px;
-          font-size: 13.292px;
+          padding: 11px 33px;
+          color: #fff;
+          font-size: 16px;
           font-style: normal;
           line-height: normal;
           cursor: pointer;
@@ -746,12 +745,19 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
           }
 
           @media (min-width: 992px) {
-            font-size: 18.14px;
+          line-height: normal;
+            padding: 10px 40px;
+            font-size: 16.5px;
             min-width: 313px;
+             border-radius: 8.076px;
+              padding: 10px 40px;
+              font-size: 16.5px;
+              gap: 6.73px;
           }
 
-          @media (min-width: 1800px) {
-            font-size: 25.8px;
+          @media (min-width: 1950px) {
+            padding: 13px 58px;
+              font-size: 23.521px;
           }
         }
 

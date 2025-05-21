@@ -473,7 +473,7 @@ export const HeroSection = styled(
             }
 
             @media (min-width: 1950px) {
-              padding: 15px 58px;
+              padding: 13px 58px;
               font-size: 23.521px;
             }
           }
@@ -526,7 +526,7 @@ export const HeroSection = styled(
             }
 
             @media (min-width: 1950px) {
-              padding: 15px 58px;
+              padding: 13px 58px;
               font-size: 23.521px;
             }
           }

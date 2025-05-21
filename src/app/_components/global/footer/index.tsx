@@ -169,38 +169,69 @@ export const Footer = styled(({ className }: { className?: string }) => {
             padding-top: 74.5px;
           }
 
+          @keyframes ripple {
+            0% {
+              opacity: 1;
+              transform: scale(0, 0);
+            }
+            20% {
+              opacity: 1;
+              transform: scale(25, 25);
+            }
+            100% {
+              opacity: 0;
+              transform: scale(40, 40);
+            }
+          }
+
           .primary-button {
+          position : relative;
             border-radius: 8px;
             border: 0.635px solid #ffeac8;
             color: #fff;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             background: none;
-            padding: 9px 40px;
+            padding: 11px 33px;
             width: 100%;
             cursor: pointer;
             white-space: nowrap;
             font-family: var(--font-fustat);
+            overflow: hidden;
 
-            
+            &::after {
+              content: "";
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 5px;
+              height: 5px;
+              background: rgba(255, 255, 255, 0.4);
+              opacity: 0;
+              border-radius: 100%;
+              transform: scale(1, 1) translate(-50%, -50%);
+              transform-origin: 50% 50%;
+            }
 
             @media (min-width: 992px) {
               border-radius: 11.673px;
               border: 0.834px solid #ffeac8;
-              font-size: 18px;
               max-width: 347px;
-              padding: 10.8px 50px;
+              padding: 10px 40px;
+              font-size: 16.5px;
               transition: all 5ms ease-in;
 
               /* Button hover effect */
               &:hover {
-                background: rgb(31, 31, 31);
-                box-shadow: 0 0 7px 1px #ffeac8;
+                &::after {
+                  animation: ripple 0.6s ease-out;
+                }
               }
             }
 
             @media (min-width: 1950px) {
-              font-size: 25.589px;
+              padding: 13px 58px;
+              font-size: 23.521px;
             }
           }
         }
@@ -306,7 +337,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
       @media (min-width: 1950px) {
         margin-bottom: 92.7px;
-        height : 185px;
+        height: 185px;
       }
 
       img {

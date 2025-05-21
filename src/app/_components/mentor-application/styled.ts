@@ -352,7 +352,7 @@ export const rippleAnimation = keyframes`
 
 export const SubmitButton = styled.button`
 position: relative;
-  padding: 12px 24px;
+  padding: 11px 33px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -364,7 +364,7 @@ position: relative;
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 14.4px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -395,14 +395,15 @@ position: relative;
   }
 
   @media (min-width: 992px) {
-    font-size: 16.5px;
+     padding: 10px 40px;
+              font-size: 16.5px;
     width: 222px;
     margin: 0 calc((100%-222px) / 2);
-    padding: 12px 21px;
   }
 
   @media (min-width: 1950px) {
-    font-size: 23.521px;
+                  padding: 13px 58px;
+              font-size: 23.521px;
     width: 315px;
     margin: 0 calc((100%-315px) / 2);
   }

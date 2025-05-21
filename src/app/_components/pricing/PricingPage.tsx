@@ -366,8 +366,8 @@ const CtaButton = styled.button<StyledButtonProps>`
       : props.$addOn
       ? "2.013px solid #D3A662"
       : "2.013px solid #ff2626"};
-  padding: 10px 43px;
-  font-size: 1rem;
+  padding: 11px 33px;
+   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -413,12 +413,14 @@ const CtaButton = styled.button<StyledButtonProps>`
   }
 
   @media (min-width: 992px) {
-    padding: 0.75rem 1.5rem;
-    width: 205px;
+     padding: 10px 40px;
+              font-size: 16.5px;
+    width: 275px;
   }
 
   @media (min-width: 1950px) {
-    font-size: 23.5px;
+     padding: 13px 58px;
+              font-size: 23.521px;
     width: 375px;
   }
 `;

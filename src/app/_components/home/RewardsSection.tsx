@@ -109,7 +109,9 @@ export const RewardsSection = styled(
       },
     ]);
 
-    const progress = isCompleted ? 100 : (currentStep / (questions.length - 1)) * 100;
+    const progress = isCompleted
+      ? 100
+      : (currentStep / (questions.length - 1)) * 100;
 
     // Initialize animation for section entry
     useIsomorphicLayoutEffect(() => {
@@ -145,7 +147,6 @@ export const RewardsSection = styled(
           }
         };
       });
-
     }, [gsapContext]);
 
     // Handle option selection
@@ -338,7 +339,7 @@ export const RewardsSection = styled(
                     <br />
                     <span className="completion-sub">
                       You&apos;ve unlocked <RedSpan>extended time</RedSpan> on
-                      your <br/> first mentor session!
+                      your <br /> first mentor session!
                     </span>
                   </p>
                 </div>
@@ -787,7 +788,7 @@ export const RewardsSection = styled(
           .primary-cta {
             width: 100%;
             display: flex;
-            padding: 6px 8.378px;
+            padding: 11px 33px;
             gap: 3.491px;
             justify-content: center;
             align-items: center;
@@ -798,13 +799,14 @@ export const RewardsSection = styled(
             background: #ff2626;
             margin-top: 10px;
             color: #fff;
-            font-family: var(--font-exo);
-            font-size: 18px;
+           font-family: var(--font-exo);
+            font-size: 16px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             transition: background-color 0.3s ease, transform 0.2s ease,
               opacity 0.3s ease;
+            min-width: 185px;
 
             /* Add subtle ripple effect */
             &::after {
@@ -859,14 +861,19 @@ export const RewardsSection = styled(
             @media (min-width: 992px) {
               border-radius: 8.076px;
               border: 0.673px solid #ff2626;
-              padding: 10.769px 16.153px;
+              padding: 10px 40px;
+              font-size: 16.5px;
               gap: 6.73px;
+              line-height: normal;
+              margin: 0 auto;
+              margin-top: 10px;
+              width: 313px;
             }
 
             @media (min-width: 1950px) {
               margin-top: 23px;
-              font-size: 23px;
-              padding: 15px 10px;
+              padding: 13px 58px;
+              font-size: 23.521px;
             }
           }
         }
