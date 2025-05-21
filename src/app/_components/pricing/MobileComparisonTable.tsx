@@ -82,6 +82,7 @@ const FeatureTitle = styled.h3`
   font-weight: 700 !important;
   line-height: normal;
   width: 70%;
+
 `;
 
 const FeatureContent = styled.div`
@@ -93,6 +94,7 @@ const FeatureContent = styled.div`
   padding: 32px 0 35px 0;
   border-bottom: 1px solid #dedede;
   height: 100%;
+    padding-left: 16px;
 `;
 
 const FeaturesList = styled.div`
@@ -103,8 +105,7 @@ const FeaturesList = styled.div`
   overflow-y: auto;
 `;
 
-const CheckIcon = styled.span`
-`;
+const CheckIcon = styled.span``;
 
 const CrossIcon = styled.span`
   color: #ff3d00;
@@ -127,9 +128,13 @@ const MobileComparisonTable = ({
 
     if (typeof property?.value === "boolean") {
       return property.value ? (
-        <CheckIcon><PricingTick fill="#34A853" width={15} height={10.5}/></CheckIcon>
+        <CheckIcon>
+          <PricingTick fill="#34A853" width={15} height={10.5} />
+        </CheckIcon>
       ) : (
-        <CrossIcon><PricingCross width={12} height={12} /></CrossIcon>
+        <CrossIcon>
+          <PricingCross width={12} height={12} />
+        </CrossIcon>
       );
     } else if (typeof property?.value === "number") {
       return property.value > 0 ? property.value : <CrossIcon>✗</CrossIcon>;
@@ -160,10 +165,16 @@ const MobileComparisonTable = ({
         >
           Insight
         </Tab>
-        <Tab  $activetab={active === 1 ? true : false} onClick={() => setActive(1)}>
+        <Tab
+          $activetab={active === 1 ? true : false}
+          onClick={() => setActive(1)}
+        >
           Mentor
         </Tab>
-        <Tab  $activetab={active === 2 ? true : false} onClick={() => setActive(2)}>
+        <Tab
+          $activetab={active === 2 ? true : false}
+          onClick={() => setActive(2)}
+        >
           Membership
         </Tab>
       </Tabs>
@@ -195,6 +206,3 @@ export const MobileTableContainer = styled.section`
 `;
 
 export default MobileComparisonTable;
-
-
-
