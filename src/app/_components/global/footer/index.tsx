@@ -327,7 +327,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
       width: 100%;
       height: 40px;
       margin: auto;
-      margin-bottom: 280px;
+      margin-bottom: 92px;
 
       @media (min-width: 992px) {
         height: 130px;
