@@ -19,6 +19,7 @@ import Comparison from "./Comparison";
 import { rippleAnimation } from "../mentor-application/styled";
 import { PricingTick } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import VideoLoadingScreen from "../global/loading";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -323,8 +324,8 @@ const BenefitItem = styled.div`
     top: 2px;
     align-self: flex-start;
 
-     @media (min-width: 1950px) {
-       top: 8px;
+    @media (min-width: 1950px) {
+      top: 8px;
     }
   }
 
@@ -369,7 +370,7 @@ const CtaButton = styled.button<StyledButtonProps>`
       ? "2.013px solid #D3A662"
       : "2.013px solid #ff2626"};
   padding: 11px 33px;
-   font-size: 16px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -415,14 +416,14 @@ const CtaButton = styled.button<StyledButtonProps>`
   }
 
   @media (min-width: 992px) {
-     padding: 10px 40px;
-              font-size: 16.5px;
+    padding: 10px 40px;
+    font-size: 16.5px;
     width: 275px;
   }
 
   @media (min-width: 1950px) {
-     padding: 13px 58px;
-              font-size: 23.521px;
+    padding: 13px 58px;
+    font-size: 23.521px;
     width: 375px;
   }
 `;
@@ -480,7 +481,7 @@ const DialogueBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   color: #fff;
   text-align: center;
   leading-trim: both;
@@ -491,7 +492,7 @@ const DialogueBox = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-top: 2rem;
-border-radius: 3px;
+  border-radius: 3px;
 
   // &::before {
   //   content: url("/info-icon.svg");
@@ -506,7 +507,7 @@ border-radius: 3px;
   // }
 
   @media (min-width: 992px) {
-  border-radius: 8px;
+    border-radius: 8px;
     position: absolute;
     width: 278px;
     top: -118px;
@@ -564,49 +565,49 @@ const LoadingOverlay = styled.div<{ $isLoading: boolean }>`
   transition: opacity 0.5s ease, visibility 0.5s ease;
 `;
 
-const LoadingContent = styled.div`
-  text-align: center;
-`;
+// const LoadingContent = styled.div`
+//   text-align: center;
+// `;
 
-const LoadingText = styled.h2`
-  font-family: var(--font-exo);
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #000;
+// const LoadingText = styled.h2`
+//   font-family: var(--font-exo);
+//   font-size: 2rem;
+//   margin-bottom: 1rem;
+//   color: #000;
 
-  span {
-    display: inline-block;
-    animation: textReveal 0.6s forwards;
-    opacity: 0;
-    transform: translateY(20px);
+//   span {
+//     display: inline-block;
+//     animation: textReveal 0.6s forwards;
+//     opacity: 0;
+//     transform: translateY(20px);
 
-    @keyframes textReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-`;
+//     @keyframes textReveal {
+//       to {
+//         opacity: 1;
+//         transform: translateY(0);
+//       }
+//     }
+//   }
+// `;
 
-const LoadingSpinner = styled.div`
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #ff2626;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  animation: spin 1s linear infinite;
+// const LoadingSpinner = styled.div`
+//   border: 5px solid #f3f3f3;
+//   border-top: 5px solid #ff2626;
+//   border-radius: 50%;
+//   width: 50px;
+//   height: 50px;
+//   margin: 0 auto;
+//   animation: spin 1s linear infinite;
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
+//   @keyframes spin {
+//     0% {
+//       transform: rotate(0deg);
+//     }
+//     100% {
+//       transform: rotate(360deg);
+//     }
+//   }
+// `;
 
 // Types
 interface Benefit {
@@ -658,7 +659,7 @@ const Plan: React.FC<PricingPlan> = ({
   const router = useRouter();
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
-const {width = 1024} = useWindowSize();
+  const { width = 1024 } = useWindowSize();
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -740,35 +741,40 @@ const {width = 1024} = useWindowSize();
           </ImageContainer>
         ) : null}
       </CTAContainer>
-      {(width < 992) && !compatible ? (
-          <>
-            <DialogueBox>
-              <p>Unavailable with current plan</p>
-            </DialogueBox>
-            {/* <Image
-              src="/info-icon.svg"
-              alt="info icon"
-              fill
-              className="info-icon"
-            /> */}
-          </>
-        ) : (width < 992) && addOn ? (
-         <>
-            <DialogueBox>
-              <p>Add on and get upgraded to membership badge</p>
-            </DialogueBox>
-            {/* <Image
+      {width < 992 && !compatible ? (
+        <>
+          <DialogueBox>
+            <p>Unavailable with current plan</p>
+          </DialogueBox>
+          {/* <Image
               src="/info-icon.svg"
               alt="info icon"
               fill
               className="info-icon"
             /> */}
         </>
-        ) : null}
+      ) : width < 992 && addOn ? (
+        <>
+          <DialogueBox>
+            <p>Add on and get upgraded to membership badge</p>
+          </DialogueBox>
+          {/* <Image
+              src="/info-icon.svg"
+              alt="info icon"
+              fill
+              className="info-icon"
+            /> */}
+        </>
+      ) : null}
       <BenefitsList ref={benefitsRef}>
         {benefits.map((benefit) => (
           <BenefitItem key={benefit.id} className="benefit-item">
-            <span><PricingTick width={width < 1950 ?  16 : 24} height={width < 1950 ?  12 : 21}/></span>
+            <span>
+              <PricingTick
+                width={width < 1950 ? 16 : 24}
+                height={width < 1950 ? 12 : 21}
+              />
+            </span>
             <p>{benefit.text}</p>
           </BenefitItem>
         ))}
@@ -792,18 +798,18 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const pageRef = useRef<HTMLDivElement>(null);
 
   // Split the title into spans for animated reveal
-  const titleLetters = "Pricing".split("").map((letter, i) => (
-    <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-      {letter}
-    </span>
-  ));
+  // const titleLetters = "Pricing".split("").map((letter, i) => (
+  //   <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+  //     {letter}
+  //   </span>
+  // ));
 
   // Initial page load animation
   useEffect(() => {
     setPageLoading(false);
-     if (typeof window !== "undefined") {
-       window.scrollTo(0, 0);
-     }
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   // Set up animations after initial load
@@ -880,12 +886,12 @@ const PricingPage: React.FC<PricingPageProps> = ({
 
   return (
     <>
-      <LoadingOverlay $isLoading={pageLoading}>
-        <LoadingContent>
-          <LoadingText>{titleLetters}</LoadingText>
-          <LoadingSpinner />
-        </LoadingContent>
-      </LoadingOverlay>
+
+      {pageLoading ? (
+        <LoadingOverlay $isLoading={pageLoading}>
+          <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
+        </LoadingOverlay>
+      ) : null}
 
       <PageContainer ref={pageRef}>
         <Header ref={headerRef}>

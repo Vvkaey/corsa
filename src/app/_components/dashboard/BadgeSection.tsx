@@ -22,7 +22,7 @@ import VideoLoadingScreen from "../global/loading";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import gsap from "gsap";
 
-const LoadingOverlay = styled.div`
+export const LoadingOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
