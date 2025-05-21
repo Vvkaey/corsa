@@ -299,7 +299,7 @@ export const FAQSection = styled(
   overflow: hidden; /* Add this to match banner section */
 
   @media (min-width: 992px) {
-    padding: 96px 0;
+    padding: 96px 0 250px;
   }
 
   .faq-container {

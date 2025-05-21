@@ -474,8 +474,8 @@ const ErrorMessage = styled.div`
 
 const DialogueBox = styled.div`
   position: relative;
-  width: 100%;
-  height: 75.5px;
+  width: 80%;
+  height: 65.5px;
   background: #ff2626;
   color: #fff;
   display: flex;
@@ -487,7 +487,7 @@ const DialogueBox = styled.div`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
-  font-size: 18px;
+  font-size: 15.2px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

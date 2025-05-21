@@ -50,12 +50,11 @@ const ContactUsContainer = styled.section`
   @media (min-width: 992px) {
   margin-top : 40px;
     padding-top: 99px;
-    padding-bottom: 89px;
+    padding-bottom: 250px;
   }
 
   @media (min-width: 1950px) {
     padding-top: 140px;
-    padding-bottom: 135px;
   }
 `;
 

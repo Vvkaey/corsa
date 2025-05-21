@@ -867,7 +867,7 @@ export const RewardsSection = styled(
               line-height: normal;
               margin: 0 auto;
               margin-top: 10px;
-              width: 313px;
+              width: 100%
             }
 
             @media (min-width: 1950px) {

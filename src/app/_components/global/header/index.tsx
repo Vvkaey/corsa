@@ -187,6 +187,7 @@ export const DesktopHamOverlay = styled(
   z-index: 8;
   opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border : none;
 
   @media (min-width: 992px) {
     top: 0;
