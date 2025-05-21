@@ -344,6 +344,7 @@ const BenefitItem = styled.div`
 interface StyledButtonProps {
   $isPrimary?: boolean;
   $subscribed?: boolean;
+  $addOn?: boolean;
 }
 
 const CTAContainer = styled.div`
@@ -355,11 +356,16 @@ const CTAContainer = styled.div`
 
 const CtaButton = styled.button<StyledButtonProps>`
   position: relative;
-  background: ${(props) => (props.$isPrimary ? "#fff" : "#FF2626")};
+  background: ${(props) =>
+    props.$isPrimary ? "#fff" : props.$addOn ? "#D3A662" : "#FF2626"};
   color: ${(props) => (props.$isPrimary ? "#000" : "#FFF")};
   border-radius: 8px;
   border: ${(props) =>
-    props.$isPrimary ? "1.013px solid #000" : "2.013px solid #ff2626"};
+    props.$isPrimary
+      ? "1.013px solid #000"
+      : props.$addOn
+      ? "2.013px solid #D3A662"
+      : "2.013px solid #ff2626"};
   padding: 10px 43px;
   font-size: 1rem;
   font-weight: 600;
@@ -461,18 +467,79 @@ const ErrorMessage = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+const DialogueBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 75.5px;
+  background: #ff2626;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: #fff;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-fustat);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 2rem;
+border-radius: 3px;
+
+  // &::before {
+  //   content: url("/info-icon.svg");
+  //   position: absolute;
+  //   width: 25px;
+  //   height: 25px;
+  //   z-index: 10;
+
+  //   @media (min-width: 992px) {
+  //     display: none;
+  //   }
+  // }
+
+  @media (min-width: 992px) {
+  border-radius: 8px;
+    position: absolute;
+    width: 278px;
+    top: -118px;
+    left: -139px;
+  }
+`;
+
 const ImageContainer = styled.button`
-  right: -22px;
+  right: -24px;
   top: 0;
   position: absolute;
   background: transparent;
   border: none;
   cursor: pointer;
   align-self: flex-end;
-  transition: transform 0.3s ease;
+  width: 25px;
+  height: 25px;
+  @media (min-width: 992px) {
+    > div {
+      opacity: 0;
+      transform: scale(0.2);
+      transition: opacity 0.1s linear, transform 0.2s linear;
+    }
+  }
 
   &:hover {
-    transform: scale(1.1);
+    @media (min-width: 992px) {
+      > div {
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity 0.2s linear, transform 0.2s linear;
+      }
+    }
+  }
+
+  img {
+    filter: invert(0.3);
   }
 `;
 
@@ -555,8 +622,9 @@ interface PricingPlan {
   productType: string | string[];
   compatible?: boolean;
   subscribed?: boolean;
+  addOnCTa?: string;
   subscribedCta: string;
-  addOnCTa: string;
+  addOn?: boolean;
 }
 
 interface PricingPageProps {
@@ -574,9 +642,11 @@ const Plan: React.FC<PricingPlan> = ({
   benefits,
   isPrimary,
   buttonText,
+  addOnCTa,
   productType,
   compatible,
   subscribed,
+  addOn,
   subscribedCta,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -584,6 +654,7 @@ const Plan: React.FC<PricingPlan> = ({
   const router = useRouter();
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
+  const isMobile = window && window.innerWidth < 992;
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -626,6 +697,7 @@ const Plan: React.FC<PricingPlan> = ({
           onClick={handleSubscribe}
           disabled={isLoading || !compatible || subscribed}
           $subscribed={subscribed}
+          $addOn={addOn}
           className="cta-button"
         >
           {!compatible
@@ -634,20 +706,61 @@ const Plan: React.FC<PricingPlan> = ({
             ? "Processing..."
             : subscribed
             ? subscribedCta
+            : addOn
+            ? addOnCTa
             : buttonText}
         </CtaButton>
-        {!compatible ? (
+        {!isMobile && !compatible ? (
           <ImageContainer>
+            <DialogueBox>
+              <p>Unavailable with current plan</p>
+            </DialogueBox>
             <Image
-              src="/info_icon.png"
+              src="/info-icon.svg"
               alt="info icon"
-              width={20}
-              height={20}
+              fill
+              className="info-icon"
+            />
+          </ImageContainer>
+        ) : !isMobile && addOn ? (
+          <ImageContainer>
+            <DialogueBox>
+              <p>Add on and get upgraded to membership badge</p>
+            </DialogueBox>
+            <Image
+              src="/info-icon.svg"
+              alt="info icon"
+              fill
               className="info-icon"
             />
           </ImageContainer>
         ) : null}
       </CTAContainer>
+      {isMobile && !compatible ? (
+          <>
+            <DialogueBox>
+              <p>Unavailable with current plan</p>
+            </DialogueBox>
+            {/* <Image
+              src="/info-icon.svg"
+              alt="info icon"
+              fill
+              className="info-icon"
+            /> */}
+          </>
+        ) : isMobile && addOn ? (
+         <>
+            <DialogueBox>
+              <p>Add on and get upgraded to membership badge</p>
+            </DialogueBox>
+            {/* <Image
+              src="/info-icon.svg"
+              alt="info icon"
+              fill
+              className="info-icon"
+            /> */}
+        </>
+        ) : null}
       <BenefitsList ref={benefitsRef}>
         {benefits.map((benefit) => (
           <BenefitItem key={benefit.id} className="benefit-item">
@@ -680,7 +793,6 @@ const PricingPage: React.FC<PricingPageProps> = ({
   //     {letter}
   //   </span>
   // ));
-
 
   // Initial page load animation
   useEffect(() => {
@@ -782,7 +894,8 @@ const PricingPage: React.FC<PricingPageProps> = ({
               key={plan.id}
               {...plan}
               compatible={idx !== 2}
-              subscribed={idx === 1}
+              subscribed={idx === 0}
+              addOn={idx === 1}
             />
           ))}
         </PlansContainer>

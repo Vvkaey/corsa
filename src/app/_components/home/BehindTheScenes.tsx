@@ -32,10 +32,10 @@ export const BehindTheScenes = styled(
           },
           scrollTrigger: {
             trigger: container.current,
-            start: isMobile ? "top 10%" : "top 50%",
-            end: isMobile ? "top -60%" : "top -50%",
+            start: isMobile ? "top 10%" : "top 40%",
+            end: isMobile ? "top -50%" : "top 5%",
             scrub: 1,
-            markers: true,
+            markers: false,
             immediateRender: false,
             invalidateOnRefresh: true,
           },
