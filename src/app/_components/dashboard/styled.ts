@@ -225,45 +225,57 @@ export const Count = styled.p`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  height: 100%;
+   height: 62px;
+    width: 190px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: auto;
  
   @media (min-width: 992px) {
-    display: unset;
+   margin-top : 40px;
+    display: flex;
     font-size: 45.112px;
     height: unset;
     text-align: unset;
-    margin-top: 48px;
+    height: 80px;
     font-weight: 800;
   }
 
    @media (min-width: 1950px) {
     font-size: 64.16px;
+     margin-top : 70px;
+      height: 102px;
   }
 `;
 
 export const IconContainer = styled.div`
-  margin-top: 48px;
-
-  @media (max-width: 992px) {
+    height: 62px;
+    width: 190px;
     margin-top: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
+
+
+  @media (min-width: 992px) {
+    position: relative;
+     width: unset;
+    height: 82px;
+    margin: auto;
+    margin-top : 40px;
+  }
+
+  @media (min-width: 1950px) {
+    height: 102px;
+    margin: auto;
+    margin-top : 70px;
   }
 
   img {
-    @media (max-width: 992px) {
       object-fit: contain;
       width: auto;
-      height: 82px;
-    }
-
-    @media (max-width: 1950px) {
-      height: 62px;
-    }
+      height: 100%;
   }
 `;
