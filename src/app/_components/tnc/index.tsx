@@ -19,12 +19,14 @@ export type ListPageDataProps = ListPageDataUnitProps[];
 const ListPageComponent = ({
   title,
   data,
+  theme = "light",
 }: {
   title?: string | ReactNode;
   data: ListPageDataProps;
+  theme?: "light" | "dark";
 }) => {
   return (
-    <TncContainer>
+    <TncContainer $theme={theme}>
       {title ? <TncTitle>{title}</TncTitle> : null}
       <TncContent>
         {data.length > 0 &&
@@ -32,12 +34,12 @@ const ListPageComponent = ({
             <TncItem key={index}>
               <TncItemTitle>{item?.title}</TncItemTitle>
               {item?.description && (
-                <TncItemDescription>{item?.description}</TncItemDescription>
+                <TncItemDescription $theme={theme}>{item?.description}</TncItemDescription>
               )}
               {item?.pointers && (
                 <PointerDescription>
                   {item?.pointers.map((pointer, index) => (
-                    <Pointer key={index}>{pointer}</Pointer>
+                    <Pointer key={index} $theme={theme}>{pointer}</Pointer>
                   ))}
                 </PointerDescription>
               )}
@@ -50,8 +52,8 @@ const ListPageComponent = ({
 
 export default ListPageComponent;
 
-const TncContainer = styled.section`
-  background: #fff;
+const TncContainer = styled.section<{ $theme: "light" | "dark" }>`
+  background: ${(props) => props.$theme == 'light' ? '#fff' : '#000'};
   ${headerSpacing()};
   padding: 123px 0;
   ${sectionResponsivePadding()};
@@ -61,9 +63,11 @@ const TncContainer = styled.section`
   justify-content: center;
   gap: 47px;
   ${maxWidthContainer}
-  color: #000;
+  color: ${(props) => props.$theme == 'light' ? '#000' : '#fff'};
   @media (min-width: 992px) {
     gap: 66px;
+    padding-top: 180px;
+    padding-bottom: 250px;
   }
 
   @media (min-width: 1950px) {
@@ -136,7 +140,7 @@ const TncItemTitle = styled.h2`
   }
 `;
 
-const TncItemDescription = styled.h2`
+const TncItemDescription = styled.h2<{ $theme: "light" | "dark" }>`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
@@ -145,6 +149,7 @@ const TncItemDescription = styled.h2`
   font-weight: 600;
   line-height: 141.311%; /* 31.088px */
   margin-left: 20px;
+  color: ${(props) => props.$theme == 'light' ? '#000' : '#C0C0C0'};
 
   @media (min-width: 992px) {
     font-size: 17.5px;
@@ -160,7 +165,7 @@ const PointerDescription = styled.ul`
   flex-direction: column;
 `;
 
-const Pointer = styled.li`
+const Pointer = styled.li<{ $theme: "light" | "dark" }>`
   leading-trim: both;
   text-edge: cap;
   font-family: var(--font-fustat);
@@ -169,6 +174,7 @@ const Pointer = styled.li`
   font-weight: 600;
   line-height: 141.311%; /* 31.088px */
   margin-left: 20px;
+  color: ${(props) => props.$theme == 'light' ? '#000' : '#C0C0C0'};
 
   @media (min-width: 992px) {
     font-size: 17.5px;

@@ -86,8 +86,8 @@ export default function PrivacyPolicy() {
         {JSON.stringify(structuredData)}
       </Script>
 
-      <main>
-        <ListPageComponent title={"Privacy Policy"} data={POLICY_DATA} />
+      <main style={{ background: "#000" }}>
+        <ListPageComponent theme={"dark"} title={"Privacy Policy"} data={POLICY_DATA} />
         <Footer />
       </main>
     </>
