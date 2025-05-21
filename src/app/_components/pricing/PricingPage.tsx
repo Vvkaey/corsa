@@ -654,7 +654,7 @@ const Plan: React.FC<PricingPlan> = ({
   const router = useRouter();
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
-  const isMobile = window && window.innerWidth < 992;
+  const isMobile = (typeof window !== "undefined") ? window.innerWidth < 992 : 0;
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -797,9 +797,9 @@ const PricingPage: React.FC<PricingPageProps> = ({
   // Initial page load animation
   useEffect(() => {
     setPageLoading(false);
-    if (window) {
-      window.scrollTo(0, 0);
-    }
+     if (typeof window !== "undefined") {
+       window.scrollTo(0, 0);
+     }
   }, []);
 
   // Set up animations after initial load
