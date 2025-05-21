@@ -7,6 +7,7 @@ import {
 } from "../data/productData";
 import { useState } from "react";
 import { PropertyValue } from "./DesktopComparisonTable";
+import { PricingCross, PricingTick } from "@/app/_assets/icons";
 
 const Tabs = styled.div`
   display: flex;
@@ -103,8 +104,6 @@ const FeaturesList = styled.div`
 `;
 
 const CheckIcon = styled.span`
-  color: #00c853;
-  font-size: 1.2rem;
 `;
 
 const CrossIcon = styled.span`
@@ -128,9 +127,9 @@ const MobileComparisonTable = ({
 
     if (typeof property?.value === "boolean") {
       return property.value ? (
-        <CheckIcon>✓</CheckIcon>
+        <CheckIcon><PricingTick fill="#34A853" width={15} height={10.5}/></CheckIcon>
       ) : (
-        <CrossIcon>✗</CrossIcon>
+        <CrossIcon><PricingCross width={12} height={12} /></CrossIcon>
       );
     } else if (typeof property?.value === "number") {
       return property.value > 0 ? property.value : <CrossIcon>✗</CrossIcon>;

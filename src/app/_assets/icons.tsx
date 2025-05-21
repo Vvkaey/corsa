@@ -29,6 +29,67 @@ export const CaretUp = ({
   );
 };
 
+export const PricingTick = ({
+  className,
+  style,
+  fill = "#FF2626",
+  width = 28,
+  height = 21,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  fill?: string;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      width={width}
+      height={height}
+      viewBox="0 0 28 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+    
+<path d="M2 11L9.99978 18.9998" stroke={fill} strokeWidth="3.6" strokeLinecap="round"/>
+<path d="M26 2L10.0004 18.9995" stroke={fill} strokeWidth="3.6" strokeLinecap="round"/>
+</svg>
+  );
+};
+
+export const PricingCross = ({
+  className,
+  style,
+  fill = "#FF2626",
+  width = 23,
+  height = 23,
+}: {
+  className?: string;
+  style?: Record<string, unknown>;
+  fill?: string;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      className={className}
+      style={style}
+      width={width}
+      height={height}
+      viewBox="0 0 23 23"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+    
+  <path d="M19.3164 2L1.99876 20.4" stroke={fill} strokeWidth="3.6" strokeLinecap="round"/>
+  <path d="M20.2188 20.0391L2.35173 2.17204" stroke={fill} strokeWidth="3.6" strokeLinecap="round"/>
+</svg>
+  );
+};
+
+
 export const FillOptionCircle = ({
   className,
   style,

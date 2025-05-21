@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import { ComparisonDataProps, PropertyMapper } from "../data/productData";
+import { PricingCross, PricingTick } from "@/app/_assets/icons";
 
 
 const TableProperty = styled.div`
@@ -87,9 +88,9 @@ export const DesktopComparisonTable = styled(
 
       if (typeof property?.value === "boolean") {
         return property.value ? (
-          <CheckIcon>✓</CheckIcon>
+          <CheckIcon><PricingTick fill="#34A853" width={19.2} height={13.6}/></CheckIcon>
         ) : (
-          <CrossIcon>✗</CrossIcon>
+          <CrossIcon><PricingCross width={12.9} height={12.9} /></CrossIcon>
         );
       } else if (typeof property?.value === "number") {
         return property.value > 0 ? (

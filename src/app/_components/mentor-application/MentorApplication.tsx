@@ -572,7 +572,7 @@ const MentorApplication = () => {
           validateOnChange={true} // This will validate on every change
         >
           {(formik) => (
-            <Form>
+            <Form autoComplete="off">
               <FormGroup 
                 ref={(el) => {
                   formGroupRefs.current[0] = el;
@@ -580,7 +580,7 @@ const MentorApplication = () => {
                 className="form-group"
                 style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
               >
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="fullName" >Full Name</Label>
                 <Input
                   id="fullName"
                   name="fullName"
@@ -590,6 +590,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.fullName}
                   placeholder="Full Name"
+                 
                 />
                 {formik.touched.fullName && formik.errors.fullName ? (
                   <ErrorText>{formik.errors.fullName}</ErrorText>

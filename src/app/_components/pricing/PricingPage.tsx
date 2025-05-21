@@ -17,6 +17,8 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 // import StickyTest from "./StickyTest";
 import Comparison from "./Comparison";
 import { rippleAnimation } from "../mentor-application/styled";
+import { PricingTick } from "@/app/_assets/icons";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -316,13 +318,13 @@ const BenefitItem = styled.div`
   }
 
   span {
-    content: "✓";
-    color: #ff2626;
-    font-weight: bold;
     margin-right: 0.75rem;
+    position: relative;
+    top: 2px;
+    align-self: flex-start;
 
-    @media (min-width: 1950px) {
-      font-size: 24px;
+     @media (min-width: 1950px) {
+       top: 8px;
     }
   }
 
@@ -656,7 +658,7 @@ const Plan: React.FC<PricingPlan> = ({
   const router = useRouter();
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
-  const isMobile = (typeof window !== "undefined") ? window.innerWidth < 992 : 0;
+const {width = 1024} = useWindowSize();
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -712,7 +714,7 @@ const Plan: React.FC<PricingPlan> = ({
             ? addOnCTa
             : buttonText}
         </CtaButton>
-        {!isMobile && !compatible ? (
+        {!(width < 992) && !compatible ? (
           <ImageContainer>
             <DialogueBox>
               <p>Unavailable with current plan</p>
@@ -724,7 +726,7 @@ const Plan: React.FC<PricingPlan> = ({
               className="info-icon"
             />
           </ImageContainer>
-        ) : !isMobile && addOn ? (
+        ) : !(width < 992) && addOn ? (
           <ImageContainer>
             <DialogueBox>
               <p>Add on and get upgraded to membership badge</p>
@@ -738,7 +740,7 @@ const Plan: React.FC<PricingPlan> = ({
           </ImageContainer>
         ) : null}
       </CTAContainer>
-      {isMobile && !compatible ? (
+      {(width < 992) && !compatible ? (
           <>
             <DialogueBox>
               <p>Unavailable with current plan</p>
@@ -750,7 +752,7 @@ const Plan: React.FC<PricingPlan> = ({
               className="info-icon"
             /> */}
           </>
-        ) : isMobile && addOn ? (
+        ) : (width < 992) && addOn ? (
          <>
             <DialogueBox>
               <p>Add on and get upgraded to membership badge</p>
@@ -766,7 +768,7 @@ const Plan: React.FC<PricingPlan> = ({
       <BenefitsList ref={benefitsRef}>
         {benefits.map((benefit) => (
           <BenefitItem key={benefit.id} className="benefit-item">
-            <span>✓</span>
+            <span><PricingTick width={width < 1950 ?  16 : 24} height={width < 1950 ?  12 : 21}/></span>
             <p>{benefit.text}</p>
           </BenefitItem>
         ))}
