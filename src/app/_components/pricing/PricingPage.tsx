@@ -394,9 +394,9 @@ const CtaButton = styled.button<StyledButtonProps>`
   }
 
   &:hover {
-    background: ${(props) => (props.$isPrimary ? "#ebf8ff" : "#e01f1f")};
+    background: ${(props) =>
+      props.$isPrimary ? "#ebf8ff" : props.$addOn ? "#D3A662" : "#e01f1f"};
     color: ${(props) => (props.$isPrimary ? "#000" : "#FFF")};
-    // transform: scale(1.03);
 
     &::after {
       animation: ${rippleAnimation} 0.6s ease-out;
@@ -410,9 +410,14 @@ const CtaButton = styled.button<StyledButtonProps>`
   &:disabled {
     background: ${(props) => (props.$subscribed ? "transparent" : "#aeaeae")};
     border: 1px solid ${(props) => (props.$subscribed ? "#FF2626" : "#aeaeae")};
-    cursor: not-allowed;
     color: ${(props) => (props.$subscribed ? "#FF2626" : "#fff")};
     transform: scale(1);
+    animation: unset;
+    cursor: ${(props) => (props.$subscribed ? "grab" : "not-allowed")};
+
+    &::after {
+      animation: unset;
+    }
   }
 
   @media (min-width: 992px) {
@@ -474,15 +479,13 @@ const ErrorMessage = styled.div`
 
 const DialogueBox = styled.div`
   position: relative;
-  width: 80%;
+  width: 80vw;
   height: 65.5px;
   background: #ff2626;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: #fff;
   text-align: center;
   leading-trim: both;
   text-edge: cap;
@@ -492,54 +495,46 @@ const DialogueBox = styled.div`
   font-weight: 600;
   line-height: normal;
   margin-top: 2rem;
-  border-radius: 3px;
-
-  // &::before {
-  //   content: url("/info-icon.svg");
-  //   position: absolute;
-  //   width: 25px;
-  //   height: 25px;
-  //   z-index: 10;
-
-  //   @media (min-width: 992px) {
-  //     display: none;
-  //   }
-  // }
+  border-radius: 5.5px;
+  z-index: 110;
+  left: -40vw;
 
   @media (min-width: 992px) {
     border-radius: 8px;
     position: absolute;
     width: 278px;
     top: -118px;
-    left: -139px;
+    left: -195px;
   }
 `;
 
 const ImageContainer = styled.button`
-  right: -24px;
-  top: 0;
-  position: absolute;
+  position: relative;
   background: transparent;
   border: none;
   cursor: pointer;
-  align-self: flex-end;
   width: 25px;
   height: 25px;
+  top: 10px;
+
+  > div {
+    opacity: 0;
+    transform: scale(0.2);
+    transition: opacity 0.1s linear, transform 0.2s linear;
+  }
+
   @media (min-width: 992px) {
-    > div {
-      opacity: 0;
-      transform: scale(0.2);
-      transition: opacity 0.1s linear, transform 0.2s linear;
-    }
+    align-self: flex-end;
+    right: -24px;
+    top: 0;
+    position: absolute;
   }
 
   &:hover {
-    @media (min-width: 992px) {
-      > div {
-        opacity: 1;
-        transform: scale(1);
-        transition: opacity 0.2s linear, transform 0.2s linear;
-      }
+    > div {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.2s linear, transform 0.2s linear;
     }
   }
 
@@ -718,8 +713,29 @@ const Plan: React.FC<PricingPlan> = ({
         {!(width < 992) && !compatible ? (
           <ImageContainer>
             <DialogueBox>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                className="svg-triangle"
+                width="100"
+                height="100"
+                fill="#FF2626"
+                style={{
+                  position: "absolute",
+                  bottom: "-80%",
+                  left: "60%",
+                  transform: "scale(0.2) rotate(180deg)",
+                }}
+              >
+                <path
+                  stroke="#FF2626"
+                  scale={0.2}
+                  d="M 50,5 95,97.5 5,97.5 z"
+                />
+              </svg>
               <p>Unavailable with current plan</p>
             </DialogueBox>
+
             <Image
               src="/info-icon.svg"
               alt="info icon"
@@ -730,8 +746,29 @@ const Plan: React.FC<PricingPlan> = ({
         ) : !(width < 992) && addOn ? (
           <ImageContainer>
             <DialogueBox>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                className="svg-triangle"
+                width="100"
+                height="100"
+                fill="#FF2626"
+                style={{
+                  position: "absolute",
+                  bottom: "-80%",
+                  left: "60%",
+                  transform: "scale(0.2) rotate(180deg)",
+                }}
+              >
+                <path
+                  stroke="#FF2626"
+                  scale={0.2}
+                  d="M 50,5 95,97.5 5,97.5 z"
+                />
+              </svg>
               <p>Add on and get upgraded to membership badge</p>
             </DialogueBox>
+
             <Image
               src="/info-icon.svg"
               alt="info icon"
@@ -742,29 +779,62 @@ const Plan: React.FC<PricingPlan> = ({
         ) : null}
       </CTAContainer>
       {width < 992 && !compatible ? (
-        <>
+        <ImageContainer>
           <DialogueBox>
             <p>Unavailable with current plan</p>
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.1"
+            className="svg-triangle"
+            width="100"
+            height="100"
+            fill="#FF2626"
+            style={{
+              position: "absolute",
+              top: "-52px",
+              left: "45%",
+              transform: "scale(0.2)",
+            }}
+          >
+            <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
+          </svg>
           </DialogueBox>
-          {/* <Image
-              src="/info-icon.svg"
-              alt="info icon"
-              fill
-              className="info-icon"
-            /> */}
-        </>
+          
+          <Image
+            src="/info-icon.svg"
+            alt="info icon"
+            fill
+            className="info-icon"
+          />
+        </ImageContainer>
       ) : width < 992 && addOn ? (
-        <>
+        <ImageContainer>
           <DialogueBox>
             <p>Add on and get upgraded to membership badge</p>
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.1"
+            className="svg-triangle"
+            width="100"
+            height="100"
+            fill="#FF2626"
+            style={{
+              position: "absolute",
+              top: "-52px",
+              left: "45%",
+              transform: "scale(0.2)",
+            }}
+          >
+            <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
+          </svg>
           </DialogueBox>
-          {/* <Image
-              src="/info-icon.svg"
-              alt="info icon"
-              fill
-              className="info-icon"
-            /> */}
-        </>
+          <Image
+            src="/info-icon.svg"
+            alt="info icon"
+            fill
+            className="info-icon"
+          />
+        </ImageContainer>
       ) : null}
       <BenefitsList ref={benefitsRef}>
         {benefits.map((benefit) => (
@@ -886,7 +956,6 @@ const PricingPage: React.FC<PricingPageProps> = ({
 
   return (
     <>
-
       {pageLoading ? (
         <LoadingOverlay $isLoading={pageLoading}>
           <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />

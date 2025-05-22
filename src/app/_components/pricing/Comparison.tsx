@@ -14,7 +14,6 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { rippleAnimation } from "../mentor-application/styled";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -70,7 +69,7 @@ const ProductHeadPricing = styled.p`
   }
 `;
 
-const ProductHeadCTA = styled.button`
+const ProductHeadCTA = styled.button<{$subscribed: boolean; $addOn: boolean}>`
 position: relative;
   color: #ff2626;
   leading-trim: both;
@@ -89,28 +88,20 @@ position: relative;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow: hidden;
 
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 38, 38, 0.2);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%, -50%);
-    transform-origin: 50% 50%;
-  }
 
 
   &:hover {
-    // background-color: #ff2626;
-    // color: white;
+    background-color: ${(props) => props.$subscribed ? '#fff' : '#ff2626' };
+    color:  ${(props) => props.$subscribed ? '#ff2626' : '#fff'  };
 
-     &::after {
-      animation: ${rippleAnimation} 0.6s ease-out;
-    }
+  }
+
+  &:disabled {
+    background-color: #aeaeae;
+    color:  #fff ;
+    border-color: #aeaeae;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   @media (min-width: 992px) {
@@ -432,9 +423,12 @@ export const Comparison = styled(
                                 <ProductHeadPricing>
                                   {COMPARISON_DATA[id]?.price}
                                 </ProductHeadPricing>
-                                <ProductHeadCTA>
-                                  {COMPARISON_DATA[id]?.cta}{" "}
-                                  {COMPARISON_DATA[id]?.title.split(" ")[0]}
+                                <ProductHeadCTA  disabled={id == 2}
+                                $subscribed={id === 0}
+              $addOn={id === 1}>
+                {id === 0 ? COMPARISON_DATA[id]?.subscribedCta : id === 1 ? COMPARISON_DATA[id]?.addOnCTa : COMPARISON_DATA[id]?.buttonText}
+                                  {/* {COMPARISON_DATA[id]?.cta}{" "}
+                                  {COMPARISON_DATA[id]?.title.split(" ")[0]} */}
                                 </ProductHeadCTA>
                               </ProductHeader>
                             </div>

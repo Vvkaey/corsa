@@ -22,6 +22,7 @@ export type PricingDataProps = {
 }
 
 
+
 export const pricingData = {
   title: "Get straight to the ",
   subtitle:
@@ -97,6 +98,9 @@ export type ComparisonDataProps = {
   id: number;
   price?: string;
   cta?: string;
+  buttonText?: string;
+  subscribedCta?: string;
+  addOnCTa?: string;
   redirection?: string;
   insider_pass: ComparisonPropertyValueProps;
   community_spotlights: ComparisonPropertyValueProps;
@@ -124,6 +128,9 @@ export const COMPARISON_DATA = [
     id: 0,
     price: "₹ 1,399",
     cta: "Subscribe",
+    buttonText: "Subscribe Insight",
+    subscribedCta: "Insight Subscribed",
+    addOnCTa: "Add On Insight",
     redirection: "",
     insider_pass: {
       id: "insider_pass",
@@ -187,6 +194,9 @@ export const COMPARISON_DATA = [
     id: 1,
     price: "₹ 2,499",
     cta: "Subscribe",
+    buttonText: "Subscribe Mentor",
+    subscribedCta: "Mentor Subscribed",
+    addOnCTa: "Add On Mentor",
     redirection: "",
     insider_pass: {
       id: "insider_pass",
@@ -250,6 +260,9 @@ export const COMPARISON_DATA = [
     id: 2,
     price: "₹ 3,199",
     cta: "Subscribe",
+    buttonText: "Subscribe Membership",
+    subscribedCta: "Membership Subscribed",
+    addOnCTa: "",
     redirection: "",
     insider_pass: {
       id: "insider_pass",
