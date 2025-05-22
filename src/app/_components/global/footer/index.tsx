@@ -11,11 +11,13 @@ import {
   maxWidthContainer,
   sectionResponsivePadding,
 } from "../../new_mixins/mixins";
+import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 
 export const Footer = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext); // Access global UI settings
   const pathname = usePathname(); // Get the current route
   const router = useRouter();
+  const {width} = useWindowSize();
 
   // Hide footer if lite mode is enabled or if the page is in NO_HEADER_FOOTER_PAGES
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
@@ -43,23 +45,34 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
           {/* Right section with contact info and legal links */}
           <div className="right-block">
-            <div className="contact-container">
-              <p className="tagline">Reach out to us!</p>
-              <p className="email">connect@corsaclub.io</p>
-            </div>
-            <div className="tnc-container">
-              <Link href={"/privacy-policy"} className="privacy-policy">
-                Privacy policy
-              </Link>
-              <Link href={"/terms-and-conditions"} className="tnc">
-                Terms of service
-              </Link>
-            </div>
+            <button
+              className="primary-button"
+              onClick={onApplyMentorClick}
+              style={{
+                background: "#fff",
+                color: "#000",
+              }}
+            >
+              Reach out to us!
+            </button>
           </div>
         </div>
 
         {/* Copyright text */}
-        <p className="copyright">© 2025 CorsaClub</p>
+        <div className="copyright-container">
+          {(width ?? 0) > 992 ? <p className="copyright">© 2025 CorsaClub</p> : null}
+          <div className="tnc-container">
+            <Link href={"/privacy-policy"} className="privacy-policy">
+              Privacy policy
+            </Link>
+            <Link href={"/terms-and-conditions"} className="tnc">
+              Terms of service
+            </Link>
+          </div>
+        </div>
+       {(width ?? 0) < 992 ? <div className="copyright-container">
+          <p className="copyright">© 2025 CorsaClub</p>
+          </div> : null}
 
         {/* Footer logo */}
         <div className="logo-container">
@@ -101,12 +114,13 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
     /* Copyright text */
     .copyright {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 800;
       padding: 7px 0;
-      font-family: var(--font-fustat);
-
+      color: #c7c7c7;
+      font-family: var(--font-exo);
+      font-size: 14.671px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 119.982%; /* 17.602px */
       @media (min-width: 992px) {
         font-size: 18px;
         padding: 0 60px 0 0;
@@ -126,16 +140,82 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
       @media (min-width: 992px) {
         flex-direction: row;
-        margin-top: 120px;
+        margin-top: 12px;
       }
 
       @media (min-width: 1950px) {
-        margin-top: 200px;
+        margin-top: 50px;
+      }
+
+      @keyframes ripple {
+        0% {
+          opacity: 1;
+          transform: scale(0, 0);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(25, 25);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(40, 40);
+        }
+      }
+
+      .primary-button {
+        position: relative;
+        border-radius: 8px;
+        border: 0.635px solid #ffeac8;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 800;
+        background: none;
+        padding: 11px 33px;
+        width: 100%;
+        cursor: pointer;
+        white-space: nowrap;
+        font-family: var(--font-fustat);
+        overflow: hidden;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 5px;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.4);
+          opacity: 0;
+          border-radius: 100%;
+          transform: scale(1, 1) translate(-50%, -50%);
+          transform-origin: 50% 50%;
+        }
+
+        @media (min-width: 992px) {
+          border-radius: 11.673px;
+          border: 0.834px solidrgb(14, 10, 4);
+          max-width: 347px;
+          padding: 10px 40px;
+          font-size: 16.5px;
+          transition: all 5ms ease-in;
+
+          /* Button hover effect */
+          &:hover {
+            &::after {
+              animation: ripple 0.6s ease-out;
+            }
+          }
+        }
+
+        @media (min-width: 1950px) {
+          padding: 13px 58px;
+          font-size: 23.521px;
+        }
       }
 
       /* Left block: greeting and CTA */
       .left-block {
-        padding: 86px 0px 54px;
+        padding: 86px 0px 9px;
 
         @media (min-width: 992px) {
           padding: 68px 60px 0px 0px;
@@ -158,7 +238,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
         /* CTA button */
         .cta-container {
-          padding-top: 24px;
+          padding-top: 58px;
           font-family: var(--font-fustat);
 
           @media (min-width: 992px) {
@@ -168,72 +248,6 @@ export const Footer = styled(({ className }: { className?: string }) => {
           @media (min-width: 1950px) {
             padding-top: 74.5px;
           }
-
-          @keyframes ripple {
-            0% {
-              opacity: 1;
-              transform: scale(0, 0);
-            }
-            20% {
-              opacity: 1;
-              transform: scale(25, 25);
-            }
-            100% {
-              opacity: 0;
-              transform: scale(40, 40);
-            }
-          }
-
-          .primary-button {
-          position : relative;
-            border-radius: 8px;
-            border: 0.635px solid #ffeac8;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 800;
-            background: none;
-            padding: 11px 33px;
-            width: 100%;
-            cursor: pointer;
-            white-space: nowrap;
-            font-family: var(--font-fustat);
-            overflow: hidden;
-
-            &::after {
-              content: "";
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              width: 5px;
-              height: 5px;
-              background: rgba(255, 255, 255, 0.4);
-              opacity: 0;
-              border-radius: 100%;
-              transform: scale(1, 1) translate(-50%, -50%);
-              transform-origin: 50% 50%;
-            }
-
-            @media (min-width: 992px) {
-              border-radius: 11.673px;
-              border: 0.834px solid #ffeac8;
-              max-width: 347px;
-              padding: 10px 40px;
-              font-size: 16.5px;
-              transition: all 5ms ease-in;
-
-              /* Button hover effect */
-              &:hover {
-                &::after {
-                  animation: ripple 0.6s ease-out;
-                }
-              }
-            }
-
-            @media (min-width: 1950px) {
-              padding: 13px 58px;
-              font-size: 23.521px;
-            }
-          }
         }
       }
 
@@ -242,82 +256,96 @@ export const Footer = styled(({ className }: { className?: string }) => {
         display: flex;
         justify-content: space-between;
         font-family: var(--font-fustat);
+        // border: 2px double red;
+        // background: grey;
 
         @media (min-width: 992px) {
           padding: 68px 0px 0px 60px;
           gap: 92px;
           width: 50%;
           justify-content: flex-end;
+          align-items: flex-end;
         }
 
         /* Contact Info */
         .contact-container {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-
-          @media (min-width: 1950px) {
-            gap: 22px;
-          }
-
-          .tagline {
-            color: #fff;
-            font-size: 16px;
+          @media (min-width: 992px) {
+            height: fit-content;
+            border-radius: 5.625px;
+            border: 1.416px solid #fff;
+            background: #fff;
+            color: #000;
+            leading-trim: both;
+            text-edge: cap;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: #fff;
+            font-family: var(--font-fustat);
+            font-size: 17.992px;
+            font-style: normal;
             font-weight: 800;
-
-            @media (min-width: 992px) {
-              font-size: 18px;
-            }
-
-            @media (min-width: 1950px) {
-              font-size: 25.589px;
-            }
+            line-height: 141.979%; /* 25.545px */
+            padding: 15px 50px;
           }
+        }
+      }
+    }
 
-          .email {
-            color: #c1c1c1;
-            font-size: 16px;
-            font-weight: 500;
+    /* Privacy & Terms */
+    .tnc-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 5px;
+      margin-top: 17px;
 
-            @media (min-width: 992px) {
-              font-size: 18px;
-            }
+      @media (min-width: 992px) {
+        flex-direction: row;
+margin-top: unset;
+        align-items: flex-end;
+        gap: 12px;
+      }
 
-            @media (min-width: 1950px) {
-              font-size: 25.589px;
-            }
+      @media (min-width: 1950px) {
+        gap: 22px;
+      }
+
+      .privacy-policy,
+      .tnc {
+        color: #c7c7c7;
+        font-family: var(--font-fustat);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 141.979%; /* 22.717px */
+
+        @media (min-width: 992px) {
+          font-size: 18px;
+          color: #c7c7c7;
+          leading-trim: both;
+          text-edge: cap;
+          font-family: var(--font-fustat);
+          font-style: normal;
+          font-weight: 500;
+          line-height: 141.979%; /* 25.545px */
+
+          &:hover {
+            text-decoration: underline;
           }
         }
 
-        /* Privacy & Terms */
-        .tnc-container {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-
-          @media (min-width: 1950px) {
-            gap: 22px;
-          }
-
-          .privacy-policy,
-          .tnc {
-            color: #fff;
-            font-size: 16px;
-            font-weight: 800;
-
-            @media (min-width: 992px) {
-              font-size: 18px;
-
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-
-            @media (min-width: 1950px) {
-              font-size: 25.589px;
-            }
-          }
+        @media (min-width: 1950px) {
+          font-size: 25.589px;
         }
+      }
+    }
+
+    .copyright-container {
+      // border: 2px solid red;
+
+      @media (min-width: 992px) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
       }
     }
 
@@ -327,9 +355,11 @@ export const Footer = styled(({ className }: { className?: string }) => {
       width: 100%;
       height: 40px;
       margin: auto;
-      margin-bottom: 92px;
+      margin-bottom: 322px;
+      padding-top: 8px;
 
       @media (min-width: 992px) {
+       padding-top: unset;
         height: 130px;
         width: 100%;
         margin: 0 0 65px 0;

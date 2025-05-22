@@ -699,7 +699,7 @@ const MentorApplication = () => {
                       {isLoading.sendOtp ? "Sending..." : "Resend"}
                     </OtpButton>
                   )}
-                  {isLoading.verifyOtp && (
+                  {/* {isLoading.verifyOtp && (
                     <span
                       style={{
                         position: "absolute",
@@ -710,7 +710,7 @@ const MentorApplication = () => {
                     >
                       Verifying...
                     </span>
-                  )}
+                  )} */}
                 </InputGroup>
                 {formik.touched.otp && formik.errors.otp ? (
                   <ErrorText>{formik.errors.otp}</ErrorText>

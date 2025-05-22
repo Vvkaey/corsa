@@ -18,11 +18,11 @@ const ContactUs = () => {
       <Divider />
       <ContactUsLineItems>
         <LineItem>
-          Drop us an email{" "}
+          We&apos;ll help clear things up!  {" "}
           {isMobile ? <br/> :  null}
-          <RedSpan>Connect@stroda.club,</RedSpan>{" "}
           <br/>
-          and we&apos;ll help clear things up!
+          <RedSpan>Book a call </RedSpan>{" "}
+          
         </LineItem>
       </ContactUsLineItems>
     </ContactUsContainer>
