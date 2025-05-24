@@ -7,13 +7,14 @@ export const BadgeSectionContainer = styled.section`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: linear-gradient(180deg, #0E0E0E 3.35%, #0E0E0E 56.52%, #9F9D9D 143.11%);
   @media (min-width: 992px) {
+  position: relative;
     background: url("/2078.svg") center center fixed;
     background-size: cover;
   }  
@@ -271,11 +272,17 @@ export const IconContainer = styled.div`
     height: 102px;
     margin: auto;
     margin-top : 70px;
+     margin-bottom: 20px
   }
 
   img {
       object-fit: contain;
       width: auto;
       height: 100%;
+
+      @media (min-width: 1950px) {
+margin-bottom: 20px;
+
+}
   }
 `;
