@@ -310,26 +310,26 @@ export const ErrorText = styled.div`
   }
 `;
 
-export const ErrorTextCheckout = styled(ErrorText)`
-  position: absolute;
-  color: #ff2626;
-  font-size: 10px;
-  margin-top: 5px;
-  font-weight: 500;
-  margin-left: 16px;
-  font-family: var(--font-fustat);
-  bottom: -13px;
+// export const ErrorTextCheckout = styled(ErrorText)`
+//   position: absolute;
+//   color: #ff2626;
+//   font-size: 10px;
+//   margin-top: 5px;
+//   font-weight: 500;
+//   margin-left: 16px;
+//   font-family: var(--font-fustat);
+//   bottom: -13px;
 
-  @media (min-width: 992px) {
-   font-size: 10px;
-  }
+//   @media (min-width: 992px) {
+//    font-size: 10px;
+//   }
 
-  @media (min-width: 1950px) {
-  bottom: -18px;
-    font-size: 13px;
-    margin-left: 23px;
-  }
-`;
+//   @media (min-width: 1950px) {
+//   bottom: -18px;
+//     font-size: 13px;
+//     margin-left: 23px;
+//   }
+// `;
 
 export const rippleAnimation = keyframes`
 

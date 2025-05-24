@@ -13,7 +13,7 @@ import Image from "next/image";
 
 import * as Yup from "yup";
 import { CaretUp } from "@/app/_assets/icons";
-import { ErrorTextCheckout as ErrorText } from "../mentor-application/styled";
+import {  ErrorText } from "../mentor-application/styled";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

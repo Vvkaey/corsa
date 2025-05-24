@@ -25,7 +25,7 @@ export const CheckoutContainer = styled.div`
   }
 
   @media (min-width: 1600px) {
-    padding-top: 2%;
+    padding-top: 1.5%;
   }
 
   @media (min-width: 1950px) {
@@ -286,15 +286,15 @@ export const SectionTitle = styled.h2`
 
 export const FormGroup = styled.div`
 position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 22px;
 
   @media (min-width: 992px) {
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.6rem;
   }
 
-  @media (min-width: 1950px) {
-    margin-bottom: 1.25rem;
-  }
+  // @media (min-width: 1950px) {
+  //   margin-bottom: 1.25rem;
+  // }
 
   &:first-child {
     width: 100%;
@@ -302,7 +302,7 @@ position: relative;
 `;
 export const HalfWidthFormGroup = styled(FormGroup)`
 position: relative;
-  width: 49%;
+  width: 48%;
   display: inline-block;
 
   .svg{
