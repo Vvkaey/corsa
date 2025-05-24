@@ -42,7 +42,6 @@ type InputEvent = React.FocusEvent<HTMLInputElement | HTMLSelectElement>;
 const MentorApplication = () => {
   const [emailVerified, setEmailVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [message, setMessage] = useState({
     text: "",
     type: "info" as "success" | "error" | "info",
@@ -712,6 +711,7 @@ const MentorApplication = () => {
                     </span>
                   )} */}
                 </InputGroup>
+                {message.type == "error"  && message.text && message.text === "Failed to verify OTP" ? <ErrorText $right={true}>Invalid OTP</ErrorText> : null}
                 {formik.touched.otp && formik.errors.otp ? (
                   <ErrorText>{formik.errors.otp}</ErrorText>
                 ) : null}

@@ -295,18 +295,32 @@ export const OtpButton = styled(Button)`
   }
 `;
 
-export const ErrorText = styled.div`
+export const ErrorText = styled.div<{ $right?: boolean }>`
   position: absolute;
   color: #ff2626;
   font-size: 10px;
   margin-top: 5px;
   font-weight: 500;
-  margin-left: 10px;
+  margin-left: ${(props) => (props.$right ? "0" : "10px")};
+  padding-right: ${(props) => (props.$right ? "20px" : "unset")};
+   font-size: ${(props) => (props.$right ? "16px" : "14px")};
   font-family: var(--font-fustat);
+   width: ${(props) => (props.$right ? "100%" : "unset")};
+     text-align: ${(props) => (props.$right ? "right" : "left")};
+
 
   @media (min-width: 1025px) {
-    font-size: 14px;
     margin-left: 21px;
+  }
+
+  @media (min-width: 1280px) {
+   padding-right: ${(props) => (props.$right ? "36px" : "unset")};
+   font-size: ${(props) => (props.$right ? "15.27px" : "14px")};
+  }
+
+   @media (min-width: 1950px) {
+   padding-right: ${(props) => (props.$right ? "24px" : "unset")};
+   font-size: ${(props) => (props.$right ? "21.7px" : "14px")};
   }
 `;
 

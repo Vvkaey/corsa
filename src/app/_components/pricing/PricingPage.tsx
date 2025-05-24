@@ -1000,7 +1000,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
               compatible={
                 TestCompatibility({badge, id: plan.id}) as boolean
               }
-              subscribed={idx === 0}
+              // subscribed={idx === 0}
               addOn={idx === 1}
             />
           ))}
