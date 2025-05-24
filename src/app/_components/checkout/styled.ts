@@ -20,16 +20,16 @@ export const CheckoutContainer = styled.div`
   }
 
   @media (min-width: 992px) {
-    padding-top: 2%;
+    padding-top: 5%;
     justify-content: flex-start;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
   }
 
   @media (min-width: 1600px) {
-    padding-top: 0;
+    padding-top: 2%;
+  }
+
+  @media (min-width: 1950px) {
+    padding-top: 0.5%;
   }
 
 
