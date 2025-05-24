@@ -87,6 +87,7 @@ export const ProductDetailsCard = styled.div`
     position: unset;
     width: 480px;
     padding: 34px 24px;
+   
   }
 
   @media (min-width: 1500px) {

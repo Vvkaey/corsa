@@ -33,7 +33,7 @@ const VideoElement = styled.video`
      object-fit: contain;
 
   @media (min-width: 992px) {
-   width: 60%;
+   width: 25%;
    height: auto;
    object-fit: contain;
   }

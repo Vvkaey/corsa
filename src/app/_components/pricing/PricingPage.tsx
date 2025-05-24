@@ -20,6 +20,10 @@ import { rippleAnimation } from "../mentor-application/styled";
 import { PricingTick } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import VideoLoadingScreen from "../global/loading";
+import {
+  BADGES,
+  useMentorshipContext,
+} from "@/app/_contexts/MentorshipContext";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -866,6 +870,15 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const plansContainerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
+  const {badge} = useMentorshipContext()
+
+
+  useEffect(() => {
+    if (badge) {
+      console.log("Display badge:", badge);
+    }
+  },[badge])
+
 
   // Split the title into spans for animated reveal
   // const titleLetters = "Pricing".split("").map((letter, i) => (
@@ -954,6 +967,18 @@ const PricingPage: React.FC<PricingPageProps> = ({
     };
   }, [pageLoading]);
 
+  const TestCompatibility = ({badge, id} : {badge: string, id: number}) => {
+
+    if(!badge) return null;
+    if (badge == BADGES.MARSHALL || badge == BADGES.TACTICAL_ACE) {
+      if(id == 2)return false
+      return true
+    }else if (id == 0 || id == 1){
+      if (badge == BADGES.TOP_GUN) return false;
+      return true;
+    }return true
+  }
+
   return (
     <>
       {pageLoading ? (
@@ -972,7 +997,9 @@ const PricingPage: React.FC<PricingPageProps> = ({
             <Plan
               key={plan.id}
               {...plan}
-              compatible={idx !== 2}
+              compatible={
+                TestCompatibility({badge, id: plan.id}) as boolean
+              }
               subscribed={idx === 0}
               addOn={idx === 1}
             />

@@ -5,10 +5,19 @@ import {
 } from "../new_mixins/mixins";
 import { RedSpan } from "../dashboard/styled";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { ArrowRightWhite } from "@/app/_assets/icons";
 
 const ContactUs = () => {
-    const { width } = useWindowSize();
-    const isMobile = (width ?? 0) < 768;
+  const { width } = useWindowSize();
+  const isMobile = (width ?? 0) < 992;
+
+  // Calendly will be initiated once Book a call is clicked
+  const onBookCallClick = () => {
+    alert(
+      "This feature is not implemented yet. Please contact us via email at"
+    );
+  };
+
   return (
     <ContactUsContainer>
       <ContactUsTitle>
@@ -18,11 +27,16 @@ const ContactUs = () => {
       <Divider />
       <ContactUsLineItems>
         <LineItem>
-          We&apos;ll help clear things up!  {" "}
-          {isMobile ? <br/> :  null}
-          <br/>
-          <RedSpan>Book a call </RedSpan>{" "}
-          
+          We&apos;ll help clear things up! {isMobile ? <br /> : null}
+          <br />
+          <FlatButton onClick={onBookCallClick}>
+            <RedSpan>Book a call </RedSpan>
+            <ArrowRightWhite
+              fill="#FF2626"
+              width={isMobile ? 25 : (width ?? 0) > 1950 ? 35 : 27.5}
+              height={isMobile ? 14 : (width ?? 0) > 1950 ? 19.6 : 15.4}
+            />
+          </FlatButton>{" "}
         </LineItem>
       </ContactUsLineItems>
     </ContactUsContainer>
@@ -30,6 +44,32 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
+const FlatButton = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  text-align: center;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  border-bottom: 1px solid #000;
+  padding: 1px 7.5px 3px 4px;
+
+  @media (min-width: 992px) {
+    font-size: 24.6px;
+    padding: 2px 15px 5px 10px;
+  }
+
+  @media (min-width: 1950px) {
+    font-size: 35px;
+  }
+`;
 
 const ContactUsContainer = styled.section`
   width: 100%;
@@ -43,12 +83,11 @@ const ContactUsContainer = styled.section`
     rgba(255, 238, 205, 0.58) 3.74%,
     #fff 71.5%
   );
-   padding-top: 180px;
-    padding-bottom: 110px;
-
+  padding-top: 180px;
+  padding-bottom: 110px;
 
   @media (min-width: 992px) {
-  margin-top : 40px;
+    margin-top: 40px;
     padding-top: 99px;
     padding-bottom: 250px;
   }
@@ -73,7 +112,7 @@ const ContactUsTitle = styled.h3`
   @media (min-width: 992px) {
     font-size: 28px;
   }
-    @media (min-width: 1950px) {
+  @media (min-width: 1950px) {
     font-size: 40px;
   }
 `;
@@ -98,7 +137,7 @@ const ContactUsLineItems = styled.div`
     font-size: 24.6px;
   }
 
-   @media (min-width: 1950px) {
+  @media (min-width: 1950px) {
     font-size: 35px;
   }
 `;

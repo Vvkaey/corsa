@@ -135,6 +135,13 @@ const ComparisonContainer = styled.div`
   overflow: visible;
   ${sectionResponsivePadding()}
   ${maxWidthContainer}
+  min-height: 180vh;
+
+  
+  @media (min-width: 992px) {
+max-height: 110vh;
+
+}
 `;
 
 // Header and content wrapper for proper pinning
