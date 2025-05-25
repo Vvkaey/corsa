@@ -5,7 +5,7 @@ import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 
-function Video() {
+function Video({url}: { url?: string }) {
   const { width } = useWindowSize();
   if (width === undefined) return null; // Handle case where width is not available
   return (
@@ -13,7 +13,7 @@ function Video() {
       <ReactPlayer
         className={ReactPlayerCSS}
         playing
-        url="/Quote.webm"
+        url={url}
         loop
         muted
         width={width > 992 ? "100%" : "auto"}
@@ -40,5 +40,5 @@ const ReactPlayerCSS = `
   position: absolute;
   top: 0;
   left: 0;
-    z-index: 99;
+    z-index: 8;
 `;

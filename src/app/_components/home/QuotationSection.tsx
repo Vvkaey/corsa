@@ -76,7 +76,7 @@ export const QuotationSection = styled(
     return (
       <section className={className} ref={sectionRootRef} data-scroll-section>
         <div className="video-wrapper">
-           <Video />
+           <Video url={"/Quote.webm"}/>
           <div className="overlay"></div>
         </div>
 

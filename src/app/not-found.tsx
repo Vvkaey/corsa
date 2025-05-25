@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import {
   sectionResponsivePadding,
 } from "./_components/new_mixins/mixins";
 import { useWindowSize } from "./_utils/hooks/useWindowSize";
+import Video from "./_components/ui/video";
 
 const Error404 = styled(({ className }: { className?: string }) => {
   const router = useRouter();
@@ -45,11 +46,18 @@ const Error404 = styled(({ className }: { className?: string }) => {
         </div>
       </div>
       <div className="bg-img-container">
-        {width < 992 ? (
+        {/* {width < 992 ? (
           <Image src={"/404_mobile.png"} alt="bg-not-found-image" fill />
         ) : (
           <Image src={"/404.png"} alt="bg-not-found-image" fill />
-        )}
+        )} */}
+        <Video
+          url={
+            width < 992
+              ? "/compressed/404_Mobile.webm"
+              : "/compressed/404_Desktop.webm"
+          }
+        />
       </div>
     </section>
   );
@@ -64,6 +72,7 @@ const Error404 = styled(({ className }: { className?: string }) => {
   background: #000;
   ${sectionResponsivePadding()};
   z-index: 22;
+  overflow: hidden;
 
   @media (min-width: 992px) {
     justify-content: unset;
@@ -77,7 +86,8 @@ const Error404 = styled(({ className }: { className?: string }) => {
     right: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.85;
+    background: transparent;
+    // opacity: 0.85;
 
     img {
       position: absolute;
@@ -95,10 +105,23 @@ const Error404 = styled(({ className }: { className?: string }) => {
     width: 100%;
     height: 40%;
 
-     @media (min-width: 992px) {
-       height: 100%;
-      }
+    @media (max-width: 390px) {
+      position: relative;
+      top: 30%;
+      height: 80%;
+    }
+
+    @media (min-width: 391px) and (max-width: 991px) {
+      position: relative;
+      top: 30%;
+      height: 80%;
+    }
+
+    @media (min-width: 992px) {
+      height: 100%;
+    }
     .content {
+      position: relative;
       height: 100%;
       padding: 80px 0;
       height: 100%;
@@ -107,7 +130,7 @@ const Error404 = styled(({ className }: { className?: string }) => {
       gap: 5px;
       text-align: left;
       ${maxWidthContainer};
-
+      z-index: 9;
 
       .head {
         font-family: var(--font-exo);
@@ -140,8 +163,8 @@ const Error404 = styled(({ className }: { className?: string }) => {
         @media (min-width: 992px) {
           color: #fff;
           font-size: 24px;
-           text-align: left;
-           margin: unset;
+          text-align: left;
+          margin: unset;
           max-width: 28ch;
         }
       }
@@ -211,7 +234,6 @@ const Error404 = styled(({ className }: { className?: string }) => {
         overflow: hidden;
         margin: 20px auto;
         z-index: 2;
-        
 
         &::after {
           content: "";
