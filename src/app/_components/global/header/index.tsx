@@ -428,7 +428,7 @@ export const Header = styled(({ className }: { className?: string }) => {
 
   return (
     <header className={className}>
-      <div className="nav-container">
+      <div className="nav-container" id="nav-container">
         <div className="left-pan">
           <button className="image-container" onClick={OnLogoClick}>
             <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />

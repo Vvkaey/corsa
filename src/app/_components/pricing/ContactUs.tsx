@@ -37,6 +37,7 @@ const ContactUs = () => {
               height={isMobile ? 14 : (width ?? 0) > 1950 ? 19.6 : 15.4}
             />
           </FlatButton>{" "}
+          
         </LineItem>
       </ContactUsLineItems>
     </ContactUsContainer>
@@ -44,6 +45,8 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
+
 
 const FlatButton = styled.button`
   background: transparent;

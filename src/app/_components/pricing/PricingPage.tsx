@@ -787,23 +787,23 @@ const Plan: React.FC<PricingPlan> = ({
           <DialogueBox>
             <p>Unavailable with current plan</p>
             <svg
-            xmlns="http://www.w3.org/2000/svg"
-            version="1.1"
-            className="svg-triangle"
-            width="100"
-            height="100"
-            fill="#FF2626"
-            style={{
-              position: "absolute",
-              top: "-52px",
-              left: "45%",
-              transform: "scale(0.2)",
-            }}
-          >
-            <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
-          </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              className="svg-triangle"
+              width="100"
+              height="100"
+              fill="#FF2626"
+              style={{
+                position: "absolute",
+                top: "-52px",
+                left: "45%",
+                transform: "scale(0.2)",
+              }}
+            >
+              <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
+            </svg>
           </DialogueBox>
-          
+
           <Image
             src="/info-icon.svg"
             alt="info icon"
@@ -816,21 +816,21 @@ const Plan: React.FC<PricingPlan> = ({
           <DialogueBox>
             <p>Add on and get upgraded to membership badge</p>
             <svg
-            xmlns="http://www.w3.org/2000/svg"
-            version="1.1"
-            className="svg-triangle"
-            width="100"
-            height="100"
-            fill="#FF2626"
-            style={{
-              position: "absolute",
-              top: "-52px",
-              left: "45%",
-              transform: "scale(0.2)",
-            }}
-          >
-            <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
-          </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              className="svg-triangle"
+              width="100"
+              height="100"
+              fill="#FF2626"
+              style={{
+                position: "absolute",
+                top: "-52px",
+                left: "45%",
+                transform: "scale(0.2)",
+              }}
+            >
+              <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
+            </svg>
           </DialogueBox>
           <Image
             src="/info-icon.svg"
@@ -870,15 +870,13 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const plansContainerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
-  const {badge} = useMentorshipContext()
-
+  const { badge } = useMentorshipContext();
 
   useEffect(() => {
     if (badge) {
       console.log("Display badge:", badge);
     }
-  },[badge])
-
+  }, [badge]);
 
   // Split the title into spans for animated reveal
   // const titleLetters = "Pricing".split("").map((letter, i) => (
@@ -890,9 +888,9 @@ const PricingPage: React.FC<PricingPageProps> = ({
   // Initial page load animation
   useEffect(() => {
     setPageLoading(false);
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
+    const topElement = document.getElementById("nav-container");
+    if (topElement)
+      topElement.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
   // Set up animations after initial load
@@ -967,17 +965,17 @@ const PricingPage: React.FC<PricingPageProps> = ({
     };
   }, [pageLoading]);
 
-  const TestCompatibility = ({badge, id} : {badge: string, id: number}) => {
-
-    if(!badge) return null;
+  const TestCompatibility = ({ badge, id }: { badge: string; id: number }) => {
+    if (!badge) return null;
     if (badge == BADGES.MARSHALL || badge == BADGES.TACTICAL_ACE) {
-      if(id == 2)return false
-      return true
-    }else if (id == 0 || id == 1){
+      if (id == 2) return false;
+      return true;
+    } else if (id == 0 || id == 1) {
       if (badge == BADGES.TOP_GUN) return false;
       return true;
-    }return true
-  }
+    }
+    return true;
+  };
 
   return (
     <>
@@ -988,7 +986,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
       ) : null}
 
       <PageContainer ref={pageRef}>
-        <Header ref={headerRef}>
+        <Header ref={headerRef} id="pricing-header">
           <Title>{title}</Title>
           <Subtitle>{subtitle}</Subtitle>
         </Header>
@@ -997,9 +995,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
             <Plan
               key={plan.id}
               {...plan}
-              compatible={
-                TestCompatibility({badge, id: plan.id}) as boolean
-              }
+              compatible={TestCompatibility({ badge, id: plan.id }) as boolean}
               // subscribed={idx === 0}
               addOn={idx === 1}
             />

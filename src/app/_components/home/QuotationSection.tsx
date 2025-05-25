@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import gsap from "gsap";
+import Video from "../ui/video";
 
 // No registration here - it's done in GsapProvider
 
@@ -75,13 +76,7 @@ export const QuotationSection = styled(
     return (
       <section className={className} ref={sectionRootRef} data-scroll-section>
         <div className="video-wrapper">
-          <video
-            autoPlay
-            loop
-            muted
-            src="/light-red.mp4"
-            className="background-video"
-          />
+           <Video />
           <div className="overlay"></div>
         </div>
 
@@ -129,7 +124,7 @@ export const QuotationSection = styled(
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75);
+      // background: rgba(0, 0, 0, 0.75);
       z-index: 2;
     }
   }
