@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import {
   sectionResponsivePadding,
 } from "../_components/new_mixins/mixins";
 import { useWindowSize } from "../_utils/hooks/useWindowSize";
+import Video from "../_components/ui/video";
 
 const ErrorContent = styled(({ className }: { className?: string }) => {
   const router = useRouter();
@@ -48,11 +49,19 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
         </div>
       </div>
       <div className="bg-img-container">
-        {width < 992 ? (
+        {/* {width < 992 ? (
           <Image src={"/error_mobile.png"} alt="bg-not-found-image" fill />
         ) : (
           <Image src={"/error.png"} alt="bg-not-found-image" fill />
-        )}
+        )} */}
+      
+         <Video
+          url={
+            width < 992
+              ? "/compressed_sorry/Sorry_Mobile.webm"
+              : "/compressed_sorry/Sorry_Desktop.webm"
+          }
+        />
       </div>
     </section>
   );
@@ -111,6 +120,7 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
       margin-top: unset;
     }
     .content {
+     position: relative;
       height: 100%;
       padding: 80px 0;
       height: 100%;
@@ -119,6 +129,7 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
       gap: 5px;
       text-align: left;
       ${maxWidthContainer};
+       z-index: 9;
 
       .head {
         font-family: var(--font-exo);

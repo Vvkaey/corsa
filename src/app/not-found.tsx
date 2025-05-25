@@ -51,7 +51,7 @@ const Error404 = styled(({ className }: { className?: string }) => {
         ) : (
           <Image src={"/404.png"} alt="bg-not-found-image" fill />
         )} */}
-        <Video
+         <Video
           url={
             width < 992
               ? "/compressed/404_Mobile.webm"
