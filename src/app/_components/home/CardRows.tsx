@@ -78,9 +78,9 @@ export const Card = styled(({
           { 
             opacity: 1, 
             x: 0, 
-            duration: 0.6, 
+            duration: 1.2, 
             ease: "power2.out",
-            stagger: 0.02
+            stagger: 0.05
           }
         );
         
@@ -92,7 +92,7 @@ export const Card = styled(({
             {
               scale: 1,
               opacity: 1,
-              duration: 0.6,
+              duration: 1.0,
               ease: "power2.out",
               onComplete: () => {
                 // Add subtle floating animation
@@ -114,9 +114,9 @@ export const Card = styled(({
           { 
             opacity: 1, 
             x: 0, 
-            duration: 0.5, 
+            duration: 0.8, 
             ease: "power2.out",
-            stagger: 0.05
+            stagger: 0.08
           }
         );
         
@@ -179,7 +179,7 @@ export const Card = styled(({
         {data.description}
       </p>
       <div className="signature">
-        <div className="circle" />
+        {/* <div className="circle" /> */}
         <p className="name" ref={nameRef}>{data.name}</p>
         <p className="handle" ref={handleRef}>{data.handle}</p>
       </div>
@@ -309,21 +309,6 @@ const Signature = styled.div`
   justify-content: center;
 `;
 
-const DP = styled.div`
-  width: 59px;
-  height: 59px;
-  border-radius: 50%;
-  background: #d9d9d9;
-
-  @media (min-width: 992px) {
-    width: 40px;
-    height: 40px;
-  }
-  @media (min-width: 1950px) {
-    width: 59px;
-    height: 59px;
-  }
-`;
 
 const TextGroup = styled.div`
   display: flex;
@@ -579,7 +564,7 @@ const XLCard = ({ activeIndex }: { activeIndex: number }) => {
           <Quote ref={quoteRef}>{'"'}</Quote>
         </Text>
         <Signature>
-          <DP />
+          {/* <DP /> */}
           <TextGroup>
             <FullName className="xl-name">{currentData.name}</FullName>
             <Institute className="xl-institute">{currentData.handle}</Institute>
