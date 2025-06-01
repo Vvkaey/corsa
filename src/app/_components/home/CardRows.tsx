@@ -41,106 +41,155 @@ export const Card = styled(({
   className, 
   data, 
   isActive, 
-  index 
+  index,
+  prevIndex 
 }: { 
   className?: string; 
   data: typeof cardData[0]; 
   isActive: boolean;
   index: number;
+  prevIndex: number;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLParagraphElement>(null);
+  const handleRef = useRef<HTMLParagraphElement>(null);
   
-  // Set up animations when active state changes
+  // Set up animations when active state changes - matching desktop behavior
   useEffect(() => {
     if (!cardRef.current) return;
     
     if (isActive) {
-      // Animate card in when it becomes active
-      gsap.fromTo(cardRef.current,
-        {
-          opacity: 0,
-          // x: 30,
-          scale: 0.95,
-          // rotate: -2,
-        },
-        {
-          opacity: 1,
-           x: 0,
-          scale: 1,
-           rotate: 0,
-          duration: 0.9,
-          ease: "ease.in",
-          onComplete: () => {
-            // Animate quote after card appears
-            if (quoteRef.current) {
-              gsap.fromTo(quoteRef.current, 
-                { 
-                  scale: 0.7, 
-                  opacity: 0.7 
-                }, 
-                {
-                  scale: 1,
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: "elastic.out(1.2, 0.5)",
-                  yoyo: true,
-                  onComplete: () => {
-                    // Add subtle hover animation after initial animation
-                    gsap.to(quoteRef.current, {
-                      y: "-5px",
-                      duration: 2,
-                      repeat: -1,
-                      yoyo: true,
-                      ease: "power1.inOut"
-                    });
-                  }
-                }
-              );
-            }
-          },
-          stagger: 0.05
-        }
-      );
-    } else {
-      // If not active, fade out and move out of view
-      gsap.to(cardRef.current, {
-        opacity: 0.3,
-          x: -900,
-        scale: 0,
-         rotate: 10,
-        duration: 0.9,
-   ease: "ease.out",
-   stagger: 0.05,
-        onComplete: () => {
-          // Reset position for next animation
-          gsap.set(cardRef.current, { x: 200, rotate: -20, });
-        }
+      // Show the card container immediately with full opacity
+      gsap.set(cardRef.current, {
+        autoAlpha: 1,
+        x: 0,
+        scale: 1,
+        rotate: 0,
+        zIndex: 10
       });
       
-      // Stop any animations on the quote
+      // Only animate if it's a card change, not initial load
+      if (prevIndex !== -1 && prevIndex !== index) {
+        // Immediately start fading in new content without delay
+        gsap.fromTo([contentRef.current, nameRef.current, handleRef.current], 
+          { opacity: 0, x: 20 },
+          { 
+            opacity: 1, 
+            x: 0, 
+            duration: 0.6, 
+            ease: "power2.out",
+            stagger: 0.02
+          }
+        );
+        
+        // Animate quote mark with no delay
+        if (quoteRef.current) {
+          gsap.killTweensOf(quoteRef.current);
+          gsap.fromTo(quoteRef.current,
+            { scale: 0.85, opacity: 0.8 },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.6,
+              ease: "power2.out",
+              onComplete: () => {
+                // Add subtle floating animation
+                gsap.to(quoteRef.current, {
+                  y: "-10px",
+                  duration: 3,
+                  repeat: -1,
+                  yoyo: true,
+                  ease: "power1.inOut"
+                });
+              }
+            }
+          );
+        }
+      } else {
+        // Initial load animation
+        gsap.fromTo([contentRef.current, nameRef.current, handleRef.current], 
+          { opacity: 0, x: 30 },
+          { 
+            opacity: 1, 
+            x: 0, 
+            duration: 0.5, 
+            ease: "power2.out",
+            stagger: 0.05
+          }
+        );
+        
+        if (quoteRef.current) {
+          gsap.fromTo(quoteRef.current,
+            { scale: 0.8, opacity: 0.7 },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.8,
+              ease: "elastic.out(1.2, 0.5)",
+              onComplete: () => {
+                gsap.to(quoteRef.current, {
+                  y: "-10px",
+                  duration: 3,
+                  repeat: -1,
+                  yoyo: true,
+                  ease: "power1.inOut"
+                });
+              }
+            }
+          );
+        }
+      }
+    } else if (prevIndex === index) {
+      // Only fade out if this card was previously active
+      gsap.to(cardRef.current, {
+        zIndex: 5 - index,
+        autoAlpha: 1,
+        duration: 0.2,
+        ease: "power2.out"
+      });
+      
+      // Fade out content quickly
+      gsap.to([contentRef.current, nameRef.current, handleRef.current], {
+        opacity: 0,
+        x: -20,
+        duration: 0.3,
+        ease: "power2.in",
+        stagger: 0.02
+      });
+      
+      // Stop quote animations
       if (quoteRef.current) {
         gsap.killTweensOf(quoteRef.current);
+        gsap.to(quoteRef.current, {
+          opacity: 0,
+          scale: 0.85,
+          duration: 0.3,
+          ease: "power2.in"
+        });
       }
     }
-  }, [isActive]);
+  }, [isActive, index, prevIndex]);
 
   return (
-    <div className={`${className} ${isActive ? 'active' : ''}`} style={{ zIndex: 10 - index }} ref={cardRef}>
+    <div className={`${className} ${isActive ? 'active' : ''}`} ref={cardRef}>
       <div className="quotes" ref={quoteRef}>{'"'}</div>
-      <p className="description">
+      <p className="description" ref={contentRef}>
         {data.description}
       </p>
       <div className="signature">
         <div className="circle" />
-        <p className="name">{data.name}</p>
-        <p className="handle">{data.handle}</p>
+        <p className="name" ref={nameRef}>{data.name}</p>
+        <p className="handle" ref={handleRef}>{data.handle}</p>
       </div>
     </div>
   );
 })`
-  position: relative;
-  background: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ffffff;
   border-radius: 9.2px;
   padding: 55px 28px;
   display: flex;
@@ -152,16 +201,10 @@ export const Card = styled(({
   font-family: var(--font-fustat);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   will-change: transform, opacity;
+  opacity: 1;
   
-  /* We'll handle animations with GSAP instead of CSS transitions */
   &.active {
     z-index: 10;
-  }
-  
-  &:not(.active) {
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 
   @media (min-width: 992px) {
@@ -194,7 +237,7 @@ export const Card = styled(({
     font-size: 136px;
     font-style: normal;
     font-weight: 600;
-    line-height: 40%; /* 163.176px */
+    line-height: 40%;
     will-change: transform, opacity;
     transform-origin: center;
     
@@ -209,7 +252,8 @@ export const Card = styled(({
     font-size: 17.138px;
     font-style: normal;
     font-weight: 600;
-    line-height: 141.979%; /* 17.037px */
+    line-height: 141.979%;
+    will-change: opacity, transform;
 
     @media (min-width: 992px) {
       position: relative;
@@ -233,7 +277,8 @@ export const Card = styled(({
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
-      line-height: 141.979%; /* 11.358px */
+      line-height: 141.979%;
+      will-change: opacity, transform;
 
       @media (min-width: 992px) {
         font-size: 8px;
@@ -246,7 +291,8 @@ export const Card = styled(({
       font-size: 12px;
       font-style: normal;
       font-weight: 600;
-      line-height: 141.979%; /* 8.519px */
+      line-height: 141.979%;
+      will-change: opacity, transform;
 
       @media (min-width: 992px) {
         font-size: 6px;
@@ -291,7 +337,7 @@ const FullName = styled.p`
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  line-height: 141.979%; /* 31.235px */
+  line-height: 141.979%;
   margin: 0;
 
   @media (min-width: 992px) {
@@ -308,7 +354,7 @@ const Institute = styled.p`
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
-  line-height: 141.979%; /* 28.396px */
+  line-height: 141.979%;
   margin: 0;
 
   @media (min-width: 992px) {
@@ -347,7 +393,7 @@ const P = styled.p`
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 141.979%; /* 34.075px */
+  line-height: 141.979%;
   max-width: 40ch;
   margin: 0;
 
@@ -359,17 +405,19 @@ const P = styled.p`
     font-size: 24px;
   }
 `;
+
 const XLCardContainer = styled.div`
   min-width: 50%;
   display: flex;
   flex-direction: column;
   padding: 84px 84px 60px 84px;
   border-radius: 14px;
-  background: #fff;
+  background: #ffffff;
   position: relative;
   will-change: transform, opacity;
   transform-origin: center;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
 
   &:hover {
     transform: translateY(-10px);
@@ -510,11 +558,9 @@ const XLCard = ({ activeIndex }: { activeIndex: number }) => {
       // Add entrance animation for the card
       gsap.fromTo(cardRef.current,
         {
-          // y: 30,
           opacity: 0
         },
         {
-          // y: 0,
           opacity: 1,
           duration: 0.8,
           ease: "power2.out"
@@ -557,37 +603,35 @@ const CarouselContainer = styled.div`
   }
 `;
 
-// Dots for carousel navigation with aria labels
-// const DotContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 10px;
-//   margin-top: 20px;
-// `;
+// Dot indicators for mobile
+const DotContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
 
-// Use className to control the active state instead of props
-// const Dot = styled.button`
-//   width: 10px;
-//   height: 10px;
-//   border-radius: 50%;
-//   background: #555;
-//   border: none;
-//   padding: 0;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease, transform 0.3s ease;
+const Dot = styled.button`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
   
-//   &.active {
-//     background: #FF2626;
-//   }
+  &.active {
+    background: #ff2626;
+    width: 24px;
+    border-radius: 4px;
+  }
   
-//   &:hover {
-//     transform: scale(1.2);
-//   }
-  
-//   &:focus {
-//     outline: none;
-//   }
-// `;
+  &:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.5);
+  }
+`;
 
 export const CardRows = styled(({ className }: { className?: string }) => {
   const sectionRootRef = useRef<HTMLDivElement>(null);
@@ -599,6 +643,14 @@ export const CardRows = styled(({ className }: { className?: string }) => {
   const { width } = useWindowSize();
   
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [prevCardIndex, setPrevCardIndex] = useState(-1);
+  
+  // Update previous index when active index changes
+  useEffect(() => {
+    if (activeCardIndex !== prevCardIndex) {
+      setPrevCardIndex(activeCardIndex);
+    }
+  }, [activeCardIndex, prevCardIndex]);
   
   // Auto rotate cards
   useEffect(() => {
@@ -675,7 +727,6 @@ export const CardRows = styled(({ className }: { className?: string }) => {
       };
     });
 
-
   }, [width, gsapContext]);
 
   return (
@@ -702,11 +753,12 @@ export const CardRows = styled(({ className }: { className?: string }) => {
                 data={card} 
                 isActive={index === activeCardIndex} 
                 index={index}
+                prevIndex={prevCardIndex}
               />
             ))}
           </CarouselContainer>
           
-          {/* <DotContainer>
+          <DotContainer>
             {cardData.map((card, index) => (
               <Dot 
                 key={card.id} 
@@ -715,7 +767,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
                 aria-label={`View testimonial ${index + 1}`}
               />
             ))}
-          </DotContainer> */}
+          </DotContainer>
         </div>
       </div>
     </section>
@@ -788,8 +840,7 @@ export const CardRows = styled(({ className }: { className?: string }) => {
         font-size: 18px;
         font-style: normal;
         font-weight: 600;
-        line-height: 141.979%; /* 28.396px */
-        
+        line-height: 141.979%;
 
         @media (min-width: 992px) {
           font-size: 20px;
