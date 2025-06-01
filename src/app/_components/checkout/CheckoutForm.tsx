@@ -406,8 +406,8 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
               width={(width ?? 0) > 1950 ? 15 : 12}
               height={(width ?? 0) > 1950 ? 11 : 8}
             />
-            {formik.touched.grade && formik.errors.board && (
-              <ErrorText>{formik.errors.board}</ErrorText>
+            {formik.touched.grade && formik.errors.grade && (
+              <ErrorText>{formik.errors.grade}</ErrorText>
             )}
           </HalfWidthFormGroup>
           <HalfWidthFormGroup>
