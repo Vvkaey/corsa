@@ -19,17 +19,17 @@ export const IconShowcase = styled(
     icons?: Record<string, string>[];
   }) => {
     const { width = 0 } = useWindowSize();
-    
+
     // Mobile states
     const [showFirstGroup, setShowFirstGroup] = useState(true);
     const [showSecondGroup, setShowSecondGroup] = useState(false);
     const [showThirdGroup, setShowThirdGroup] = useState(false);
     const [showForthGroup, setShowForthGroup] = useState(false);
     const [showFifthGroup, setShowFifthGroup] = useState(false);
-    
+
     // Desktop states
     const [isFirstDesktopGroup, setIsFirstDesktopGroup] = useState(true);
-    
+
     // Refs for animation
     const headRef = useRef<HTMLHeadingElement>(null);
     const subHeadRef = useRef<HTMLHeadingElement>(null);
@@ -103,15 +103,15 @@ export const IconShowcase = styled(
     // Handle desktop icon rotation - simplified
     useEffect(() => {
       if (typeof window === "undefined" || width < 992) return;
-      
+
       console.log("Desktop animation effect running");
-      
+
       // Create interval to toggle desktop group
       const intervalId = setInterval(() => {
         console.log("Desktop animation toggle", isFirstDesktopGroup);
-        setIsFirstDesktopGroup(prev => !prev);
+        setIsFirstDesktopGroup((prev) => !prev);
       }, 4000);
-      
+
       // Cleanup function
       return () => {
         console.log("Cleaning up desktop animation");
@@ -123,22 +123,22 @@ export const IconShowcase = styled(
     useEffect(() => {
       // Skip for desktop or SSR
       if (width >= 992 || typeof window === "undefined") return;
-      
+
       console.log("Mobile animation effect running");
-      
+
       // Initialize state
       setShowFirstGroup(true);
       setShowSecondGroup(false);
       setShowThirdGroup(false);
       setShowForthGroup(false);
       setShowFifthGroup(false);
-      
+
       let currentGroup = 1;
       const animationTimers: NodeJS.Timeout[] = [];
-      
+
       const rotateGroups = () => {
         console.log("Mobile rotating to next group", currentGroup);
-        
+
         // Hide current group
         switch (currentGroup) {
           case 1:
@@ -157,10 +157,10 @@ export const IconShowcase = styled(
             setShowFifthGroup(false);
             break;
         }
-        
+
         // Move to next group
-        currentGroup = currentGroup % 5 + 1;
-        
+        currentGroup = (currentGroup % 5) + 1;
+
         // After fade-out, show next group
         const timer = setTimeout(() => {
           // Show only the new current group
@@ -170,18 +170,18 @@ export const IconShowcase = styled(
           setShowForthGroup(currentGroup === 4);
           setShowFifthGroup(currentGroup === 5);
         }, 700);
-        
+
         // Store timer for cleanup
         animationTimers.push(timer);
       };
-      
+
       // Start rotation interval
       const intervalId = setInterval(rotateGroups, 4000);
-      
+
       // Cleanup
       return () => {
         clearInterval(intervalId);
-        animationTimers.forEach(timer => clearTimeout(timer));
+        animationTimers.forEach((timer) => clearTimeout(timer));
       };
     }, [width]);
 
@@ -201,19 +201,16 @@ export const IconShowcase = styled(
               {head}
             </h3>
           ) : null}
-          
+
           {/* Subhead */}
           {subHead ? (
             <h4 className="sub-head" ref={subHeadRef}>
               {subHead}
             </h4>
           ) : null}
-          
+
           {icons?.length ? (
-            <div
-              className="marquee-container"
-              ref={iconContainerRef}
-            >
+            <div className="marquee-container" ref={iconContainerRef}>
               {/* Desktop view - Two groups of 5 icons each that rotate */}
               {width >= 992 && (
                 <div className="desktop-groups-container">
@@ -274,14 +271,19 @@ export const IconShowcase = styled(
                         ? "icon-container mobile-container show"
                         : "icon-container mobile-container hide"
                     }`}
-                    style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                    }}
                   >
                     {firstGroupIcons.map((item, index) => (
                       <div key={`first-${index}`} className="icon">
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                         fill
+                          fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -300,7 +302,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                           fill
+                          fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -319,7 +321,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                           fill
+                          fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -357,7 +359,7 @@ export const IconShowcase = styled(
                         <Image
                           src={item.icon}
                           alt={item.name || "icon"}
-                           fill
+                          fill
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -526,11 +528,16 @@ export const IconShowcase = styled(
 
           .icon{
           @media (max-width: 992px) {
+            width: 45px;
+            height: 45px;
+          }
 
-        //  position: relative;
-         width: 35px;
-         height: 35px;
-
+          img{
+           @media (max-width: 992px){
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            }
           }
         }
 

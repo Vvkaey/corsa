@@ -247,7 +247,7 @@ export const HamOverlay = styled(
           {/* <button className="ham-item" onClick={redirectToDashboard}>
             Dashboard
           </button> */}
-          {isAuthenticated ? <p className="ham-item">User</p> : null}
+          {isAuthenticated ? <p className="ham-item">Hi There!</p> : null}
           {!isAuthenticated ? (
             <button className="ham-item" onClick={redirectToLogin}>
               Login
