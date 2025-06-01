@@ -309,14 +309,11 @@ export default function LoginForm({
       setFormError("Please enter a valid email address");
       return;
     }
-
-    // Send OTP request
-    const success = await requestOTP(email);
-    if (success) {
-      setOtpRequested(true);
       setIsOTPRequested(true);
-      setOtpSent(true);
-    }
+            setOtpRequested(true);
+                  setOtpSent(true);
+    // Send OTP request
+    await requestOTP(email);
   };
 
   // Handle OTP verification
@@ -385,7 +382,7 @@ export default function LoginForm({
           </FormGroup>
 
           <PrimaryButton type="submit" disabled={loading}>
-            {loading ? "Sending OTP..." : "Continue"}
+            {loading ? "Continue" : "Continue"}
           </PrimaryButton>
           <TncContainer>
             <TncText>
@@ -425,7 +422,7 @@ export default function LoginForm({
 
           <ButtonContainer>
             <PrimaryButton type="submit" disabled={loading}>
-              {loading ? "Verifying..." : "Verify & Login"}
+              {loading ? "Verify & Login" : "Verify & Login"}
             </PrimaryButton>
 
             {/* <SecondaryButton
