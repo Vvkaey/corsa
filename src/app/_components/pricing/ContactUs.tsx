@@ -6,17 +6,75 @@ import {
 import { RedSpan } from "../dashboard/styled";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { ArrowRightWhite } from "@/app/_assets/icons";
+import { TypeformSnippet } from "../global/TypeformSnippet";
+import { useContext } from "react";
+import { ModalContext } from "../global/Modal";
+
+export const ApplyMembershipTFModal = styled(
+  ({
+    className,
+    trackingParams,
+  }: {
+    className?: string;
+    trackingParams?: {
+      utm_source?: string;
+      utm_medium?: string;
+      utm_campaign?: string;
+    };
+  }) => {
+    return (
+      <div className={className}>
+        <TypeformSnippet
+          typeformId="A5udDxOR"
+          frameTitle="Apply for Ultrawork"
+          className="typeform-container"
+          trackingParams={trackingParams}
+        />
+      </div>
+    );
+  },
+)`
+  height: 80vh;
+  width: calc(100vw - 48px);
+
+  @media (min-width: 1024px) {
+    height: 500px;
+    width: 780px;
+  }
+
+  .typeform-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+`;
 
 const ContactUs = () => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
+      const ModalClient = useContext(ModalContext);
 
   // Calendly will be initiated once Book a call is clicked
-  const onBookCallClick = () => {
-    alert(
-      "This feature is not implemented yet. Please contact us via email at"
-    );
-  };
+  const onBookCallClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      let url = 'website';
+      if (window) {
+        url = window.location.hostname + window.location.pathname;
+      }
+      ModalClient.set(
+        <ApplyMembershipTFModal
+          trackingParams={{
+            utm_source: url,
+            utm_medium: 'ultrawork-section-2',
+          }}
+        />,
+      );
+      ModalClient.setCloseButtonTheme('light');
+      ModalClient.show();
+    };
+
 
   return (
     <ContactUsContainer>

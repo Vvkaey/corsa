@@ -52,8 +52,8 @@ export const HeroSection = styled(
     const sectionRef = useRef<HTMLElement>(null);
     const rootContainerRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-    const headingRef = useRef<HTMLHeadingElement>(null);
-    const subHeadingRef = useRef<HTMLHeadingElement>(null);
+    // const headingRef = useRef<HTMLHeadingElement>(null);
+    // const subHeadingRef = useRef<HTMLHeadingElement>(null);
     const ctaContainerRef = useRef<HTMLDivElement>(null);
     const primaryCtaRef = useRef<HTMLButtonElement>(null);
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
@@ -72,8 +72,8 @@ export const HeroSection = styled(
           // Make all elements visible immediately without animations
           gsap.set(
             [
-              headingRef.current,
-              subHeadingRef.current,
+              // headingRef.current,
+              // subHeadingRef.current,
               ctaContainerRef.current,
               primaryCtaRef.current,
               secondaryCtaRef.current,
@@ -88,16 +88,16 @@ export const HeroSection = styled(
 
         // Set initial states for desktop animations
         // Heading
-        gsap.set(headingRef.current, {
-          opacity: 0,
-          y: 10, // Smaller offset for faster animation
-        });
+        // gsap.set(headingRef.current, {
+        //   opacity: 0,
+        //   y: 10, // Smaller offset for faster animation
+        // });
 
-        // Subheading
-        gsap.set(subHeadingRef.current, {
-          opacity: 0,
-          y: 10, // Smaller offset for faster animation
-        });
+        // // Subheading
+        // gsap.set(subHeadingRef.current, {
+        //   opacity: 0,
+        //   y: 10, // Smaller offset for faster animation
+        // });
 
         // CTA container
         gsap.set(ctaContainerRef.current, {
@@ -137,20 +137,20 @@ export const HeroSection = styled(
         });
 
         // Heading animation
-        tl.to(headingRef.current, {
-          opacity: 1,
-          y: 0,
-        });
+        // tl.to(headingRef.current, {
+        //   opacity: 1,
+        //   y: 0,
+        // });
 
-        // Subheading animation - start almost immediately
-        tl.to(
-          subHeadingRef.current,
-          {
-            opacity: 1,
-            y: 0,
-          },
-          "-=0.3"
-        ); // Overlap with the heading animation
+        // // Subheading animation - start almost immediately
+        // tl.to(
+        //   subHeadingRef.current,
+        //   {
+        //     opacity: 1,
+        //     y: 0,
+        //   },
+        //   "-=0.3"
+        // ); // Overlap with the heading animation
 
         // CTA container - start almost immediately
         tl.to(
@@ -214,14 +214,16 @@ export const HeroSection = styled(
             <div className="content" ref={contentRef}>
               {head ? (
                 <h2
-                  ref={headingRef}
+                  // ref={headingRef}
                   className={secondaryHead ? "secondary-head" : "head"}
                 >
                   {head}
                 </h2>
               ) : null}
               {subHead ? (
-                <h3 ref={subHeadingRef} className="sub-head">
+                <h3
+                //  ref={subHeadingRef}
+                 className="sub-head">
                   {subHead}
                 </h3>
               ) : null}
@@ -438,7 +440,7 @@ export const HeroSection = styled(
             line-height: normal;
             font-family: var(--font-fustat);
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            //transition: background-color 0.3s ease, color 0.3s ease;
             width: 100%;
             overflow: hidden;
 
@@ -469,7 +471,7 @@ export const HeroSection = styled(
               leading-trim: both;
               text-edge: cap;
               will-change: transform, opacity, box-shadow;
-              transform: translateZ(0);
+              //transform: translateZ(0);
             }
 
             @media (min-width: 1950px) {
@@ -491,7 +493,7 @@ export const HeroSection = styled(
             line-height: normal;
             font-family: var(--font-fustat);
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            //transition: background-color 0.3s ease, color 0.3s ease;
             width: 100%;
             overflow: hidden;
 

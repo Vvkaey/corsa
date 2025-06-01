@@ -42,10 +42,10 @@ export const QuotationSection = styled(
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRootRef.current,
-            start: "-30% top", // Trigger when 30% of section of previous section is visible
-            end: "20% top",
+            start: "-40% top", // Trigger when 40% of section of previous section is visible
+            end: "top top",
             scrub: 0.5,
-            markers: false, // Set to true for debugging, false for production
+            markers: true, // Set to true for debugging, false for production
           },
         });
 
@@ -96,6 +96,7 @@ export const QuotationSection = styled(
   height: 100vh; /* Tall section to ensure scrolling */
   width: 100%;
   background: #000000;
+  border : 1px solid red;
 
   /* Video wrapper - this is the element that sticks */
   .video-wrapper {

@@ -1,3 +1,10 @@
+
+export type IconProps = {
+  className?: string;
+  style?: Record<string, unknown> | React.CSSProperties;
+  fill?: string;
+};
+
 export const CaretUp = ({
   className,
   style,
@@ -56,6 +63,27 @@ export const PricingTick = ({
 <path d="M2 11L9.99978 18.9998" stroke={fill} strokeWidth="3.6" strokeLinecap="round"/>
 <path d="M26 2L10.0004 18.9995" stroke={fill} strokeWidth="3.6" strokeLinecap="round"/>
 </svg>
+  );
+};
+
+export const CrossDark = (props: IconProps) => {
+  return (
+    <svg
+      style={props.style}
+      className={props.className}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20 20L4 4M20 4L4 20"
+        stroke={props.fill ?? '#000000'}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 };
 

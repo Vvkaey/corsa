@@ -373,10 +373,15 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     setDisplayTime({ seconds: finalSeconds, centiseconds: finalCentiseconds });
 
     // Check for reward condition - now show for anything above 5 seconds
-    if (finalSeconds < 5 && finalSeconds !== 5 && finalCentiseconds !== 50) {
-      setReward(true);
-    } else if (finalSeconds > 5) {
+    if (finalSeconds == 5 && finalCentiseconds == 50) {
       setPerfectReward(true);
+    } else if (
+      ((finalSeconds == 0 && finalCentiseconds > 0) ||
+        (finalSeconds > 0 && finalCentiseconds >= 0)) &&
+      finalSeconds !== 5 &&
+      finalCentiseconds !== 50
+    ) {
+      setReward(true);
     } else {
       setReward(false);
       setPerfectReward(false);
@@ -446,20 +451,22 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         </div>
         <div className="cta-wrapper">
           <div className="cta-container" ref={ctaRef}>
-            {!running && displayTime.seconds === 0 ? (
+            {!running && displayTime.seconds === 0 && displayTime.centiseconds === 0 ? (
               <button className="primary-cta" onClick={handleStart}>
                 Start
               </button>
-            ) : !(!running && displayTime.seconds > 0) ? (
+            ) : running ? (
               <button className="primary-cta" onClick={handleStop}>
                 Pause
               </button>
             ) : null}
-            {!running && displayTime.seconds > 0 && (
-              <button className="primary-cta" onClick={handleReset}>
-                Reset
-              </button>
-            )}
+            {!running &&
+              ((displayTime.seconds > 0 && displayTime.centiseconds >= 0) ||
+                (displayTime.seconds == 0 && displayTime.centiseconds > 0)) && (
+                <button className="primary-cta" onClick={handleReset}>
+                  Reset
+                </button>
+              )}
           </div>
         </div>
       </div>
@@ -745,19 +752,19 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
           }
 
           @media (min-width: 992px) {
-          line-height: normal;
+            line-height: normal;
             padding: 10px 40px;
             font-size: 16.5px;
             min-width: 313px;
-             border-radius: 8.076px;
-              padding: 10px 40px;
-              font-size: 16.5px;
-              gap: 6.73px;
+            border-radius: 8.076px;
+            padding: 10px 40px;
+            font-size: 16.5px;
+            gap: 6.73px;
           }
 
           @media (min-width: 1950px) {
             padding: 13px 58px;
-              font-size: 23.521px;
+            font-size: 23.521px;
           }
         }
 
