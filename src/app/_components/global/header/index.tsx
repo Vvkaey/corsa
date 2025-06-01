@@ -237,7 +237,7 @@ export const HamOverlay = styled(
 
     const onButtonClick = useCallback(() => {
       if (setShowMenu) {
-        setShowMenu(!showMenu);
+      setShowMenu(!showMenu)
       }
     }, [setShowMenu, showMenu]);
 

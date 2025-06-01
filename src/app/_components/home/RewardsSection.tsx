@@ -558,15 +558,17 @@ export const RewardsSection = styled(
         }
 
         .tracker {
-          width: 90%;
+          width: 100%;
           height: 17px;
           display: flex;
           justify-content: center;
           align-items: center;
           position: relative;
+          padding: 0 11px; /* Add padding to account for dot width */
 
           @media (min-width: 992px) {
             margin-bottom: 20px;
+            padding: 0 11px; /* Half of dot width (22px / 2) */
           }
 
           .line {
@@ -591,13 +593,12 @@ export const RewardsSection = styled(
             justify-content: space-between;
             position: absolute;
             left: 0;
+            right: 0;
             top: 1px;
-            width: 100%;
             z-index: 2; /* Ensure dots are above the line */
 
             @media (min-width: 992px) {
               top: -2px;
-              left: 0px;
             }
           }
         }
@@ -605,11 +606,12 @@ export const RewardsSection = styled(
         .content {
           display: flex;
           flex-direction: column;
-          justify-content: center; /* Center content vertically */
+          justify-content: flex-start; /* Change from center to flex-start */
           gap: 14px;
-          height: 260px; /* Fixed height */
-          overflow: hidden; /* Prevent content overflow */
+          min-height: 260px; /* Change from fixed height to min-height */
+          overflow: visible; /* Change from hidden to visible */
           position: relative;
+          padding-bottom: 10px; /* Add padding for safety */
 
           @media (min-width: 395px) {
             gap: 18px;
@@ -618,6 +620,9 @@ export const RewardsSection = styled(
           @media (min-width: 992px) {
             gap: 23px;
             margin: 13px 0 30px 0;
+            justify-content: center; /* Center on larger screens */
+            height: 260px; /* Fixed height on desktop */
+            overflow: hidden; /* Hide overflow on desktop */
           }
 
           @media (min-width: 1500px) {
@@ -699,8 +704,12 @@ export const RewardsSection = styled(
           .options {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 12px; /* Reduced gap on mobile to fit content */
             will-change: transform, opacity;
+
+            @media (min-width: 395px) {
+              gap: 15px;
+            }
 
             @media (min-width: 992px) {
               gap: 22px; /* Adjusted for more consistent spacing */
@@ -719,7 +728,7 @@ export const RewardsSection = styled(
             .option-element {
               display: flex;
               gap: 12px;
-              align-items: center;
+              align-items: flex-start; /* Change from center to flex-start for better text wrapping */
               cursor: pointer;
               padding: 5px 0;
               position: relative;
@@ -744,6 +753,7 @@ export const RewardsSection = styled(
 
               @media (min-width: 992px) {
                 gap: 6.7px;
+                align-items: center; /* Center align on desktop */
               }
 
               @media (min-width: 992px) {
@@ -752,13 +762,19 @@ export const RewardsSection = styled(
 
               .option {
                 color: #000;
-                font-size: 15px;
+                font-size: 14px; /* Slightly smaller on mobile */
                 font-style: normal;
                 font-weight: 500;
-                line-height: normal;
+                line-height: 1.3; /* Better line height for wrapping */
+                flex: 1; /* Allow text to take available space */
+
+                @media (min-width: 395px) {
+                  font-size: 15px;
+                }
 
                 @media (min-width: 992px) {
                   font-size: 16px;
+                  line-height: normal;
                 }
 
                 @media (min-width: 1950px) {
@@ -767,9 +783,13 @@ export const RewardsSection = styled(
               }
 
               svg {
+                flex-shrink: 0; /* Prevent icon from shrinking */
+                margin-top: 2px; /* Align with first line of text */
+                
                 @media (min-width: 992px) {
                   position: relative;
                   top: 2px;
+                  margin-top: 0;
                 }
               }
             }
