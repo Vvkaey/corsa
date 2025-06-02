@@ -571,7 +571,7 @@ const MentorApplication = () => {
           validateOnChange={true} // This will validate on every change
         >
           {(formik) => (
-            <Form autoComplete="off">
+            <Form autoComplete="new-password">
               <FormGroup 
                 ref={(el) => {
                   formGroupRefs.current[0] = el;
@@ -589,7 +589,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.fullName}
                   placeholder="Full Name"
-                 
+                 autoComplete="new-password"
                 />
                 {formik.touched.fullName && formik.errors.fullName ? (
                   <ErrorText>{formik.errors.fullName}</ErrorText>
@@ -621,6 +621,7 @@ const MentorApplication = () => {
                     value={formik.values.email}
                     placeholder="Email"
                     disabled={emailVerified} // Disable when verified
+                    autoComplete="new-password"
                   />
                   <OtpButton
                     type="button"
@@ -683,6 +684,7 @@ const MentorApplication = () => {
                     value={formik.values.otp}
                     placeholder="Enter 6-digit OTP"
                     disabled={emailVerified} // Disable when verified
+                    autoComplete="one-time-code"
                   />
                   {!emailVerified && otpSent && (
                     <OtpButton
@@ -729,10 +731,11 @@ const MentorApplication = () => {
                   onBlur={(e) => handleFieldBlur(3, formik.handleBlur, e)}
                   id="phone"
                   name="phone"
-                  type="text"
+                 type="tel"
                   onChange={formik.handleChange}
                   value={formik.values.phone}
                   placeholder="Phone No"
+                  autoComplete="new-password"
                 />
                 {formik.touched.phone && formik.errors.phone ? (
                   <ErrorText>{formik.errors.phone}</ErrorText>
@@ -751,10 +754,11 @@ const MentorApplication = () => {
                   onBlur={(e) => handleFieldBlur(4, formik.handleBlur, e)}
                   id="linkedin"
                   name="linkedin"
-                  type="text"
+                 type="url"
                   onChange={formik.handleChange}
                   value={formik.values.linkedin}
                   placeholder="Linkedin Profile"
+                  autoComplete="new-password"
                 />
                 {formik.touched.linkedin && formik.errors.linkedin ? (
                   <ErrorText>{formik.errors.linkedin}</ErrorText>
@@ -777,6 +781,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.college}
                   placeholder="College Name"
+                  autoComplete="new-password"
                 />
                 {formik.touched.college && formik.errors.college ? (
                   <ErrorText>{formik.errors.college}</ErrorText>
@@ -797,6 +802,7 @@ const MentorApplication = () => {
                   name="currentlyWorking"
                   onChange={formik.handleChange}
                   value={formik.values.currentlyWorking}
+                  autoComplete="new-password"
                 >
                   <option value="">Currently Working</option>
                   <option value="yes">Yes</option>
@@ -826,6 +832,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.currentCompany}
                   placeholder="Current Company"
+                  autoComplete="new-password"
                 />
                 {formik.touched.currentCompany &&
                   formik.errors.currentCompany && (
@@ -849,6 +856,7 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.currentCity}
                   placeholder="Current City"
+                  autoComplete="new-password"
                 />
                 {formik.touched.currentCity && formik.errors.currentCity && (
                   <ErrorText>{formik.errors.currentCity}</ErrorText>
@@ -871,6 +879,7 @@ const MentorApplication = () => {
                   name="mentoringExperience"
                   onChange={formik.handleChange}
                   value={formik.values.mentoringExperience}
+                  autoComplete="new-password"
                 >
                   <option value="">Mentoring Experience</option>
                   <option value="yes">Yes</option>
@@ -899,6 +908,7 @@ const MentorApplication = () => {
                   name="mentoringSessions"
                   onChange={formik.handleChange}
                   value={formik.values.mentoringSessions}
+                  autoComplete="new-password"
                 >
                   <option value="">Mentoring Session Availability</option>
                   <option value="20/month">20/month</option>
@@ -926,6 +936,7 @@ const MentorApplication = () => {
                   name="mentoringApproach"
                   onChange={formik.handleChange}
                   value={formik.values.mentoringApproach}
+                  autoComplete="new-password"
                 >
                   <option value="">Mentoring Approach</option>
                   <option value="Structured Goal Oriented">
