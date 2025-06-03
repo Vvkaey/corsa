@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
+import Video from "../../ui/video";
+
 
 interface VideoLoadingScreenProps {
   videoSrc: string;
@@ -24,23 +26,37 @@ const VideoLoadingContainer = styled.div`
   background-color: #000;
   z-index: 9999;
   overflow: hidden;
-
 `;
 
-const VideoElement = styled.video`
+const VideoWrapper = styled.div`
   width: 100%;
   height: auto;
-     object-fit: contain;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  
   @media (min-width: 992px) {
-   width: 25%;
-   height: auto;
-   object-fit: contain;
+    width: 25%;
+    height: auto;
+  }
+
+  /* Override the Video component's absolute positioning for loading screen */
+  & > div {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  /* Target the ReactPlayer inside */
+  & .react-player__preview,
+  & video {
+    object-fit: contain !important;
   }
 `;
 
 const ContentOverlay = styled.div`
-  position: relative;
+  position: absolute;
   z-index: 2;
   text-align: center;
   padding: 2rem;
@@ -49,6 +65,9 @@ const ContentOverlay = styled.div`
   border-radius: 8px;
   backdrop-filter: blur(4px);
   max-width: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const LoadingMessage = styled.h2`
@@ -86,72 +105,35 @@ const LoadingDots = styled.span`
 `;
 
 /**
- * VideoLoadingScreen - A loading screen component that plays an MP4 video
+ * VideoLoadingScreen - A loading screen component that uses the Video component
  *
  * @param videoSrc - Path to the MP4 video file
- * @param message - Loading message to display (default: "Loading")
- * @param onVideoEnd - Optional callback function when video ends
- * @param loop - Whether to loop the video (default: true)
+ * @param message - Loading message to display (default: "")
+ * @param onVideoEnd - Optional callback function when video ends (Note: Video component doesn't support this)
+ * @param loop - Whether to loop the video (default: true) - Video component already loops by default
  * @param className - Optional class name for additional styling
  */
 const VideoLoadingScreen: React.FC<VideoLoadingScreenProps> = ({
   videoSrc,
   message = "",
-  onVideoEnd,
-  loop = true,
   className,
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const videoElement = videoRef.current;
-
-    if (videoElement) {
-      // Handle video end event
-      const handleVideoEnd = () => {
-        if (onVideoEnd) {
-          onVideoEnd();
-        }
-      };
-
-      videoElement.addEventListener("ended", handleVideoEnd);
-
-      // Ensure video plays automatically
-      const playVideo = async () => {
-        try {
-          await videoElement.play();
-        } catch (error) {
-          console.error("Error playing video:", error);
-        }
-      };
-
-      playVideo();
-
-      // Cleanup function
-      return () => {
-        videoElement.removeEventListener("ended", handleVideoEnd);
-      };
-    }
-  }, [onVideoEnd]);
+  // Note: The Video component doesn't expose onEnded callback
+  // If you need this functionality, you might need to modify the Video component
 
   return (
     <VideoLoadingContainer className={className}>
-      <VideoElement
-        ref={videoRef}
-        src={videoSrc}
-        autoPlay
-        muted
-        playsInline
-        loop={loop}
-      />
-      {message ? (
+      <VideoWrapper>
+        <Video url={videoSrc} />
+      </VideoWrapper>
+      {message && (
         <ContentOverlay>
           <LoadingMessage>
             {message}
             <LoadingDots />
           </LoadingMessage>
         </ContentOverlay>
-      ) : null}
+      )}
     </VideoLoadingContainer>
   );
 };

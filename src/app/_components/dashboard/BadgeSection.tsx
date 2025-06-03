@@ -23,7 +23,7 @@ import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import gsap from "gsap";
 
 export const LoadingOverlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -31,10 +31,8 @@ export const LoadingOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
-  border-radius: 8px;
-  backdrop-filter: blur(5px);
-  pointer-events: none;
+  z-index: 9999;
+  background-color: #000;
 `;
 
 export const BadgeSection = () => {
@@ -52,6 +50,7 @@ export const BadgeSection = () => {
 
   // Add state to track initial render
   const [initialRender, setInitialRender] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   // Refs for animation
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,6 +66,28 @@ export const BadgeSection = () => {
       fetchUserStatus();
     }
   }, [isAuthenticated, fetchUserStatus]);
+
+  // Handle loading state
+  useEffect(() => {
+    // Show loading for at least 1 second to prevent flicker
+    const timer = setTimeout(() => {
+      if (!isLoading) {
+        setShowLoading(false);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+  // Hide loading when data is ready
+  useEffect(() => {
+    if (!isLoading && isAuthenticated !== undefined) {
+      const timer = setTimeout(() => {
+        setShowLoading(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, isAuthenticated]);
 
   // Set elements to be visible immediately on mount to prevent flash
   useEffect(() => {
@@ -163,10 +184,12 @@ export const BadgeSection = () => {
       );
     }
 
-    // Stagger cards
-    if (cardRefs.current.length > 0) {
+    // Filter out null values and animate only valid card elements
+    const validCardRefs = cardRefs.current.filter((ref) => ref !== null);
+    
+    if (validCardRefs.length > 0) {
       tl.fromTo(
-        cardRefs.current,
+        validCardRefs,
         { autoAlpha: 0, y: 20, scale: 0.95 },
         {
           autoAlpha: 1,
@@ -179,6 +202,11 @@ export const BadgeSection = () => {
         "-=0.4"
       );
     }
+
+    // Cleanup function
+    return () => {
+      tl.kill();
+    };
   }, [initialRender, isMobile]);
 
   // Card hover animations
@@ -186,7 +214,7 @@ export const BadgeSection = () => {
     if (isMobile) return; // Skip animations on mobile for better performance
 
     const card = cardRefs.current[index];
-    if (card) {
+    if (card && card._gsap) {
       gsap.to(card, {
         // y: -10,
         // scale: 1.03,
@@ -201,7 +229,7 @@ export const BadgeSection = () => {
     if (isMobile) return; // Skip animations on mobile for better performance
 
     const card = cardRefs.current[index];
-    if (card) {
+    if (card && card._gsap) {
       gsap.to(card, {
         // y: 0,
         // scale: 1,
@@ -215,8 +243,8 @@ export const BadgeSection = () => {
   // Animation for loading overlay
   useEffect(() => {
     const loadingOverlay = document.querySelector(".loading-overlay");
-    if (loadingOverlay) {
-      if (isLoading) {
+    if (loadingOverlay && loadingOverlay instanceof HTMLElement) {
+      if (showLoading) {
         gsap.fromTo(
           loadingOverlay,
           { autoAlpha: 0 },
@@ -226,18 +254,84 @@ export const BadgeSection = () => {
         gsap.to(loadingOverlay, {
           autoAlpha: 0,
           duration: 0.3,
+          onComplete: () => {
+            // Ensure the loading screen is hidden after animation
+            if (loadingOverlay instanceof HTMLElement) {
+              loadingOverlay.style.display = 'none';
+            }
+          }
         });
       }
     }
-  }, [isLoading]);
+  }, [showLoading]);
+
+  // Animate count when it changes
+  const animateCount = (el: HTMLDivElement | null, endValue: number | string) => {
+    if (!el || isMobile || initialRender) return;
+    
+    const numericValue = typeof endValue === 'number' ? endValue : parseInt(endValue as string, 10);
+    
+    if (!isNaN(numericValue)) {
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: numericValue,
+        duration: 1.5,
+        ease: "power2.out",
+        onUpdate: () => {
+          if (el) {
+            el.textContent = Math.round(obj.val).toString();
+          }
+        },
+      });
+    } else {
+      el.textContent = endValue.toString();
+    }
+  };
+
+  // Animate icon with pulse effect
+  const animateIcon = (el: HTMLDivElement | null, type: 'pulse' | 'rotate' = 'pulse') => {
+    if (!el || isMobile || initialRender) return;
+    
+    if (type === 'pulse') {
+      gsap.fromTo(
+        el,
+        { scale: 0.9 },
+        {
+          scale: 1,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.3)",
+        }
+      );
+    } else {
+      gsap.fromTo(
+        el,
+        { rotate: -10, scale: 0.9 },
+        {
+          rotate: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.3)",
+        }
+      );
+    }
+  };
+
+  // Show loading screen initially to prevent blank screen
+  if (showLoading || isAuthenticated === undefined) {
+    return (
+      <BadgeSectionContainer style={{ position: 'relative', minHeight: '100vh' }}>
+        <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
+      </BadgeSectionContainer>
+    );
+  }
 
   return (
     <BadgeSectionContainer
       ref={containerRef}
       style={{ opacity: 1, visibility: "visible" }}
     >
-      {!isLoading && (
-        <LoadingOverlay className="loading-overlay">
+      {showLoading && (
+        <LoadingOverlay className="loading-overlay" style={{ display: 'block' }}>
           <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
         </LoadingOverlay>
       )}
@@ -283,25 +377,7 @@ export const BadgeSection = () => {
             {!isMobile ? <Divider /> : null}
             <TagLine>{mentorSession.description}</TagLine>
             <Count
-              ref={(el: HTMLDivElement | null) => {
-                if (el && !isMobile && !initialRender) {
-                  // Animate the count number with a counter effect
-                  const endValue = mentorSession.sessionCount;
-                  if (!isNaN(endValue)) {
-                    const obj = { val: 0 };
-                    gsap.to(obj, {
-                      val: endValue,
-                      duration: 1.5,
-                      ease: "power2.out",
-                      onUpdate: () => {
-                        el.textContent = Math.round(obj.val).toString();
-                      },
-                    });
-                  } else {
-                    el.textContent = mentorSession.sessionCount.toString();
-                  }
-                }
-              }}
+              ref={(el) => animateCount(el, mentorSession.sessionCount)}
             >
               {mentorSession.sessionCount}
             </Count>
@@ -322,20 +398,7 @@ export const BadgeSection = () => {
             {!isMobile ? <Divider /> : null}
             <TagLine>{accessPlan.description}</TagLine>
             <IconContainer
-              ref={(el: HTMLDivElement | null) => {
-                if (el && !isMobile && !initialRender) {
-                  // Add a subtle pulse animation to the icon
-                  gsap.fromTo(
-                    el,
-                    { scale: 0.9 },
-                    {
-                      scale: 1,
-                      duration: 0.8,
-                      ease: "elastic.out(1, 0.3)",
-                    }
-                  );
-                }
-              }}
+              ref={(el) => animateIcon(el, 'pulse')}
             >
               {accessPlan.planIcon}
             </IconContainer>
@@ -356,21 +419,7 @@ export const BadgeSection = () => {
             {!isMobile ? <Divider /> : null}
             <TagLine>{communityBadge.description}</TagLine>
             <IconContainer
-              ref={(el: HTMLDivElement | null) => {
-                if (el && !isMobile && !initialRender) {
-                  // Add a subtle rotate animation for the badge
-                  gsap.fromTo(
-                    el,
-                    { rotate: -10, scale: 0.9 },
-                    {
-                      rotate: 0,
-                      scale: 1,
-                      duration: 0.8,
-                      ease: "elastic.out(1, 0.3)",
-                    }
-                  );
-                }
-              }}
+              ref={(el) => animateIcon(el, 'rotate')}
             >
               {communityBadge.badge}
             </IconContainer>
