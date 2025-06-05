@@ -15,12 +15,13 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 // import ComparisonNew from "./ComparisonNew";
 // import StickyTest from "./StickyTest";
-import Comparison from "./Comparison";
+// import Comparison from "./Comparison";
 import { rippleAnimation } from "../mentor-application/styled";
 import { PricingTick } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import VideoLoadingScreen from "../global/loading";
 import {
+  badge_mapper,
   BADGES,
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
@@ -277,7 +278,7 @@ const PlanDescription = styled.p`
   max-width: 85%;
 
   @media (min-width: 992px) {
-    max-width: 23ch;
+    max-width: 25ch;
     font-size: 16px;
   }
 
@@ -432,7 +433,7 @@ const CtaButton = styled.button<StyledButtonProps>`
 
   @media (min-width: 1950px) {
     padding: 13px 58px;
-    font-size: 23.521px;
+    font-size: 21.521px;
     width: 375px;
   }
 `;
@@ -547,66 +548,47 @@ const ImageContainer = styled.button`
   }
 `;
 
-// Loading animation component
-const LoadingOverlay = styled.div<{ $isLoading: boolean }>`
+// Loading overlay component
+const LoadingOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
+  background-color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  opacity: ${(props) => (props.$isLoading ? 1 : 0)};
-  visibility: ${(props) => (props.$isLoading ? "visible" : "hidden")};
-  transition: opacity 0.5s ease, visibility 0.5s ease;
 `;
 
-// const LoadingContent = styled.div`
-//   text-align: center;
-// `;
+export const TestCompatibility = ({
+  badge,
+  id,
+}: {
+  badge: string;
+  id: number;
+}) => {
+  if (!badge) return null;
+  if (badge == BADGES.MARSHALL || badge == BADGES.TACTICAL_ACE) {
+    if (id == 3) return false;
+    return true;
+  } else if (id == 1 || id == 2) {
+    if (badge == BADGES.TOP_GUN) return false;
+    return true;
+  }
+  return true;
+};
 
-// const LoadingText = styled.h2`
-//   font-family: var(--font-exo);
-//   font-size: 2rem;
-//   margin-bottom: 1rem;
-//   color: #000;
-
-//   span {
-//     display: inline-block;
-//     animation: textReveal 0.6s forwards;
-//     opacity: 0;
-//     transform: translateY(20px);
-
-//     @keyframes textReveal {
-//       to {
-//         opacity: 1;
-//         transform: translateY(0);
-//       }
-//     }
-//   }
-// `;
-
-// const LoadingSpinner = styled.div`
-//   border: 5px solid #f3f3f3;
-//   border-top: 5px solid #ff2626;
-//   border-radius: 50%;
-//   width: 50px;
-//   height: 50px;
-//   margin: 0 auto;
-//   animation: spin 1s linear infinite;
-
-//   @keyframes spin {
-//     0% {
-//       transform: rotate(0deg);
-//     }
-//     100% {
-//       transform: rotate(360deg);
-//     }
-//   }
-// `;
+export const CheckForAddOn = ({ badge, id }: { badge: string; id: number }) => {
+  if (!badge) return false;
+  if (badge == BADGES.MARSHALL && id == 2) {
+    return true;
+  } else if (badge == BADGES.TACTICAL_ACE && id == 1) {
+    return true;
+  }
+  return false;
+};
 
 // Types
 interface Benefit {
@@ -866,42 +848,46 @@ const PricingPage: React.FC<PricingPageProps> = ({
   subtitle,
   plans,
 }) => {
-  const [pageLoading, setPageLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const plansContainerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
-  const { badge } = useMentorshipContext();
+  const { badge, isLoading: contextLoading } = useMentorshipContext();
+
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
-    if (badge) {
+    if (badge !== undefined) {
       console.log("Display badge:", badge);
     }
   }, [badge]);
 
-  // Split the title into spans for animated reveal
-  // const titleLetters = "Pricing".split("").map((letter, i) => (
-  //   <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-  //     {letter}
-  //   </span>
-  // ));
-
-  // Initial page load animation
+  // Handle loading state - wait for badge data
   useEffect(() => {
-    setPageLoading(false);
-    const topElement = document.getElementById("nav-container");
-    if (topElement)
-      topElement.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
+    // Check if badge data is loaded (badge is either a string or null, not undefined)
+    if (badge !== undefined && !contextLoading) {
+      // Add a small delay to ensure smooth transition
+      const timer = setTimeout(() => {
+        setShowLoading(false);
+        setContentReady(true);
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [badge, contextLoading]);
 
-  // Set up animations after initial load
+  // Set up animations after content is ready
   useEffect(() => {
-    if (
-      pageLoading ||
-      !headerRef.current ||
-      !plansContainerRef.current ||
-      !pageRef.current
-    )
+    if (!contentReady || !headerRef.current || !plansContainerRef.current || !pageRef.current) {
       return;
+    }
+
+    // Scroll to top when content is ready
+    window.scrollTo(0, 0);
 
     const tl = gsap.timeline({
       defaults: {
@@ -963,56 +949,47 @@ const PricingPage: React.FC<PricingPageProps> = ({
         trigger.kill();
       });
     };
-  }, [pageLoading]);
+  }, [contentReady]);
 
-  const TestCompatibility = ({ badge, id }: { badge: string; id: number }) => {
-    if (!badge) return null;
-    if (badge == BADGES.MARSHALL || badge == BADGES.TACTICAL_ACE) {
-      if (id == 2) return false;
-      return true;
-    } else if (id == 0 || id == 1) {
-      if (badge == BADGES.TOP_GUN) return false;
-      return true;
-    }
-    return true;
-  };
+  // Show loading screen while waiting for badge data
+  if (showLoading) {
+    return (
+      <LoadingOverlay>
+        <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
+      </LoadingOverlay>
+    );
+  }
 
   return (
-    <>
-      {pageLoading ? (
-        <LoadingOverlay $isLoading={pageLoading}>
-          <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
-        </LoadingOverlay>
-      ) : null}
-
-      <PageContainer ref={pageRef}>
-        <Header ref={headerRef} id="pricing-header">
-          <Title>{title}</Title>
-          <Subtitle>{subtitle}</Subtitle>
-        </Header>
-        <PlansContainer ref={plansContainerRef}>
-          {plans.map((plan, idx) => (
-            <Plan
-              key={plan.id}
-              {...plan}
-              compatible={TestCompatibility({ badge, id: plan.id }) as boolean}
-              // subscribed={idx === 0}
-              addOn={idx === 1}
-            />
-          ))}
-        </PlansContainer>
-        <Comparison htmlId="product-comparision" />
-        {/* <div className="comparison-section">
-          
-        </div> */}
-        {/* <StickyTest />
-        <ComparisonNew /> */}
-        <div className="contact-section">
-          <ContactUs />
-        </div>
-        <Footer />
-      </PageContainer>
-    </>
+    <PageContainer ref={pageRef}>
+      <Header ref={headerRef} id="pricing-header">
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
+      </Header>
+      <PlansContainer ref={plansContainerRef}>
+        {plans.map((plan, idx) => (
+          <Plan
+            key={plan.id + String(idx)}
+            {...plan}
+            compatible={TestCompatibility({ badge: badge || '', id: plan.id }) as boolean}
+            subscribed={
+              badge_mapper[plan.id as keyof typeof badge_mapper] == badge
+            }
+            addOn={CheckForAddOn({ badge: badge || '', id: plan.id }) as boolean}
+          />
+        ))}
+      </PlansContainer>
+      {/* <Comparison htmlId="product-comparision" /> */}
+      {/* <div className="comparison-section">
+        
+      </div> */}
+      {/* <StickyTest />
+      <ComparisonNew /> */}
+      <div className="contact-section">
+        <ContactUs />
+      </div>
+      <Footer />
+    </PageContainer>
   );
 };
 

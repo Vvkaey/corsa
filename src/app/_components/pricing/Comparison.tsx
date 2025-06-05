@@ -14,6 +14,11 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import {
+  badge_mapper,
+  useMentorshipContext,
+} from "@/app/_contexts/MentorshipContext";
+import { CheckForAddOn, TestCompatibility } from "./PricingPage";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -69,8 +74,8 @@ const ProductHeadPricing = styled.p`
   }
 `;
 
-const ProductHeadCTA = styled.button<{$subscribed: boolean; $addOn: boolean}>`
-position: relative;
+const ProductHeadCTA = styled.button<{ $subscribed: boolean; $addOn: boolean }>`
+  position: relative;
   color: #ff2626;
   leading-trim: both;
   text-edge: cap;
@@ -88,17 +93,14 @@ position: relative;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow: hidden;
 
-
-
   &:hover {
-    background-color: ${(props) => props.$subscribed ? '#fff' : '#ff2626' };
-    color:  ${(props) => props.$subscribed ? '#ff2626' : '#fff'  };
-
+    background-color: ${(props) => (props.$subscribed ? "#fff" : "#ff2626")};
+    color: ${(props) => (props.$subscribed ? "#ff2626" : "#fff")};
   }
 
   &:disabled {
     background-color: #aeaeae;
-    color:  #fff ;
+    color: #fff;
     border-color: #aeaeae;
     cursor: not-allowed;
     pointer-events: none;
@@ -137,11 +139,9 @@ const ComparisonContainer = styled.div`
   ${maxWidthContainer}
   min-height: 180vh;
 
-  
   @media (min-width: 992px) {
-max-height: 110vh;
-
-}
+    max-height: 110vh;
+  }
 `;
 
 // Header and content wrapper for proper pinning
@@ -249,6 +249,7 @@ export const Comparison = styled(
     const contentRef = useRef<HTMLDivElement>(null);
     const isMobile = (width ?? 0) < 768;
     const gsapContext = useGsapContext();
+    const { badge } = useMentorshipContext();
 
     // Create a separate fixed header for reliability
     useEffect(() => {
@@ -430,12 +431,40 @@ export const Comparison = styled(
                                 <ProductHeadPricing>
                                   {COMPARISON_DATA[id]?.price}
                                 </ProductHeadPricing>
-                                <ProductHeadCTA  disabled={id == 2}
-                                $subscribed={id === 0}
-              $addOn={id === 1}>
-                {id === 0 ? COMPARISON_DATA[id]?.subscribedCta : id === 1 ? COMPARISON_DATA[id]?.addOnCTa : COMPARISON_DATA[id]?.buttonText}
-                                  {/* {COMPARISON_DATA[id]?.cta}{" "}
-                                  {COMPARISON_DATA[id]?.title.split(" ")[0]} */}
+                                <ProductHeadCTA
+                                  disabled={
+                                    !(TestCompatibility({
+                                      badge,
+                                      id: id + 1,
+                                    }) as boolean)
+                                  }
+                                  $subscribed={
+                                    badge_mapper[
+                                      (id + 1) as keyof typeof badge_mapper
+                                    ] == badge
+                                  }
+                                  $addOn={
+                                    CheckForAddOn({
+                                      badge,
+                                      id: id + 1,
+                                    }) as boolean
+                                  }
+                                >
+                                  {!(TestCompatibility({
+                                    badge,
+                                    id: id + 1,
+                                  }) as boolean)
+                                    ? "Not Compatible"
+                                    : badge_mapper[
+                                        (id + 1) as keyof typeof badge_mapper
+                                      ] == badge
+                                    ? COMPARISON_DATA[id]?.subscribedCta
+                                    : (CheckForAddOn({
+                                        badge,
+                                        id: id + 1,
+                                      }) as boolean)
+                                    ? COMPARISON_DATA[id]?.addOnCTa
+                                    : COMPARISON_DATA[id]?.cta}
                                 </ProductHeadCTA>
                               </ProductHeader>
                             </div>

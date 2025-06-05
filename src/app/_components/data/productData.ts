@@ -130,7 +130,7 @@ export const pricingData = {
       name: "Mentor Access Plan",
       price: 2499,
       period: "Year",
-      description: "Advanced features for growing businesses",
+      description: "Expert connect and feedback to optimize your progress",
       benefits: [
         { id: 1, text: "One-on-one mentor session" },
         { id: 2, text: "Mentor feedback after each session" },
@@ -205,7 +205,7 @@ export const pricingData = {
       name: "Membership Access Plan",
       price: 3199,
       period: "Year",
-      description: "Everything you need for large organizations",
+      description: "The best of both worlds mentorship and insights",
       benefits: [
         { id: 1, text: "Weekly Wraps" },
         { id: 2, text: "Mock Assessments" },
@@ -316,7 +316,7 @@ export type ComparisonDataProps = {
 export const COMPARISON_DATA = [
   {
     title: "Insight Access",
-    id: 0,
+    id: 1,
     price: "₹ 1,399",
     cta: "Subscribe",
     buttonText: "Subscribe Insight",
@@ -382,7 +382,7 @@ export const COMPARISON_DATA = [
   },
   {
     title: "Mentor Access",
-    id: 1,
+    id: 2,
     price: "₹ 2,499",
     cta: "Subscribe",
     buttonText: "Subscribe Mentor",
@@ -448,7 +448,7 @@ export const COMPARISON_DATA = [
   },
   {
     title: "Membership Access",
-    id: 2,
+    id: 3,
     price: "₹ 3,199",
     cta: "Subscribe",
     buttonText: "Subscribe Membership",

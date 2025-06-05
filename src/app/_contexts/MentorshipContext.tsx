@@ -18,7 +18,7 @@ export enum BADGES {
   TOP_GUN = "TOP_GUN",
 }
 
-const badge_mapper = {
+export const badge_mapper = {
   0: BADGES.WINGMAN,
   1: BADGES.MARSHALL,
   2: BADGES.TACTICAL_ACE,
@@ -34,7 +34,7 @@ const badge_config = {
     },
     accessPlan: {
       title: "Access Plan",
-      description: "Nothing's liv yet, unlock what's next.",
+      description: "Nothing's live yet, unlock what's next.",
       planIcon: (
         <Image
           src={"/no-access-plan.svg"}
