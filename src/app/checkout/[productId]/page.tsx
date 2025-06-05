@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Script from "next/script";
 import Head from "next/head";
-import { pricingData } from "@/app/_components/data/productData";
+import { pricingData, PropertyMapper } from "@/app/_components/data/productData";
 import { CaretUp, Tick } from "@/app/_assets/icons";
 // import Image from "next/image";
 // import { useAuth } from "@/app/_contexts/AuthContext";
@@ -31,7 +31,6 @@ import {
   SummaryTotal,
 } from "@/app/_components/checkout/styled";
 import CheckoutForm from "@/app/_components/checkout/CheckoutForm";
-
 
 // Types
 
@@ -74,6 +73,25 @@ interface Product {
   productType: string;
 }
 
+const getActiveBenefits = (planId: number) => {
+  // Find the plan by its ID
+  const plan = pricingData.plans.find((p) => p.id === planId);
+  if (!plan) return [];
+
+  // Filter the `comparisonData` to find all keys with `value: true`
+  const activeIds = Object.keys(plan.comparisonData).filter(
+    (key) => (plan.comparisonData as Record<string, { value: boolean | string }>)[key].value === true
+  );
+
+  // Map the active IDs to their corresponding title and subtitle from PropertyMapper
+  const benefits = activeIds.map((id) => {
+    const { title, subtitle } = PropertyMapper[id as keyof typeof PropertyMapper];
+    return { title, subtitle };
+  });
+
+  return benefits;
+};
+
 // Data for our products (in an ideal case, fetch this from an API)
 const PRODUCTS: Product[] = pricingData.plans;
 
@@ -90,7 +108,6 @@ const CheckoutPage: React.FC = () => {
   // const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [showFeatures, setShowFeatures] = useState<boolean>(false);
-
 
   // Load product details
   useEffect(() => {
@@ -132,10 +149,6 @@ const CheckoutPage: React.FC = () => {
         strategy="lazyOnload"
       />
 
-      {/* <BackLink onClick={() => router.push("/pricing")}>
-        ← Back to pricing
-      </BackLink> */}
-
       <CheckoutGrid>
         {/* Product details */}
         <ProductDetailsCard>
@@ -143,37 +156,35 @@ const CheckoutPage: React.FC = () => {
           <SeeAllBtn onClick={toggleBenefitslistDisplay}>
             <CaretUp />
           </SeeAllBtn>
-
-          {/* <ProductDescription>{product.description}</ProductDescription> */}
-
-          {/* <PriceTag>
-            <Price>₹{product.price}</Price>
-            <Period>/{product.period}</Period>
-          </PriceTag> */}
-
-          {/* <Divider /> */}
-
-          {/* <SectionTitle>What&apos;s included:</SectionTitle> */}
           <BenefitsList>
-            {product.benefits.map((benefit) => (
-              <BenefitItem key={benefit.id}>
+           {getActiveBenefits(product.id).length > 0
+              ? getActiveBenefits(product.id).map((benefit, index) => (
+              <BenefitItem key={index}>
                 <Tick
-                  width={isMobile ? 16 : (width && width > 1950) ? 29 : 21}
-                  height={isMobile ? 10.5 : (width && width > 1950) ? 17 : 12}
+                  width={isMobile ? 16 : width && width > 1950 ? 29 : 21}
+                  height={isMobile ? 10.5 : width && width > 1950 ? 17 : 12}
                 />
-                {benefit.text}
+                {benefit.title}
               </BenefitItem>
-            ))}
+            ))
+              : null}
           </BenefitsList>
         </ProductDetailsCard>
         {showFeatures ? (
           <MobileBenefitsList>
-            {product.benefits.map((benefit) => (
-              <BenefitItem key={benefit.id}>
-                <Tick width={29} height={17} />
-                {benefit.text}
-              </BenefitItem>
-            ))}
+            {getActiveBenefits(product.id).length > 0
+              ? getActiveBenefits(product.id).map((benefit, index) => (
+                  <BenefitItem key={index}>
+                    <Tick width={29} height={17} 
+                    style={{
+                      flexShrink: 0,
+
+                    }}
+                    />
+                    {benefit.title}
+                  </BenefitItem>
+                ))
+              : null}
           </MobileBenefitsList>
         ) : null}
 
@@ -197,12 +208,8 @@ const CheckoutPage: React.FC = () => {
               <span>₹{product.price}</span>
             </SummaryTotal>
           </OrderSummary>
-          <CheckoutForm
-          product ={product}
-          />
+          <CheckoutForm product={product} />
           {error && <ErrorMessage>{error}</ErrorMessage>}
-
-
 
           <TnC />
         </PaymentSection>

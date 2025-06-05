@@ -61,7 +61,7 @@ export const CheckoutGrid = styled.div`
   }
 
   @media (min-width: 1950px) {
-    margin-top: 90px;
+    margin-top: 24px;
   }
 `;
 
@@ -196,7 +196,7 @@ export const BenefitItem = styled.li`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  padding: 15px 25px;
+  padding: 15px 20px;
   border-bottom: 1px solid #c2c2c2;
   gap: 30px;
 

@@ -1,6 +1,28 @@
 
 export type BenefitProps = { id: number; text: string }
 
+export type ComparisonPropertyValueProps = {
+  id: string;
+  value: string | boolean;
+};
+
+export type ComparisonMatrixProps = {
+  insider_pass: ComparisonPropertyValueProps;
+  community_spotlights: ComparisonPropertyValueProps;
+  one_on_one_session: ComparisonPropertyValueProps;
+  mentor_feedback: ComparisonPropertyValueProps;
+  weekly_wraps: ComparisonPropertyValueProps;
+  mock_assessments: ComparisonPropertyValueProps;
+  ama_sessions: ComparisonPropertyValueProps;
+  priority_queue_support: ComparisonPropertyValueProps;
+  extended_session_access: ComparisonPropertyValueProps;
+  access_to_events: ComparisonPropertyValueProps;
+  member_benefits: ComparisonPropertyValueProps;
+  leaderboard_events: ComparisonPropertyValueProps;
+  content_library: ComparisonPropertyValueProps;
+  exclusive_merch_access: ComparisonPropertyValueProps;
+}
+
 
 export type CheckoutPlanProps = {
   id: number;
@@ -13,6 +35,7 @@ export type CheckoutPlanProps = {
   productType: string;
   subscribedCta?: string;
   addOnCTa?: string;
+  comparisonData?: ComparisonMatrixProps;
 };
 
 export type PricingDataProps = {
@@ -42,8 +65,65 @@ export const pricingData = {
       buttonText: "Subscribe Insight",
       subscribedCta: "Insight Subscribed",
       addOnCTa: "Add On Insight",
-      productType: "newsletter_subscription"
-
+      productType: "newsletter_subscription",
+      comparisonData: {
+        insider_pass: {
+          id: "insider_pass",
+          value: true,
+        },
+        community_spotlights: {
+          id: "community_spotlights",
+          value: true,
+        },
+        one_on_one_session: {
+          id: "one_on_one_session",
+          value: "0",
+        },
+        mentor_feedback: {
+          id: "mentor_feedback",
+          value: false,
+        },
+        weekly_wraps: {
+          id: "weekly_wraps",
+          value: true,
+        },
+        mock_assessments: {
+          id: "mock_assessments",
+          value: true,
+        },
+        ama_sessions: {
+          id: "ama_sessions",
+          value: true,
+        },
+        priority_queue_support: {
+          id: "priority_queue_support",
+          value: false,
+        },
+        extended_session_access: {
+          id: "extended_session_access",
+          value: false,
+        },
+        access_to_events: {
+          id: "access_to_events",
+          value: true,
+        },
+        member_benefits: {
+          id: "member_benefits",
+          value: true,
+        },
+        leaderboard_events: {
+          id: "leaderboard_events",
+          value: true,
+        },
+        content_library: {
+          id: "content_library",
+          value: true,
+        },
+        exclusive_merch_access: {
+          id: "exclusive_merch_access",
+          value: true,
+        },
+      }
     },
     {
       id: 2,
@@ -60,8 +140,65 @@ export const pricingData = {
       buttonText: "Subscribe Mentor",
       subscribedCta: "Mentor Subscribed",
       addOnCTa: "Add On Mentor",
-      productType: "session_pack"
-
+      productType: "session_pack",
+      comparisonData: {
+        insider_pass: {
+          id: "insider_pass",
+          value: true,
+        },
+        community_spotlights: {
+          id: "community_spotlights",
+          value: true,
+        },
+        one_on_one_session: {
+          id: "one_on_one_session",
+          value: "5",
+        },
+        mentor_feedback: {
+          id: "mentor_feedback",
+          value: true,
+        },
+        weekly_wraps: {
+          id: "weekly_wraps",
+          value: false,
+        },
+        mock_assessments: {
+          id: "mock_assessments",
+          value: true,
+        },
+        ama_sessions: {
+          id: "ama_sessions",
+          value: false,
+        },
+        priority_queue_support: {
+          id: "priority_queue_support",
+          value: true,
+        },
+        extended_session_access: {
+          id: "extended_session_access",
+          value: true,
+        },
+        access_to_events: {
+          id: "access_to_events",
+          value: false,
+        },
+        member_benefits: {
+          id: "member_benefits",
+          value: true,
+        },
+        leaderboard_events: {
+          id: "leaderboard_events",
+          value: true,
+        },
+        content_library: {
+          id: "content_library",
+          value: false,
+        },
+        exclusive_merch_access: {
+          id: "exclusive_merch_access",
+          value: true,
+        },
+      }
     },
     {
       id: 3,
@@ -81,16 +218,70 @@ export const pricingData = {
       buttonText: "Subscribe Membership",
       subscribedCta: "Membership Subscribed",
       addOnCTa: "",
-      productType: "combo_pack"
-
+      productType: "combo_pack",
+      comparisonData: {
+        insider_pass: {
+          id: "insider_pass",
+          value: true,
+        },
+        community_spotlights: {
+          id: "community_spotlights",
+          value: true,
+        },
+        one_on_one_session: {
+          id: "one_on_one_session",
+          value: "5",
+        },
+        mentor_feedback: {
+          id: "mentor_feedback",
+          value: true,
+        },
+        weekly_wraps: {
+          id: "weekly_wraps",
+          value: true,
+        },
+        mock_assessments: {
+          id: "mock_assessments",
+          value: true,
+        },
+        ama_sessions: {
+          id: "ama_sessions",
+          value: true,
+        },
+        priority_queue_support: {
+          id: "priority_queue_support",
+          value: true,
+        },
+        extended_session_access: {
+          id: "extended_session_access",
+          value: true,
+        },
+        access_to_events: {
+          id: "access_to_events",
+          value: true,
+        },
+        member_benefits: {
+          id: "member_benefits",
+          value: true,
+        },
+        leaderboard_events: {
+          id: "leaderboard_events",
+          value: true,
+        },
+        content_library: {
+          id: "content_library",
+          value: true,
+        },
+        exclusive_merch_access: {
+          id: "exclusive_merch_access",
+          value: true,
+        },
+      }
     },
   ],
 } satisfies PricingDataProps;
 
-export type ComparisonPropertyValueProps = {
-  id: string;
-  value: string | boolean;
-};
+
 
 
 export type ComparisonDataProps = {
