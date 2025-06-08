@@ -87,20 +87,12 @@ const Input = styled.input<{ disabled?: boolean }>`
   }
 `;
 
-// const ErrorMessage = styled.div`
-//   padding: 0.75rem 1rem;
-//   margin-bottom: 1rem;
-//   border: 1px solid #f87171;
-//   border-radius: 0.375rem;
-//   background-color: #fee2e2;
-//   color: #b91c1c;
-// `;
+const ErrorMessage = styled.p`
+  font-size: 0.89rem;
+  color: #e61f1f;
+  margin-top: 0.25rem;
+`;
 
-// const HelperText = styled.p`
-//   font-size: 0.875rem;
-//   color: #6b7280;
-//   margin-top: 0.25rem;
-// `;
 
 const PrimaryButton = styled.button<{ disabled?: boolean }>`
   width: 100%;
@@ -274,7 +266,7 @@ export default function LoginForm({
 }: {
   setIsOTPRequested: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { requestOTP, verifyOTP, loading, error } = useAuth();
+  const { requestOTP, verifyOTP, loading } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
   const [otpRequested, setOtpRequested] = useState<boolean>(false);
@@ -309,9 +301,9 @@ export default function LoginForm({
       setFormError("Please enter a valid email address");
       return;
     }
-      setIsOTPRequested(true);
-            setOtpRequested(true);
-                  setOtpSent(true);
+    setIsOTPRequested(true);
+    setOtpRequested(true);
+    setOtpSent(true);
     // Send OTP request
     await requestOTP(email);
   };
@@ -322,7 +314,7 @@ export default function LoginForm({
 
     // Validate OTP
     if (!otp || otp.length < 6) {
-      setFormError("Please enter a valid 6-digit OTP");
+      setFormError("Login code has expired or is incorrect");
       return;
     }
 
@@ -331,6 +323,8 @@ export default function LoginForm({
       // router.push("/");
       // Redirect to the path stored in the redirectPath variable
       router.push(redirectPath);
+    }else{
+      setFormError("Login code has expired or is incorrect");
     }
   };
 
@@ -353,13 +347,14 @@ export default function LoginForm({
 
       {/* {error && <ErrorMessage>{error}</ErrorMessage>}
       {formError && <ErrorMessage>{formError}</ErrorMessage>} */}
-      {otpRequested && otpSent && !error && !formError && (
+      {/* {otpRequested && otpSent && !error && !formError && ( */}
+       {otpRequested && otpSent && (
         <SuccessMessage>
           We sent a temporary login code to {email}
         </SuccessMessage>
       )}
 
-      {otpRequested && otpSent && !error && !formError && (
+      {otpRequested && otpSent && (
         <FlatButton type="button" onClick={handleResendOTP} disabled={loading}>
           Resend Login code
         </FlatButton>
@@ -412,12 +407,11 @@ export default function LoginForm({
               disabled={loading}
               maxLength={6}
               required
+              style={{
+                borderColor: formError ? "#e61f1f" : "#e6e6e6",
+              }}
             />
-            {/* <HelperText>
-              {otpSent
-                ? "Enter the 6-digit code sent to your email"
-                : "Please request a new OTP by clicking 'Resend OTP'"}
-            </HelperText> */}
+           {formError && <ErrorMessage>{formError}</ErrorMessage>}
           </FormGroup>
 
           <ButtonContainer>

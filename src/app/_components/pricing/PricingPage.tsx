@@ -501,8 +501,9 @@ const DialogueBox = styled.div`
   line-height: normal;
   margin-top: 2rem;
   border-radius: 5.5px;
-  z-index: 110;
-  left: -40vw;
+  z-index: -1;
+  top: -115px;
+  left: -58vw;
 
   @media (min-width: 992px) {
     border-radius: 8px;
@@ -520,7 +521,8 @@ const ImageContainer = styled.button`
   cursor: pointer;
   width: 25px;
   height: 25px;
-  top: 10px;
+  bottom: 50px;
+  left: 107px;
 
   > div {
     opacity: 0;
@@ -529,6 +531,8 @@ const ImageContainer = styled.button`
   }
 
   @media (min-width: 992px) {
+    bottom: unset;
+    left: unset;
     align-self: flex-end;
     right: -24px;
     top: 0;
@@ -537,6 +541,7 @@ const ImageContainer = styled.button`
 
   &:hover {
     > div {
+      z-index: 50;
       opacity: 1;
       transform: scale(1);
       transition: opacity 0.2s linear, transform 0.2s linear;
@@ -777,9 +782,9 @@ const Plan: React.FC<PricingPlan> = ({
               fill="#FF2626"
               style={{
                 position: "absolute",
-                top: "-52px",
-                left: "45%",
-                transform: "scale(0.2)",
+                bottom: "-80%",
+                  left: "60%",
+                transform: "scale(0.2) rotate(180deg)",
               }}
             >
               <path stroke="#FF2626" scale={0.2} d="M 50,5 95,97.5 5,97.5 z" />
@@ -875,14 +880,19 @@ const PricingPage: React.FC<PricingPageProps> = ({
         setShowLoading(false);
         setContentReady(true);
       }, 500);
-      
+
       return () => clearTimeout(timer);
     }
   }, [badge, contextLoading]);
 
   // Set up animations after content is ready
   useEffect(() => {
-    if (!contentReady || !headerRef.current || !plansContainerRef.current || !pageRef.current) {
+    if (
+      !contentReady ||
+      !headerRef.current ||
+      !plansContainerRef.current ||
+      !pageRef.current
+    ) {
       return;
     }
 
@@ -971,11 +981,15 @@ const PricingPage: React.FC<PricingPageProps> = ({
           <Plan
             key={plan.id + String(idx)}
             {...plan}
-            compatible={TestCompatibility({ badge: badge || '', id: plan.id }) as boolean}
+            compatible={
+              TestCompatibility({ badge: badge || "", id: plan.id }) as boolean
+            }
             subscribed={
               badge_mapper[plan.id as keyof typeof badge_mapper] == badge
             }
-            addOn={CheckForAddOn({ badge: badge || '', id: plan.id }) as boolean}
+            addOn={
+              CheckForAddOn({ badge: badge || "", id: plan.id }) as boolean
+            }
           />
         ))}
       </PlansContainer>

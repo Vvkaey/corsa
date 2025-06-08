@@ -4,7 +4,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Script from "next/script";
 import Head from "next/head";
-import { pricingData, PropertyMapper } from "@/app/_components/data/productData";
+import {
+  pricingData,
+  PropertyMapper,
+} from "@/app/_components/data/productData";
 import { CaretUp, Tick } from "@/app/_assets/icons";
 // import Image from "next/image";
 // import { useAuth } from "@/app/_contexts/AuthContext";
@@ -31,6 +34,9 @@ import {
   SummaryTotal,
 } from "@/app/_components/checkout/styled";
 import CheckoutForm from "@/app/_components/checkout/CheckoutForm";
+// import ThankyouScreen, {
+//   GridType,
+// } from "@/app/_components/pricing/success/ThankyouScreen";
 
 // Types
 
@@ -80,12 +86,15 @@ const getActiveBenefits = (planId: number) => {
 
   // Filter the `comparisonData` to find all keys with `value: true`
   const activeIds = Object.keys(plan.comparisonData).filter(
-    (key) => (plan.comparisonData as Record<string, { value: boolean | string }>)[key].value === true
+    (key) =>
+      (plan.comparisonData as Record<string, { value: boolean | string }>)[key]
+        .value === true
   );
 
   // Map the active IDs to their corresponding title and subtitle from PropertyMapper
   const benefits = activeIds.map((id) => {
-    const { title, subtitle } = PropertyMapper[id as keyof typeof PropertyMapper];
+    const { title, subtitle } =
+      PropertyMapper[id as keyof typeof PropertyMapper];
     return { title, subtitle };
   });
 
@@ -157,16 +166,16 @@ const CheckoutPage: React.FC = () => {
             <CaretUp />
           </SeeAllBtn>
           <BenefitsList>
-           {getActiveBenefits(product.id).length > 0
+            {getActiveBenefits(product.id).length > 0
               ? getActiveBenefits(product.id).map((benefit, index) => (
-              <BenefitItem key={index}>
-                <Tick
-                  width={isMobile ? 16 : width && width > 1950 ? 29 : 21}
-                  height={isMobile ? 10.5 : width && width > 1950 ? 17 : 12}
-                />
-                {benefit.title}
-              </BenefitItem>
-            ))
+                  <BenefitItem key={index}>
+                    <Tick
+                      width={isMobile ? 16 : width && width > 1950 ? 29 : 21}
+                      height={isMobile ? 10.5 : width && width > 1950 ? 17 : 12}
+                    />
+                    {benefit.title}
+                  </BenefitItem>
+                ))
               : null}
           </BenefitsList>
         </ProductDetailsCard>
@@ -175,11 +184,12 @@ const CheckoutPage: React.FC = () => {
             {getActiveBenefits(product.id).length > 0
               ? getActiveBenefits(product.id).map((benefit, index) => (
                   <BenefitItem key={index}>
-                    <Tick width={29} height={17} 
-                    style={{
-                      flexShrink: 0,
-
-                    }}
+                    <Tick
+                      width={29}
+                      height={17}
+                      style={{
+                        flexShrink: 0,
+                      }}
                     />
                     {benefit.title}
                   </BenefitItem>
@@ -215,14 +225,14 @@ const CheckoutPage: React.FC = () => {
         </PaymentSection>
       </CheckoutGrid>
 
-      {/* <ThankyouScreen 
-      title="That&apos;s it! You&apos;re all set."
-      subtitle="You have successfully subscribed"
-      descriptionTop="Check your email. Did&apos;t receive? Make sure to check your spam
+      {/* <ThankyouScreen
+        title="That's it! You're all set."
+        subtitle="You have successfully subscribed"
+        descriptionTop="Check your email. Did't receive? Make sure to check your spam
             folder, just in case."
-            descriptionBottom="Feel free to contact us at connect@stroda.club. If you have any
+        descriptionBottom="Feel free to contact us at connect@stroda.club. If you have any
             questions"
-            ctaGrid={GridType.DOUBLE}
+        ctaGrid={GridType.DOUBLE}
       /> */}
       {/* <FailureScreen /> */}
     </CheckoutContainer>
