@@ -1,5 +1,6 @@
-import { StyleHTMLAttributes, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Widget } from '@typeform/embed-react';
+import { CSSProperties } from 'react';
 
 
 export const useScript = (
@@ -50,7 +51,7 @@ export const TypeformSnippet = ({
 }: {
   typeformId: string;
   className?: string;
-  style?: StyleHTMLAttributes<HTMLDivElement>;
+  style?: CSSProperties;
   frameTitle?: string;
   trackingParams?: {
     utm_source?: string;

@@ -30,8 +30,6 @@ export const ApplyMembershipTFModal = styled(
           className="typeform-container"
           trackingParams={trackingParams}
           style={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
             width: '100%',
             height: '100%',
           }}
