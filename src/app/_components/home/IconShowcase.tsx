@@ -526,49 +526,32 @@ export const IconShowcase = styled(
           /* We need a fixed height to prevent layout shifts */
           min-height: 70px;
 
-          .icon{
-          @media (max-width: 992px) {
+          .icon {
+            position: relative;
             width: 45px;
             height: 45px;
-          }
-
-          img{
-           @media (max-width: 992px){
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-            }
-          }
-        }
-
-        .icon {
-          position: relative;
-          display: flex;
-          flex-direction: row;
-          gap: 8px;
-          align-items: center;
-          justify-content: center;
-
-          @media (min-width: 992px) {
-            flex-direction: column;
-            gap: 12px;
-          }
-
-          .icon-text {
-            z-index: 1;
             display: flex;
-            white-space: nowrap;
-            color: #5f5f5f;
-            font-size: 15.008px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            position: absolute;
-            bottom: -20px;
-          }
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
 
-          img {
-            object-fit: contain;
+            img {
+              width: 100% !important;
+              height: 100% !important;
+              object-fit: contain !important;
+            }
+
+            .icon-text {
+              position: absolute;
+              bottom: -20px;
+              white-space: nowrap;
+              color: #5f5f5f;
+              font-size: 15.008px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+            }
           }
         }
       }
