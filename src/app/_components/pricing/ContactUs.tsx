@@ -29,18 +29,19 @@ export const ApplyMembershipTFModal = styled(
           frameTitle="Apply for Ultrawork"
           className="typeform-container"
           trackingParams={trackingParams}
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#000000',
+            width: '100%',
+            height: '100%',
+          }}
         />
       </div>
     );
   },
 )`
-  height: 80vh;
-  width: calc(100vw - 48px);
-
-  @media (min-width: 1024px) {
-    height: 500px;
-    width: 780px;
-  }
+  height: 100%;
+  width: 100%;
 
   .typeform-container {
     width: 100%;
@@ -48,6 +49,7 @@ export const ApplyMembershipTFModal = styled(
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background: #ffffff;
   }
 `;
 

@@ -12,12 +12,15 @@ import {
   sectionResponsivePadding,
 } from "../../new_mixins/mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
+import { ModalContext } from "../Modal";
+import { ApplyMembershipTFModal } from "../../pricing/ContactUs";
 
 export const Footer = styled(({ className }: { className?: string }) => {
   const GlobalUI = useContext(GlobalUIContext); // Access global UI settings
   const pathname = usePathname(); // Get the current route
   const router = useRouter();
   const {width} = useWindowSize();
+  const ModalClient = useContext(ModalContext);
 
   // Hide footer if lite mode is enabled or if the page is in NO_HEADER_FOOTER_PAGES
   if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
@@ -26,6 +29,24 @@ export const Footer = styled(({ className }: { className?: string }) => {
     if (router) {
       router.push("/apply-for-mentor");
     }
+  };
+
+  const onReachOutClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let url = 'website';
+    if (window) {
+      url = window.location.hostname + window.location.pathname;
+    }
+    ModalClient.set(
+      <ApplyMembershipTFModal
+        trackingParams={{
+          utm_source: url,
+          utm_medium: 'footer-cta',
+        }}
+      />,
+    );
+    ModalClient.setCloseButtonTheme('light');
+    ModalClient.show();
   };
 
   return (
@@ -47,7 +68,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           <div className="right-block">
             <button
               className="primary-button"
-              onClick={onApplyMentorClick}
+              onClick={onReachOutClick}
               style={{
                 background: "#fff",
                 color: "#000",

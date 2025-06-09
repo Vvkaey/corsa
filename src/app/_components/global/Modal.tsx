@@ -1,6 +1,5 @@
-
 import styled, { keyframes } from 'styled-components';
-import React, { createContext, JSX, useState } from 'react';
+import React, { createContext, JSX, useState, useEffect } from 'react';
 import { CrossDark } from '@/app/_assets/icons';
 
 
@@ -31,6 +30,18 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [fullViewOnMbl, setFullViewOnMbl] = useState(false);
 
   const [closeBtnHidden, setCloseBtnHidden] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalVisible]);
 
   const set = (content: string | JSX.Element) => {
     setModalContent(content);
@@ -207,30 +218,7 @@ export const ModalWhite = styled(
       border-radius: 24px !important;
     }
 
-
-
-
-
-
-    &::before{
-
-
-      @media (min-width: 1024px) {
-        position: sticky;
-        top: -0.1rem;
-        box-shadow: 0px 5px 25px 18px #fff;
-        display: block;
-        content: "";
-        width: 100%;
-         height: 0.1rem;
-        // background:  linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.00) 100%);
-        z-index: 100;
-      }
-    }
-  
     &::after{
-     
-
       @media (min-width: 1024px) {
         position: sticky;
         top: 100%;
@@ -242,7 +230,6 @@ export const ModalWhite = styled(
         z-index: 100;
       }
     }
-
   }
 
 
@@ -250,10 +237,16 @@ export const ModalWhite = styled(
   .modalContent {
     position: relative;
     width: 100%;
+    height: 100%;
     border-radius: 24px;
-    overflow: auto;
+    overflow: hidden;
     color: #000000;
     background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: none;
 
     transform: translateY(40px);
 
@@ -262,35 +255,76 @@ export const ModalWhite = styled(
     to {transform: translateY(0);}
   `} 0.2s ease-in-out forwards;
 
-
-
-
     @media (min-width: 1024px) {
       min-width: 100px;
       min-height: 100px;
-      width: fit-content;
-      height: fit-content;
+      width: 75vw;
+      height: 75vh;
+      max-width: 1200px;
+      max-height: 900px;
+    }
+
+    .typeform-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      overflow: hidden;
+      border: none;
+      box-shadow: none;
+    }
+
+    .typeformSnippet {
+      width: 100% !important;
+      height: 100% !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border: none;
+      box-shadow: none;
+    }
+
+    iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
+      box-shadow: none;
     }
 
     .closeBtn {
       position: absolute;
-      right 24px;
+      right: 24px;
       top: 24px;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: none;
-
-      background: rgba(0,0,0,0.08);
+      background: rgba(255, 255, 255, 0.9);
       display: grid;
       place-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.05);
+      }
 
       &.light {
-        background: #fff;
+        background: rgba(255, 255, 255, 0.9);
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+        }
       }
 
       svg {
         width: 16px;
+        height: 16px;
       }
     }
   }
@@ -302,28 +336,40 @@ export const ModalWhite = styled(
 
   .closeNBtn {
     position: fixed;
-    right 24px;
+    right: 24px;
     top: 24px;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: none;
-    background: rgba(0,0,0,0.08);
+    background: rgba(255, 255, 255, 0.9);
     display: grid;
     place-items: center;
     z-index: 100;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.05);
+    }
 
     @media (min-width: 1024px) {
-    right: calc((100vw / 2) - (58rem / 2) + 2.4rem);
-    top: calc((100vh / 2) - (58rem / 2) + 1.6rem);
+      right: calc((100vw / 2) - (58rem / 2) + 2.4rem);
+      top: calc((100vh / 2) - (58rem / 2) + 1.6rem);
     }
 
     &.light {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.9);
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+      }
     }
 
     svg {
       width: 16px;
+      height: 16px;
     }
   }
 `;

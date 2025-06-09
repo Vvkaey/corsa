@@ -71,7 +71,21 @@ export const TypeformSnippet = ({
       data-tf-iframe-props={`title=${frameTitle}`}
       data-tf-medium="snippet"
       data-tf-inline-on-mobile
-      style={{ minWidth: '200px', minHeight: '200px', ...style }}
+      data-tf-background-color="#ffffff"
+      data-tf-text-color="#000000"
+      data-tf-button-color="#000000"
+      data-tf-hide-headers="true"
+      data-tf-hide-footer="true"
+      data-tf-progress-bar-color="#FF2626"
+      data-tf-progress-bar-height="2"
+      data-tf-progress-bar-position="top"
+      style={{ 
+        minWidth: '200px', 
+        minHeight: '200px',
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        ...style 
+      }}
       className={`${className} typeformSnippet`}
       tracking={trackingParams ?? {}}
     ></Widget>
