@@ -373,3 +373,53 @@ export const ModalWhite = styled(
     }
   }
 `;
+
+export const ModalContent = styled.div`
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform 0.3s ease-out;
+
+  @media (min-width: 992px) {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+`;
+
+export const TypeformContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  overflow: hidden;
+`;
+
+export const TypeformSnippet = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  overflow: hidden;
+
+  iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+  }
+`;

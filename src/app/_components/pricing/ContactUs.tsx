@@ -61,7 +61,7 @@ const ContactUs = () => {
   const onBookCallClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     ModalClient.set(
-      <CalendlyEmbed url="https://calendly.com/ayushb147/30min" />
+      <CalendlyEmbed url="https://calendly.com/vivek-strodaclub/30min" />
     );
     ModalClient.setCloseButtonTheme('light');
     ModalClient.show();

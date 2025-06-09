@@ -1,34 +1,32 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-interface CalendlyEmbedProps {
-  url: string;
-}
-
 const CalendlyContainer = styled.div`
-  min-width: 320px;
-  height: 700px;
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  
+  @media (max-width: 991px) {
+    min-height: 600px;
+  }
 `;
 
-const CalendlyEmbed: React.FC<CalendlyEmbedProps> = ({ url }) => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
+const CalendlyEmbed: React.FC<{ url: string }> = ({ url }) => {
   return (
-    <CalendlyContainer 
-      className="calendly-inline-widget" 
-      data-url={url}
-    />
+    <CalendlyContainer>
+      <iframe
+        src={url}
+        width="100%"
+        height="100%"
+        style={{ border: 'none' }}
+        title="Calendly Scheduling"
+      />
+    </CalendlyContainer>
   );
 };
 
