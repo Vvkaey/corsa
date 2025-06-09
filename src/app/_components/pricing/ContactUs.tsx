@@ -9,6 +9,7 @@ import { ArrowRightWhite } from "@/app/_assets/icons";
 import { TypeformSnippet } from "../global/TypeformSnippet";
 import { useContext } from "react";
 import { ModalContext } from "../global/Modal";
+import CalendlyEmbed from "../book/CalendlyEmbed";
 
 export const ApplyMembershipTFModal = styled(
   ({
@@ -58,22 +59,13 @@ const ContactUs = () => {
 
   // Calendly will be initiated once Book a call is clicked
   const onBookCallClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      let url = 'website';
-      if (window) {
-        url = window.location.hostname + window.location.pathname;
-      }
-      ModalClient.set(
-        <ApplyMembershipTFModal
-          trackingParams={{
-            utm_source: url,
-            utm_medium: 'ultrawork-section-2',
-          }}
-        />,
-      );
-      ModalClient.setCloseButtonTheme('light');
-      ModalClient.show();
-    };
+    e.preventDefault();
+    ModalClient.set(
+      <CalendlyEmbed url="https://calendly.com/ayushb147/30min" />
+    );
+    ModalClient.setCloseButtonTheme('light');
+    ModalClient.show();
+  };
 
 
   return (
@@ -103,7 +95,6 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
-
 
 
 const FlatButton = styled.button`
@@ -229,3 +220,4 @@ const Divider = styled.div`
     margin: 64px 0;
   }
 `;
+

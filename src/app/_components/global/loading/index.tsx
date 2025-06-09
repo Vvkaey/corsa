@@ -36,6 +36,25 @@ const VideoWrapper = styled.div`
   align-items: center;
   position: relative;
   
+  @media (max-width: 991px) {
+    width: 100%;
+    height: 100%;
+    
+    /* Ensure video fills the container on mobile */
+    & > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    
+    /* Make video fill the container */
+    & .react-player__preview,
+    & video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+  }
+  
   @media (min-width: 992px) {
     width: 25%;
     height: auto;
