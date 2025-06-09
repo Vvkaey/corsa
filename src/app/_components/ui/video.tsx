@@ -16,6 +16,7 @@ function Video({url}: { url?: string }) {
         url={url}
         loop
         muted
+        playsinline
         width={width > 992 ? "100%" : "auto"}
         height={"100%"}
         style={{ objectFit: "cover" }}

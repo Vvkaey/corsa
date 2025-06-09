@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { useRouter } from "next/navigation";
 import { theme } from "../theme";
+import VideoLoadingScreen from "../global/loading";
 
 // Import all components
 import HeroSection from "./HeroSection";
@@ -86,47 +87,26 @@ export default function HomeClientWrapper({
   faqData,
 }: HomeClientWrapperProps) {
   const router = useRouter();
-
-  // const [showStickyCta, setShowStickyCta] = useState(false);
-
-  // useEffect(() => {
-  //   // Create an intersection observer to monitor the hero banner
-  //   const heroElement = document.getElementById("hero-banner");
-    
-  //   if (heroElement) {
-  //     const observer = new IntersectionObserver(
-  //       (entries) => {
-  //         // When hero banner is NOT in viewport, show the sticky CTA
-  //         setShowStickyCta(!entries[0].isIntersecting);
-  //       },
-  //       {
-  //         // Adjust threshold as needed - 0.1 means when 10% of the element is visible
-  //         threshold: 0.1,
-  //         // Use a small rootMargin to trigger slightly before the element leaves viewport
-  //         rootMargin: "-10px 0px 0px 0px"
-  //       }
-  //     );
-      
-  //     observer.observe(heroElement);
-      
-  //     // Clean up observer on component unmount
-  //     return () => {
-  //       observer.disconnect();
-  //     };
-  //   }
-  // }, []);
-
-  // Scroll to element function for navigation
-  // const scrollToElement = (id: string): void => {
-  //   const container = document.getElementById(id);
-  //   if (container) {
-  //     container.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // };
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("flowContent:", flowContent);
-  });
+    // Set a minimum loading time to ensure smooth transition
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // 2 seconds minimum loading time
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show loading screen while content is loading
+  if (isLoading) {
+    return (
+      <VideoLoadingScreen 
+        videoSrc="/loading.mp4" 
+        loop={true}
+      />
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>

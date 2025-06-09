@@ -45,7 +45,7 @@ export const QuotationSection = styled(
             start: "-40% top", // Trigger when 40% of section of previous section is visible
             end: "top top",
             scrub: 0.5,
-            markers: true, // Set to true for debugging, false for production
+            markers: false, // Set to false for production
           },
         });
 
@@ -96,7 +96,6 @@ export const QuotationSection = styled(
   height: 100vh; /* Tall section to ensure scrolling */
   width: 100%;
   background: #000000;
-  border : 1px solid red;
 
   /* Video wrapper - this is the element that sticks */
   .video-wrapper {
