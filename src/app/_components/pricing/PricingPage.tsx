@@ -12,7 +12,7 @@ import { Footer } from "../global/footer";
 import ContactUs from "./ContactUs";
 import Image from "next/image";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+// import ScrollTrigger from "gsap/ScrollTrigger";
 // import ComparisonNew from "./ComparisonNew";
 // import StickyTest from "./StickyTest";
 // import Comparison from "./Comparison";
@@ -25,11 +25,12 @@ import {
   BADGES,
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
+import Comparison from "./Comparison";
 
 // Register ScrollTrigger plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// if (typeof window !== "undefined") {
+//   gsap.registerPlugin(ScrollTrigger);
+// }
 
 // Styled Components
 const PageContainer = styled.div`
@@ -39,7 +40,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   ${headerSpacing()};
   padding-top: 53px;
-  overflow-x: hidden; /* Prevent horizontal scroll during animations */
+  position: relative;
 
   @media (min-width: 1950px) {
     padding-top: 171px;
@@ -935,30 +936,30 @@ const PricingPage: React.FC<PricingPageProps> = ({
     );
 
     // Set up scroll animations for components further down the page
-    gsap.utils
-      .toArray<HTMLElement>(".comparison-section, .contact-section")
-      .forEach((section) => {
-        gsap.from(section, {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "top 60%",
-            toggleActions: "play none none none",
-            scrub: 1,
-          },
-        });
-      });
+    // gsap.utils
+    //   .toArray<HTMLElement>(".comparison-section, .contact-section")
+    //   .forEach((section) => {
+    //     gsap.from(section, {
+    //       opacity: 0,
+    //       y: 30,
+    //       duration: 0.8,
+    //       scrollTrigger: {
+    //         trigger: section,
+    //         start: "top 80%",
+    //         end: "top 60%",
+    //         toggleActions: "play none none none",
+    //         scrub: 1,
+    //       },
+    //     });
+    //   });
 
-    return () => {
-      // Clean up animations
-      if (tl) tl.kill();
-      ScrollTrigger.getAll().forEach((trigger) => {
-        trigger.kill();
-      });
-    };
+    // return () => {
+    //   // Clean up animations
+    //   if (tl) tl.kill();
+    //   ScrollTrigger.getAll().forEach((trigger) => {
+    //     trigger.kill();
+    //   });
+    // };
   }, [contentReady]);
 
   // Show loading screen while waiting for badge data
@@ -994,11 +995,13 @@ const PricingPage: React.FC<PricingPageProps> = ({
         ))}
       </PlansContainer>
       {/* <Comparison htmlId="product-comparision" /> */}
+      <Comparison htmlId="product-comparision" />
       {/* <div className="comparison-section">
         
       </div> */}
       {/* <StickyTest />
       <ComparisonNew /> */}
+            {/* <ComparisonSection /> */}
       <div className="contact-section">
         <ContactUs />
       </div>

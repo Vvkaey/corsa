@@ -1,5 +1,5 @@
 // Comparison.tsx
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { gridMixin } from "../mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
@@ -10,20 +10,11 @@ import {
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
 import MobileComparisonTable from "./MobileComparisonTable";
-import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
-import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import {
   badge_mapper,
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
 import { CheckForAddOn, TestCompatibility } from "./PricingPage";
-
-// Register the ScrollTrigger plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const ProductHeadTitle = styled.h4`
   color: #000;
@@ -134,14 +125,9 @@ const ProductHeader = styled.div`
 const ComparisonContainer = styled.div`
   width: 100%;
   position: relative;
-  overflow: visible;
   ${sectionResponsivePadding()}
   ${maxWidthContainer}
-  min-height: 180vh;
-
-  @media (min-width: 992px) {
-    max-height: 110vh;
-  }
+  background: #fff;
 `;
 
 // Header and content wrapper for proper pinning
@@ -152,12 +138,23 @@ const HeaderContentWrapper = styled.div`
 
 // Original Table Header
 const TableHeader = styled.div`
+  position: sticky;
+  top: 53px; // Exact height of main header on larger screens
+  left: 0;
+  right: 0;
+  z-index: 5; // Lower than main header
   width: 100%;
   background: #fff;
-  z-index: 8;
-  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #e0e0e0;
-  position: relative;
+  display: none; // Hide by default
+
+  @media (min-width: 992px) {
+    display: block; // Show only on desktop
+  }
+
+  @media (min-width: 1950px) {
+   top: 70px;
+  }
 
   table {
     width: 100%;
@@ -194,45 +191,18 @@ const TableHeader = styled.div`
   }
 `;
 
-// Fixed Header that will display when original header is not visible
-const FixedHeaderStyles = styled(TableHeader)`
-  position: fixed;
-  top: 45px;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  z-index: 9;
-  // box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  display: none;
-
-  margin: 0 auto;
-
-  &.show {
-    display: block;
-  }
-
-  @media (min-width: 992px) {
-    top: 62px;
-  }
-
-  .fixed-header-content {
-    margin: 0 auto;
-    ${sectionResponsivePadding()}
-    max-width: 1800px;
-  }
-`;
-
 // Table Body Container
 const TableBodyContainer = styled.div`
   width: 100%;
   position: relative;
-  overflow: auto;
+  padding: 2rem 0;
 `;
 
 // Scrollable inner content
 const ScrollableContent = styled.div`
   width: 100%;
   height: auto;
+  position: relative;
 `;
 
 // Main comparison component
@@ -244,175 +214,18 @@ export const Comparison = styled(
     const containerRef = useRef<HTMLDivElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
-    const fixedHeaderRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const isMobile = (width ?? 0) < 768;
-    const gsapContext = useGsapContext();
     const { badge } = useMentorshipContext();
-
-    // Create a separate fixed header for reliability
-    useEffect(() => {
-      if (!headerRef.current || !fixedHeaderRef.current) return;
-
-      // Clone the header content
-      const headerContent = headerRef.current.innerHTML;
-      const contentWrapper = document.createElement("div");
-      contentWrapper.className = "fixed-header-content";
-      contentWrapper.innerHTML = headerContent;
-
-      // Clear and append
-      fixedHeaderRef.current.innerHTML = "";
-      fixedHeaderRef.current.appendChild(contentWrapper);
-
-      // Function to handle scroll
-      const handleScroll = () => {
-        if (
-          !headerRef.current ||
-          !fixedHeaderRef.current ||
-          !sectionRef.current
-        )
-          return;
-
-        const headerRect = headerRef.current.getBoundingClientRect();
-        const sectionRect = sectionRef.current.getBoundingClientRect();
-
-        // When the header would move out of view but we're still within the section, show the fixed version
-        if (headerRect.top <= 62 && sectionRect.bottom > 0) {
-          fixedHeaderRef.current.classList.add("show");
-          // Add space to prevent content jump when header becomes fixed
-          // if (bodyRef.current) {
-          //   bodyRef.current.style.marginTop = `${headerRef.current.offsetHeight - 66}px`;
-          // }
-        } else {
-          fixedHeaderRef.current.classList.remove("show");
-          // Remove extra space
-          // if (bodyRef.current) {
-          //   bodyRef.current.style.marginTop = '0';
-          // }
-        }
-      };
-
-      // Attach scroll listener
-      window.addEventListener("scroll", handleScroll);
-
-      // Initial check
-      handleScroll();
-
-      // Update fixed header on resize
-      const handleResize = () => {
-        const headerContent = headerRef.current?.innerHTML || "";
-        const contentWrapper = fixedHeaderRef.current?.querySelector(
-          ".fixed-header-content"
-        );
-        if (contentWrapper) {
-          contentWrapper.innerHTML = headerContent;
-        }
-        handleScroll();
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-        window.removeEventListener("resize", handleResize);
-      };
-    }, [isMobile]);
-
-    // Set up GSAP for content scrolling
-    useIsomorphicLayoutEffect(() => {
-      if (
-        !sectionRef.current ||
-        !headerRef.current ||
-        !bodyRef.current ||
-        !contentRef.current ||
-        !wrapperRef.current ||
-        !containerRef.current
-      )
-        return;
-
-      const headerHeight = headerRef.current.offsetHeight;
-      const contentHeight = contentRef.current.scrollHeight;
-
-      // Set the section height to ensure adequate scrolling space
-      const setHeights = () => {
-        // Make the section height large e+nough to allow for scrolling through all content
-        const totalHeight = contentHeight - 200;
-        // // const minHeight = Math.max(totalHeight, window.innerHeight * 2);
-        if (sectionRef.current) {
-          sectionRef.current.style.height = `${totalHeight}px`;
-        }
-
-        // console.log(`Setting component height to ${totalHeight}px`);
-      };
-
-      // Set initial heights
-      setHeights();
-
-      gsapContext.add(() => {
-        console.log("Setting up comparison table with separate fixed header");
-
-        // Clean up any existing ScrollTriggers
-        ScrollTrigger.getAll().forEach((st) => st.kill());
-
-        // Create scroll animation for the table content
-        const tableScroll = gsap.timeline({
-          scrollTrigger: {
-            trigger: bodyRef.current,
-            start: `top top+=${headerHeight}`,
-            end: `+=${contentHeight}*0.25`,
-            scrub: 0.1,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        // Animate table content scrolling
-        tableScroll.to(contentRef.current, {
-          y: -contentHeight,
-          ease: "none",
-          duration: 1,
-        });
-
-        return () => {
-          // Clean up
-          if (tableScroll.scrollTrigger) tableScroll.scrollTrigger.kill();
-          ScrollTrigger.getAll().forEach((st) => st.kill());
-        };
-      });
-
-      // Handle resize
-      window.addEventListener("resize", () => {
-        setHeights();
-        // Also update the fixed header on resize
-        if (headerRef.current && fixedHeaderRef.current) {
-          const headerContent = headerRef.current.innerHTML;
-          const contentWrapper = fixedHeaderRef.current.querySelector(
-            ".fixed-header-content"
-          );
-          if (contentWrapper) {
-            contentWrapper.innerHTML = headerContent;
-          }
-        }
-      });
-
-      return () => {
-        window.removeEventListener("resize", setHeights);
-      };
-    }, [gsapContext, width, isMobile]);
 
     return (
       <div className={className} id={htmlId} ref={sectionRef}>
-        {/* Fixed header element that stays at the top of screen */}
-        <FixedHeaderStyles
-          ref={fixedHeaderRef}
-          className="fixed-header"
-        ></FixedHeaderStyles>
-
         <ComparisonContainer ref={containerRef}>
           <HeaderContentWrapper ref={wrapperRef}>
             {!isMobile ? (
               <>
-                {/* Desktop Table Header - Original */}
+                {/* Desktop Table Header */}
                 <TableHeader ref={headerRef} className="thead-sticky">
                   <table>
                     <thead>
@@ -490,7 +303,7 @@ export const Comparison = styled(
               </>
             ) : (
               <>
-                {/* Mobile Table Header - Original */}
+                {/* Mobile Table Header */}
                 <TableHeader
                   ref={headerRef}
                   className="thead-sticky mobile-header"
@@ -522,8 +335,6 @@ export const Comparison = styled(
   position: relative;
   background: #fff;
   grid-column: 0 / 10;
-  // min-height: auto;
-  // height: auto;
 
   /* Mobile header styling */
   .mobile-header {

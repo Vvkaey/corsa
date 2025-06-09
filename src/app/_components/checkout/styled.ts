@@ -3,6 +3,7 @@ import { headerSpacing, maxWidthContainer, sectionResponsivePadding } from "../n
 
 // Styled Components
 export const CheckoutContainer = styled.div`
+position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;

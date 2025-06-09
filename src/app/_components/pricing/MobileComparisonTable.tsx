@@ -20,9 +20,13 @@ const Tabs = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   position: sticky;
-  top: 0;
-  z-index: 1;
+  top: 47px;
+  z-index: 5;
   border-bottom: 1px solid #dedede;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
 `;
 
 const Tab = styled.button<{ $activetab: boolean }>`
