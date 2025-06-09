@@ -963,7 +963,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
   }, [contentReady]);
 
   // Show loading screen while waiting for badge data
-  if (!showLoading) {
+  if (showLoading) {
     return (
       <LoadingOverlay>
         <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
