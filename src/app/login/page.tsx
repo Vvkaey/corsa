@@ -15,7 +15,7 @@ export default function Login() {
     datePublished: "2025-01-30",
     author: {
       "@type": "Person",
-      name: "Corsa",
+      name: "Strodaclub",
     },
   };
 

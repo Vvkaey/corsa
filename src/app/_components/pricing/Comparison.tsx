@@ -15,6 +15,7 @@ import {
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
 import { CheckForAddOn, TestCompatibility } from "./PricingPage";
+import { useRouter } from "next/navigation";
 
 const ProductHeadTitle = styled.h4`
   color: #000;
@@ -218,6 +219,19 @@ export const Comparison = styled(
     const contentRef = useRef<HTMLDivElement>(null);
     const isMobile = (width ?? 0) < 768;
     const { badge } = useMentorshipContext();
+    const router = useRouter();
+
+    const handleSubscribe = (id: number) => {
+      // Check if user is authenticated
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        // If not authenticated, redirect to login with checkout path as redirect parameter
+        // router.push(`/login?redirect=/checkout/${pricingData.plans[id - 1].productType}`);
+        router.push(`/login?redirect=/pricing`);
+        return;
+      }
+      router.push(`/checkout/${id}`);
+    };
 
     return (
       <div className={className} id={htmlId} ref={sectionRef}>
@@ -262,6 +276,12 @@ export const Comparison = styled(
                                       id: id + 1,
                                     }) as boolean
                                   }
+                                  onClick={() => {
+                                    if (TestCompatibility({ badge, id: id + 1 }) && 
+                                        badge_mapper[(id + 1) as keyof typeof badge_mapper] !== badge) {
+                                      handleSubscribe(id + 1);
+                                    }
+                                  }}
                                 >
                                   {!(TestCompatibility({
                                     badge,

@@ -252,7 +252,7 @@ const structuredData = {
   "@type": "WebSite",
   name: "Your Mentorship Network",
   description: "Community that leads together",
-  url: "https://corsa-gules.vercel.com",
+  url: "https://stroda.club",
 };
 
 export default function Home() {

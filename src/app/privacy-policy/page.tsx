@@ -77,7 +77,7 @@ export default function PrivacyPolicy() {
     datePublished: "2025-01-30",
     author: {
       "@type": "Person",
-      name: "Corsa",
+      name: "Strodaclub",
     },
   };
   return (

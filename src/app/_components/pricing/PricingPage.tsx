@@ -653,6 +653,14 @@ const Plan: React.FC<PricingPlan> = ({
     setError(null);
 
     try {
+      // Check if user is authenticated
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        // If not authenticated, redirect to login with checkout path as redirect parameter
+        // router.push(`/login?redirect=/checkout/${productType}`);
+        router.push(`/login?redirect=/pricing`);
+        return;
+      }
       router.push(`/checkout/${productType}`);
     } catch (err) {
       console.error("Error creating order:", err);

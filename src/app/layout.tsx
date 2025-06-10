@@ -19,8 +19,8 @@ const fustat = Fustat({
 });
 
 export const metadata: Metadata = {
-  title: "CORSA",
-  description: "CORSA - Your Learning Companion",
+  title: "STRODACLUB",
+  description: "STRODACLUB - Your Learning Companion",
 };
 
 export default function RootLayout({
