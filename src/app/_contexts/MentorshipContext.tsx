@@ -70,7 +70,7 @@ const badge_config = {
       description: "Watch your inbox for fresh drops.",
       planIcon: (
         <Image
-          src={"/insight-access-plan.svg"}
+          src={"/insight-accessplan.svg"}
           alt="Insight access plan icon"
           width={139}
           height={105.5}
