@@ -7,7 +7,7 @@ import { Footer } from "../_components/global/footer";
 const TNC_DATA = [
     {
       title: "1. Introduction",
-      description: `These Terms and Conditions ("Terms") govern your use of StrodaClub's website(Vvkaey Edtech Private Limited) and services, including online mentor sessions and subscriptions. By accessing or using our services, you agree to comply with these Terms.`,
+      description: `These Terms and Conditions ("Terms") govern your use of StrodaClub's website(owned and operated by Vvkaey Edtech Private Limited) and services, including online mentor sessions and subscriptions. By accessing or using our services, you agree to comply with these Terms.`,
     },
     {
       title: "2. User Eligibility",
