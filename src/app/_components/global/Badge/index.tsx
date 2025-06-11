@@ -88,7 +88,7 @@ const BadgeProfileImgContainer = styled.button`
   cursor: pointer;
   background: transparent;
   border: none;
-  z-index: 21;
+  z-index: 101;
 
   @media (min-width: 1950px) {
     width: 44px;

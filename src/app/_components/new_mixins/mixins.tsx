@@ -131,7 +131,8 @@ export const headerSpacing = ({
   mobileSpacing = "60px", // Default space below header on mobile
   tabletSpacing = "80px", // Default space below header on tablet
   desktopSpacing = "63px", // Default space below header on desktop
-  desktopLSpacing = "80px", // Default space below header on desktop
+  desktopLSpacing = "89px", // Default space below header on desktop
+
 }: HeaderSpacingProps = {}) => css`
 
   margin-top: ${mobileSpacing};

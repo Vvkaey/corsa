@@ -6,7 +6,7 @@ import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import Image from "next/image";
 // import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useState, useCallback } from "react";
+import { useContext, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 // import { Badge } from "../Badge";
 import {
@@ -37,7 +37,6 @@ export const DesktopNavItems = styled(
     showMenu: boolean | undefined;
   }) => {
     const router = useRouter();
-
     const { isAuthenticated, logout } = useAuth();
 
     const redirectToLogin = useCallback(() => {
@@ -47,17 +46,6 @@ export const DesktopNavItems = styled(
       }
     }, [router, setShowMenu, showMenu]);
 
-    // const redirectToDashboard = useCallback(() => {
-    //   const href = isAuthenticated
-    //     ? "/dashboard"
-    //     : "/login?redirect=/dashboard";
-
-    //   if (router) {
-    //     router.push(href);
-    //     if (setShowMenu) setShowMenu(false);
-    //   }
-    // }, [router, setShowMenu, isAuthenticated]);
-
     const logoutUser = useCallback(() => {
       logout();
       if (setShowMenu) setShowMenu(false);
@@ -66,9 +54,6 @@ export const DesktopNavItems = styled(
 
     return (
       <div className={className}>
-        {/* <button className="ham-item" onClick={redirectToDashboard}>
-          Dashboard
-        </button> */}
         {!isAuthenticated ? <></> : <p className="ham-item">User</p>}
         {!isAuthenticated ? (
           <button className="ham-item" onClick={redirectToLogin}>
@@ -90,16 +75,16 @@ export const DesktopNavItems = styled(
   padding: 24px 28px 290px;
   border-radius: 0px 0px 12px 12px;
   width: 380px;
-  position: absolute;
-  right: -50%;
+  position: fixed;
+  right: 0;
   top: 0;
-  z-index: ${(props) => (props.showMenu ? "20" : "-1")};
+  z-index: 1;
   max-height: ${({ showMenu }) => (showMenu ? "1000px" : "0")};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: top;
   overflow: hidden;
   transform: ${({ showMenu }) =>
-    showMenu ? "translateY(0)" : "translateY(70%)"};
+    showMenu ? "translateY(0)" : "translateY(-100%)"};
   height: ${({ showMenu }) => (showMenu ? "auto" : "0")};
   opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
   visibility: ${({ showMenu }) => (showMenu ? "visible" : "hidden")};
@@ -113,9 +98,9 @@ export const DesktopNavItems = styled(
   }
 
   @media (min-width: 2500px) {
-    position: absolute;
-    right: -50%;
-    top: -23px;
+    position: fixed;
+    right: 0;
+    top: 0;
   }
 
   .ham-item {
@@ -166,8 +151,6 @@ export const DesktopHamOverlay = styled(
   }) => {
     const onButtonClick = useCallback(() => {
       if (setShowMenu) {
-        // alert("DesktopHam Clicked ")
-
         setShowMenu(!showMenu);
       }
     }, [setShowMenu, showMenu]);
@@ -177,20 +160,19 @@ export const DesktopHamOverlay = styled(
 )`
   position: fixed;
   background: rgba(0, 0, 0, 0.4);
-  top: 50px;
+  top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  z-index: 8;
+  z-index: 0;
   opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border : none;
+  border: none;
 
   @media (min-width: 992px) {
-    top: 0;
     width: 300vw;
   }
 `;
@@ -220,15 +202,7 @@ export const HamOverlay = styled(
       }
     }, [router, setShowMenu]);
 
-    // const redirectToDashboard = useCallback(() => {
-    //   const href = isAuthenticated
-    //     ? "/dashboard"
-    //     : "/login?redirect=/dashboard";
-    //   if (router) {
-    //     router.push(href);
-    //     if (setShowMenu) setShowMenu(false);
-    //   }
-    // }, [router, setShowMenu, isAuthenticated]);
+  
 
     const logoutUser = useCallback(() => {
       logout();
@@ -353,6 +327,13 @@ export const Header = styled(({ className }: { className?: string }) => {
   // State for managing the mobile navigation menu
   const [showHamMenu, setShowHamMenu] = useState<boolean>(false);
   const [showDeskHamMenu, setShowDeskHamMenu] = useState<boolean>(false);
+
+  // Close menus when route changes
+  useEffect(() => {
+    setShowHamMenu(false);
+    setShowDeskHamMenu(false);
+  }, [pathname]);
+
   // const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
@@ -533,9 +514,10 @@ export const Header = styled(({ className }: { className?: string }) => {
   background: rgb(0, 0, 0);
   backdrop-filter: blur(10px);
   font-family: var(--font-exo);
-  z-index: 10;
+  z-index: 1000;
   border-bottom: 0.1px solid rgba(255, 255, 255, 0.3);
   ${sectionResponsivePadding()}
+  isolation: isolate;
 
   @media (min-width: 992px) {
     background: rgb(0, 0, 0);

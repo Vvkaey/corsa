@@ -194,112 +194,55 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     };
   }, [running]);
 
-  // Animate only the reward message
-  useEffect(() => {
-    if (!rewardRef.current || !perfectRewardRef.current) return;
-
-    // Show reward message for any time over 5 seconds
-    if (reward) {
-      // Show reward message with animation
-      gsap.fromTo(
-        rewardRef.current,
-        {
-          autoAlpha: 0,
-          y: 15,
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        }
-      );
-    } else {
-      // Hide reward message
-      gsap.set(rewardRef.current, {
-        autoAlpha: 0,
-        y: 15,
-      });
-    }
-
-    if (perfectReward) {
-      // Show reward message with animation
-      gsap.fromTo(
-        perfectRewardRef.current,
-        {
-          autoAlpha: 0,
-          y: 15,
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        }
-      );
-    } else {
-      // Hide reward message
-      gsap.set(perfectRewardRef.current, {
-        autoAlpha: 0,
-        y: 15,
-      });
-    }
-  }, [reward, perfectReward]);
-
-  // No time animations at all - remove this completely
-  // useEffect(() => {
-  //   // Animation removed to prevent flickering
-  // }, [displayTime, running, reward, hasStarted]);
-
   // Animate reward message
   useEffect(() => {
     if (!rewardRef.current || !perfectRewardRef.current) return;
 
-    if (reward) {
-      // Show reward message with animation
-      gsap.fromTo(
-        rewardRef.current,
-        {
+    const ctx = gsap.context(() => {
+      if (reward) {
+        gsap.fromTo(
+          rewardRef.current,
+          {
+            autoAlpha: 0,
+            y: 15,
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          }
+        );
+      } else {
+        gsap.set(rewardRef.current, {
           autoAlpha: 0,
           y: 15,
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        }
-      );
-    } else {
-      // Hide reward message
-      gsap.set(rewardRef.current, {
-        autoAlpha: 0,
-        y: 15,
-      });
-    }
+        });
+      }
 
-    if (perfectReward) {
-      // Show reward message with animation
-      gsap.fromTo(
-        perfectRewardRef.current,
-        {
+      if (perfectReward) {
+        gsap.fromTo(
+          perfectRewardRef.current,
+          {
+            autoAlpha: 0,
+            y: 15,
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          }
+        );
+      } else {
+        gsap.set(perfectRewardRef.current, {
           autoAlpha: 0,
           y: 15,
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        }
-      );
-    } else {
-      // Hide reward message
-      gsap.set(perfectRewardRef.current, {
-        autoAlpha: 0,
-        y: 15,
-      });
-    }
+        });
+      }
+    });
+
+    return () => ctx.revert();
   }, [reward, perfectReward]);
 
   // Animate button state changes
@@ -309,19 +252,37 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
   const handleStart = () => {
     if (!running) {
+      // Clear any existing reward messages immediately using GSAP context
+      const ctx = gsap.context(() => {
+        if (rewardRef.current) {
+          gsap.set(rewardRef.current, {
+            autoAlpha: 0,
+            y: 15,
+          });
+        }
+        if (perfectRewardRef.current) {
+          gsap.set(perfectRewardRef.current, {
+            autoAlpha: 0,
+            y: 15,
+          });
+        }
+      });
+
+      // Clear states
+      setReward(false);
+      setPerfectReward(false);
+      
       // Don't reset the elapsed time, just start from current time
       timerRef.current.startTime = null;
       setRunning(true);
 
       // Prevent any animations when starting the timer
       if (timeRef.current) {
-        // Ensure no transitions are applied when running starts
         timeRef.current.style.transition = "none";
-
-        // Force a reflow to apply the style change immediately
-        // Using void to silence the ESLint unused variable warning
         void timeRef.current.offsetHeight;
       }
+
+      return () => ctx.revert();
     }
   };
 
@@ -375,13 +336,10 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     // Check for reward condition - now show for anything above 5 seconds
     if (finalSeconds == 5 && finalCentiseconds == 50) {
       setPerfectReward(true);
-    } else if (
-      ((finalSeconds == 0 && finalCentiseconds > 0) ||
-        (finalSeconds > 0 && finalCentiseconds >= 0)) &&
-      finalSeconds !== 5 &&
-      finalCentiseconds !== 50
-    ) {
+      setReward(false);
+    } else if (finalSeconds > 0 || finalCentiseconds > 0) {
       setReward(true);
+      setPerfectReward(false);
     } else {
       setReward(false);
       setPerfectReward(false);
@@ -390,10 +348,29 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
 
   // Handle reset button click
   const handleReset = () => {
-    // First update DOM directly
-    if (timeRef.current) {
-      timeRef.current.textContent = "00:00";
-    }
+    // Create a GSAP context for all animations
+    const ctx = gsap.context(() => {
+      // First update DOM directly
+      if (timeRef.current) {
+        timeRef.current.textContent = "00:00";
+        timeRef.current.style.transition = "none";
+        void timeRef.current.offsetHeight;
+      }
+
+      // Clear reward messages immediately using GSAP
+      if (rewardRef.current) {
+        gsap.set(rewardRef.current, {
+          autoAlpha: 0,
+          y: 15,
+        });
+      }
+      if (perfectRewardRef.current) {
+        gsap.set(perfectRewardRef.current, {
+          autoAlpha: 0,
+          y: 15,
+        });
+      }
+    });
 
     // Then update state
     setRunning(false);
@@ -403,6 +380,8 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
     timerRef.current.elapsedBeforeStop = 0;
     timeValuesRef.current = { seconds: 0, centiseconds: 0 };
     setDisplayTime({ seconds: 0, centiseconds: 0 });
+
+    return () => ctx.revert();
   };
 
   return (
