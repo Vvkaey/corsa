@@ -436,7 +436,7 @@ export const HeroSection = styled(
             color: #fff;
             font-size: 16px;
             font-style: normal;
-            font-weight: 800;
+            font-weight: 600;
             line-height: normal;
             font-family: var(--font-fustat);
             cursor: pointer;
@@ -489,7 +489,7 @@ export const HeroSection = styled(
             color: #ff2626;
             font-size: 16px;
             font-style: normal;
-            font-weight: 800;
+            font-weight: 600;
             line-height: normal;
             font-family: var(--font-fustat);
             cursor: pointer;
