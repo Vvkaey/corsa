@@ -98,6 +98,13 @@ export default function HomeClientWrapper({
     return () => clearTimeout(timer);
   }, []);
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   // Show loading screen while content is loading
   if (isLoading) {
     return (
