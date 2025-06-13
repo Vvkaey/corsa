@@ -88,7 +88,7 @@ const getActiveBenefits = (planId: number) => {
   const activeIds = Object.keys(plan.comparisonData).filter(
     (key) =>
       (plan.comparisonData as Record<string, { value: boolean | string }>)[key]
-        .value === true
+        .value !== false 
   );
 
   // Map the active IDs to their corresponding title and subtitle from PropertyMapper
@@ -102,7 +102,7 @@ const getActiveBenefits = (planId: number) => {
 };
 
 // Data for our products (in an ideal case, fetch this from an API)
-const PRODUCTS: Product[] = pricingData.plans;
+const PRODUCTS: Product[] = pricingData.plans;  
 
 // The Checkout Page Component
 const CheckoutPage: React.FC = () => {
