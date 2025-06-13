@@ -19,21 +19,21 @@ if (typeof window !== "undefined") {
 const cardData = [
   {
     id: 1,
-    description: "Mentoring here has been a rewarding experience. Helping others grow while building real connections. Being a mentor on this platform has been an incredibly rewarding experience.",
-    name: "Riddhi Shah",
-    handle: "IIT DELHI"
+    description: "It's more than doubt solving, we end up helping students find clarity.",
+    name: "Sakshi",
+    handle: "NIT Warangal"
   },
   {
     id: 2,
-    description: "The mentorship program exceeded my expectations. The guidance I received was invaluable in helping me navigate complex career decisions. I'm thankful for this opportunity.",
-    name: "Ankit Verma",
-    handle: "IIM BANGALORE"
+    description: "StrodaClub keeps it simple, clean, and super mentee focused.",
+    name: "Manav",
+    handle: "IIIT Hyderabad"
   },
   {
     id: 3,
-    description: "As a mentor, I've found the experience incredibly fulfilling. Seeing students progress and develop new skills is truly rewarding. The platform makes connection seamless.",
-    name: "Priya Mehta",
-    handle: "HARVARD UNIVERSITY"
+    description: "Hop in, share your journey, and help someone avoid your old mistakes.",
+    name: "Tanmay",
+    handle: "IIT Kanpur"
   }
 ];
 
