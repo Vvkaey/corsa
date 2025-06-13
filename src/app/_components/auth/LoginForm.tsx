@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation"; // Add useSearchParams
 import { useAuth } from "../../_contexts/AuthContext";

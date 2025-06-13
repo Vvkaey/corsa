@@ -8,7 +8,7 @@ import LoginForm from "../auth/LoginForm";
 import { GoogleIcon } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/_utils/hooks/useAuth";
 // import Link from "next/link";
 
@@ -111,6 +111,13 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
 
   // Get the redirect path from search params
   const redirectPath = searchParams.get("redirect") || "/";
+  const pathname = usePathname();
+
+  const OnLogoClick = () => {
+    if (router && pathname !== "/") {
+      router.push("/");
+    }
+  };
 
   // If already authenticated, redirect to intended destination
   useEffect(() => {
@@ -123,9 +130,9 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
     <section className={className}>
       <div className="root-container">
         <div className="left-panel">
-          <div className="logo-container">
+          <button className="logo-container" onClick={OnLogoClick}>
             <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
-          </div>
+          </button>
           <div className="login-block">
             {!isOTPRequested ? <GoogleSignInButton /> : null}
             {!isOTPRequested ? (
@@ -207,6 +214,9 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
       }
 
       .logo-container {
+        background: transparent;
+        border: none;
+        cursor: pointer;
         position: relative;
         width: 70%;
         margin: 0 15%;
