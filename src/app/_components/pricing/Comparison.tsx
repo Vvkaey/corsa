@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { gridMixin } from "../mixins";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { DesktopComparisonTable } from "./DesktopComparisonTable";
-import { COMPARISON_DATA } from "../data/productData";
+import { COMPARISON_DATA, pricingData } from "../data/productData";
 import {
   maxWidthContainer,
   sectionResponsivePadding,
@@ -230,7 +230,7 @@ export const Comparison = styled(
         router.push(`/login?redirect=/pricing`);
         return;
       }
-      router.push(`/checkout/${id}`);
+      router.push(`/checkout/${pricingData.plans[id - 1].productType}`);
     };
 
     return (

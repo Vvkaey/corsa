@@ -652,7 +652,7 @@ const Plan: React.FC<PricingPlan> = ({
     setIsLoading(true);
     setError(null);
 
-    try {
+     try {
       // Check if user is authenticated
       const token = localStorage.getItem("authToken");
       if (!token) {
