@@ -1,4 +1,3 @@
-
 import {
   ApplicationForm,
   ErrorText,
@@ -17,7 +16,7 @@ import { useState, useRef, useEffect } from "react";
 import * as Yup from "yup";
 import { CaretUp } from "@/app/_assets/icons";
 import ThankyouScreen, { GridType } from "../pricing/success/ThankyouScreen";
-import FailureScreen from "../pricing/failure/FailureScreen";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 
 // Interface for form values
@@ -40,6 +39,7 @@ interface FormValues {
 type InputEvent = React.FocusEvent<HTMLInputElement | HTMLSelectElement>;
 
 const MentorApplication = () => {
+  const router = useRouter();
   const [emailVerified, setEmailVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState({
@@ -541,6 +541,13 @@ const MentorApplication = () => {
     });
   };
 
+  // Add effect to handle failure modal redirect
+  useEffect(() => {
+    if (showFailureModal) {
+      router.push('/error');
+    }
+  }, [showFailureModal, router]);
+
   return (
     <MentorApplicationContainer ref={containerRef}
     style={{ opacity: 1, visibility: 'visible' }}
@@ -554,7 +561,6 @@ const MentorApplication = () => {
           ctaGrid={GridType.SOLO}
         />
       ) : null}
-      {showFailureModal ? <FailureScreen /> : null}
       <div ref={titleRef}
        style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
       >
