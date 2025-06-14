@@ -281,7 +281,7 @@ export const IconShowcase = styled(
                     {firstGroupIcons.map((item, index) => (
                       <div key={`first-${index}`} className="icon">
                         <Image
-                          src={item.icon}
+                          src={item.mobileIcon}
                           alt={item.name || "icon"}
                           fill
                           style={{ objectFit: "contain" }}
@@ -300,7 +300,7 @@ export const IconShowcase = styled(
                     {secondGroupIcons.map((item, index) => (
                       <div key={`second-${index}`} className="icon">
                         <Image
-                          src={item.icon}
+                          src={item.mobileIcon}
                           alt={item.name || "icon"}
                           fill
                           style={{ objectFit: "contain" }}
@@ -319,7 +319,7 @@ export const IconShowcase = styled(
                     {thirdGroupIcons.map((item, index) => (
                       <div key={`third-${index}`} className="icon">
                         <Image
-                          src={item.icon}
+                          src={item.mobileIcon}
                           alt={item.name || "icon"}
                           fill
                           style={{ objectFit: "contain" }}
@@ -338,7 +338,7 @@ export const IconShowcase = styled(
                     {fourGroupIcons.map((item, index) => (
                       <div key={`forth-${index}`} className="icon">
                         <Image
-                          src={item.icon}
+                          src={item.mobileIcon}
                           alt={item.name || "icon"}
                           fill
                           style={{ objectFit: "contain" }}
@@ -357,7 +357,7 @@ export const IconShowcase = styled(
                     {fiveGroupIcons.map((item, index) => (
                       <div key={`fifth-${index}`} className="icon">
                         <Image
-                          src={item.icon}
+                          src={item.mobileIcon}
                           alt={item.name || "icon"}
                           fill
                           style={{ objectFit: "contain" }}
