@@ -283,7 +283,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          fill
+                          width={45}
+                          height={45}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -302,7 +303,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          fill
+                          width={45}
+                          height={45}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -321,7 +323,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          fill
+                          width={45}
+                          height={45}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -340,7 +343,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          fill
+                          width={45}
+                          height={45}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
@@ -359,7 +363,8 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          fill
+                          width={45}
+                          height={45}
                           style={{ objectFit: "contain" }}
                         />
                         <p className="icon-text">{item.name}</p>
