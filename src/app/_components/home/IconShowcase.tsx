@@ -283,9 +283,18 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          width={45}
-                          height={45}
-                          style={{ objectFit: "contain" }}
+                          width={120}
+                          height={120}
+                          quality={100}
+                          priority={true}
+                          loading="eager"
+                          sizes="(max-width: 768px) 45px, 45px"
+                          style={{ 
+                            objectFit: "contain",
+                            width: "45px",
+                            height: "45px",
+                            imageRendering: "crisp-edges"
+                          }}
                         />
                         <p className="icon-text">{item.name}</p>
                       </div>
@@ -303,9 +312,18 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          width={45}
-                          height={45}
-                          style={{ objectFit: "contain" }}
+                          width={120}
+                          height={120}
+                          quality={100}
+                          priority={true}
+                          loading="eager"
+                          sizes="(max-width: 768px) 45px, 45px"
+                          style={{ 
+                            objectFit: "contain",
+                            width: "45px",
+                            height: "45px",
+                            imageRendering: "crisp-edges"
+                          }}
                         />
                         <p className="icon-text">{item.name}</p>
                       </div>
@@ -323,9 +341,18 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          width={45}
-                          height={45}
-                          style={{ objectFit: "contain" }}
+                          width={120}
+                          height={120}
+                          quality={100}
+                          priority={true}
+                          loading="eager"
+                          sizes="(max-width: 768px) 45px, 45px"
+                          style={{ 
+                            objectFit: "contain",
+                            width: "45px",
+                            height: "45px",
+                            imageRendering: "crisp-edges"
+                          }}
                         />
                         <p className="icon-text">{item.name}</p>
                       </div>
@@ -343,9 +370,18 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          width={45}
-                          height={45}
-                          style={{ objectFit: "contain" }}
+                          width={120}
+                          height={120}
+                          quality={100}
+                          priority={true}
+                          loading="eager"
+                          sizes="(max-width: 768px) 45px, 45px"
+                          style={{ 
+                            objectFit: "contain",
+                            width: "45px",
+                            height: "45px",
+                            imageRendering: "crisp-edges"
+                          }}
                         />
                         <p className="icon-text">{item.name}</p>
                       </div>
@@ -363,9 +399,18 @@ export const IconShowcase = styled(
                         <Image
                           src={item.mobileIcon}
                           alt={item.name || "icon"}
-                          width={45}
-                          height={45}
-                          style={{ objectFit: "contain" }}
+                          width={120}
+                          height={120}
+                          quality={100}
+                          priority={true}
+                          loading="eager"
+                          sizes="(max-width: 768px) 45px, 45px"
+                          style={{ 
+                            objectFit: "contain",
+                            width: "45px",
+                            height: "45px",
+                            imageRendering: "crisp-edges"
+                          }}
                         />
                         <p className="icon-text">{item.name}</p>
                       </div>
