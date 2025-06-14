@@ -49,7 +49,6 @@ export const DesktopNavItems = styled(
     const logoutUser = useCallback(() => {
       logout();
       if (setShowMenu) setShowMenu(false);
-      if(window) window.location.reload();
     }, [logout, setShowMenu]);
 
     return (
@@ -115,6 +114,7 @@ export const DesktopNavItems = styled(
     opacity: 0.6;
     padding: 16px 0;
     border-bottom: 1px solid #ddd;
+    cursor: pointer;
   }
 
   button.ham-item {
@@ -206,8 +206,8 @@ export const HamOverlay = styled(
 
     const logoutUser = useCallback(() => {
       logout();
-      router.push("/");
-    }, [logout, router]);
+      if (setShowMenu) setShowMenu(false);
+    }, [logout, setShowMenu]);
 
     const onButtonClick = useCallback(() => {
       if (setShowMenu) {
@@ -609,6 +609,7 @@ export const Header = styled(({ className }: { className?: string }) => {
             background: transparent;
             border: none;
             color : #fff;
+            cursor: pointer;
 
             @media (max-width: 992px) {
               display: none;

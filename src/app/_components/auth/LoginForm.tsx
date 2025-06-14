@@ -173,6 +173,7 @@ const FlatButton = styled.button`
   border: none;
   background: transparent;
   width: 100%;
+  cursor: pointer;
 
   @media (min-width: 992px) {
     font-size: 16px;

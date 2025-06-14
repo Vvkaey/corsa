@@ -189,17 +189,25 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   // Logout function
   const logout = () => {
+    // First clear all states and storage
     setToken(null);
     setUser(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
-    if (!window) return;
 
-    // Trigger auth context update event
-    window.dispatchEvent(new Event("auth-storage-change"));
-
-    // Trigger mentorship context update event
-    window.dispatchEvent(new Event("mentorship-update"));
+    // Then trigger events to update dependent contexts
+    if (window) {
+      // Trigger auth context update event
+      window.dispatchEvent(new Event("auth-storage-change"));
+      
+      // Trigger mentorship context update event
+      window.dispatchEvent(new Event("mentorship-update"));
+      
+      // Finally refresh the page after a small delay to ensure events are processed
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 100);
+    }
   };
 
   // Context value

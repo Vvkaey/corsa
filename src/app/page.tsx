@@ -9,7 +9,7 @@ const ICONS = [
   {
     name: "IIT Patna",
     icon: "/iconA.svg",
-    mobileIcon: "/iconA-mobile.svg",
+    mobileIcon: "/iconA-mobile.png",
   },
   {
     name: "IIT Delhi",
