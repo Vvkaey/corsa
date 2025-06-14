@@ -88,7 +88,7 @@ const getActiveBenefits = (planId: number) => {
   const activeIds = Object.keys(plan.comparisonData).filter(
     (key) =>
       (plan.comparisonData as Record<string, { value: boolean | string }>)[key]
-        .value !== false 
+        .value !== false
   );
 
   // Map the active IDs to their corresponding title and subtitle from PropertyMapper
@@ -102,7 +102,7 @@ const getActiveBenefits = (planId: number) => {
 };
 
 // Data for our products (in an ideal case, fetch this from an API)
-const PRODUCTS: Product[] = pricingData.plans;  
+const PRODUCTS: Product[] = pricingData.plans;
 
 // The Checkout Page Component
 const CheckoutPage: React.FC = () => {
@@ -158,7 +158,7 @@ const CheckoutPage: React.FC = () => {
         strategy="lazyOnload"
       />
 
-      <CheckoutGrid>
+      <CheckoutGrid >
         {/* Product details */}
         <ProductDetailsCard>
           <ProductTitle>{product.name}</ProductTitle>
@@ -179,24 +179,24 @@ const CheckoutPage: React.FC = () => {
               : null}
           </BenefitsList>
         </ProductDetailsCard>
-        {showFeatures ? (
-          <MobileBenefitsList>
-            {getActiveBenefits(product.id).length > 0
-              ? getActiveBenefits(product.id).map((benefit, index) => (
-                  <BenefitItem key={index}>
-                    <Tick
-                      width={29}
-                      height={17}
-                      style={{
-                        flexShrink: 0,
-                      }}
-                    />
-                    {benefit.title}
-                  </BenefitItem>
-                ))
-              : null}
-          </MobileBenefitsList>
-        ) : null}
+        {/* {showFeatures ? ( */}
+        <MobileBenefitsList data-showfeatures={showFeatures}>
+          {getActiveBenefits(product.id).length > 0
+            ? getActiveBenefits(product.id).map((benefit, index) => (
+                <BenefitItem key={index}>
+                  <Tick
+                    width={29}
+                    height={17}
+                    style={{
+                      flexShrink: 0,
+                    }}
+                  />
+                  {benefit.title}
+                </BenefitItem>
+              ))
+            : null}
+        </MobileBenefitsList>
+        {/* ) : null} */}
 
         {/* Payment form */}
         <PaymentSection>

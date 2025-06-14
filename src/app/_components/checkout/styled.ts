@@ -42,15 +42,17 @@ position: relative;
 `;
 
 export const CheckoutGrid = styled.div`
+position : relative;
   display: flex;
   justify-content: center;
   gap: 2rem;
-
+  
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     flex-direction: column;
     margin-top: 90px;
   }
+    
 
   @media (min-width: 992px) {
     gap: 1rem;
@@ -177,13 +179,23 @@ export const BenefitsList = styled.ul`
   }
 `;
 
-export const MobileBenefitsList = styled.ul`
+export const MobileBenefitsList = styled.ul<{ 'data-showfeatures'?: boolean }>`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
   background: #f5f5f5;
   list-style: none;
   padding: 12px 30px 32px;
+  overflow: hidden;
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: ${({ 'data-showfeatures': showFeatures }) => (showFeatures ? '1000px' : '0')};
+  padding: ${({ 'data-showfeatures': showFeatures }) => (showFeatures ? '12px 30px 32px' : '0 30px')};
+  opacity: ${({ 'data-showfeatures': showFeatures }) => (showFeatures ? '1' : '0')};
+  margin-top: ${({ 'data-showfeatures': showFeatures }) => (showFeatures ? '0' : '-20px')};
+ 
+  @media (min-width: 992px) {
+    display: none;
+  }
 `;
 
 export const BenefitItem = styled.li`
