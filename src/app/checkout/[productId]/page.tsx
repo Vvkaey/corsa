@@ -163,7 +163,7 @@ const CheckoutPage: React.FC = () => {
         <ProductDetailsCard>
           <ProductTitle>{product.name}</ProductTitle>
           <SeeAllBtn onClick={toggleBenefitslistDisplay}>
-            <CaretUp />
+            <CaretUp style={{ transform: showFeatures ? "rotate(0deg)" : "rotate(180deg)", transition: "transform 0.3s ease-in-out" }} />
           </SeeAllBtn>
           <BenefitsList>
             {getActiveBenefits(product.id).length > 0
