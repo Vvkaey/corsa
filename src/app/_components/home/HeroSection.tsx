@@ -270,20 +270,20 @@ export const HeroSection = styled(
                   {secondaryCta ? (
                     <div
                       className={
-                        (subscription && badge === BADGES.TOP_GUN) ? "cta-wrapper full" : "cta-wrapper"
+                        (subscription && badge === BADGES.TOP_GUN) ? "cta-wrapper full" : "cta-wrapper "
                       }
                     >
                       <button
                         ref={secondaryCtaRef}
                         className={
-                          subscription ? "primary-cta" : "secondary-cta"
+                          (subscription && badge === BADGES.TOP_GUN) ? "primary-cta" : "secondary-cta"
                         }
                         onClick={onSecondaryCTAClick}
                       >
                         {secondaryCta}
                       </button>
                     </div>
-                  ) : null}
+                  ) : null}   
                 </div>
               ) : null}
             </div>
