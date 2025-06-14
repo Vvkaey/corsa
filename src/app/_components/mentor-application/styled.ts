@@ -299,7 +299,7 @@ export const ErrorText = styled.div<{ $right?: boolean }>`
   position: absolute;
   color: #ff2626;
   font-size: 10px;
-  margin-top: 5px;
+  margin-top: 2.5px;
   font-weight: 500;
   margin-left: ${(props) => (props.$right ? "0" : "10px")};
   padding-right: ${(props) => (props.$right ? "20px" : "unset")};
@@ -307,6 +307,9 @@ export const ErrorText = styled.div<{ $right?: boolean }>`
   font-family: var(--font-fustat);
    width: ${(props) => (props.$right ? "100%" : "unset")};
      text-align: ${(props) => (props.$right ? "right" : "left")};
+       @media (min-width: 992px) {
+  margin-top: 2.5px;
+  }
 
 
   @media (min-width: 1025px) {

@@ -287,10 +287,10 @@ export const SectionTitle = styled.h2`
 
 export const FormGroup = styled.div`
 position: relative;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 
   @media (min-width: 992px) {
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.65rem;
   }
 
   // @media (min-width: 1950px) {
