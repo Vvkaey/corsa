@@ -51,7 +51,7 @@ const ICONS = [
   {
     name: "IIIT Hyderabad",
     icon: "/iconIIIT.svg",
-    mobileIcon: "/iconIIIT-mobile.png",
+    mobileIcon: "/iconIIIt-mobile.png",
   },
   {
     name: "NIT Allahabad",
