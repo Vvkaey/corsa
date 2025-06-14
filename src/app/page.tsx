@@ -14,49 +14,49 @@ const ICONS = [
   {
     name: "IIT Delhi",
     icon: "/iconB.svg",
-    mobileIcon: "/iconB-mobile.svg",
+    mobileIcon: "/iconB-mobile.png",
   },
   {
     name: "IIT Madras",
     icon: "/iconC.svg",
-    mobileIcon: "/iconC-mobile.svg",
+    mobileIcon: "/iconC-mobile.png",
   },
   {
     name: "IIT Kanpur",
     icon: "/iconD.svg",
-    mobileIcon: "/iconD-mobile.svg",
+    mobileIcon: "/iconD-mobile.png",
   },
   {
     name: "IIT Guwahati",
     icon: "/iconGuwahati.svg",
-    mobileIcon: "/iconGuwahati-mobile.svg",
+    mobileIcon: "/iconGuwahati-mobile.png",
   },
   {
     name: "NIT Trichy",
     icon: "/iconTrichy.svg",
-    mobileIcon: "/iconTrichy-mobile.svg",
+    mobileIcon: "/iconTrichy-mobile.png",
     
   },
   {
     name: "BITS Pilani",
     icon: "/iconPilani.svg",
-    mobileIcon: "/iconPilani-mobile.svg",
+    mobileIcon: "/iconPilani-mobile.png",
   },
   {
     name: "VIT Vellore",
     icon: "/iconVellorw.svg",
-    mobileIcon: "/iconVellorw-mobile.svg",
+    mobileIcon: "/iconVellore-mobile.png",
     
   },
   {
     name: "IIIT Hyderabad",
     icon: "/iconIIIT.svg",
-    mobileIcon: "/iconIIIT-mobile.svg",
+    mobileIcon: "/iconIIIT-mobile.png",
   },
   {
     name: "NIT Allahabad",
     icon: "/iconMotilal.svg",
-    mobileIcon: "/iconMotilal-mobile.svg",
+    mobileIcon: "/iconMotilal-mobile.png",
   },
 ];
 
