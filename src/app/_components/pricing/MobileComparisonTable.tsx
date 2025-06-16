@@ -102,9 +102,10 @@ const FeatureContentBase = styled.div`
   justify-content: center;
   width: 100%;
   flex-wrap: wrap;
-  padding: 32px 16px 35px 16px;
+  padding: 32px 0 35px 0;
   border-bottom: 1px solid #dedede;
   min-height: 100px;
+  height: 100%;
   background: #fff;
 `;
 
@@ -122,11 +123,12 @@ const FeaturesList = styled.div<{ $isScrollable: boolean }>`
   display: flex;
   flex-direction: column;
   ${sectionResponsivePadding()};
-  height: 100%;
+  // height: 100%;
   overflow-y: ${props => props.$isScrollable ? 'auto' : 'hidden'};
   transition: overflow-y 0.3s ease;
   -webkit-overflow-scrolling: touch;
   position: relative;
+  
 `;
 
 const CheckIcon = styled.span``;

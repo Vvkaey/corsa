@@ -171,7 +171,7 @@ const ComparisonHeader = styled.div`
 // `;
 
 const ComparisonBody = styled.div`
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   background: #fff;
   height: auto;
   min-height: 100vh;
