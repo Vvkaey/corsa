@@ -138,7 +138,7 @@ const CrossIcon = styled.span`
 
 const MobileTableContainer = styled.section`
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -149,7 +149,7 @@ const ComparisonBody = styled.div`
   flex: 1;
   height: calc(100vh - 48px);
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
 `;
 
 const MobileComparisonTable = ({
