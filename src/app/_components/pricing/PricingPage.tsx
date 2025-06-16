@@ -26,6 +26,8 @@ import {
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
 import Comparison from "./Comparison";
+import MobileComparisonTable from "./MobileComparisonTable";
+import { COMPARISON_DATA } from "../data/productData";
 
 // Register ScrollTrigger plugin
 // if (typeof window !== "undefined") {
@@ -138,6 +140,41 @@ const PlansContainer = styled.div`
   @media (min-width: 992px) {
     margin: 71px auto;
   }
+`;
+
+const MobileComparisonSection = styled.div`
+  display: none;
+  width: 100%;
+  position: relative;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const ComparisonHeader = styled.div`
+  position: sticky;
+  top: 48px; /* Height of the main header */
+  width: 100%;
+  background: #fff;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+// const ComparisonTitle = styled.h2`
+//   color: #000;
+//   font-family: var(--font-exo);
+//   font-size: 24px;
+//   font-weight: 600;
+//   text-align: center;
+//   margin: 0;
+// `;
+
+const ComparisonBody = styled.div`
+  padding: 1.5rem;
+  background: #fff;
+  height: auto;
+  min-height: 100vh;
 `;
 
 // Create a interface for the props we want to use for styling only
@@ -625,6 +662,47 @@ interface PricingPageProps {
   plans: PricingPlan[];
 }
 
+const Tabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: #f8f8f8;
+  ${sectionResponsivePadding()}
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: sticky;
+  top: 47px;
+  z-index: 5;
+  border-bottom: 1px solid #dedede;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
+`;
+
+const Tab = styled.button<{ $activetab: boolean }>`
+  height: 32px;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid
+    ${({ $activetab }) => ($activetab ? "#ff2626" : "transparent")};
+  color: ${({ $activetab }) => ($activetab ? "#ff2626" : "#000")};
+  leading-trim: both;
+  text-edge: cap;
+  font-family: var(--font-exo);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+`;
+
 // Plan Component
 const Plan: React.FC<PricingPlan> = ({
   name,
@@ -647,6 +725,7 @@ const Plan: React.FC<PricingPlan> = ({
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
   const { width = 1024 } = useWindowSize();
+  
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -868,6 +947,13 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const plansContainerRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const { badge, isLoading: contextLoading } = useMentorshipContext();
+  const [comparatorsOrder] = useState<number[]>([0, 1, 2]);
+  const [active, setActive] = useState(0);
+  const [isScrollable, setIsScrollable] = useState(false);
+  const mobileComparisonRef = useRef<HTMLDivElement>(null);
+  const comparisonHeaderRef = useRef<HTMLDivElement>(null);
+  const featuresListRef = useRef<HTMLDivElement>(null);
+  const lastFeatureRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top on component mount
   useEffect(() => {
@@ -893,6 +979,41 @@ const PricingPage: React.FC<PricingPageProps> = ({
       return () => clearTimeout(timer);
     }
   }, [badge, contextLoading]);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (comparisonHeaderRef.current && featuresListRef.current && mobileComparisonRef.current) {
+        const headerRect = comparisonHeaderRef.current.getBoundingClientRect();
+        const comparisonRect = mobileComparisonRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Get all FeatureContent elements
+        const featureContents = featuresListRef.current?.querySelectorAll('.feature-content');
+        const firstFeatureRect = featureContents?.[0]?.getBoundingClientRect();
+        const lastFeatureRect = featureContents?.[featureContents.length - 1]?.getBoundingClientRect();
+        
+        // Calculate if we're scrolling up or down
+        const isScrollingUp = window.scrollY < lastScrollY;
+        lastScrollY = window.scrollY;
+
+        // Check if header is at top and content is within scrollable range
+        const shouldEnableScroll = 
+          headerRect.top <= 48 && // Header is at top
+          comparisonRect.bottom > viewportHeight && // Component hasn't reached bottom
+          (isScrollingUp ? 
+            (firstFeatureRect?.top ?? 0) > 48 && // When scrolling up, keep scrolling until first feature reaches header
+            (lastFeatureRect?.bottom ?? 0) > viewportHeight : // And last feature hasn't reached bottom
+            (lastFeatureRect?.bottom ?? 0) > viewportHeight); // When scrolling down, keep scrolling until last feature reaches bottom
+
+        setIsScrollable(shouldEnableScroll);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Set up animations after content is ready
   useEffect(() => {
@@ -1002,14 +1123,41 @@ const PricingPage: React.FC<PricingPageProps> = ({
           />
         ))}
       </PlansContainer>
-      {/* <Comparison htmlId="product-comparision" /> */}
-      <Comparison htmlId="product-comparision" />
-      {/* <div className="comparison-section">
-        
-      </div> */}
-      {/* <StickyTest />
-      <ComparisonNew /> */}
-            {/* <ComparisonSection /> */}
+      <Comparison />
+      <MobileComparisonSection ref={mobileComparisonRef}>
+        <ComparisonHeader ref={comparisonHeaderRef}>
+          <Tabs>
+            <Tab
+              $activetab={active === 0 ? true : false}
+              onClick={() => setActive(0)}
+            >
+              Insight
+            </Tab>
+            <Tab
+              $activetab={active === 1 ? true : false}
+              onClick={() => setActive(1)}
+            >
+              Mentor
+            </Tab>
+            <Tab
+              $activetab={active === 2 ? true : false}
+              onClick={() => setActive(2)}
+            >
+              Membership
+            </Tab>
+          </Tabs>
+        </ComparisonHeader>
+        <ComparisonBody>
+          <MobileComparisonTable
+            data={COMPARISON_DATA}
+            comparatorsOrder={comparatorsOrder}
+            active={active}
+            isScrollable={isScrollable}
+            featuresListRef={featuresListRef}
+            lastFeatureRef={lastFeatureRef}
+          />
+        </ComparisonBody>
+      </MobileComparisonSection>
       <div className="contact-section">
         <ContactUs />
       </div>

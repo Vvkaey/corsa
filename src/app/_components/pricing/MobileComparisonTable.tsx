@@ -5,50 +5,51 @@ import {
   ComparisonPropertyValueProps,
   PropertyMapper,
 } from "../data/productData";
-import { useState } from "react";
+// import { useState } from "react";
 import { PropertyValue } from "./DesktopComparisonTable";
 import { PricingCross, PricingTick } from "@/app/_assets/icons";
+import { forwardRef } from "react";
 
-const Tabs = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  background: #f8f8f8;
-  ${sectionResponsivePadding()}
-  padding-top: 10px;
-  padding-bottom: 10px;
-  position: sticky;
-  top: 47px;
-  z-index: 5;
-  border-bottom: 1px solid #dedede;
+// const Tabs = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+//   width: 100%;
+//   background: #f8f8f8;
+//   ${sectionResponsivePadding()}
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+//   position: sticky;
+//   top: 47px;
+//   z-index: 5;
+//   border-bottom: 1px solid #dedede;
 
-  @media (min-width: 992px) {
-    display: none;
-  }
-`;
+//   @media (min-width: 992px) {
+//     display: none;
+//   }
+// `;
 
-const Tab = styled.button<{ $activetab: boolean }>`
-  height: 32px;
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid
-    ${({ $activetab }) => ($activetab ? "#ff2626" : "transparent")};
-  color: ${({ $activetab }) => ($activetab ? "#ff2626" : "#000")};
-  leading-trim: both;
-  text-edge: cap;
-  font-family: var(--font-exo);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  cursor: pointer;
-`;
+// const Tab = styled.button<{ $activetab: boolean }>`
+//   height: 32px;
+//   width: 30%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background: transparent;
+//   border: none;
+//   border-bottom: 1px solid
+//     ${({ $activetab }) => ($activetab ? "#ff2626" : "transparent")};
+//   color: ${({ $activetab }) => ($activetab ? "#ff2626" : "#000")};
+//   leading-trim: both;
+//   text-edge: cap;
+//   font-family: var(--font-exo);
+//   font-size: 16px;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: normal;
+//   cursor: pointer;
+// `;
 
 const FeatureDescription = styled.p`
   color: #404040;
@@ -89,7 +90,7 @@ const FeatureTitle = styled.h3`
 
 `;
 
-const FeatureContent = styled.div`
+const FeatureContentBase = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,15 +99,26 @@ const FeatureContent = styled.div`
   padding: 32px 0 35px 0;
   border-bottom: 1px solid #dedede;
   height: 100%;
-    padding-left: 16px;
+  padding-left: 16px;
 `;
 
-const FeaturesList = styled.div`
+const FeatureContent = forwardRef<HTMLDivElement, { children: React.ReactNode }>(
+  (props, ref) => (
+    <FeatureContentBase ref={ref} className="feature-content">
+      {props.children}
+    </FeatureContentBase>
+  )
+);
+
+FeatureContent.displayName = 'FeatureContent';
+
+const FeaturesList = styled.div<{ $isScrollable: boolean }>`
   display: flex;
   flex-direction: column;
   ${sectionResponsivePadding()};
   height: 100%;
-  overflow-y: auto;
+  overflow-y: ${props => props.$isScrollable ? 'auto' : 'hidden'};
+  transition: overflow-y 0.3s ease;
 `;
 
 const CheckIcon = styled.span``;
@@ -116,14 +128,29 @@ const CrossIcon = styled.span`
   font-size: 1.2rem;
 `;
 
+const MobileTableContainer = styled.section`
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+`;
+
 const MobileComparisonTable = ({
   data,
   comparatorsOrder,
+  active,
+  isScrollable,
+  featuresListRef,
+  lastFeatureRef
 }: {
   data: Array<ComparisonDataProps>;
   comparatorsOrder: number[];
+  active: number;
+  isScrollable: boolean;
+  featuresListRef: React.RefObject<HTMLDivElement | null>;
+  lastFeatureRef: React.RefObject<HTMLDivElement | null>;
 }) => {
-  const [active, setActive] = useState(0);
+  // const [active, setActive] = useState(0);
 
   const renderCellValue = (item: ComparisonDataProps, key: string) => {
     const property = item[
@@ -162,7 +189,7 @@ const MobileComparisonTable = ({
 
   return (
     <MobileTableContainer>
-      <Tabs>
+      {/* <Tabs>
         <Tab
           $activetab={active === 0 ? true : false}
           onClick={() => setActive(0)}
@@ -181,11 +208,12 @@ const MobileComparisonTable = ({
         >
           Membership
         </Tab>
-      </Tabs>
-      <FeaturesList>
-        {featureKeys.map((key) => (
+      </Tabs> */}
+      <FeaturesList ref={featuresListRef} $isScrollable={isScrollable}>
+        {featureKeys.map((key, index) => (
           <FeatureContent
             key={PropertyMapper[key as keyof typeof PropertyMapper].title}
+            ref={index === featureKeys.length - 1 ? lastFeatureRef : null}
           >
             <FeatureTitle>
               {PropertyMapper[key as keyof typeof PropertyMapper].title}
@@ -202,11 +230,5 @@ const MobileComparisonTable = ({
     </MobileTableContainer>
   );
 };
-
-export const MobileTableContainer = styled.section`
-  margin-top: 50px;
-  width: 100%;
-  height: 100vh;
-`;
 
 export default MobileComparisonTable;

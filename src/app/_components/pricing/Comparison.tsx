@@ -9,7 +9,7 @@ import {
   maxWidthContainer,
   sectionResponsivePadding,
 } from "../new_mixins/mixins";
-import MobileComparisonTable from "./MobileComparisonTable";
+// import MobileComparisonTable from "./MobileComparisonTable";
 import {
   badge_mapper,
   useMentorshipContext,
@@ -154,7 +154,7 @@ const TableHeader = styled.div`
   }
 
   @media (min-width: 1950px) {
-   top: 70px;
+    top: 70px;
   }
 
   table {
@@ -277,8 +277,15 @@ export const Comparison = styled(
                                     }) as boolean
                                   }
                                   onClick={() => {
-                                    if (TestCompatibility({ badge, id: id + 1 }) && 
-                                        badge_mapper[(id + 1) as keyof typeof badge_mapper] !== badge) {
+                                    if (
+                                      TestCompatibility({
+                                        badge,
+                                        id: id + 1,
+                                      }) &&
+                                      badge_mapper[
+                                        (id + 1) as keyof typeof badge_mapper
+                                      ] !== badge
+                                    ) {
                                       handleSubscribe(id + 1);
                                     }
                                   }}
@@ -321,30 +328,31 @@ export const Comparison = styled(
                   </ScrollableContent>
                 </TableBodyContainer>
               </>
-            ) : (
-              <>
-                {/* Mobile Table Header */}
-                <TableHeader
-                  ref={headerRef}
-                  className="thead-sticky mobile-header"
-                >
-                  <h2 className="comparator-head">Compare plans & benefits</h2>
-                </TableHeader>
+            ) : //  (
+            //   <>
+            //     {/* Mobile Table Header */}
+            //     <TableHeader
+            //       ref={headerRef}
+            //       className="thead-sticky mobile-header"
+            //     >
+            //       <h2 className="comparator-head">Compare plans & benefits</h2>
+            //     </TableHeader>
 
-                {/* Mobile Table Body */}
-                <TableBodyContainer
-                  ref={bodyRef}
-                  className="table-body-container"
-                >
-                  <ScrollableContent ref={contentRef}>
-                    <MobileComparisonTable
-                      data={COMPARISON_DATA}
-                      comparatorsOrder={comparatorsOrder}
-                    />
-                  </ScrollableContent>
-                </TableBodyContainer>
-              </>
-            )}
+            //     {/* Mobile Table Body */}
+            //     <TableBodyContainer
+            //       ref={bodyRef}
+            //       className="table-body-container"
+            //     >
+            //       <ScrollableContent ref={contentRef}>
+            //         <MobileComparisonTable
+            //           data={COMPARISON_DATA}
+            //           comparatorsOrder={comparatorsOrder}
+            //         />
+            //       </ScrollableContent>
+            //     </TableBodyContainer>
+            //   </>
+            // )
+            null}
           </HeaderContentWrapper>
         </ComparisonContainer>
       </div>
@@ -355,6 +363,10 @@ export const Comparison = styled(
   position: relative;
   background: #fff;
   grid-column: 0 / 10;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
 
   /* Mobile header styling */
   .mobile-header {
