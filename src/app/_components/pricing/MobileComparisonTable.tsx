@@ -62,6 +62,8 @@ const FeatureDescription = styled.p`
   line-height: normal;
   padding-top: 26px;
   width: 100%;
+  margin: 0;
+  text-align: left;
 `;
 
 const FeatureMetric = styled.div`
@@ -75,7 +77,11 @@ const FeatureMetric = styled.div`
   font-weight: 800;
   line-height: normal;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
+
 const FeatureTitle = styled.h3`
   margin: 0 !important;
   color: #000;
@@ -87,7 +93,7 @@ const FeatureTitle = styled.h3`
   font-weight: 700 !important;
   line-height: normal;
   width: 70%;
-
+  text-align: left;
 `;
 
 const FeatureContentBase = styled.div`
@@ -96,10 +102,10 @@ const FeatureContentBase = styled.div`
   justify-content: center;
   width: 100%;
   flex-wrap: wrap;
-  padding: 32px 0 35px 0;
+  padding: 32px 16px 35px 16px;
   border-bottom: 1px solid #dedede;
-  height: 100%;
-  padding-left: 16px;
+  min-height: 100px;
+  background: #fff;
 `;
 
 const FeatureContent = forwardRef<HTMLDivElement, { children: React.ReactNode }>(
@@ -119,6 +125,8 @@ const FeaturesList = styled.div<{ $isScrollable: boolean }>`
   height: 100%;
   overflow-y: ${props => props.$isScrollable ? 'auto' : 'hidden'};
   transition: overflow-y 0.3s ease;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
 `;
 
 const CheckIcon = styled.span``;
@@ -131,6 +139,15 @@ const CrossIcon = styled.span`
 const MobileTableContainer = styled.section`
   width: 100%;
   height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ComparisonBody = styled.div`
+  flex: 1;
+  height: calc(100vh - 48px);
   position: relative;
   overflow: hidden;
 `;
@@ -150,8 +167,6 @@ const MobileComparisonTable = ({
   featuresListRef: React.RefObject<HTMLDivElement | null>;
   lastFeatureRef: React.RefObject<HTMLDivElement | null>;
 }) => {
-  // const [active, setActive] = useState(0);
-
   const renderCellValue = (item: ComparisonDataProps, key: string) => {
     const property = item[
       key as keyof ComparisonDataProps
@@ -174,8 +189,6 @@ const MobileComparisonTable = ({
     }
   };
 
-  console.log(data);
-
   // Filter property keys that exist in the data
   const featureKeys = Object.keys(PropertyMapper).filter((key) =>
     data.some(
@@ -185,48 +198,28 @@ const MobileComparisonTable = ({
     )
   );
 
-  console.log(featureKeys);
-
   return (
     <MobileTableContainer>
-      {/* <Tabs>
-        <Tab
-          $activetab={active === 0 ? true : false}
-          onClick={() => setActive(0)}
-        >
-          Insight
-        </Tab>
-        <Tab
-          $activetab={active === 1 ? true : false}
-          onClick={() => setActive(1)}
-        >
-          Mentor
-        </Tab>
-        <Tab
-          $activetab={active === 2 ? true : false}
-          onClick={() => setActive(2)}
-        >
-          Membership
-        </Tab>
-      </Tabs> */}
-      <FeaturesList ref={featuresListRef} $isScrollable={isScrollable}>
-        {featureKeys.map((key, index) => (
-          <FeatureContent
-            key={PropertyMapper[key as keyof typeof PropertyMapper].title}
-            ref={index === featureKeys.length - 1 ? lastFeatureRef : null}
-          >
-            <FeatureTitle>
-              {PropertyMapper[key as keyof typeof PropertyMapper].title}
-            </FeatureTitle>
-            <FeatureMetric>
-              {renderCellValue(data[comparatorsOrder[active]], key)}
-            </FeatureMetric>
-            <FeatureDescription>
-              {PropertyMapper[key as keyof typeof PropertyMapper].subtitle}
-            </FeatureDescription>
-          </FeatureContent>
-        ))}
-      </FeaturesList>
+      <ComparisonBody>
+        <FeaturesList ref={featuresListRef} $isScrollable={isScrollable}>
+          {featureKeys.map((key, index) => (
+            <FeatureContent
+              key={PropertyMapper[key as keyof typeof PropertyMapper].title}
+              ref={index === featureKeys.length - 1 ? lastFeatureRef : null}
+            >
+              <FeatureTitle>
+                {PropertyMapper[key as keyof typeof PropertyMapper].title}
+              </FeatureTitle>
+              <FeatureMetric>
+                {renderCellValue(data[comparatorsOrder[active]], key)}
+              </FeatureMetric>
+              <FeatureDescription>
+                {PropertyMapper[key as keyof typeof PropertyMapper].subtitle}
+              </FeatureDescription>
+            </FeatureContent>
+          ))}
+        </FeaturesList>
+      </ComparisonBody>
     </MobileTableContainer>
   );
 };

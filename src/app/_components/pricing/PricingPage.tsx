@@ -724,7 +724,7 @@ const Plan: React.FC<PricingPlan> = ({
   const router = useRouter();
   const planRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
-  const { width = 1024 } = useWindowSize();
+  const { width = 0 } = useWindowSize();
   
 
   const handleSubscribe = async () => {
@@ -954,6 +954,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
   const comparisonHeaderRef = useRef<HTMLDivElement>(null);
   const featuresListRef = useRef<HTMLDivElement>(null);
   const lastFeatureRef = useRef<HTMLDivElement>(null);
+  const { width = 0 } = useWindowSize();
 
   // Scroll to top on component mount
   useEffect(() => {
@@ -989,23 +990,31 @@ const PricingPage: React.FC<PricingPageProps> = ({
         const comparisonRect = mobileComparisonRef.current.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
         
-        // Get all FeatureContent elements
-        const featureContents = featuresListRef.current?.querySelectorAll('.feature-content');
-        const firstFeatureRect = featureContents?.[0]?.getBoundingClientRect();
-        const lastFeatureRect = featureContents?.[featureContents.length - 1]?.getBoundingClientRect();
-        
         // Calculate if we're scrolling up or down
         const isScrollingUp = window.scrollY < lastScrollY;
         lastScrollY = window.scrollY;
 
+        // Check if MobileComparisonSection has reached the top
+        const isSectionAtTop = comparisonRect.top <= 48;
+
+        // Get the scroll position and dimensions of FeaturesList
+        const featuresListScrollTop = featuresListRef.current.scrollTop;
+        const featuresListScrollHeight = featuresListRef.current.scrollHeight;
+        const featuresListClientHeight = featuresListRef.current.clientHeight;
+        const featuresListBottom = featuresListScrollTop + featuresListClientHeight;
+
+        // Check if FeaturesList is fully scrolled
+        const isFullyScrolledToTop = featuresListScrollTop <= 0;
+        const isFullyScrolledToBottom = featuresListBottom >= featuresListScrollHeight;
+
         // Check if header is at top and content is within scrollable range
         const shouldEnableScroll = 
+          isSectionAtTop && // MobileComparisonSection has reached the top
           headerRect.top <= 48 && // Header is at top
           comparisonRect.bottom > viewportHeight && // Component hasn't reached bottom
           (isScrollingUp ? 
-            (firstFeatureRect?.top ?? 0) > 48 && // When scrolling up, keep scrolling until first feature reaches header
-            (lastFeatureRect?.bottom ?? 0) > viewportHeight : // And last feature hasn't reached bottom
-            (lastFeatureRect?.bottom ?? 0) > viewportHeight); // When scrolling down, keep scrolling until last feature reaches bottom
+            !isFullyScrolledToTop : // When scrolling up, keep scrolling until we reach the top
+            !isFullyScrolledToBottom); // When scrolling down, keep scrolling until we reach the bottom
 
         setIsScrollable(shouldEnableScroll);
       }
@@ -1123,7 +1132,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
           />
         ))}
       </PlansContainer>
-      <Comparison />
+     {width  > 992 ? <Comparison /> : 
       <MobileComparisonSection ref={mobileComparisonRef}>
         <ComparisonHeader ref={comparisonHeaderRef}>
           <Tabs>
@@ -1157,7 +1166,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
             lastFeatureRef={lastFeatureRef}
           />
         </ComparisonBody>
-      </MobileComparisonSection>
+      </MobileComparisonSection>}
       <div className="contact-section">
         <ContactUs />
       </div>
