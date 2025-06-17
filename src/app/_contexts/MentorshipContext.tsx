@@ -83,7 +83,7 @@ const badge_config = {
       description: "Upgrade for full tactical mentorship.",
       badge: (
         <Image
-          src={"/marshall-badge.svg"}
+          src={"/marshal_badge.svg"}
           alt="Marshall badge"
           width={119}
           height={91}

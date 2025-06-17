@@ -52,7 +52,7 @@ const Input = styled.input<{ disabled?: boolean }>`
 
   color: rgb(244, 239, 239);
   font-family: var(--font-fustat);
-  font-size: 15px;
+  font-size: 16px; /* Minimum 16px to prevent mobile zoom */
   font-style: normal;
   font-weight: 400;
   line-height: normal;

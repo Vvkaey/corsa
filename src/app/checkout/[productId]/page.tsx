@@ -15,6 +15,7 @@ import { CaretUp, Tick } from "@/app/_assets/icons";
 // import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { TnC } from "@/app/_components/auth/LoginForm";
+import VideoLoadingScreen from "@/app/_components/global/loading";
 import {
   BackLink,
   BenefitItem,
@@ -37,6 +38,7 @@ import CheckoutForm from "@/app/_components/checkout/CheckoutForm";
 // import ThankyouScreen, {
 //   GridType,
 // } from "@/app/_components/pricing/success/ThankyouScreen";
+import styled from "styled-components";
 
 // Types
 
@@ -104,6 +106,20 @@ const getActiveBenefits = (planId: number) => {
 // Data for our products (in an ideal case, fetch this from an API)
 const PRODUCTS: Product[] = pricingData.plans;
 
+// Loading overlay component
+const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
+
 // The Checkout Page Component
 const CheckoutPage: React.FC = () => {
   const params = useParams();
@@ -114,7 +130,7 @@ const CheckoutPage: React.FC = () => {
   const productId = params.productId;
 
   const [product, setProduct] = useState<Product | null>(null);
-  // const [loading, setLoading] = useState<boolean>(false);
+  const [showLoading, setShowLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFeatures, setShowFeatures] = useState<boolean>(false);
 
@@ -124,8 +140,15 @@ const CheckoutPage: React.FC = () => {
       const selectedProduct = PRODUCTS.find((p) => p.productType === productId);
       if (selectedProduct) {
         setProduct(selectedProduct);
+        // Add a small delay to ensure smooth transition
+        const timer = setTimeout(() => {
+          setShowLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timer);
       } else {
         setError("Product not found");
+        setShowLoading(false);
       }
     }
   }, [productId]);
@@ -134,6 +157,15 @@ const CheckoutPage: React.FC = () => {
     setShowFeatures((prev) => !prev);
   }, []);
 
+  // Show loading screen while content is loading
+  if (showLoading) {
+    return (
+      <LoadingOverlay>
+        <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
+      </LoadingOverlay>
+    );
+  }
+
   // If product is loading or not found, show appropriate message
   if (!product) {
     return (
@@ -141,7 +173,7 @@ const CheckoutPage: React.FC = () => {
         <BackLink onClick={() => router.push("/pricing")}>
           ← Back to pricing
         </BackLink>
-        <h1>{error || "Loading product details..."}</h1>
+        <h1>{error || "Product not found"}</h1>
       </CheckoutContainer>
     );
   }

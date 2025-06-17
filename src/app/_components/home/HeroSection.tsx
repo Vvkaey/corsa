@@ -17,6 +17,7 @@ import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
 import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import gsap from "gsap";
+import { useRouter } from "next/navigation";
 
 export const HeroSection = styled(
   ({
@@ -57,11 +58,15 @@ export const HeroSection = styled(
     const ctaContainerRef = useRef<HTMLDivElement>(null);
     const primaryCtaRef = useRef<HTMLButtonElement>(null);
     const secondaryCtaRef = useRef<HTMLButtonElement>(null);
+    const marshallCtaRef = useRef<HTMLButtonElement>(null);
+    const tacticalAceCtaRef = useRef<HTMLButtonElement>(null);
+    const topGunCtaRef = useRef<HTMLButtonElement>(null);
 
     const { subscription, badge } = useMentorshipContext();
     const { width } = useWindowSize();
     const isMobile = (width ?? 0) < 768;
     const gsapContext = useGsapContext();
+    const router = useRouter();
 
     useIsomorphicLayoutEffect(() => {
       if (!sectionRef.current || !rootContainerRef.current) return;
@@ -86,19 +91,6 @@ export const HeroSection = styled(
           return;
         }
 
-        // Set initial states for desktop animations
-        // Heading
-        // gsap.set(headingRef.current, {
-        //   opacity: 0,
-        //   y: 10, // Smaller offset for faster animation
-        // });
-
-        // // Subheading
-        // gsap.set(subHeadingRef.current, {
-        //   opacity: 0,
-        //   y: 10, // Smaller offset for faster animation
-        // });
-
         // CTA container
         gsap.set(ctaContainerRef.current, {
           opacity: 0,
@@ -111,19 +103,45 @@ export const HeroSection = styled(
             width: "10%", // Start with 0 width
             // Remove horizontal padding initially
             overflow: "hidden",
-            x: -350,
+            x: -350, // Primary buttons come from left
             whiteSpace: "nowrap",
           });
         }
 
-        // Secondary CTA
+        // Secondary CTA - Check for any subscription-based button
+        // Get the current active subscription button ref
+        const getActiveSubscriptionButtonRef = () => {
+          if (subscription && badge === BADGES.MARSHALL)
+            return marshallCtaRef.current;
+          if (subscription && badge === BADGES.TACTICAL_ACE)
+            return tacticalAceCtaRef.current;
+          if (subscription && badge === BADGES.TOP_GUN && !secondaryCta)
+            return topGunCtaRef.current;
+          return null;
+        };
+
+        const activeSubscriptionButton = getActiveSubscriptionButtonRef();
+
+        // Handle secondary CTA (dashboard button) - comes from right
         if (secondaryCtaRef.current) {
           gsap.set(secondaryCtaRef.current, {
             opacity: 1, // Make it visible from the start
             width: "10%", // Start with 0 width
             // Remove horizontal padding initially
             overflow: "hidden",
-            x: 350,
+            x: 350, // Secondary buttons come from right
+            whiteSpace: "nowrap",
+          });
+        }
+
+        // Handle subscription-based buttons - they are primary buttons, so come from left
+        if (activeSubscriptionButton) {
+          gsap.set(activeSubscriptionButton, {
+            opacity: 1, // Make it visible from the start
+            width: "10%", // Start with 0 width
+            // Remove horizontal padding initially
+            overflow: "hidden",
+            x: -350, // Primary buttons come from left
             whiteSpace: "nowrap",
           });
         }
@@ -135,22 +153,6 @@ export const HeroSection = styled(
             ease: "power2.out",
           },
         });
-
-        // Heading animation
-        // tl.to(headingRef.current, {
-        //   opacity: 1,
-        //   y: 0,
-        // });
-
-        // // Subheading animation - start almost immediately
-        // tl.to(
-        //   subHeadingRef.current,
-        //   {
-        //     opacity: 1,
-        //     y: 0,
-        //   },
-        //   "-=0.3"
-        // ); // Overlap with the heading animation
 
         // CTA container - start almost immediately
         tl.to(
@@ -176,10 +178,25 @@ export const HeroSection = styled(
           ); // Overlap with CTA container animation
         }
 
-        // Secondary CTA button - start with small delay
+        // Secondary CTA button (dashboard) - start with small delay
         if (secondaryCtaRef.current) {
           tl.to(
             secondaryCtaRef.current,
+            {
+              width: "90%", // Expand to full width
+              // padding: '11px 33px', // Restore full padding
+              duration: 0.6, // Slightly longer duration for visibility
+              x: 0,
+              ease: "power1.out", // Different easing for better visibility
+            },
+            "-=0.5"
+          ); // Small overlap with primary button
+        }
+
+        // Subscription-based buttons - they are primary buttons
+        if (activeSubscriptionButton) {
+          tl.to(
+            activeSubscriptionButton,
             {
               width: "90%", // Expand to full width
               // padding: '11px 33px', // Restore full padding
@@ -198,7 +215,7 @@ export const HeroSection = styled(
           tl.kill();
         };
       });
-    }, [subscription, width, isMobile, gsapContext]);
+    }, [subscription, badge, width, isMobile, gsapContext]);
 
     return (
       <section className={className} id={htmlId} ref={sectionRef}>
@@ -222,8 +239,9 @@ export const HeroSection = styled(
               ) : null}
               {subHead ? (
                 <h3
-                //  ref={subHeadingRef}
-                 className="sub-head">
+                  //  ref={subHeadingRef}
+                  className="sub-head"
+                >
                   {subHead}
                 </h3>
               ) : null}
@@ -243,11 +261,11 @@ export const HeroSection = styled(
                   {subscription && badge === BADGES.MARSHALL ? (
                     <div className="cta-wrapper">
                       <button
-                        ref={secondaryCtaRef}
+                        ref={marshallCtaRef}
                         className={
                           subscription ? "primary-cta" : "secondary-cta"
                         }
-                        onClick={onSecondaryCTAClick}
+                        onClick={() => router.push("/pricing")}
                       >
                         Add on Mentor Plan
                       </button>
@@ -257,11 +275,11 @@ export const HeroSection = styled(
                   {subscription && badge === BADGES.TACTICAL_ACE ? (
                     <div className="cta-wrapper">
                       <button
-                        ref={secondaryCtaRef}
+                        ref={tacticalAceCtaRef}
                         className={
                           subscription ? "primary-cta" : "secondary-cta"
                         }
-                        onClick={onSecondaryCTAClick}
+                        onClick={() => router.push("/pricing")}
                       >
                         Add on Insight Plan
                       </button>
@@ -270,20 +288,36 @@ export const HeroSection = styled(
                   {secondaryCta ? (
                     <div
                       className={
-                        (subscription && badge === BADGES.TOP_GUN) ? "cta-wrapper full" : "cta-wrapper "
+                        subscription && badge === BADGES.TOP_GUN
+                          ? "cta-wrapper full"
+                          : "cta-wrapper "
                       }
                     >
                       <button
                         ref={secondaryCtaRef}
                         className={
-                          (subscription && badge === BADGES.TOP_GUN) ? "primary-cta" : "secondary-cta"
+                          subscription && badge === BADGES.TOP_GUN
+                            ? "primary-cta"
+                            : "secondary-cta"
                         }
                         onClick={onSecondaryCTAClick}
                       >
                         {secondaryCta}
                       </button>
                     </div>
-                  ) : null}   
+                  ) : null}
+
+                  {subscription && badge === BADGES.TOP_GUN && !secondaryCta ? (
+                    <div className="cta-wrapper full">
+                      <button
+                        ref={topGunCtaRef}
+                        className="primary-cta"
+                        onClick={() => router.push("/pricing")}
+                      >
+                        Add on Top Gun Plan
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
@@ -443,6 +477,8 @@ export const HeroSection = styled(
             //transition: background-color 0.3s ease, color 0.3s ease;
             width: 100%;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
 
             &::after {
               content: "";

@@ -55,6 +55,7 @@ export const Card = styled(({
   const contentRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLParagraphElement>(null);
   const handleRef = useRef<HTMLParagraphElement>(null);
+  const [currentData, setCurrentData] = useState(data);
   
   // Set up animations when active state changes - matching desktop behavior
   useEffect(() => {
@@ -72,19 +73,22 @@ export const Card = styled(({
       
       // Only animate if it's a card change, not initial load
       if (prevIndex !== -1 && prevIndex !== index) {
-        // Immediately start fading in new content without delay
+        // Update data immediately but keep opacity at 0
+        setCurrentData(data);
+        
+        // Smooth crossfade animation - fade in new content directly
         gsap.fromTo([contentRef.current, nameRef.current, handleRef.current], 
           { opacity: 0, x: 20 },
           { 
             opacity: 1, 
             x: 0, 
             duration: 1.2, 
-            ease: "power2.out",
-            stagger: 0.05
+            ease: "power3.out",
+            stagger: 0.08
           }
         );
         
-        // Animate quote mark with no delay
+        // Animate quote mark
         if (quoteRef.current) {
           gsap.killTweensOf(quoteRef.current);
           gsap.fromTo(quoteRef.current,
@@ -92,7 +96,7 @@ export const Card = styled(({
             {
               scale: 1,
               opacity: 1,
-              duration: 1.0,
+              duration: 0.8,
               ease: "power2.out",
               onComplete: () => {
                 // Add subtle floating animation
@@ -109,14 +113,15 @@ export const Card = styled(({
         }
       } else {
         // Initial load animation
+        setCurrentData(data);
         gsap.fromTo([contentRef.current, nameRef.current, handleRef.current], 
           { opacity: 0, x: 30 },
           { 
             opacity: 1, 
             x: 0, 
-            duration: 0.8, 
-            ease: "power2.out",
-            stagger: 0.08
+            duration: 1.0, 
+            ease: "power3.out",
+            stagger: 0.1
           }
         );
         
@@ -170,18 +175,18 @@ export const Card = styled(({
         });
       }
     }
-  }, [isActive, index, prevIndex]);
+  }, [isActive, index, prevIndex, data]);
 
   return (
     <div className={`${className} ${isActive ? 'active' : ''}`} ref={cardRef}>
       <div className="quotes" ref={quoteRef}>{'"'}</div>
       <p className="description" ref={contentRef}>
-        {data.description}
+        {currentData.description}
       </p>
       <div className="signature">
         {/* <div className="circle" /> */}
-        <p className="name" ref={nameRef}>{data.name}</p>
-        <p className="handle" ref={handleRef}>{data.handle}</p>
+        <p className="name" ref={nameRef}>{currentData.name}</p>
+        <p className="handle" ref={handleRef}>{currentData.handle}</p>
       </div>
     </div>
   );
@@ -452,7 +457,7 @@ const Quote = styled.div`
 const XLCard = ({ activeIndex }: { activeIndex: number }) => {
   const quoteRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const currentData = cardData[activeIndex];
+  const [currentData, setCurrentData] = useState(cardData[activeIndex]);
   const [prevIndex, setPrevIndex] = useState(activeIndex);
   
   // Handle data changes with smooth transitions
@@ -463,53 +468,44 @@ const XLCard = ({ activeIndex }: { activeIndex: number }) => {
       const nameEl = cardRef.current.querySelector(".xl-name");
       const instituteEl = cardRef.current.querySelector(".xl-institute");
       
-      // First fade out current content
-      gsap.to([contentEl, nameEl, instituteEl], {
-        opacity: 0,
-        x: -30,
-        duration: 0.4,
-        ease: "power2.in",
-        stagger: 0.05,
-        onComplete: () => {
-          // Update the index after fade out
-          setPrevIndex(activeIndex);
-          
-          // Then fade in new content
-          gsap.fromTo([contentEl, nameEl, instituteEl], 
-            { opacity: 0, x: 30 },
-            { 
-              opacity: 1, 
-              x: 0, 
-              duration: 0.5, 
-              ease: "power2.out",
-              stagger: 0.05
-            }
-          );
-          
-          // Also animate the quote mark
-          if (quoteRef.current) {
-            gsap.fromTo(quoteRef.current,
-              { scale: 0.8, opacity: 0.7 },
-              {
-                scale: 1,
-                opacity: 1,
-                duration: 0.8,
-                ease: "elastic.out(1.2, 0.5)",
-                onComplete: () => {
-                  // Add subtle floating animation
-                  gsap.to(quoteRef.current, {
-                    y: "-10px",
-                    duration: 3,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "power1.inOut"
-                  });
-                }
-              }
-            );
-          }
+      // Update data immediately but keep opacity at 0
+      setCurrentData(cardData[activeIndex]);
+      setPrevIndex(activeIndex);
+      
+      // Smooth crossfade animation - fade in new content directly
+      gsap.fromTo([contentEl, nameEl, instituteEl], 
+        { opacity: 0, x: 30 },
+        { 
+          opacity: 1, 
+          x: 0, 
+          duration: 1.2, 
+          ease: "power3.out",
+          stagger: 0.08
         }
-      });
+      );
+      
+      // Also animate the quote mark
+      if (quoteRef.current) {
+        gsap.fromTo(quoteRef.current,
+          { scale: 0.8, opacity: 0.7 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: "elastic.out(1.2, 0.5)",
+            onComplete: () => {
+              // Add subtle floating animation
+              gsap.to(quoteRef.current, {
+                y: "-10px",
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut"
+              });
+            }
+          }
+        );
+      }
     }
   }, [activeIndex, prevIndex]);
   
