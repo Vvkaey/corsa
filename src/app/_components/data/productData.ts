@@ -517,7 +517,7 @@ export const COMPARISON_DATA = [
 export const PropertyMapper = {
   insider_pass: {
     title: "Insider Pass",
-    subtitle: "Curated insights and exclusive benefits.",
+    subtitle: "Early access to new feature releases.",
   },
   community_spotlights: {
     title: "Community Spotlights",

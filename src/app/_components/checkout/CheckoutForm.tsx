@@ -227,8 +227,10 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
           window.dispatchEvent(new Event("mentorship-update"));
         }
 
-        // Redirect to success page
-        router.push(`/dashboard?order_id=${response.razorpay_order_id}`);
+        // Redirect back to checkout page with payment success parameters
+        const currentUrl = window.location.pathname;
+        const successUrl = `${currentUrl}?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}`;
+        router.push(successUrl);
       } else {
         // Handle case where response is 200 but success is false
         // setError(
@@ -478,10 +480,6 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
                   {state}
                 </Option>
               ))}
-              {/* <Option value="Haryana">Haryana</Option>
-              <Option value="Uttar Pradesh">Uttar Pradesh</Option>
-              <Option value="Karnataka">Karnataka</Option>
-              <Option value="Delhi NCR">Delhi NCR</Option> */}
             </Select>
             <CaretUp
               className="svg"

@@ -34,7 +34,7 @@ export const BannerSection = styled(
     const titleRef = useRef<HTMLDivElement>(null);
 
     useIsomorphicLayoutEffect(() => {
-      if (!rootContainerRef.current || !bannerItemsRef.current) return;
+      if (!rootContainerRef.current || !bannerItemsRef.current || (width && width < 992)) return;
 
       gsapContext.add(() => {
         // Get banner items and title

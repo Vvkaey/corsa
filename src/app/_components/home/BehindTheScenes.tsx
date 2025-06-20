@@ -159,196 +159,40 @@ export const BehindTheScenes = styled(
               <Image src={"/behindScenes.png"} alt={"/behindScenes.png"} fill />
             </div>
             <p className="text-content tc-1">
-                <span> Ever </span>
-                <span> felt </span>
-                <span>lost, </span>
-                <span>not </span>
-                <span>knowing </span>
-                <span>what </span>
-                <span>to </span>
-                <span>do </span>
-                <span>next? </span>
-                <span>🤔 You&apos;ve </span>
-                <span>set</span>
-                <span>your </span>
-                <span>aim </span>
-                <span>on </span>
-                <span>IIT-JEE </span>
-                <span>or </span>
-                <span>another </span>
-                <span>engineering </span>
-                <span>exam </span>
-                <span>🎯 </span>
-                <span>but </span>
-                <span>have </span>
-                <span>no</span>
-                <span>idea </span>
-                <span>how </span>
-                <span>to </span>
-                <span>crack </span>
-                <span>it, </span>
-                <span>or </span>
-                <span>just </span>
-                <span>trying </span>
-                <span>to </span>
-                <span>figure </span>
-                <span>out </span>
-                <span>how </span>
-                <span>to </span>
-                <span>plan</span>
-                <span>things </span>
-                <span>after </span>
-                <span>school.</span>
-                <br />
-                <br /> <span>We </span>
-                <span>get </span>
-                <span>it. </span>
-                <span>🙌 </span>
-                <br />
-                <br /> <span>It&apos;s </span>
-                <span>tough </span>
-                <span>figuring </span>
-                <span>everything </span>
-                <span>out </span>
-                <span>on </span>
-                <span>your </span>
-                <span>own. </span>
-                <span>The</span>
-                <span>late </span>
-                <span>nights</span>
-                <span> wondering </span>
-                <span>if </span>
-                <span>you&apos;re </span>
-                <span>studying </span>
-                <span>the </span>
-                <span>right </span>
-                <span>things</span>
-                <span>🌙💭, </span>
-                <span>the </span>
-                <span>stress </span>
-                <span>of </span>
-                <span>falling </span>
-                <span>behind </span>
-                <span>or </span>
-                <span>feeling </span>
-                <span>stuck </span>
-                <span>😤.</span>
-                <span>That&apos;s </span>
-                <span>where </span>
-                <span>the </span>
-                <span>right </span>
-                <span>mentor </span>
-                <span>makes </span>
-                <span>all </span>
-                <span>the </span>
-                <span>difference.</span>
-                <br />
-                <br /> <span>A </span>
-                <span>mentor </span>
+                <span> The </span>
+                <span> journey </span>
                 <span>isn&apos;t </span>
                 <span>just </span>
-                <span>someone </span>
-                <span>who </span>
-                <span>gives </span>
-                <span>advice.</span>
-                <span>They&apos;ve </span>
-                <span>actually </span>
-                <span>been </span>
-                <span>through </span>
-                <span>it. </span>
-                <span>🛤️ </span>
-                <span>Faced </span>
-                <span>the </span>
-                <span>same </span>
-                <span>chapters,</span>
-                <span>the </span>
-                <span>same </span>
-                <span>pressure, </span>
-                <span>made </span>
-                <span>mistakes, </span>
+                <span>about </span>
+                <span>books. </span>
+                <span>It&apos;s </span>
+                <span>about </span>
+                <span>clarity, </span>
+                <span>consistency, </span>
                 <span>and </span>
-                <span>figured </span>
-                <span>out </span>
+                <span>finding </span>
                 <span>what </span>
-                <span>really</span>
-                <span>works.</span>
+                <span>truly </span>
+                <span>moves </span>
+                <span>you </span>
+                <span>forward. </span>
                 <br />
-                <br />
-                <span>They&apos;re </span>
-                <span>here </span>
-                <span>to </span>
-                <span>guide </span>
-                <span>you, </span>
-                <span>share </span>
-                <span>proven </span>
-                <span>strategies,</span>
+                <br /> <span>Beyond </span>
+                <span>timetables </span>
                 <span>and </span>
-                <span>help </span>
+                <span>textbooks, </span>
+ <span>this </span>
+                <span>is </span>
+                <span>where </span>
                 <span>you </span>
-                <span>move </span>
-                <span>ahead </span>
-                <span>with </span>
-                <span>clarity. </span>
-                <span>🧭 </span>
-                <span>From </span>
-                <span>knowing </span>
-                <span>what </span>
-                <span>to</span>
-                <span>focus </span>
-                <span>on </span>
-                <span>🪜 </span>
-                <span>to </span>
-                <span>planning </span>
-                <span>everything </span>
-                <span>smartly </span>
-                <span>🔥</span>
-                <br />
-                <br />
-                <span> Our </span>
-                <span>platform </span>
-                <span>gives </span>
-                <span>you </span>
-                <span>access </span>
-                <span>to </span>
+                <span>discover </span>
                 <span>the </span>
-                <span>insights, </span>
-                <span>strategies, </span>
-                <span>and</span>
-                <span> resources </span>
-                <span>you </span>
-                <span>need </span>
-                <span>to </span>
-                <span>plan </span>
-                <span>better. </span>
-                <span>📚 </span>
-                <span>And </span>
-                <span>the </span>
-                <span>best </span>
-                <span>part? </span>
-                <span>You </span>
-                <span>can</span>
-                <span> connect </span>
-                <span>1-on-1 </span>
-                <span>with </span>
-                <span>mentors </span>
-                <span>from </span>
-                <span>IITs, </span>
-                <span>NITs, </span>
-                <span>BITS </span>
-                <span>and </span>
-                <span>more</span>
-                <span> directly. </span>
-                <span>Ask questions, </span>
-                <span>clear </span>
-                <span>doubts, </span>
-                <span>and </span>
-                <span>get </span>
-                <span>structured</span>
-                <span> guidance. </span>
-                <span>🗣️🤝 </span>
-                <span>Lessss </span>
-                <span>goooooooooo! </span>
-                <span>🙌 🚀</span>
+                <span>direction </span>
+                <span>that </span>
+                <span>makes</span>
+                <span>a </span>
+                <span>difference.</span>
+                
             </p>
           </div>
         </div>
@@ -473,14 +317,18 @@ export const BehindTheScenes = styled(
       }
 
       .text-content {
-        font-family: var(--font-fustat);
+        font-family: var(--font-exo);
         color: #000;
-        font-size: 17.5px;
+        font-size:25.5px;
         font-style: normal;
         font-weight: 500;
         line-height: 142.05%; /* 22.728px */
         margin : 0 8px;
         // border : 1px solid #d4d4d4;
+
+         @media (min-width: 992px) {
+       font-size:28.5px;
+        }
 
         @media (min-width: 1950px) {
         margin : unset;

@@ -168,20 +168,6 @@ export const Footer = styled(({ className }: { className?: string }) => {
         margin-top: 50px;
       }
 
-      @keyframes ripple {
-        0% {
-          opacity: 1;
-          transform: scale(0, 0);
-        }
-        20% {
-          opacity: 1;
-          transform: scale(25, 25);
-        }
-        100% {
-          opacity: 0;
-          transform: scale(40, 40);
-        }
-      }
 
       .primary-button {
         position: relative;
@@ -219,13 +205,6 @@ export const Footer = styled(({ className }: { className?: string }) => {
           padding: 10px 40px;
           font-size: 16.5px;
           transition: all 5ms ease-in;
-
-          /* Button hover effect */
-          &:hover {
-            &::after {
-              animation: ripple 0.6s ease-out;
-            }
-          }
         }
 
         @media (min-width: 1950px) {

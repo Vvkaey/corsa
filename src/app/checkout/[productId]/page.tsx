@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import Head from "next/head";
 import {
@@ -11,7 +11,7 @@ import {
 import { CaretUp, Tick } from "@/app/_assets/icons";
 // import Image from "next/image";
 // import { useAuth } from "@/app/_contexts/AuthContext";
-// import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
+ import FailureScreen from "@/app/_components/pricing/failure/FailureScreen";
 // import ThankyouScreen from "@/app/_components/pricing/success/ThankyouScreen";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import { TnC } from "@/app/_components/auth/LoginForm";
@@ -39,6 +39,7 @@ import CheckoutForm from "@/app/_components/checkout/CheckoutForm";
 //   GridType,
 // } from "@/app/_components/pricing/success/ThankyouScreen";
 import styled from "styled-components";
+import ThankyouScreen, { GridType } from "@/app/_components/pricing/success/ThankyouScreen";
 
 // Types
 
@@ -124,6 +125,7 @@ const LoadingOverlay = styled.div`
 const CheckoutPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
 
@@ -133,6 +135,21 @@ const CheckoutPage: React.FC = () => {
   const [showLoading, setShowLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFeatures, setShowFeatures] = useState<boolean>(false);
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
+
+  // Check for payment failure from URL parameters
+  const failure = searchParams.get('failure');
+
+  // Check for payment success from URL parameters
+  useEffect(() => {
+    const orderId = searchParams.get('order_id');
+    const paymentId = searchParams.get('payment_id');
+    const signature = searchParams.get('signature');
+    
+    if (orderId && paymentId && signature) {
+      setPaymentSuccess(true);
+    }
+  }, [searchParams]);
 
   // Load product details
   useEffect(() => {
@@ -157,6 +174,15 @@ const CheckoutPage: React.FC = () => {
     setShowFeatures((prev) => !prev);
   }, []);
 
+  // Show FailureScreen if payment failed
+  if (failure === '1') {
+    return (
+      <CheckoutContainer>
+        <FailureScreen productType={productId as string} />
+      </CheckoutContainer>
+    );
+  }
+
   // Show loading screen while content is loading
   if (showLoading) {
     return (
@@ -174,6 +200,23 @@ const CheckoutPage: React.FC = () => {
           ← Back to pricing
         </BackLink>
         <h1>{error || "Product not found"}</h1>
+      </CheckoutContainer>
+    );
+  }
+
+  // Show ThankyouScreen if payment was successful
+  if (paymentSuccess) {
+    return (
+      <CheckoutContainer>
+        <ThankyouScreen
+          title="That's it! You're all set."
+          subtitle="You have successfully subscribed"
+          descriptionTop="Check your email. Did't receive? Make sure to check your spam
+              folder, just in case."
+          descriptionBottom="Feel free to contact us at connect@stroda.club. If you have any
+              questions"
+          ctaGrid={GridType.DOUBLE}
+        />
       </CheckoutContainer>
     );
   }
@@ -256,17 +299,6 @@ const CheckoutPage: React.FC = () => {
           <TnC />
         </PaymentSection>
       </CheckoutGrid>
-
-      {/* <ThankyouScreen
-        title="That's it! You're all set."
-        subtitle="You have successfully subscribed"
-        descriptionTop="Check your email. Did't receive? Make sure to check your spam
-            folder, just in case."
-        descriptionBottom="Feel free to contact us at connect@stroda.club. If you have any
-            questions"
-        ctaGrid={GridType.DOUBLE}
-      /> */}
-      {/* <FailureScreen /> */}
     </CheckoutContainer>
   );
 };

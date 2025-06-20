@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { headerSpacing, maxWidthContainer, sectionResponsivePadding } from "../new_mixins/mixins";
 import { Subtitle, Title } from "../dashboard/styled";
 
@@ -348,24 +348,7 @@ export const ErrorText = styled.div<{ $right?: boolean }>`
 //   }
 // `;
 
-export const rippleAnimation = keyframes`
 
-
-        0% {
-          opacity: 1;
-          transform: scale(0, 0);
-        }
-        20% {
-          opacity: 1;
-          transform: scale(25, 25);
-        }
-        100% {
-          opacity: 0;
-          transform: scale(40, 40);
-        }
-      
-
-  `
 
 export const SubmitButton = styled.button`
 position: relative;
@@ -405,11 +388,6 @@ position: relative;
     transform-origin: 50% 50%;
   }
 
-  &:hover {
-    &::after {
-      animation: ${rippleAnimation} 0.6s ease-out;
-    }
-  }
 
   @media (min-width: 992px) {
      padding: 10px 40px;

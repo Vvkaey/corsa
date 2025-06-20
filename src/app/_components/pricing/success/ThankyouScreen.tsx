@@ -34,7 +34,7 @@ const ThankyouScreen = ({
   // Timer effect
   useEffect(() => {
     if (secondsLeft <= 0) {
-      // redirect();
+      redirect();
       return;
     }
 

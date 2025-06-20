@@ -12,7 +12,7 @@ const TNC_DATA = [
     {
       title: "2. User Eligibility",
       description:
-        "These Terms and Conditions &ldquo;Terms&rdquo; govern your use of StrodaClub's website and services, including online mentor sessions and subscriptions. By accessing or using our services, you agree to comply with these Terms.",
+        "By using our services, you confirm that all information provided is accurate, complete, and up to date.",
     },
     {
       title: "3. Mentor Sessions",

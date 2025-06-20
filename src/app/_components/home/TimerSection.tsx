@@ -73,10 +73,6 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         scale: 0.95,
       });
 
-      gsap.set(ctaRef.current, {
-        autoAlpha: 0,
-        x: -220,
-      });
 
       // Create main timeline
       const mainTl = gsap.timeline({
@@ -118,16 +114,6 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
         ">-0.2"
       );
 
-      mainTl.to(
-        ctaRef.current,
-        {
-          autoAlpha: 1,
-          x: 0,
-          duration: 0.4,
-          ease: "linear.out",
-        },
-        ">-0.15"
-      );
 
       return () => {
         if (mainTl.scrollTrigger) {
@@ -724,11 +710,6 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
             transform-origin: 50% 50%;
           }
 
-          &:hover {
-            &::after {
-              animation: ripple 0.6s ease-out;
-            }
-          }
 
           @media (min-width: 992px) {
             line-height: normal;

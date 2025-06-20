@@ -177,7 +177,7 @@ const FLOW_CONTENT = [
     },
     colB: {
       img: "/flow/flow-c.png",
-      title: "1-on-1 Mentorship, No Guesswork",
+      title: `1-on-1 Mentorship, No Guesswork`,
       subtitle:
         "Connect to share your exam prep goals and challenges, and take notes on actionable advice.",
     },

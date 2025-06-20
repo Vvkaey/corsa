@@ -3,8 +3,13 @@ import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { responsivePadding } from "../../new_mixins/mixins";
+import { pricingData } from "@/app/_components/data/productData";
 
-export default function FailureScreen() {
+interface FailureScreenProps {
+  productType: string;
+}
+
+export default function FailureScreen({ productType }: FailureScreenProps) {
   //   const [secondsLeft, setSecondsLeft] = useState(10);
   const router = useRouter();
 
@@ -12,6 +17,15 @@ export default function FailureScreen() {
     router.replace("/");
     console.log(router);
   }, [router]);
+
+  // Find the plan by productType
+  const plan = pricingData.plans.find((p) => p.productType === productType);
+
+  // Fallbacks if not found
+  const name = plan?.name || "Plan";
+  const description = plan?.description || "Plan description";
+  const price = plan?.price ? `₹${plan.price}` : "-";
+  const period = plan?.period ? `/ ${plan.period}` : "";
 
   // Timer effect
   //   useEffect(() => {
@@ -40,15 +54,13 @@ export default function FailureScreen() {
         </BoxHead> */}
         <Product>
           <ProductHead>
-            <ProductTitle>Insight Access Plan</ProductTitle>
-            <ProductSubTitle>
-              Curated insights and exclusive benefits
-            </ProductSubTitle>
+            <ProductTitle>{name}</ProductTitle>
+            <ProductSubTitle>{description}</ProductSubTitle>
           </ProductHead>
           <PricingBox>
             <ProductPrice>
-              ₹1399
-              <Tenure>/ Year</Tenure>
+              {price}
+              <Tenure>{period}</Tenure>
             </ProductPrice>
             <Tax>including GST</Tax>
           </PricingBox>

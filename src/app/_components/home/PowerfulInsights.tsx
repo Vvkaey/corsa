@@ -31,7 +31,7 @@ export const PowerfulInsights = styled(
     const { width } = useWindowSize();
 
     useIsomorphicLayoutEffect(() => {
-      if (!sectionRef.current || !headingRef.current || !traitsRef.current) return;
+      if (!sectionRef.current || !headingRef.current || !traitsRef.current || (width && width < 992)) return;
 
       gsapContext.add(() => {
         // Get all column items

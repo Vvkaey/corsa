@@ -247,7 +247,7 @@ export const StepsSection = styled(
         <div className="steps-container">
           <div ref={titleRef}>
             <TitleSubtitle
-              title={<>We&apos;ve got your back, <br/></>}
+              title={<>&quot;We&apos;ve got your back, <br/></>}
               redspan={`Let's Make it happen."`}
               subtitle={`No fluff. No big promises. Just real conversations 
 with mentors who get things done. Here's how we help you step up.`}

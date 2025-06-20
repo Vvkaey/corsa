@@ -13,10 +13,6 @@ import {
   BADGES,
   useMentorshipContext,
 } from "@/app/_contexts/MentorshipContext";
-import { useGsapContext } from "@/app/_utils/hooks/useGsapContext";
-import { useIsomorphicLayoutEffect } from "@/app/_utils/hooks/useIsomorphicLayoutEffect";
-import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import gsap from "gsap";
 import { useRouter } from "next/navigation";
 
 export const HeroSection = styled(
@@ -63,159 +59,36 @@ export const HeroSection = styled(
     const topGunCtaRef = useRef<HTMLButtonElement>(null);
 
     const { subscription, badge } = useMentorshipContext();
-    const { width } = useWindowSize();
-    const isMobile = (width ?? 0) < 768;
-    const gsapContext = useGsapContext();
+    // const { width } = useWindowSize();
+    // const isMobile = (width ?? 0) < 768;
+    // const gsapContext = useGsapContext();
     const router = useRouter();
 
-    useIsomorphicLayoutEffect(() => {
-      if (!sectionRef.current || !rootContainerRef.current) return;
+    // useIsomorphicLayoutEffect(() => {
+    //   if (!sectionRef.current || !rootContainerRef.current) return;
 
-      gsapContext.add(() => {
-        // Skip animations on mobile - immediately show everything
-        if (isMobile) {
-          // Make all elements visible immediately without animations
-          gsap.set(
-            [
-              // headingRef.current,
-              // subHeadingRef.current,
-              ctaContainerRef.current,
-              primaryCtaRef.current,
-              secondaryCtaRef.current,
-            ],
-            {
-              opacity: 1,
-              clearProps: "transform",
-            }
-          );
-          return;
-        }
+    //   gsapContext.add(() => {
+    //     // Make all elements visible immediately without animations
+    //     gsap.set(
+    //       [
+    //         ctaContainerRef.current,
+    //         primaryCtaRef.current,
+    //         secondaryCtaRef.current,
+    //         marshallCtaRef.current,
+    //         tacticalAceCtaRef.current,
+    //         topGunCtaRef.current,
+    //       ],
+    //       {
+    //         opacity: 1,
+    //         clearProps: "transform,width,x,overflow,whiteSpace",
+    //       }
+    //     );
 
-        // CTA container
-        gsap.set(ctaContainerRef.current, {
-          opacity: 0,
-        });
-
-        // Primary CTA
-        if (primaryCtaRef.current && !subscription) {
-          gsap.set(primaryCtaRef.current, {
-            opacity: 1, // Make it visible from the start
-            width: "10%", // Start with 0 width
-            // Remove horizontal padding initially
-            overflow: "hidden",
-            x: -350, // Primary buttons come from left
-            whiteSpace: "nowrap",
-          });
-        }
-
-        // Secondary CTA - Check for any subscription-based button
-        // Get the current active subscription button ref
-        const getActiveSubscriptionButtonRef = () => {
-          if (subscription && badge === BADGES.MARSHALL)
-            return marshallCtaRef.current;
-          if (subscription && badge === BADGES.TACTICAL_ACE)
-            return tacticalAceCtaRef.current;
-          if (subscription && badge === BADGES.TOP_GUN && !secondaryCta)
-            return topGunCtaRef.current;
-          return null;
-        };
-
-        const activeSubscriptionButton = getActiveSubscriptionButtonRef();
-
-        // Handle secondary CTA (dashboard button) - comes from right
-        if (secondaryCtaRef.current) {
-          gsap.set(secondaryCtaRef.current, {
-            opacity: 1, // Make it visible from the start
-            width: "10%", // Start with 0 width
-            // Remove horizontal padding initially
-            overflow: "hidden",
-            x: 350, // Secondary buttons come from right
-            whiteSpace: "nowrap",
-          });
-        }
-
-        // Handle subscription-based buttons - they are primary buttons, so come from left
-        if (activeSubscriptionButton) {
-          gsap.set(activeSubscriptionButton, {
-            opacity: 1, // Make it visible from the start
-            width: "10%", // Start with 0 width
-            // Remove horizontal padding initially
-            overflow: "hidden",
-            x: -350, // Primary buttons come from left
-            whiteSpace: "nowrap",
-          });
-        }
-
-        // Create animation timeline with faster, more synchronous timing
-        const tl = gsap.timeline({
-          defaults: {
-            duration: 0.5, // Faster animations
-            ease: "power2.out",
-          },
-        });
-
-        // CTA container - start almost immediately
-        tl.to(
-          ctaContainerRef.current,
-          {
-            opacity: 1,
-          },
-          "-=0.3"
-        ); // Overlap with the subheading animation
-
-        // Primary CTA button - start almost immediately
-        if (primaryCtaRef.current && !subscription) {
-          tl.to(
-            primaryCtaRef.current,
-            {
-              width: "90%", // Expand to full width
-              // padding: '11px 33px', // Restore full padding
-              duration: 0.6, // Slightly longer duration for visibility
-              x: 0,
-              ease: "power1.out", // Different easing for better visibility
-            },
-            "-=0.5"
-          ); // Overlap with CTA container animation
-        }
-
-        // Secondary CTA button (dashboard) - start with small delay
-        if (secondaryCtaRef.current) {
-          tl.to(
-            secondaryCtaRef.current,
-            {
-              width: "90%", // Expand to full width
-              // padding: '11px 33px', // Restore full padding
-              duration: 0.6, // Slightly longer duration for visibility
-              x: 0,
-              ease: "power1.out", // Different easing for better visibility
-            },
-            "-=0.5"
-          ); // Small overlap with primary button
-        }
-
-        // Subscription-based buttons - they are primary buttons
-        if (activeSubscriptionButton) {
-          tl.to(
-            activeSubscriptionButton,
-            {
-              width: "90%", // Expand to full width
-              // padding: '11px 33px', // Restore full padding
-              duration: 0.6, // Slightly longer duration for visibility
-              x: 0,
-              ease: "power1.out", // Different easing for better visibility
-            },
-            "-=0.5"
-          ); // Small overlap with primary button
-        }
-
-        // Setup ripple effect for hover (using existing CSS animation)
-        // Implementation will use the ripple CSS animation already defined
-
-        return () => {
-          tl.kill();
-        };
-      });
-    }, [subscription, badge, width, isMobile, gsapContext]);
+    //     return () => {
+    //       // No timeline to kill since we're not creating one
+    //     };
+    //   });
+    // }, [subscription, badge, width, isMobile, gsapContext]);
 
     return (
       <section className={className} id={htmlId} ref={sectionRef}>
@@ -418,21 +291,6 @@ export const HeroSection = styled(
         }
       }
 
-      @keyframes ripple {
-        0% {
-          opacity: 1;
-          transform: scale(0, 0);
-        }
-        20% {
-          opacity: 1;
-          transform: scale(25, 25);
-        }
-        100% {
-          opacity: 0;
-          transform: scale(40, 40);
-        }
-      }
-
       .cta-container {
         padding-top: 33px;
         display: flex;
@@ -474,31 +332,10 @@ export const HeroSection = styled(
             line-height: normal;
             font-family: var(--font-fustat);
             cursor: pointer;
-            //transition: background-color 0.3s ease, color 0.3s ease;
             width: 100%;
             overflow: hidden;
             display: flex;
             justify-content: center;
-
-            &::after {
-              content: "";
-              position: absolute;
-              top: calc(50% - 2.5px + 5px);
-              left: 50%;
-              width: 5px;
-              height: 5px;
-              background: rgba(255, 255, 255, 0.4);
-              opacity: 0;
-              border-radius: 100%;
-              transform: scale(1, 1) translate(-50%, -50%);
-              transform-origin: 50% 50%;
-            }
-
-            &:hover {
-              &::after {
-                animation: ripple 0.6s ease-out;
-              }
-            }
 
             @media (min-width: 992px) {
               width: unset;
@@ -506,8 +343,6 @@ export const HeroSection = styled(
               font-size: 16.5px;
               leading-trim: both;
               text-edge: cap;
-              will-change: transform, opacity, box-shadow;
-              //transform: translateZ(0);
             }
 
             @media (min-width: 1950px) {
@@ -529,38 +364,14 @@ export const HeroSection = styled(
             line-height: normal;
             font-family: var(--font-fustat);
             cursor: pointer;
-            //transition: background-color 0.3s ease, color 0.3s ease;
             width: 100%;
             overflow: hidden;
 
-            &::after {
-              content: "";
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              width: 5px;
-              height: 5px;
-              background: rgba(255, 255, 255, 0.4);
-              opacity: 0;
-              border-radius: 100%;
-              transform: scale(1, 1) translate(-50%, -50%);
-              transform-origin: 50% 50%;
-            }
-
-            &:hover {
-              &::after {
-                animation: ripple 0.6s ease-out;
-              }
-            }
-
             @media (min-width: 992px) {
-              // width: unset;
               padding: 10px 40px;
               font-size: 16.5px;
               leading-trim: both;
               text-edge: cap;
-              will-change: transform, opacity, box-shadow, width;
-              transform: translateZ(0);
             }
 
             @media (min-width: 1950px) {

@@ -1,12 +1,10 @@
 "use client";
 
-import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
-import { GlobalUIContext } from "@/app/_utils/hooks/globalUI";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import Image from "next/image";
 // import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 // import { Badge } from "../Badge";
 import {
@@ -53,7 +51,7 @@ export const DesktopNavItems = styled(
 
     return (
       <div className={className}>
-        {!isAuthenticated ? <></> : <p className="ham-item">User</p>}
+        {!isAuthenticated ? <></> : <p className="ham-item">Hi There!</p>}
         {!isAuthenticated ? (
           <button className="ham-item" onClick={redirectToLogin}>
             Login
@@ -100,42 +98,6 @@ export const DesktopNavItems = styled(
     position: fixed;
     right: 0;
     top: 0;
-  }
-
-  .ham-item {
-    color: #060606;
-    font-family: var(--font-fustat);
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    background: transparent;
-    text-align: left;
-    opacity: 0.6;
-    padding: 16px 0;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-  }
-
-  button.ham-item {
-    color: #060606;
-    font-family: var(--font-fustat);
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    background: transparent;
-    text-align: left;
-    opacity: 0.6;
-    border: none;
-    cursor: pointer;
-    padding: 16px 0;
-    border-bottom: 1px solid #ddd;
-
-    &:hover,
-    &:active {
-      opacity: 1;
-    }
   }
 `;
 
@@ -184,54 +146,15 @@ export const HamOverlay = styled(
   ({
     className,
     showMenu,
-    setShowMenu,
+    children
   }: {
     className?: string;
     showMenu?: boolean;
-    setShowMenu?: (showMenu: boolean) => void;
+    children?: React.ReactNode;
   }) => {
-    const router = useRouter();
-    console.log("HamOverlay", showMenu);
-    const { isAuthenticated, logout } = useAuth();
-
-    const redirectToLogin = useCallback(() => {
-      if (router) {
-        router.push("/login");
-        if (!setShowMenu) return;
-        setShowMenu(false);
-      }
-    }, [router, setShowMenu]);
-
-  
-
-    const logoutUser = useCallback(() => {
-      logout();
-      if (setShowMenu) setShowMenu(false);
-    }, [logout, setShowMenu]);
-
-    const onButtonClick = useCallback(() => {
-      if (setShowMenu) {
-      setShowMenu(!showMenu)
-      }
-    }, [setShowMenu, showMenu]);
-
     return (
-      <div className={className} onClick={onButtonClick}>
-        <div className="group-container">
-          {/* <button className="ham-item" onClick={redirectToDashboard}>
-            Dashboard
-          </button> */}
-          {isAuthenticated ? <p className="ham-item">Hi There!</p> : null}
-          {!isAuthenticated ? (
-            <button className="ham-item" onClick={redirectToLogin}>
-              Login
-            </button>
-          ) : (
-            <button className="ham-item" onClick={logoutUser}>
-              Logout
-            </button>
-          )}
-        </div>
+      <div className={className}>
+        <div className="group-container" data-showmenu={showMenu}>{children}</div>
       </div>
     );
   }
@@ -240,72 +163,34 @@ export const HamOverlay = styled(
   background: rgba(0, 0, 0, 0.5);
   top: 47px;
   left: 0;
-  height: 100vh;
-
   width: 100vw;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  height: 100vh;
   z-index: 11;
-
   @media (min-width: 992px) {
     top: 0;
     display: none;
   }
-
   .group-container {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    min-height: 300px;
+    max-width: 90vw;
     background: #fff;
-    padding: 24px 28px 290px;
     border-radius: 0px 0px 12px 12px;
-
-    z-index: ${({ showMenu }) => (showMenu ? "20" : "-1")};
-    max-height: ${({ showMenu }) => (showMenu ? "1000px" : "0")};
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: top;
-    overflow: hidden;
-    transform: ${({ showMenu }) =>
-      showMenu ? "translateY(0)" : "translateY(70%)"};
-    height: ${({ showMenu }) => (showMenu ? "auto" : "0")};
-    opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transform: ${({ showMenu }) => (showMenu ? 'translateY(0)' : 'translateY(-100%)')};
+    opacity: ${({ showMenu }) => (showMenu ? '1' : '0')};
+    padding: 24px 28px 290px;
+    z-index: 30;
     visibility: ${({ showMenu }) => (showMenu ? "visible" : "hidden")};
     pointer-events: ${({ showMenu }) => (showMenu ? "auto" : "none")};
-
     @media (min-width: 992px) {
       width: 380px;
-      position: absolute;
       right: 0;
-    }
-
-    .ham-item {
-      color: #060606;
-      font-family: var(--font-fustat);
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      text-align: left;
-      opacity: 0.6;
-      border-bottom: 1px solid #ddd;
-      padding: 16px 0;
-    }
-
-    button.ham-item {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-      padding: 16px 0;
-      &:hover,
-      &:active {
-        opacity: 1;
-      }
+      left: unset;
     }
   }
 `;
@@ -319,18 +204,17 @@ export const HamOverlay = styled(
  * @returns {JSX.Element | null} The header component, or `null` if the page is in lite mode or should not display a header.
  */
 export const Header = styled(({ className }: { className?: string }) => {
-  const GlobalUI = useContext(GlobalUIContext);
   const pathname = usePathname();
   const { width } = useWindowSize();
   const router = useRouter();
 
   // State for managing the mobile navigation menu
-  const [showHamMenu, setShowHamMenu] = useState<boolean>(false);
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const [showDeskHamMenu, setShowDeskHamMenu] = useState<boolean>(false);
 
   // Close menus when route changes
   useEffect(() => {
-    setShowHamMenu(false);
+    setShowMobileMenu(false);
     setShowDeskHamMenu(false);
   }, [pathname]);
 
@@ -363,48 +247,43 @@ export const Header = styled(({ className }: { className?: string }) => {
   //   fetchUserStatus();
   // }, []);
 
-  /**
-   * Toggles the visibility of the mobile menu.
-   */
-  const handleHamClick = useCallback(() => {
-    setShowHamMenu((prev) => !prev);
-  }, []);
-
-  // const StatusBadge = styled(Badge)`
-  //   margin-left: auto;
-  // `;
-
-  // Hide header if liteUI is enabled or the page is in the NO_HEADER_FOOTER_PAGES list
-  if (GlobalUI.liteUI || NO_HEADER_FOOTER_PAGES.includes(pathname)) return null;
-
-  // if (loading) {
-  //   return (
-  //     <ProfileContainer>
-  //       <div>Loading user profile...</div>
-  //     </ProfileContainer>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <ProfileContainer>
-  //       <div>Error: {error}</div>
-  //     </ProfileContainer>
-  //   );
-  // }
-
-  // if (!userStatus) {
-  //   return (
-  //     <ProfileContainer>
-  //       <div>No user data available</div>
-  //     </ProfileContainer>
-  //   );
-  // }
-
   const OnLogoClick = () => {
     if (router && pathname !== "/") {
       router.push("/");
     }
+  };
+
+  // MobileNavItems: same logic as DesktopNavItems, but styled for mobile drawer
+  const MobileNavItems = ({ setShowMenu, showMenu }: { setShowMenu: (show: boolean) => void, showMenu: boolean }) => {
+    const router = useRouter();
+    const { isAuthenticated, logout } = useAuth();
+
+    const redirectToLogin = useCallback(() => {
+      if (router) {
+        router.push("/login");
+        setShowMenu(!showMenu);
+      }
+    }, [router, setShowMenu, showMenu]);
+
+    const logoutUser = useCallback(() => {
+      logout();
+      if (setShowMenu) setShowMenu(false);
+    }, [logout, setShowMenu]);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        {isAuthenticated && <p className="ham-item">Hi There!</p>}
+        {!isAuthenticated ? (
+          <button className="ham-item" onClick={redirectToLogin}>
+            Login
+          </button>
+        ) : (
+          <button className="ham-item" onClick={logoutUser}>
+            Logout
+          </button>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -436,72 +315,68 @@ export const Header = styled(({ className }: { className?: string }) => {
         </div>
 
         {/* Mobile Navigation */}
-        {width && width < 992 && (
+        {width && width < 992 && !showMobileMenu && (
           <button
             className="hamburger"
-            onClick={handleHamClick}
+            style={{ position: 'absolute', top: 18, right: 18, zIndex: 1300 }}
+            onClick={() => setShowMobileMenu((prev) => !prev)}
             aria-label="Toggle navigation menu"
           >
-            {!showHamMenu ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="16"
-                viewBox="0 0 26 16"
-                fill="none"
-              >
-                <path
-                  d="M1 1H25"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 8H25"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 15H25"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="16"
-                viewBox="0 0 26 16"
-                fill="none"
-              >
-                <path
-                  d="M1 1H25"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 8H25"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M1 15H25"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            )}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="26"
+              height="16"
+              viewBox="0 0 26 16"
+              fill="none"
+            >
+              <path
+                d="M1 1H25"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M1 8H25"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M1 15H25"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
           </button>
         )}
       </div>
-      {showHamMenu && (
-        <HamOverlay showMenu={showHamMenu} setShowMenu={setShowHamMenu} />
+      {/* Mobile Side Drawer */}
+      {width && width < 992 && showMobileMenu && (
+        <>
+          <button
+            className="hamburger close"
+            style={{ position: 'absolute', top: 18, right: 18, zIndex: 1400, background: 'transparent', border: 'none' }}
+            onClick={() => setShowMobileMenu(false)}
+            aria-label="Close navigation menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="21"
+              height="21"
+              viewBox="0 0 26 26"
+              fill="none"
+            >
+              <line x1="2" y1="2" x2="24" y2="24" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+              <line x1="24" y1="2" x2="2" y2="24" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <div className="mobile-drawer" onClick={() => setShowMobileMenu(false)}>
+            <div className="drawer-content" onClick={e => e.stopPropagation()}>
+              <MobileNavItems setShowMenu={setShowMobileMenu} showMenu={showMobileMenu} />
+            </div>
+          </div>
+        </>
       )}
     </header>
   );
@@ -651,6 +526,91 @@ export const Header = styled(({ className }: { className?: string }) => {
       background: transparent;
       border: none;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media (min-width: 992px) {
+        display: none;
+      }
+      &.close {
+        background: transparent !important;
+        border: none ;
+      }
     }
+  }
+
+  /* Mobile Drawer Styles */
+  .mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    z-index: 1100;
+    display: flex;
+    justify-content: flex-end;
+    transition: background 0.3s;
+    @media (min-width: 992px) {
+      display: none;
+    }
+    .drawer-content {
+      background: #fff;
+      width: 80vw;
+      max-width: 340px;
+      height: 100vh;
+      box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+      border-radius: 0px 0px 12px 12px;
+      padding: 32px 24px 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transform: translateX(0);
+      animation: slideInDrawer 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+  @keyframes slideInDrawer {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  /* Shared ham-item styles for both desktop and mobile */
+  .ham-item {
+    color: #060606;
+    font-family: var(--font-fustat);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    background: transparent;
+    text-align: left;
+    opacity: 0.6;
+    padding: 16px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: opacity 0.2s;
+  }
+  button.ham-item {
+    border: none;
+    outline: none;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0.6;
+    padding: 16px 0;
+    border-bottom: 1px solid #ddd;
+    font-family: var(--font-fustat);
+    font-size: 18px;
+    font-weight: 700;
+    transition: opacity 0.2s;
+  }
+  .ham-item:hover,
+  .ham-item:active,
+  button.ham-item:hover,
+  button.ham-item:active {
+    opacity: 1;
   }
 `;

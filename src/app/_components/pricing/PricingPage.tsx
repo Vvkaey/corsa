@@ -16,7 +16,6 @@ import gsap from "gsap";
 // import ComparisonNew from "./ComparisonNew";
 // import StickyTest from "./StickyTest";
 // import Comparison from "./Comparison";
-import { rippleAnimation } from "../mentor-application/styled";
 import { PricingTick } from "@/app/_assets/icons";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import VideoLoadingScreen from "../global/loading";
@@ -142,7 +141,9 @@ const PlansContainer = styled.div`
   }
 `;
 
-const MobileComparisonSection = styled.div`
+const MobileComparisonSection = styled.div.attrs<{ htmlId?: string }>(props => ({
+  id: props.htmlId,
+}))`
   display: none;
   width: 100%;
   position: relative;
@@ -440,10 +441,6 @@ const CtaButton = styled.button<StyledButtonProps>`
     background: ${(props) =>
       props.$isPrimary ? "#ebf8ff" : props.$addOn ? "#D3A662" : "#e01f1f"};
     color: ${(props) => (props.$isPrimary ? "#000" : "#FFF")};
-
-    &::after {
-      animation: ${rippleAnimation} 0.6s ease-out;
-    }
   }
 
   &:active {
@@ -1132,9 +1129,9 @@ const PricingPage: React.FC<PricingPageProps> = ({
           />
         ))}
       </PlansContainer>
-     {width  > 992 ? <Comparison /> : 
-      <MobileComparisonSection ref={mobileComparisonRef}>
-        <ComparisonHeader ref={comparisonHeaderRef}>
+     {width  > 992 ? <Comparison htmlId="product-comparision"/> : 
+      <MobileComparisonSection  ref={mobileComparisonRef} htmlId="product-comparision">
+        <ComparisonHeader  ref={comparisonHeaderRef}>
           <Tabs>
             <Tab
               $activetab={active === 0 ? true : false}
