@@ -141,8 +141,8 @@ const PlansContainer = styled.div`
   }
 `;
 
-const MobileComparisonSection = styled.div.attrs<{ htmlId?: string }>(props => ({
-  id: props.htmlId,
+const MobileComparisonSection = styled.div.attrs<{ htmlid?: string }>(props => ({
+  id: props.htmlid,
 }))`
   display: none;
   width: 100%;
@@ -155,7 +155,7 @@ const MobileComparisonSection = styled.div.attrs<{ htmlId?: string }>(props => (
 
 const ComparisonHeader = styled.div`
   position: sticky;
-  top: 48px; /* Height of the main header */
+  top: 43px; /* Height of the main header */
   width: 100%;
   background: #fff;
   z-index: 10;
@@ -1129,8 +1129,8 @@ const PricingPage: React.FC<PricingPageProps> = ({
           />
         ))}
       </PlansContainer>
-     {width  > 992 ? <Comparison htmlId="product-comparision"/> : 
-      <MobileComparisonSection  ref={mobileComparisonRef} htmlId="product-comparision">
+     {width  > 992 ? <Comparison htmlid="product-comparision"/> : 
+      <MobileComparisonSection  ref={mobileComparisonRef} htmlid="product-comparision">
         <ComparisonHeader  ref={comparisonHeaderRef}>
           <Tabs>
             <Tab

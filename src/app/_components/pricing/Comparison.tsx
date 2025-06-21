@@ -208,7 +208,7 @@ const ScrollableContent = styled.div`
 
 // Main comparison component
 export const Comparison = styled(
-  ({ className, htmlId }: { className?: string; htmlId?: string }) => {
+  ({ className, htmlid }: { className?: string; htmlid?: string }) => {
     const [comparatorsOrder] = useState<number[]>([0, 1, 2]);
     const { width } = useWindowSize();
     const sectionRef = useRef<HTMLDivElement>(null);
@@ -234,7 +234,7 @@ export const Comparison = styled(
     };
 
     return (
-      <div className={className} id={htmlId} ref={sectionRef}>
+      <div className={className} id={htmlid} ref={sectionRef}>
         <ComparisonContainer ref={containerRef}>
           <HeaderContentWrapper ref={wrapperRef}>
             {!isMobile ? (
