@@ -146,7 +146,7 @@ export const HamOverlay = styled(
   ({
     className,
     showMenu,
-    children
+    children,
   }: {
     className?: string;
     showMenu?: boolean;
@@ -154,7 +154,9 @@ export const HamOverlay = styled(
   }) => {
     return (
       <div className={className}>
-        <div className="group-container" data-showmenu={showMenu}>{children}</div>
+        <div className="group-container" data-showmenu={showMenu}>
+          {children}
+        </div>
       </div>
     );
   }
@@ -181,8 +183,9 @@ export const HamOverlay = styled(
     background: #fff;
     border-radius: 0px 0px 12px 12px;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-    transform: ${({ showMenu }) => (showMenu ? 'translateY(0)' : 'translateY(-100%)')};
-    opacity: ${({ showMenu }) => (showMenu ? '1' : '0')};
+    transform: ${({ showMenu }) =>
+      showMenu ? "translateY(0)" : "translateY(-100%)"};
+    opacity: ${({ showMenu }) => (showMenu ? "1" : "0")};
     padding: 24px 28px 290px;
     z-index: 30;
     visibility: ${({ showMenu }) => (showMenu ? "visible" : "hidden")};
@@ -250,11 +253,19 @@ export const Header = styled(({ className }: { className?: string }) => {
   const OnLogoClick = () => {
     if (router && pathname !== "/") {
       router.push("/");
+     
     }
+    setShowMobileMenu(false);
   };
 
   // MobileNavItems: same logic as DesktopNavItems, but styled for mobile drawer
-  const MobileNavItems = ({ setShowMenu, showMenu }: { setShowMenu: (show: boolean) => void, showMenu: boolean }) => {
+  const MobileNavItems = ({
+    setShowMenu,
+    showMenu,
+  }: {
+    setShowMenu: (show: boolean) => void;
+    showMenu: boolean;
+  }) => {
     const router = useRouter();
     const { isAuthenticated, logout } = useAuth();
 
@@ -271,7 +282,7 @@ export const Header = styled(({ className }: { className?: string }) => {
     }, [logout, setShowMenu]);
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         {isAuthenticated && <p className="ham-item">Hi There!</p>}
         {!isAuthenticated ? (
           <button className="ham-item" onClick={redirectToLogin}>
@@ -318,7 +329,7 @@ export const Header = styled(({ className }: { className?: string }) => {
         {width && width < 992 && !showMobileMenu && (
           <button
             className="hamburger"
-            style={{ position: 'absolute', top: 18, right: 18, zIndex: 1300 }}
+            style={{ position: "absolute", top: 13.5, right: 18, zIndex: 1300 }}
             onClick={() => setShowMobileMenu((prev) => !prev)}
             aria-label="Toggle navigation menu"
           >
@@ -356,7 +367,15 @@ export const Header = styled(({ className }: { className?: string }) => {
         <>
           <button
             className="hamburger close"
-            style={{ position: 'absolute', top: 18, right: 18, zIndex: 1400, background: 'transparent', border: 'none' }}
+            style={{
+              position: "absolute",
+              top: 10,
+              right: 18,
+              zIndex: 35,
+              background: "transparent",
+              border: "none",
+              filter: "invert(1)",
+            }}
             onClick={() => setShowMobileMenu(false)}
             aria-label="Close navigation menu"
           >
@@ -367,13 +386,38 @@ export const Header = styled(({ className }: { className?: string }) => {
               viewBox="0 0 26 26"
               fill="none"
             >
-              <line x1="2" y1="2" x2="24" y2="24" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="24" y1="2" x2="2" y2="24" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+              <line
+                x1="2"
+                y1="2"
+                x2="24"
+                y2="24"
+                stroke="black"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <line
+                x1="24"
+                y1="2"
+                x2="2"
+                y2="24"
+                stroke="black"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
             </svg>
           </button>
-          <div className="mobile-drawer" onClick={() => setShowMobileMenu(false)}>
-            <div className="drawer-content" onClick={e => e.stopPropagation()}>
-              <MobileNavItems setShowMenu={setShowMobileMenu} showMenu={showMobileMenu} />
+          <div
+            className="mobile-drawer"
+            onClick={() => setShowMobileMenu(false)}
+          >
+            <div
+              className="drawer-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <MobileNavItems
+                setShowMenu={setShowMobileMenu}
+                showMenu={showMobileMenu}
+              />
             </div>
           </div>
         </>
@@ -389,14 +433,14 @@ export const Header = styled(({ className }: { className?: string }) => {
   background: rgb(0, 0, 0);
   backdrop-filter: blur(10px);
   font-family: var(--font-exo);
-  z-index: 1000;
+  z-index: 30;
   border-bottom: 0.1px solid rgba(255, 255, 255, 0.3);
-  ${sectionResponsivePadding()}
   isolation: isolate;
 
   @media (min-width: 992px) {
     background: rgb(0, 0, 0);
     border-bottom: none;
+    ${sectionResponsivePadding()}
   }
 
   .nav-container {
@@ -406,6 +450,11 @@ export const Header = styled(({ className }: { className?: string }) => {
     ${maxWidthContainer};
     overflow: hidden;
     padding: 14px 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    z-index: 22;
+    background: #0e0e0e;
 
     @media (min-width: 992px) {
       padding: unset;
@@ -478,22 +527,22 @@ export const Header = styled(({ className }: { className?: string }) => {
         }
 
         .login-nav-btn {
-            font-size: 17.5px;
-            font-weight: 800;
-            font-family: var(--font-fustat);
-            background: transparent;
-            border: none;
-            color : #fff;
-            cursor: pointer;
+          font-size: 17.5px;
+          font-weight: 800;
+          font-family: var(--font-fustat);
+          background: transparent;
+          border: none;
+          color: #fff;
+          cursor: pointer;
 
-            @media (max-width: 992px) {
-              display: none;
-            }
-
-            @media (min-width: 1950px) {
-              font-size: 23.5px;
-            }
+          @media (max-width: 992px) {
+            display: none;
           }
+
+          @media (min-width: 1950px) {
+            font-size: 23.5px;
+          }
+        }
 
         .nav-item {
           color: rgb(255, 255, 255);
@@ -516,8 +565,6 @@ export const Header = styled(({ className }: { className?: string }) => {
           @media (min-width: 992px) {
             font-size: 22.746px;
           }
-
-          
         }
       }
     }
@@ -529,12 +576,17 @@ export const Header = styled(({ className }: { className?: string }) => {
       display: flex;
       align-items: center;
       justify-content: center;
+       z-index: 50;
+      
       @media (min-width: 992px) {
         display: none;
       }
       &.close {
         background: transparent !important;
-        border: none ;
+        border: none;
+         filter: invert(1);
+         z-index: 50;
+       
       }
     }
   }
@@ -546,8 +598,8 @@ export const Header = styled(({ className }: { className?: string }) => {
     right: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.4);
-    z-index: 1100;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 20;
     display: flex;
     justify-content: flex-end;
     transition: background 0.3s;
@@ -555,11 +607,12 @@ export const Header = styled(({ className }: { className?: string }) => {
       display: none;
     }
     .drawer-content {
+      position: relative;
+      top: 40px;
       background: #fff;
-      width: 80vw;
-      max-width: 340px;
+      width: 100vw;
       height: 100vh;
-      box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+      box-shadow: -2px 0 16px rgba(0, 0, 0, 0.08);
       border-radius: 0px 0px 12px 12px;
       padding: 32px 24px 32px 24px;
       display: flex;
@@ -570,8 +623,12 @@ export const Header = styled(({ className }: { className?: string }) => {
     }
   }
   @keyframes slideInDrawer {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 
   /* Shared ham-item styles for both desktop and mobile */
