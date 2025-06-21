@@ -18,83 +18,86 @@ export const BehindTheScenes = styled(
     const titleRef = useRef<HTMLHeadingElement>(null);
     const subTitleRef = useRef<HTMLParagraphElement>(null);
     const gsapContext = useGsapContext();
-
-
+    const animationInitialized = useRef(false);
 
     const animationInit = () => {
-      if (!container.current || !window) return;
+      if (!container.current || !window || animationInitialized.current) return;
+      
+      // Disable animation on mobile
+      if (isMobile) return;
+
+      animationInitialized.current = true;
 
       gsapContext.add(() => {
+        // Kill any existing timeline
+        if (timelineRef.current) {
+          timelineRef.current.kill();
+        }
+
         const tl = gsap.timeline({
-          defaults: {
-            duration: 1,
-            ease: "power2.easeInOut",
-          },
           scrollTrigger: {
             trigger: container.current,
-            start: isMobile ? "top 10%" : "top 40%",
-            end: isMobile ? "top -50%" : "top 5%",
-            scrub: 1,
+            start: isMobile ? "top 60%" : "top 60%",
+            end: isMobile ? "top 20%" : "top 20%",
+            scrub: isMobile ? 0.5 : 1, // Smoother scrub on mobile
             markers: false,
             immediateRender: false,
             invalidateOnRefresh: true,
           },
         });
 
-        tl.set(`.tc-1 > span`, {
-          autoAlpha: 0.2,
-        });
+        // Store timeline reference
+        timelineRef.current = tl;
 
-        tl.fromTo(
-          ".tc-1 > span",
-          {
-            autoAlpha: 0.2,
-          },
-          {
-            autoAlpha: 0.5,
-            duration: 1,
-            stagger: 0.1,
-          },
-          0.2
-        );
-
-        tl.fromTo(
-          ".tc-1 > span",
-          {
-            autoAlpha: 0.2,
-          },
-          {
+        // Animate each span individually for better scroll control
+        const spans = document.querySelectorAll('.tc-1 > span');
+        spans.forEach((span, index) => {
+          tl.to(span, {
             autoAlpha: 1,
             duration: 1,
-            stagger: 0.1,
-          },
-          "0.2"
-        );
-
-        tl.addPause(5.5);
+            ease: "none",
+          }, index * 0.05); // Stagger the start time
+        });
       });
     };
 
     const intersectionObserver = useRef<IntersectionObserver | null>(null);
+    const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
     useIsomorphicLayoutEffect(() => {
+      // Clean up previous animation
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+      
+      // Reset animation flag when width changes
+      animationInitialized.current = false;
+
       intersectionObserver.current = new IntersectionObserver(
         () => {
           animationInit();
         },
         {
           root: null,
-          rootMargin: "100px",
+          rootMargin: "50px",
           threshold: 0,
         }
       );
 
-      intersectionObserver.current.observe(container.current as Element);
+      if (container.current) {
+        intersectionObserver.current.observe(container.current);
+      }
 
       return () => {
         if (intersectionObserver.current) {
           intersectionObserver.current.disconnect();
         }
+        if (timelineRef.current) {
+          timelineRef.current.kill();
+        }
+        // Reset animation flag on cleanup
+        animationInitialized.current = false;
       };
     }, [width, gsapContext]);
 
@@ -325,6 +328,16 @@ export const BehindTheScenes = styled(
         line-height: 142.05%; /* 22.728px */
         margin : 0 8px;
         // border : 1px solid #d4d4d4;
+
+        span {
+          opacity: 0.2; /* Initial state to prevent flashing */
+          visibility: visible; /* Ensure visibility is set for autoAlpha */
+          will-change: opacity, visibility; /* Optimize for autoAlpha animations */
+          
+          @media (max-width: 991px) {
+            opacity: 1; /* Full opacity on mobile since animation is disabled */
+          }
+        }
 
          @media (min-width: 992px) {
        font-size:28.5px;
