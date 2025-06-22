@@ -537,7 +537,7 @@ export const PropertyMapper = {
   weekly_wraps: {
     title: "Weekly Wraps",
     subtitle:
-      "Receive detailed, actionable feedback tailored to your progress and areas for improvement after each session over your email.",
+      "Receive weekly expert insights, strategies, and analysis updates over your email crafted by mentors.",
   },
   mock_assessments: {
     title: "Mock Assessments",

@@ -131,7 +131,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
       <div className="root-container">
         <div className="left-panel">
           <button className="logo-container" onClick={OnLogoClick}>
-            <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
+            <Image src="/header/company_logo_white.svg" fill alt="stroda-logo" />
           </button>
           <div className="login-block">
             {!isOTPRequested ? <GoogleSignInButton /> : null}

@@ -264,8 +264,8 @@ const BANNER_SECTION = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Your Mentorship Network",
-  description: "Community that leads together",
+  name: "Stroda Club",
+  description: "Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.",
   url: "https://stroda.club",
 };
 

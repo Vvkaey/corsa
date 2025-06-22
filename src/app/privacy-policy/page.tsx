@@ -73,11 +73,11 @@ export default function PrivacyPolicy() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: "Your Blog Title",
+    headline: "Stroda Club",
     datePublished: "2025-01-30",
     author: {
       "@type": "Person",
-      name: "Strodaclub",
+      name: "Stroda Club",
     },
   };
   return (

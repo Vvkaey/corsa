@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   }
   
   try {
-    const response = await fetch('https://corsa-backend-seven.vercel.app/api/users/status', {
+    const response = await fetch('https://stroda-backend-seven.vercel.app/api/users/status', {
       headers: {
         'Authorization': authHeader,
         'Content-Type': 'application/json',

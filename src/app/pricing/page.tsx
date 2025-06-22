@@ -13,8 +13,8 @@ const Pricing: NextPage = () => {
       <Head>
         <title>Pricing | Your Product Name</title>
         <meta
-          name="description"
-          content="Choose the right pricing plan for your needs"
+          name="Stroda Club"
+          content="Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -19,8 +19,8 @@ const fustat = Fustat({
 });
 
 export const metadata: Metadata = {
-  title: "STRODACLUB",
-  description: "STRODACLUB - Your Learning Companion",
+  title: "Stroda Club",
+  description: "Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.",
   viewport: {
     width: 'device-width',
     initialScale: 1,

@@ -74,7 +74,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
                 color: "#000",
               }}
             >
-              Reach out to us!
+              Reach out to us
             </button>
           </div>
         </div>
@@ -97,7 +97,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
         {/* Footer logo */}
         <div className="logo-container">
-          <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
+          <Image src="/header/company_logo_white.svg" fill alt="stroda-logo" />
         </div>
       </div>
     </div>

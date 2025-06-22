@@ -237,7 +237,7 @@ export const ModalWhite = styled(
   .modalContent {
     position: relative;
     width: 100%;
-    height: 70%;
+    height: 78%;
     border-radius: 24px;
     overflow: hidden;
     color: #000000;

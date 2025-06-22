@@ -192,7 +192,7 @@ export const BehindTheScenes = styled(
                 <span>the </span>
                 <span>direction </span>
                 <span>that </span>
-                <span>makes</span>
+                <span>makes </span>
                 <span>a </span>
                 <span>difference.</span>
                 

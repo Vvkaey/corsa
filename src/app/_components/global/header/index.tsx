@@ -221,6 +221,11 @@ export const Header = styled(({ className }: { className?: string }) => {
     setShowDeskHamMenu(false);
   }, [pathname]);
 
+  // Hide header on login page
+  if (pathname?.includes("/login")) {
+    return null;
+  }
+
   // const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
@@ -302,7 +307,7 @@ export const Header = styled(({ className }: { className?: string }) => {
       <div className="nav-container" id="nav-container">
         <div className="left-pan">
           <button className="image-container" onClick={OnLogoClick}>
-            <Image src="/header/company_logo_white.svg" fill alt="corsa-logo" />
+            <Image src="/header/company_logo_white.svg" fill alt="stroda-logo" />
           </button>
         </div>
         <div className="right-pan">
