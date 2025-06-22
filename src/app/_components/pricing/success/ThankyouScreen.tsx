@@ -15,6 +15,7 @@ interface ThankyouScreenProps {
   descriptionTop?: string;
   descriptionBottom?: string;
   ctaGrid: GridType;
+  isMentorApplication?: boolean;
 }
 
 const ThankyouScreen = ({
@@ -23,13 +24,17 @@ const ThankyouScreen = ({
   descriptionTop,
   descriptionBottom,
   ctaGrid,
+  isMentorApplication = false,
 }: ThankyouScreenProps) => {
   const [secondsLeft, setSecondsLeft] = useState(10);
   const router = useRouter();
 
   const redirect = useCallback(() => {
+    if(isMentorApplication){
+      router.replace("/");
+    }else
     router.replace("/dashboard");
-  }, [router]);
+  }, [router, isMentorApplication]);
 
   // Timer effect
   useEffect(() => {
@@ -71,12 +76,12 @@ const ThankyouScreen = ({
           {ctaGrid === GridType.DOUBLE ? (
             <HomeCTA onClick={redirect}>Dashboard</HomeCTA>
           ) : null}
-          <SecondaryCTA onClick={redirect}>Home</SecondaryCTA>
+          {isMentorApplication ? <HomeCTA onClick={redirect}>Home</HomeCTA> : <SecondaryCTA onClick={redirect}>Home</SecondaryCTA>}
         </CTAContainer>
       </ThankyouBox>
       <Note>
         Redirecting in {secondsLeft} seconds. You are being redirected to the
-        dashboard.
+        {isMentorApplication ? " home page" : " dashboard"}.
       </Note>
     </ThankyouContainer>
   );
@@ -159,7 +164,7 @@ const BoxHead = styled.div`
     color: #fff;
     leading-trim: both;
     text-edge: cap;
-    font-family: --var(--font-exo);
+    font-family: var(--font-exo);
     font-style: normal;
     font-weight: 700;
     font-size: 28px;

@@ -56,7 +56,7 @@ const MentorApplication = () => {
   const [isMobile, setIsMobile] = useState(false);
   // Add a state to track initial render
   const [initialRender, setInitialRender] = useState(true);
-  
+
   // Refs for animation
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -74,13 +74,13 @@ const MentorApplication = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     // Set initial value
     handleResize();
-    
+
     // Add event listener
-    window.addEventListener('resize', handleResize);
-    
+    window.addEventListener("resize", handleResize);
+
     // Set content to be visible immediately when component mounts
     // This prevents the "flash of unstyled content" on mobile
     const setInitialVisibility = () => {
@@ -103,7 +103,7 @@ const MentorApplication = () => {
       }
 
       // Form groups should also be immediately visible
-      formGroupRefs.current.forEach(ref => {
+      formGroupRefs.current.forEach((ref) => {
         if (ref) {
           ref.style.opacity = "1";
           ref.style.visibility = "visible";
@@ -114,10 +114,10 @@ const MentorApplication = () => {
 
     // Set items to be visible immediately on first render to prevent flash
     setInitialVisibility();
-    
+
     // Clean up
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -171,12 +171,12 @@ const MentorApplication = () => {
       tl.fromTo(
         formGroupRefs.current,
         { autoAlpha: 0, y: 20 },
-        { 
-          autoAlpha: 1, 
-          y: 0, 
-          duration: 0.4, 
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.4,
           stagger: 0.07, // Stagger with a small delay
-          ease: "power1.out" 
+          ease: "power1.out",
         },
         "-=0.5"
       );
@@ -186,36 +186,40 @@ const MentorApplication = () => {
   // Animation for form field focus
   const handleFieldFocus = (index: number) => {
     if (isMobile) return; // Skip animations on mobile
-    
+
     const formGroup = formGroupRefs.current[index];
     if (formGroup) {
       gsap.to(formGroup, {
         scale: 1.02,
         duration: 0.3,
         ease: "power2.out",
-        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)"
+        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
       });
     }
   };
 
   // Animation for form field blur
-  const handleFieldBlur = (index: number, formikBlur: (e: InputEvent) => void, e: InputEvent) => {
+  const handleFieldBlur = (
+    index: number,
+    formikBlur: (e: InputEvent) => void,
+    e: InputEvent
+  ) => {
     if (isMobile) {
       // On mobile, just call the Formik blur handler
       formikBlur(e);
       return;
     }
-    
+
     const formGroup = formGroupRefs.current[index];
     if (formGroup) {
       gsap.to(formGroup, {
         scale: 1,
         duration: 0.3,
         ease: "power2.out",
-        boxShadow: "none"
+        boxShadow: "none",
       });
     }
-    
+
     // Call the Formik blur handler
     formikBlur(e);
   };
@@ -242,7 +246,9 @@ const MentorApplication = () => {
     mentoringExperience: Yup.string().required(
       "Mentoring experience is required"
     ),
-    mentoringSessions: Yup.string().required("Mentoring session availability is required"),
+    mentoringSessions: Yup.string().required(
+      "Mentoring session availability is required"
+    ),
     mentoringApproach: Yup.string().required("Mentoring approach is required"),
   });
 
@@ -328,12 +334,12 @@ const MentorApplication = () => {
 
       const data = await response.json();
 
-      if (response.ok && response.status === 201) {
+      if (response.ok) {
         setMessage({
           text: "Application submitted successfully!",
           type: "success",
         });
-        
+
         // Animate form out before showing success
         if (formRef.current && !isMobile) {
           gsap.to(formRef.current, {
@@ -344,7 +350,7 @@ const MentorApplication = () => {
             onComplete: () => {
               setShowSuccessModal(true);
               localStorage.removeItem("authToken");
-            }
+            },
           });
         } else {
           setShowSuccessModal(true);
@@ -379,14 +385,14 @@ const MentorApplication = () => {
     }
 
     // Animate OTP button
-    const otpButton = document.querySelector('.otp-button');
+    const otpButton = document.querySelector(".otp-button");
     if (otpButton && !isMobile) {
       gsap.to(otpButton, {
         scale: 0.95,
         duration: 0.2,
         yoyo: true,
         repeat: 1,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
     }
 
@@ -411,19 +417,19 @@ const MentorApplication = () => {
           text: "OTP sent successfully! Check your email",
           type: "success",
         });
-        
+
         // Animate the OTP field to highlight it
-        const otpInput = document.getElementById('otp');
+        const otpInput = document.getElementById("otp");
         if (otpInput && !isMobile) {
           gsap.fromTo(
             otpInput,
             { borderColor: "rgba(0, 128, 0, 0.5)" },
-            { 
-              borderColor: "green", 
-              duration: 1, 
-              repeat: 2, 
+            {
+              borderColor: "green",
+              duration: 1,
+              repeat: 2,
               yoyo: true,
-              ease: "power1.inOut" 
+              ease: "power1.inOut",
             }
           );
         }
@@ -469,17 +475,17 @@ const MentorApplication = () => {
         setEmailVerified(true);
         setMessage({ text: "Email verified successfully!", type: "success" });
         localStorage.setItem("authToken", data.data.token);
-        
+
         // Animate success verification
         const emailGroup = formGroupRefs.current[1]; // Email is the second form group (index 1)
         if (emailGroup && !isMobile) {
           gsap.fromTo(
             emailGroup,
             { backgroundColor: "rgba(0, 128, 0, 0.05)" },
-            { 
-              backgroundColor: "transparent", 
-              duration: 1.5, 
-              ease: "power2.out" 
+            {
+              backgroundColor: "transparent",
+              duration: 1.5,
+              ease: "power2.out",
             }
           );
         }
@@ -508,33 +514,31 @@ const MentorApplication = () => {
     formik.validateForm().then((errors: FormikErrors<FormValues>) => {
       if (Object.keys(errors).length > 0) {
         // Scroll to the first error field
-        const firstErrorField = document.getElementById(
-          Object.keys(errors)[0]
-        );
+        const firstErrorField = document.getElementById(Object.keys(errors)[0]);
         if (firstErrorField) {
           // Animate scroll
           const scrollOptions = {
-            behavior: isMobile ? "auto" : "smooth" as ScrollBehavior, // Use instant scroll on mobile
+            behavior: isMobile ? "auto" : ("smooth" as ScrollBehavior), // Use instant scroll on mobile
             block: "center" as ScrollLogicalPosition,
           };
-          
+
           firstErrorField.scrollIntoView(scrollOptions);
-          
+
           // Highlight the field with error
           if (!isMobile) {
             gsap.fromTo(
               firstErrorField,
               { borderColor: "rgba(255, 0, 0, 0.5)" },
-              { 
-                borderColor: "red", 
-                duration: 0.5, 
-                repeat: 3, 
+              {
+                borderColor: "red",
+                duration: 0.5,
+                repeat: 3,
                 yoyo: true,
-                ease: "sine.inOut" 
+                ease: "sine.inOut",
               }
             );
           }
-          
+
           firstErrorField.focus();
         }
       }
@@ -544,13 +548,14 @@ const MentorApplication = () => {
   // Add effect to handle failure modal redirect
   useEffect(() => {
     if (showFailureModal) {
-      router.push('/error');
+      router.push("/error");
     }
   }, [showFailureModal, router]);
 
   return (
-    <MentorApplicationContainer ref={containerRef}
-    style={{ opacity: 1, visibility: 'visible' }}
+    <MentorApplicationContainer
+      ref={containerRef}
+      style={{ opacity: 1, visibility: "visible" }}
     >
       {showSuccessModal ? (
         <ThankyouScreen
@@ -559,15 +564,26 @@ const MentorApplication = () => {
           descriptionTop="We'll get back to you shortly after going through the details."
           descriptionBottom="Feel free to contact us at connect@stroda.club If you have any questions"
           ctaGrid={GridType.SOLO}
+          isMentorApplication={true}
         />
       ) : null}
-      <div ref={titleRef}
-       style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+      <div
+        ref={titleRef}
+        style={{
+          opacity: 1,
+          visibility: "visible",
+          transform: "translateY(0px)",
+        }}
       >
         <TitleSubtitle />
       </div>
-      <ApplicationForm ref={formRef}
-      style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+      <ApplicationForm
+        ref={formRef}
+        style={{
+          opacity: 1,
+          visibility: "visible",
+          transform: "translateY(0px)",
+        }}
       >
         <Formik
           initialValues={initialValues}
@@ -578,14 +594,18 @@ const MentorApplication = () => {
         >
           {(formik) => (
             <Form autoComplete="new-password">
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[0] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
-                <Label htmlFor="fullName" >Full Name</Label>
+                <Label htmlFor="fullName">Full Name</Label>
                 <Input
                   id="fullName"
                   name="fullName"
@@ -595,18 +615,22 @@ const MentorApplication = () => {
                   onChange={formik.handleChange}
                   value={formik.values.fullName}
                   placeholder="Full Name"
-                 autoComplete="new-password"
+                  autoComplete="new-password"
                 />
                 {formik.touched.fullName && formik.errors.fullName ? (
                   <ErrorText>{formik.errors.fullName}</ErrorText>
                 ) : null}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[1] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="email">Email</Label>
                 <InputGroup>
@@ -653,12 +677,16 @@ const MentorApplication = () => {
                   <ErrorText>{formik.errors.email}</ErrorText>
                 ) : null}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[2] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="otp">OTP</Label>
                 <InputGroup>
@@ -719,17 +747,25 @@ const MentorApplication = () => {
                     </span>
                   )} */}
                 </InputGroup>
-                {message.type == "error"  && message.text && message.text === "Failed to verify OTP" ? <ErrorText $right={true}>Invalid OTP</ErrorText> : null}
+                {message.type == "error" &&
+                message.text &&
+                message.text === "Failed to verify OTP" ? (
+                  <ErrorText $right={true}>Invalid OTP</ErrorText>
+                ) : null}
                 {formik.touched.otp && formik.errors.otp ? (
                   <ErrorText>{formik.errors.otp}</ErrorText>
                 ) : null}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[3] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
@@ -737,7 +773,7 @@ const MentorApplication = () => {
                   onBlur={(e) => handleFieldBlur(3, formik.handleBlur, e)}
                   id="phone"
                   name="phone"
-                 type="tel"
+                  type="tel"
                   onChange={formik.handleChange}
                   value={formik.values.phone}
                   placeholder="Phone No"
@@ -747,12 +783,16 @@ const MentorApplication = () => {
                   <ErrorText>{formik.errors.phone}</ErrorText>
                 ) : null}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[4] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="linkedin">LinkedIn Profile</Label>
                 <Input
@@ -760,7 +800,7 @@ const MentorApplication = () => {
                   onBlur={(e) => handleFieldBlur(4, formik.handleBlur, e)}
                   id="linkedin"
                   name="linkedin"
-                 type="url"
+                  type="url"
                   onChange={formik.handleChange}
                   value={formik.values.linkedin}
                   placeholder="Linkedin Profile"
@@ -770,12 +810,16 @@ const MentorApplication = () => {
                   <ErrorText>{formik.errors.linkedin}</ErrorText>
                 ) : null}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[5] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="college">College Name</Label>
                 <Input
@@ -793,12 +837,16 @@ const MentorApplication = () => {
                   <ErrorText>{formik.errors.college}</ErrorText>
                 ) : null}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[6] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="currentlyWorking">Currently Working</Label>
                 <Select
@@ -821,12 +869,16 @@ const MentorApplication = () => {
                   )}
               </FormGroup>
 
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[7] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="currentCompany">Current Company</Label>
                 <Input
@@ -845,12 +897,16 @@ const MentorApplication = () => {
                     <ErrorText>{formik.errors.currentCompany}</ErrorText>
                   )}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[8] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="currentCity">Current City</Label>
                 <Input
@@ -868,12 +924,16 @@ const MentorApplication = () => {
                   <ErrorText>{formik.errors.currentCity}</ErrorText>
                 )}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[9] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="mentoringExperience">
                   Mentoring Experience
@@ -897,12 +957,16 @@ const MentorApplication = () => {
                     <ErrorText>{formik.errors.mentoringExperience}</ErrorText>
                   )}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[10] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="mentoringSessions">
                   Mentoring Session Availability
@@ -927,12 +991,16 @@ const MentorApplication = () => {
                     <ErrorText>{formik.errors.mentoringSessions}</ErrorText>
                   )}
               </FormGroup>
-              <FormGroup 
+              <FormGroup
                 ref={(el) => {
                   formGroupRefs.current[11] = el;
                 }}
                 className="form-group"
-                style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0px)' }}
+                style={{
+                  opacity: 1,
+                  visibility: "visible",
+                  transform: "translateY(0px)",
+                }}
               >
                 <Label htmlFor="mentoringApproach">Mentoring Approach</Label>
                 <Select
@@ -961,7 +1029,7 @@ const MentorApplication = () => {
                     <ErrorText>{formik.errors.mentoringApproach}</ErrorText>
                   )}
               </FormGroup>
-              
+
               {/* {message.text && (
                 <StatusMessage 
                   type={message.type}
@@ -979,7 +1047,7 @@ const MentorApplication = () => {
                   {message.text}
                 </StatusMessage>
               )} */}
-              
+
               <SubmitButton
                 type="submit"
                 onClick={() => {
@@ -1000,7 +1068,7 @@ const MentorApplication = () => {
                 //     //     ease: "power1.out"
                 //     //   });
                 //     // };
-                    
+
                 //     // const handleMouseLeave = () => {
                 //     //   gsap.to(el, {
                 //     //     backgroundColor: "#ff2626",
@@ -1009,10 +1077,10 @@ const MentorApplication = () => {
                 //     //     ease: "power1.out"
                 //     //   });
                 //     // };
-                    
+
                 //     // el.addEventListener('mouseenter', handleMouseEnter);
                 //     // el.addEventListener('mouseleave', handleMouseLeave);
-                    
+
                 //     // Clean up event listeners
                 //     // return () => {
                 //     //   el.removeEventListener('mouseenter', handleMouseEnter);
