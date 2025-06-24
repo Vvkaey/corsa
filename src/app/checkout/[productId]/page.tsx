@@ -177,7 +177,9 @@ const CheckoutPage: React.FC = () => {
   // Show FailureScreen if payment failed
   if (failure === '1') {
     return (
-      <CheckoutContainer>
+      <CheckoutContainer style={{
+        zIndex: "40"
+      }}>
         <FailureScreen productType={productId as string} />
       </CheckoutContainer>
     );
@@ -207,7 +209,11 @@ const CheckoutPage: React.FC = () => {
   // Show ThankyouScreen if payment was successful
   if (paymentSuccess) {
     return (
-      <CheckoutContainer>
+      <CheckoutContainer
+      style={{
+        zIndex: "40"
+      }}
+      >
         <ThankyouScreen
           title="That's it! You're all set."
           subtitle="You have successfully subscribed"

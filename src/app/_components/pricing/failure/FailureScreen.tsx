@@ -27,31 +27,10 @@ export default function FailureScreen({ productType }: FailureScreenProps) {
   const price = plan?.price ? `₹${plan.price}` : "-";
   const period = plan?.period ? `/ ${plan.period}` : "";
 
-  // Timer effect
-  //   useEffect(() => {
-  //     if (secondsLeft <= 0) {
-  //       redirect();
-  //       return;
-  //     }
-
-  //     const timer = setTimeout(() => {
-  //       setSecondsLeft(secondsLeft - 1);
-  //     }, 1000);
-
-  //     // Clean up timer
-  //     return () => clearTimeout(timer);
-  //   }, [secondsLeft, redirect]);
 
   return (
     <ThankyouContainer>
       <ThankyouBox>
-        {/* <TickContainer>
-          <Image src="/payment-success.png" alt="tick" fill />
-        </TickContainer> */}
-        {/* <BoxHead>
-          <h2>Thanks for stepping up!</h2>
-          <p>We&apos;re elated to have you interested</p>
-        </BoxHead> */}
         <Product>
           <ProductHead>
             <ProductTitle>{name}</ProductTitle>
@@ -226,6 +205,14 @@ const ThankyouContainer = styled.section`
   padding-top: 80px;
   gap: 30px;
   ${responsivePadding()}
+
+    @media (min-width: 992px) {
+    gap: 18px;
+  }
+
+  @media (min-width: 1600px) {
+    gap: 30px;
+  }
 `;
 
 const ThankyouBox = styled.div`
@@ -242,6 +229,12 @@ const ThankyouBox = styled.div`
   gap: 29px;
 
   @media (min-width: 992px) {
+    width: unset;
+    padding: 55px 100px;
+    gap: 25px;
+  }
+
+  @media (min-width: 1600px) {
     width: unset;
     padding: 60px 290px 90px 290px;
     gap: 46px;
@@ -350,8 +343,12 @@ const InNote = styled.p`
   line-height: normal;
 
   @media (min-width: 992px) {
-    bottom: 50px;
+    bottom: 22px;
     font-size: 14px;
+  }
+
+   @media (min-width: 1600px) {
+    bottom: 50px;
   }
 `;
 

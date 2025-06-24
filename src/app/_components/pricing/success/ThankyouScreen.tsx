@@ -39,7 +39,7 @@ const ThankyouScreen = ({
   // Timer effect
   useEffect(() => {
     if (secondsLeft <= 0) {
-      redirect();
+      //  redirect();
       return;
     }
 
@@ -59,7 +59,11 @@ const ThankyouScreen = ({
   }, []);
 
   return (
-    <ThankyouContainer>
+    <ThankyouContainer
+    style={{
+      zIndex : `${isMentorApplication ? "40" : "unset"}`
+    }}
+    >
       <ThankyouBox>
         <TickContainer>
           <Image src="/payment-success.png" alt="tick" fill />
@@ -108,9 +112,15 @@ const ThankyouContainer = styled.section`
   ${responsivePadding()}
   transition: all 0.3s ease;
 
+
   @media (min-width: 992px) {
+    gap: 18px;
+  }
+
+  @media (min-width: 1600px) {
     gap: 30px;
   }
+    
 `;
 
 const ThankyouBox = styled.div`
@@ -123,7 +133,7 @@ const ThankyouBox = styled.div`
   );
   width: 100%;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
-  padding: 56px 10px 48px;
+  padding: 56px 20px 48px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -132,9 +142,23 @@ const ThankyouBox = styled.div`
   border-radius: 17px;
   gap: 40px;
 
+   @media (max-width: 380px) {
+   padding: 18px 20px 15px;
+  }
+
   @media (min-width: 992px) {
     width: unset;
+    padding: 35px 100px;
+    gap: 25px;
+  }
+
+  @media (min-width: 1600px) {
+    width: unset;
     padding: 60px 190px;
+    gap: 36px;
+  }
+
+   @media (min-width: 1992px) {
     gap: 63px;
   }
 `;
@@ -261,25 +285,30 @@ const HomeCTA = styled.button`
   }
 
   @media (min-width: 992px) {
-    padding: 21px 94px;
+    padding: 18px 94px;
+    font-size: 21.42px;
+  }
+
+   @media (min-width: 1600px) {
+    padding: 19px 94px;
     font-size: 21.42px;
   }
 `;
 
 const SecondaryCTA = styled(HomeCTA)`
   background: transparent;
-  color: #ff2626;
+  color: #fff;
 
   &:hover {
     background: rgba(255, 38, 38, 0.15);
     border-color: #e61f1f;
-    color: #e61f1f;
+    color: #fff;
   }
 
   &:active {
     background: rgba(255, 38, 38, 0.2);
     border-color: #d61919;
-    color: #d61919;
+    color: #fff;
   }
 `;
 

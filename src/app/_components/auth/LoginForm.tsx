@@ -415,7 +415,7 @@ export default function LoginForm({
 
           <ButtonContainer>
             <PrimaryButton type="submit" disabled={loading}>
-              {loading ? "Verify & Login" : "Verify & Login"}
+              {loading ? "Login" : "Login"}
             </PrimaryButton>
 
             {/* <SecondaryButton
