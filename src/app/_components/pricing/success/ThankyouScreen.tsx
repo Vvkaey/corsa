@@ -27,6 +27,7 @@ const ThankyouScreen = ({
   isMentorApplication = false,
 }: ThankyouScreenProps) => {
   const [secondsLeft, setSecondsLeft] = useState(10);
+  const [mentorshipUpdateTriggered, setMentorshipUpdateTriggered] = useState(false);
   const router = useRouter();
 
   const redirect = useCallback(() => {
@@ -52,11 +53,24 @@ const ThankyouScreen = ({
   }, [secondsLeft, redirect]);
 
   useEffect(() => {
-    if(!window) return;
-    // Trigger mentorship update event when this component mounts
-    // This ensures data is refreshed after a successful payment
-    window.dispatchEvent(new Event("mentorship-update"));
-  }, []);
+    if(!window || mentorshipUpdateTriggered) return;
+    
+    // Add a small delay to ensure payment verification is complete
+    // and the backend has processed the payment
+    const triggerMentorshipUpdate = () => {
+      console.log("🎉 Payment successful! Triggering mentorship update from ThankyouScreen");
+      console.log("📊 This will update user status, badge, and subscription state");
+      window.dispatchEvent(new Event("mentorship-update"));
+      setMentorshipUpdateTriggered(true);
+    };
+
+    // Delay the update to ensure backend processing is complete
+    const timer = setTimeout(triggerMentorshipUpdate, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [mentorshipUpdateTriggered]);
 
   return (
     <ThankyouContainer
@@ -270,20 +284,6 @@ const HomeCTA = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
 
-  &:hover {
-    background: #e61f1f;
-    border-color: #e61f1f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 38, 38, 0.25);
-  }
-
-  &:active {
-    background: #d61919;
-    border-color: #d61919;
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(255, 38, 38, 0.25);
-  }
-
   @media (min-width: 992px) {
     padding: 18px 94px;
     font-size: 21.42px;
@@ -298,18 +298,6 @@ const HomeCTA = styled.button`
 const SecondaryCTA = styled(HomeCTA)`
   background: transparent;
   color: #fff;
-
-  &:hover {
-    background: rgba(255, 38, 38, 0.15);
-    border-color: #e61f1f;
-    color: #fff;
-  }
-
-  &:active {
-    background: rgba(255, 38, 38, 0.2);
-    border-color: #d61919;
-    color: #fff;
-  }
 `;
 
 const Note = styled.p`

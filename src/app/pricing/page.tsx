@@ -16,7 +16,7 @@ const Pricing: NextPage = () => {
           name="Stroda Club"
           content="Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favi.png" />
       </Head>
 
       <PricingPage

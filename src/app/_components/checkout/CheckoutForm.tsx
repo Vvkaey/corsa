@@ -222,8 +222,11 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       }
 
       if (data.success) {
+        console.log("Payment verification successful, triggering mentorship update");
+        
+        // Trigger the mentorship-update event to refresh the context
+        // This will be handled by ThankyouScreen with a delay to ensure backend processing
         if (window) {
-          // Trigger the mentorship-update event to refresh the context
           window.dispatchEvent(new Event("mentorship-update"));
         }
 
@@ -233,9 +236,6 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
         router.push(successUrl);
       } else {
         // Handle case where response is 200 but success is false
-        // setError(
-        //   "Payment verification failed: " + (data.message || "Unknown error")
-        // );
         console.log(
           "Payment verification failed: " + (data.message || "Unknown error")
         );
@@ -258,7 +258,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID as string,
       amount: product!.price * 100,
       currency: "INR",
-      name: "Mentorship Platform",
+      name: product!.name,
       description: `${product!.name} Subscription`,
       order_id: orderIdValue,
       handler: function (response: {

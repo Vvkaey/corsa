@@ -18,6 +18,22 @@ import { CaretUp } from "@/app/_assets/icons";
 import ThankyouScreen, { GridType } from "../pricing/success/ThankyouScreen";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
+import VideoLoadingScreen from "../global/loading";
+import styled from "styled-components";
+
+// Loading overlay component
+const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
 
 // Interface for form values
 interface FormValues {
@@ -54,6 +70,7 @@ const MentorApplication = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showSubmissionLoading, setShowSubmissionLoading] = useState(false);
   // Add a state to track initial render
   const [initialRender, setInitialRender] = useState(true);
 
@@ -274,18 +291,6 @@ const MentorApplication = () => {
     console.log("Form submitting:", values);
     const { setSubmitting, validateForm } = formikHelpers;
 
-    // // Animate submit button
-    // const submitButton = document.querySelector('button[type="submit"]');
-    // // if (submitButton && !isMobile) {
-    // //   gsap.to(submitButton, {
-    // //     scale: 0.95,
-    // //     duration: 0.2,
-    // //     yoyo: true,
-    // //     repeat: 1,
-    // //     ease: "power2.inOut"
-    // //   });
-    // // }
-
     // Check if email is verified before submitting the form
     if (!emailVerified) {
       setMessage({ text: "Please verify your email first", type: "error" });
@@ -299,6 +304,9 @@ const MentorApplication = () => {
       setSubmitting?.(false);
       return;
     }
+
+    // Show loading screen after validation passes
+    setShowSubmissionLoading(true);
 
     try {
       setIsLoading({ ...isLoading, submit: true });
@@ -340,6 +348,9 @@ const MentorApplication = () => {
           type: "success",
         });
 
+        // Hide loading screen and show success modal
+        setShowSubmissionLoading(false);
+
         // Animate form out before showing success
         if (formRef.current && !isMobile) {
           gsap.to(formRef.current, {
@@ -362,6 +373,7 @@ const MentorApplication = () => {
             data.message || "Failed to submit application. Please try again.",
           type: "error",
         });
+        setShowSubmissionLoading(false);
         setShowFailureModal(true);
       }
     } catch (error) {
@@ -370,6 +382,7 @@ const MentorApplication = () => {
         text: "An error occurred while submitting your application. Please try again.",
         type: "error",
       });
+      setShowSubmissionLoading(false);
       setShowFailureModal(true);
     } finally {
       setIsLoading({ ...isLoading, submit: false });
@@ -557,6 +570,11 @@ const MentorApplication = () => {
       ref={containerRef}
       style={{ opacity: 1, visibility: "visible" }}
     >
+      {showSubmissionLoading && (
+        <LoadingOverlay>
+          <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
+        </LoadingOverlay>
+      )}
       {showSuccessModal ? (
         <ThankyouScreen
           title="Thanks for stepping up!"

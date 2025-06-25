@@ -73,7 +73,7 @@ export const ProductDetailsCard = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   border: 0.5px solid #000;
   position: fixed;
-  top: 0;
+  top: -3px;
   left: 0;
   margin-top: 47px;
   width: 100%;

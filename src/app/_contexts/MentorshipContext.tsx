@@ -321,6 +321,7 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
   
     try {
       setIsLoading(true);
+      console.log("Fetching user status from MentorshipContext");
   
       const response = await fetch(`/api/user/status`, {
         headers: {
@@ -330,11 +331,11 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
       });
   
       if (!response.ok) {
-        throw new Error("Failed to fetch user status");
+        throw new Error(`Failed to fetch user status: ${response.status} ${response.statusText}`);
       }
   
       const data = await response.json();
-      console.log("User status data:", data);
+      console.log("User status data received:", data);
   
       // Update session count
       if (data.sessions?.available !== undefined) {
@@ -345,6 +346,10 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
       if (data.badge !== undefined) {
         const badge = badge_mapper[data.badge as keyof typeof badge_mapper] || BADGES.WINGMAN;
         const config = badge_config[badge];
+        
+        console.log(`🏆 Updating badge from ${badge} to ${badge}`);
+        console.log(`💳 Subscription status: ${config?.subscription || false}`);
+        
         setBadge(badge || BADGES.WINGMAN);
         
         // Use the config values or fall back to defaults
@@ -381,6 +386,8 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
           )
         );
       }
+      
+      console.log("User status updated successfully");
     } catch (error) {
       console.error("Error fetching user status:", error);
       
@@ -421,9 +428,27 @@ export const MentorshipProvider = ({ children }: { children: ReactNode }) => {
 
     // Listen for custom mentorship-update events (triggered after checkout/purchase)
     useEffect(() => {
-      const handleMentorshipUpdate = () => {
-        console.log("Mentorship update event received - fetching latest data");
-        fetchUserStatus();
+      let isUpdating = false;
+      
+      const handleMentorshipUpdate = async () => {
+        // Prevent duplicate calls
+        if (isUpdating) {
+          console.log("⚠️ Mentorship update already in progress, skipping duplicate call");
+          return;
+        }
+        
+        console.log("🔄 Mentorship update event received - fetching latest data");
+        console.log("🎯 This will update HeroSection CTAs and PricingPage button states");
+        isUpdating = true;
+        
+        try {
+          await fetchUserStatus();
+          console.log("✅ Mentorship context updated successfully");
+        } catch (error) {
+          console.error("❌ Error in mentorship update event handler:", error);
+        } finally {
+          isUpdating = false;
+        }
       };
   
       // Add event listener for custom event
