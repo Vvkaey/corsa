@@ -140,16 +140,58 @@ const CheckoutPage: React.FC = () => {
   // Check for payment failure from URL parameters
   const failure = searchParams.get('failure');
 
-  // Check for payment success from URL parameters
+  // Check for payment success from URL parameters and sessionStorage
   useEffect(() => {
     const orderId = searchParams.get('order_id');
     const paymentId = searchParams.get('payment_id');
     const signature = searchParams.get('signature');
     
+    // Check if we have URL parameters AND a recent payment success in sessionStorage
     if (orderId && paymentId && signature) {
-      setPaymentSuccess(true);
+      const recentPaymentSuccess = sessionStorage.getItem('recent-payment-success');
+      const paymentTimestamp = sessionStorage.getItem('payment-timestamp');
+      
+      // Check if payment was recent (within last 5 minutes)
+      const isRecent = paymentTimestamp && (Date.now() - parseInt(paymentTimestamp)) < 5 * 60 * 1000;
+      
+      if (recentPaymentSuccess === 'true' && isRecent) {
+        setPaymentSuccess(true);
+        // Clear the sessionStorage flags after using them
+        sessionStorage.removeItem('recent-payment-success');
+        sessionStorage.removeItem('payment-timestamp');
+      } else {
+        // Clear stale data
+        sessionStorage.removeItem('recent-payment-success');
+        sessionStorage.removeItem('payment-timestamp');
+      }
     }
   }, [searchParams]);
+
+  // Listen for payment success event from CheckoutForm
+  useEffect(() => {
+    const handlePaymentSuccess = () => {
+      setPaymentSuccess(true);
+      // Store in sessionStorage to persist across page reloads
+      sessionStorage.setItem('recent-payment-success', 'true');
+      sessionStorage.setItem('payment-timestamp', Date.now().toString());
+    };
+
+    // Listen for custom event from CheckoutForm
+    window.addEventListener('payment-success', handlePaymentSuccess);
+
+    return () => {
+      window.removeEventListener('payment-success', handlePaymentSuccess);
+    };
+  }, []);
+
+  // Cleanup sessionStorage when component unmounts
+  useEffect(() => {
+    return () => {
+      // Clear the payment success flag when leaving the checkout page
+      sessionStorage.removeItem('recent-payment-success');
+      sessionStorage.removeItem('payment-timestamp');
+    };
+  }, []);
 
   // Load product details
   useEffect(() => {
@@ -198,7 +240,11 @@ const CheckoutPage: React.FC = () => {
   if (!product) {
     return (
       <CheckoutContainer>
-        <BackLink onClick={() => router.push("/pricing")}>
+        <BackLink onClick={() => {
+          sessionStorage.removeItem('recent-payment-success');
+          sessionStorage.removeItem('payment-timestamp');
+          router.push("/pricing");
+        }}>
           ← Back to pricing
         </BackLink>
         <h1>{error || "Product not found"}</h1>
@@ -330,5 +376,9 @@ declare global {
         }) => void
       ) => void;
     };
+  }
+  
+  interface WindowEventMap {
+    'payment-success': Event;
   }
 }

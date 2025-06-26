@@ -40,7 +40,7 @@ const ThankyouScreen = ({
   // Timer effect
   useEffect(() => {
     if (secondsLeft <= 0) {
-      //  redirect();
+         redirect();
       return;
     }
 
@@ -119,7 +119,7 @@ const ThankyouContainer = styled.section`
   align-items: center;
   justify-content: center;
   z-index: 20;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(6px);
   padding-top: 80px;
   gap: 22px;
@@ -181,13 +181,20 @@ const TickContainer = styled.div`
   position: relative;
   height: 105px;
   width: 109px;
-  margin-bottom : 23px;: 
+ 
 
   @media (min-width: 992px) {
-    height: 170px;
-    width: 174px;
+    height: 112px;
+    width: 117px;
       margin: auto;
   }
+
+  @media (min-width: 1600px) {
+    height: 170px;
+    width: 174px;
+  }
+
+
 `;
 
 const BoxHead = styled.div`
@@ -209,8 +216,12 @@ const BoxHead = styled.div`
     line-height: 150%;
 
     @media (min-width: 992px) {
-      font-size: 45.77px;
+      font-size: 32.18px;
       line-height: 150%;
+    }
+
+    @media (min-width: 1700px) {
+      font-size: 45.77px;
     }
   }
 
@@ -224,8 +235,12 @@ const BoxHead = styled.div`
     line-height: 30.214px; /* 170.312% */
 
     @media (min-width: 992px) {
-      font-size: 26px;
-      line-height: 44.281px; /* 170.312% */
+      font-size: 17.5px;
+      line-height: 170.312%;
+    }
+
+    @media (min-width: 1700px) {
+       font-size: 26px;
     }
   }
 `;
@@ -243,11 +258,18 @@ const BoxDescription = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 18px;
-  gap: 12px;
+  gap: 5px;
 
   @media (min-width: 992px) {
+    font-size: 15.47x;
+    line-height: 225.626%;
+    gap: 0px;
+  }
+
+  @media (min-width: 1700px) {
     font-size: 22px;
-    line-height: 49.638px; /* 225.626% */
+    gap: 12px;
+    gap: 5px;
   }
 `;
 
@@ -264,6 +286,7 @@ const CTAContainer = styled.div`
 
   @media (min-width: 992px) {
     margin-top: unset;
+    flex-direction: row;
   }
 `;
 
@@ -285,8 +308,12 @@ const HomeCTA = styled.button`
   transition: all 0.3s ease;
 
   @media (min-width: 992px) {
-    padding: 18px 94px;
-    font-size: 21.42px;
+    padding: 14px 50px;
+    font-size: 11.42px;
+    max-width: 251px;
+    display : flex;
+    align-items: center;
+    justify-content: center;
   }
 
    @media (min-width: 1600px) {
@@ -314,7 +341,11 @@ const Note = styled.p`
 
   @media (min-width: 992px) {
     max-width: unset;
+    font-size: 12px;
+    line-height: 170.312%;
+  }
+
+   @media (min-width: 1600px) {
     font-size: 18px;
-    line-height: 44.281px; /* 170.312% */
   }
 `;

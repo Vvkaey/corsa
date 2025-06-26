@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { CaretUp } from "@/app/_assets/icons";
 import {  ErrorText } from "../mentor-application/styled";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/_utils/hooks/useAuth";
 import { CheckoutPlanProps } from "../data/productData";
@@ -113,11 +113,36 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
     submit: false,
     detailsStored: false,
   });
+  const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
 
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < 992;
 
   const router = useRouter();
+
+  const { token } = useAuth();
+
+  // Cleanup effect to reset payment state on unmount
+  useEffect(() => {
+    return () => {
+      setIsPaymentInProgress(false);
+      setIsLoading({ submit: false, detailsStored: false });
+    };
+  }, []);
+
+  // Check for existing payment success state on mount
+  useEffect(() => {
+    const recentPaymentSuccess = sessionStorage.getItem('recent-payment-success');
+    const paymentTimestamp = sessionStorage.getItem('payment-timestamp');
+    
+    // If there's a recent payment success, disable the button
+    if (recentPaymentSuccess === 'true' && paymentTimestamp) {
+      const isRecent = (Date.now() - parseInt(paymentTimestamp)) < 5 * 60 * 1000;
+      if (isRecent) {
+        setIsPaymentInProgress(true);
+      }
+    }
+  }, []);
 
   // Function to touch all fields on form submit attempt
   const validateAndTouchFields = (formik: FormikProps<FormValues>) => {
@@ -143,8 +168,6 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       }
     });
   };
-
-  const { token } = useAuth();
 
   // Function to create order
   const createOrder = async (values: FormValues): Promise<void> => {
@@ -176,6 +199,8 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       }
     } catch (err) {
       console.error("Error creating order:", err);
+      // Reset payment state on order creation failure
+      setIsPaymentInProgress(false);
     } finally {
       setIsLoading({ ...isLoading, submit: false });
     }
@@ -230,6 +255,17 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
           window.dispatchEvent(new Event("mentorship-update"));
         }
 
+        // Dispatch custom event to immediately show ThankyouScreen
+        if (window) {
+          window.dispatchEvent(new Event("payment-success"));
+          // Also set sessionStorage flag for page reload scenarios
+          sessionStorage.setItem('recent-payment-success', 'true');
+          sessionStorage.setItem('payment-timestamp', Date.now().toString());
+        }
+
+        // Keep button disabled as ThankyouScreen will be shown
+        // Don't reset isPaymentInProgress here
+
         // Redirect back to checkout page with payment success parameters
         const currentUrl = window.location.pathname;
         const successUrl = `${currentUrl}?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}`;
@@ -239,9 +275,15 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
         console.log(
           "Payment verification failed: " + (data.message || "Unknown error")
         );
+        // Reset payment state on verification failure
+        setIsPaymentInProgress(false);
+        setIsLoading({ submit: false, detailsStored: false });
       }
     } catch (err) {
       console.error("Error verifying payment:", err);
+      // Reset payment state on error
+      setIsPaymentInProgress(false);
+      setIsLoading({ submit: false, detailsStored: false });
       //   setError(`Error verifying payment: ${(err as Error).message}`);
     }
   };
@@ -252,6 +294,9 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
       console.log("Razorpay SDK failed to load");
       return;
     }
+
+    // Set payment in progress when popup opens
+    setIsPaymentInProgress(true);
 
     // Creating options for Razorpay
     const options = {
@@ -297,8 +342,18 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
         };
       }) {
         console.log(`Payment failed: ${response.error.description}`);
+        // Reset payment in progress state on failure
+        setIsPaymentInProgress(false);
+        setIsLoading({ submit: false, detailsStored: false });
       }
     );
+
+    // Listen for popup close event
+    razorpayInstance.on("close", function() {
+      // Reset payment in progress state when popup is closed
+      setIsPaymentInProgress(false);
+      setIsLoading({ submit: false, detailsStored: false });
+    });
   };
 
   const handleSubmit = async (
@@ -344,6 +399,7 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
     } catch (error) {
       console.error("Error submitting form:", error);
       setIsLoading({ submit: false, detailsStored: false });
+      setIsPaymentInProgress(false);
     } finally {
       setSubmitting(false);
     }
@@ -498,11 +554,12 @@ const CheckoutForm = ({ product }: { product: CheckoutPlanProps }) => {
                 validateAndTouchFields(formik);
               }
             }}
-            disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting || isPaymentInProgress}
           >
             {isLoading.submit ||
             formik.isSubmitting ||
-            isLoading.detailsStored ? (
+            isLoading.detailsStored ||
+            isPaymentInProgress ? (
               <>
                 <LoadingSpinner /> Processing...
               </>
@@ -548,5 +605,9 @@ declare global {
         }) => void
       ) => void;
     };
+  }
+  
+  interface WindowEventMap {
+    'payment-success': Event;
   }
 }
