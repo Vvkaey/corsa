@@ -16,7 +16,9 @@ export async function GET(request: NextRequest) {
   }
   
   try {
-    const response = await fetch('https://stroda-backend-seven.vercel.app/api/users/status', {
+    // Make the API call to the external service
+    const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(`${apiUrl}/api/users/status`, {
       headers: {
         'Authorization': authHeader,
         'Content-Type': 'application/json',
