@@ -40,7 +40,7 @@ const ThankyouScreen = ({
   // Timer effect
   useEffect(() => {
     if (secondsLeft <= 0) {
-         redirect();
+          redirect();
       return;
     }
 
@@ -308,8 +308,8 @@ const HomeCTA = styled.button`
   transition: all 0.3s ease;
 
   @media (min-width: 992px) {
-    padding: 14px 50px;
-    font-size: 11.42px;
+    padding: 10px 50px;
+    font-size: 14.5px;
     max-width: 251px;
     display : flex;
     align-items: center;
