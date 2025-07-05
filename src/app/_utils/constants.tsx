@@ -3,6 +3,6 @@
 export const NO_HEADER_FOOTER_PAGES = [
     '/not-found',
     '/login',
-    '/book',
+    '/error',
     '/auth/callback'
 ]

@@ -764,7 +764,7 @@ const Plan: React.FC<PricingPlan> = ({
       <PlanDescription>{description}</PlanDescription>
       <PlanPrice>
         <Price>₹{price}</Price>
-        <Period>/ {period}</Period>
+        <Period>/ {period.split(" ")[1]}</Period>
       </PlanPrice>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <CTAContainer>

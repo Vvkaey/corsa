@@ -19,21 +19,21 @@ if (typeof window !== "undefined") {
 const cardData = [
   {
     id: 1,
-    description: "It's more than doubt solving, we end up helping students find clarity.",
-    name: "Sakshi",
-    handle: "NIT Warangal"
+    description: "My Preparation got much better after I spoke to a mentor.",
+    name: "Tanmay",
+    handle: "New Delhi"
   },
   {
     id: 2,
-    description: "StrodaClub keeps it simple, clean, and super mentee focused.",
+    description: "I took the membership plan, and it actually helped a lot.",
     name: "Manav",
-    handle: "IIIT Hyderabad"
+    handle: "Lucknow"
   },
   {
     id: 3,
-    description: "Hop in, share your journey, and help someone avoid your old mistakes.",
-    name: "Tanmay",
-    handle: "IIT Kanpur"
+    description: "After getting the insights, I got a lot more clarity.",
+    name: "Sakshi",
+    handle: "Bangalore"
   }
 ];
 

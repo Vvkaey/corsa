@@ -1,5 +1,6 @@
 "use client";
 
+import { NO_HEADER_FOOTER_PAGES } from "@/app/_utils/constants";
 import { useWindowSize } from "@/app/_utils/hooks/useWindowSize";
 import Image from "next/image";
 // import Link from "next/link";
@@ -221,8 +222,8 @@ export const Header = styled(({ className }: { className?: string }) => {
     setShowDeskHamMenu(false);
   }, [pathname]);
 
-  // Hide header on login page
-  if (pathname?.includes("/login")) {
+  // Hide header if the page is in NO_HEADER_FOOTER_PAGES
+  if (pathname && NO_HEADER_FOOTER_PAGES.includes(pathname)) {
     return null;
   }
 
