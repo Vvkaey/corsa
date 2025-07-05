@@ -77,7 +77,7 @@ export const pricingData = {
         },
         one_on_one_session: {
           id: "one_on_one_session",
-          value: "0",
+          value: false,
         },
         mentor_feedback: {
           id: "mentor_feedback",
