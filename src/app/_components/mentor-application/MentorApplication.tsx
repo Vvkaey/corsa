@@ -18,22 +18,6 @@ import { CaretUp } from "@/app/_assets/icons";
 import ThankyouScreen, { GridType } from "../pricing/success/ThankyouScreen";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
-import VideoLoadingScreen from "../global/loading";
-import styled from "styled-components";
-
-// Loading overlay component
-const LoadingOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-`;
 
 // Interface for form values
 interface FormValues {
@@ -70,7 +54,6 @@ const MentorApplication = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showSubmissionLoading, setShowSubmissionLoading] = useState(false);
   // Add a state to track initial render
   const [initialRender, setInitialRender] = useState(true);
 
@@ -305,9 +288,6 @@ const MentorApplication = () => {
       return;
     }
 
-    // Show loading screen after validation passes
-    setShowSubmissionLoading(true);
-
     try {
       setIsLoading({ ...isLoading, submit: true });
       console.log("Form values:", values);
@@ -348,9 +328,6 @@ const MentorApplication = () => {
           type: "success",
         });
 
-        // Hide loading screen and show success modal
-        setShowSubmissionLoading(false);
-
         // Animate form out before showing success
         if (formRef.current && !isMobile) {
           gsap.to(formRef.current, {
@@ -373,7 +350,6 @@ const MentorApplication = () => {
             data.message || "Failed to submit application. Please try again.",
           type: "error",
         });
-        setShowSubmissionLoading(false);
         setShowFailureModal(true);
       }
     } catch (error) {
@@ -382,7 +358,6 @@ const MentorApplication = () => {
         text: "An error occurred while submitting your application. Please try again.",
         type: "error",
       });
-      setShowSubmissionLoading(false);
       setShowFailureModal(true);
     } finally {
       setIsLoading({ ...isLoading, submit: false });
@@ -565,16 +540,13 @@ const MentorApplication = () => {
     }
   }, [showFailureModal, router]);
 
+
+
   return (
     <MentorApplicationContainer
       ref={containerRef}
       style={{ opacity: 1, visibility: "visible" }}
     >
-      {showSubmissionLoading && (
-        <LoadingOverlay>
-          <VideoLoadingScreen videoSrc="/loading.mp4" loop={true} />
-        </LoadingOverlay>
-      )}
       {showSuccessModal ? (
         <ThankyouScreen
           title="Thanks for stepping up!"
@@ -1075,39 +1047,8 @@ const MentorApplication = () => {
                 }}
                 disabled={isLoading.submit || formik.isSubmitting}
                 className={isLoading.submit ? "loading" : ""}
-                // ref={(el: HTMLButtonElement | null) => {
-                //   if (el && !isMobile) {
-                //     // Add hover animation to submit button
-                //     // const handleMouseEnter = () => {
-                //     //   gsap.to(el, {
-                //     //     backgroundColor: "#e61e1e",
-                //     //     scale: 1.03,
-                //     //     duration: 0.3,
-                //     //     ease: "power1.out"
-                //     //   });
-                //     // };
-
-                //     // const handleMouseLeave = () => {
-                //     //   gsap.to(el, {
-                //     //     backgroundColor: "#ff2626",
-                //     //     scale: 1,
-                //     //     duration: 0.3,
-                //     //     ease: "power1.out"
-                //     //   });
-                //     // };
-
-                //     // el.addEventListener('mouseenter', handleMouseEnter);
-                //     // el.addEventListener('mouseleave', handleMouseLeave);
-
-                //     // Clean up event listeners
-                //     // return () => {
-                //     //   el.removeEventListener('mouseenter', handleMouseEnter);
-                //     //   el.removeEventListener('mouseleave', handleMouseLeave);
-                //     // };
-                //   }
-                // }}
               >
-                {isLoading.submit ? "Submitting..." : "Submit"}
+                {isLoading.submit ? "Processing..." : "Submit"}
               </SubmitButton>
             </Form>
           )}

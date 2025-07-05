@@ -55,7 +55,7 @@ export const pricingData = {
       id: 1,
       name: "Insight Access Plan",
       price: 1399,
-      period: "Year",
+      period: "1 Year",
       description: "Curated insights and exclusive benefits",
       benefits: [
         { id: 1, text: "Weekly Wraps" },
@@ -129,7 +129,7 @@ export const pricingData = {
       id: 2,
       name: "Mentor Access Plan",
       price: 2499,
-      period: "Year",
+      period: "1 Year",
       description: "Expert connect and feedback to optimize your progress",
       benefits: [
         { id: 1, text: "One-on-one mentor session" },
@@ -204,7 +204,7 @@ export const pricingData = {
       id: 3,
       name: "Membership Access Plan",
       price: 3199,
-      period: "Year",
+      period: "1 Year",
       description: "The best of both worlds mentorship and insights",
       benefits: [
         { id: 1, text: "Weekly Wraps" },

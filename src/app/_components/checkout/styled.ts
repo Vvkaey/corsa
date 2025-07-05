@@ -81,6 +81,7 @@ export const ProductDetailsCard = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 28px;
+  z-index: 1;
 
   @media (min-width: 992px) {
     display: unset;

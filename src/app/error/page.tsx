@@ -83,6 +83,10 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
     padding-top: 208px;
   }
 
+  @media (max-width: 991px) {
+    padding-bottom: 20px;
+  }
+
   .bg-img-container {
     position: absolute;
     top: 0;
@@ -123,7 +127,6 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
      position: relative;
       height: 100%;
       padding: 80px 0;
-      height: 100%;
       display: flex;
       flex-direction: column;
       gap: 5px;
@@ -222,12 +225,12 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
         border-radius: 8px;
         border: 1.699px solid transparent;
         background: #ff2626;
-        padding: 11px 33px;
+        padding: 10px 24px;
         color: #fff;
         font-size: 16px;
         font-style: normal;
         font-weight: 800;
-        line-height: normal;
+        line-height: 1.4;
         font-family: var(--font-fustat);
         cursor: pointer;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -235,6 +238,8 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
         overflow: hidden;
         margin: 42px auto 20px;
         z-index: 2;
+        min-height: 44px;
+        box-sizing: border-box;
 
         &::after {
           content: "";
@@ -260,6 +265,7 @@ const ErrorContent = styled(({ className }: { className?: string }) => {
           margin: 28px 0 0;
           padding: 10px 40px;
           font-size: 16.5px;
+          line-height: normal;
           leading-trim: both;
           text-edge: cap;
           will-change: transform, opacity, box-shadow;
