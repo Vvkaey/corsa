@@ -8,6 +8,7 @@ import {
   pricingData,
   PropertyMapper,
 } from "@/app/_components/data/productData";
+import { structuredData } from "@/app/_utils/seo";
 import { CaretUp, Tick } from "@/app/_assets/icons";
 // import Image from "next/image";
 // import { useAuth } from "@/app/_contexts/AuthContext";
@@ -278,6 +279,11 @@ const CheckoutPage: React.FC = () => {
       <Head>
         <title>Checkout - {product.name}</title>
       </Head>
+
+      {/* SEO Structured Data */}
+      <Script id="service-schema" type="application/ld+json">
+        {JSON.stringify(structuredData.service)}
+      </Script>
 
       {/* Load Razorpay script */}
       <Script

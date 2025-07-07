@@ -10,11 +10,11 @@ export default function Register() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: "Stroda Club",
+    headline: "Your Blog Title",
     datePublished: "2025-01-30",
     author: {
       "@type": "Person",
-      name: "Stroda Club",
+      name: "Strodaclub",
     },
   };
   return (

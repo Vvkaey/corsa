@@ -1,8 +1,11 @@
 // app/page.tsx
-// import { Metadata } from "next";
+import { Metadata } from "next";
 import Script from "next/script";
 import { BrownBgTick } from "./_assets/icons";
 import HomeClientWrapper from "./_components/home/HomeClientWrapper";
+import { mergeMetadata, structuredData } from "./_utils/seo";
+
+export const metadata: Metadata = mergeMetadata('home');
 
 // Define icons and other static data
 const ICONS = [
@@ -260,14 +263,7 @@ const BANNER_SECTION = {
 //   },
 // };
 
-// Structured data for SEO
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Stroda Club",
-  description: "Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.",
-  url: "https://stroda.club",
-};
+// Use structured data from centralized SEO configuration
 
 export default function Home() {
   // This is a server component - no hooks or client-side code
@@ -276,7 +272,7 @@ export default function Home() {
   return (
     <>
       <Script id="schema-script" type="application/ld+json">
-        {JSON.stringify(structuredData)}
+        {JSON.stringify(structuredData.website)}
       </Script>
       
       {/* HomeClientWrapper handles all client-side functionality and animations */}

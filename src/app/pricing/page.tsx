@@ -1,24 +1,18 @@
-"use client";
-
-import type { NextPage } from "next";
-import Head from "next/head";
+import { Metadata } from "next";
+import Script from "next/script";
 import PricingPage from "../_components/pricing/PricingPage";
 import { pricingData } from "../_components/data/productData";
-// import styled from "styled-components";
-// import  Video  from "../_components/ui/video";
+import { mergeMetadata, structuredData } from "../_utils/seo";
 
-const Pricing: NextPage = () => {
+export const metadata: Metadata = mergeMetadata('pricing');
+
+export default function Pricing() {
   return (
     <>
-      <Head>
-        <title>Pricing | Your Product Name</title>
-        <meta
-          name="Stroda Club"
-          content="Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank."
-        />
-        <link rel="icon" href="/favi.png" />
-      </Head>
-
+      <Script id="schema-script" type="application/ld+json">
+        {JSON.stringify(structuredData.service)}
+      </Script>
+      
       <PricingPage
         title={pricingData.title}
         subtitle={pricingData.subtitle}
@@ -26,7 +20,5 @@ const Pricing: NextPage = () => {
       />
     </>
   );
-};
-
-export default Pricing;
+}
 

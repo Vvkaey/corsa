@@ -7,6 +7,7 @@ import { LoginSection } from "../_components/login";
 import { Suspense, useState, useEffect } from "react";
 import VideoLoadingScreen from "../_components/global/loading";
 import styled from "styled-components";
+import { structuredData } from "../_utils/seo";
 
 // Loading overlay component
 const LoadingOverlay = styled.div`
@@ -24,17 +25,6 @@ const LoadingOverlay = styled.div`
 
 export default function Login() {
   const [showLoading, setShowLoading] = useState(true);
-
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: "Stroda Club",
-    datePublished: "2025-01-30",
-    author: {
-      "@type": "Person",
-      name: "Stroda Club",
-    },
-  };
 
   // Add a small delay to ensure smooth transition
   useEffect(() => {
@@ -56,8 +46,8 @@ export default function Login() {
 
   return (
     <>
-      <Script id="blog-schema" type="application/ld+json">
-        {JSON.stringify(structuredData)}
+      <Script id="organization-schema" type="application/ld+json">
+        {JSON.stringify(structuredData.organization)}
       </Script>
       <ThemeProvider theme={theme}>
         <div>

@@ -3,6 +3,7 @@
 import Script from "next/script";
 import ListPageComponent, { ListPageDataProps } from "../_components/tnc";
 import { Footer } from "../_components/global/footer";
+import { structuredData } from "../_utils/seo";
 
 const TNC_DATA = [
     {
@@ -79,20 +80,10 @@ const TNC_DATA = [
   ] satisfies ListPageDataProps;
 
 export default function TnC() {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: "Stroda Club",
-    datePublished: "2025-01-30",
-    author: {
-      "@type": "Person",
-      name: "Strodaclub",
-    },
-  };
   return (
     <>
-      <Script id="blog-schema" type="application/ld+json">
-        {JSON.stringify(structuredData)}
+      <Script id="organization-schema" type="application/ld+json">
+        {JSON.stringify(structuredData.organization)}
       </Script>
 
       <main>

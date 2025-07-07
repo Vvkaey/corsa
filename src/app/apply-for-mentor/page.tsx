@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import MentorApplication from "../_components/mentor-application/MentorApplication";
 import VideoLoadingScreen from "../_components/global/loading";
+import Script from "next/script";
+import { structuredData } from "../_utils/seo";
 
 const ApplyForMentorPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +35,14 @@ const ApplyForMentorPage = () => {
     );
   }
 
-  return <MentorApplication />;
+  return (
+    <>
+      <Script id="organization-schema" type="application/ld+json">
+        {JSON.stringify(structuredData.organization)}
+      </Script>
+      <MentorApplication />
+    </>
+  );
 };
 
 export default ApplyForMentorPage;

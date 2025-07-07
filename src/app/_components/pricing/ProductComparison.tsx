@@ -33,7 +33,7 @@ const PRODUCTS: Product[] = [
     period: "Year",
     description: "Curated insights and exclusive benefits",
     buttonText: "Subscribe Insight",
-    productType: "session_pack"
+    productType: "newsletter_subscription"
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ const PRODUCTS: Product[] = [
     period: "Year",
     description: "Comprehensive coaching and all features",
     buttonText: "Subscribe Membership",
-    productType: "session_pack"
+    productType: "combo_pack"
   }
 ];
 
