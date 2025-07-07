@@ -138,7 +138,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
             {!isOTPRequested ? (
               <div className="horizontal-divider"></div>
             ) : null}
-            <div className="register-block">
+            <div className="login-form-block">
               <LoginForm setIsOTPRequested={setIsOTPRequested} />
             </div>
           </div>
@@ -264,7 +264,7 @@ export const LoginSection = styled(({ className }: { className?: string }) => {
           }
         }
 
-        .register-block {
+        .login-form-block {
           position: relative;
           width: 100%;
           display: flex;

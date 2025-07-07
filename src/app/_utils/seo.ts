@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 // Base metadata for the application
 export const baseMetadata: Metadata = {
-  metadataBase: new URL('https://strodaclub.com'),
+  metadataBase: new URL('https://stroda.club'),
   title: {
     default: 'Stroda Club - IIT-JEE Mentorship Platform',
     template: '%s | Stroda Club'
@@ -31,7 +31,7 @@ export const baseMetadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://strodaclub.com',
+    url: 'https://stroda.club',
     siteName: 'Stroda Club',
     title: 'Stroda Club - IIT-JEE Mentorship Platform',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
@@ -85,7 +85,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Stroda Club - IIT-JEE Mentorship Platform',
       description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
-      url: 'https://strodaclub.com',
+      url: 'https://stroda.club',
     },
   },
   pricing: {
@@ -101,7 +101,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Pricing Plans - Stroda Club',
       description: 'Choose the perfect mentorship plan for your IIT-JEE preparation. Compare our affordable pricing plans and get started with expert guidance.',
-      url: 'https://strodaclub.com/pricing',
+      url: 'https://stroda.club/pricing',
     },
   },
   login: {
@@ -116,7 +116,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Login - Stroda Club',
       description: 'Sign in to your Stroda Club account to access exclusive IIT-JEE mentorship and study resources.',
-      url: 'https://strodaclub.com/login',
+      url: 'https://stroda.club/login',
     },
   },
 
@@ -132,7 +132,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Dashboard - Stroda Club',
       description: 'Access your personalized IIT-JEE mentorship dashboard with progress tracking, session bookings, and study resources.',
-      url: 'https://strodaclub.com/dashboard',
+      url: 'https://stroda.club/dashboard',
     },
   },
 
@@ -148,7 +148,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Apply as Mentor - Stroda Club',
       description: 'Join our community of IIT-JEE toppers and help students achieve their engineering dreams. Apply to become a mentor.',
-      url: 'https://strodaclub.com/apply-for-mentor',
+      url: 'https://stroda.club/apply-for-mentor',
     },
   },
   privacyPolicy: {
@@ -163,7 +163,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Privacy Policy - Stroda Club',
       description: 'Learn how Stroda Club protects your privacy and handles your personal information while providing IIT-JEE mentorship services.',
-      url: 'https://strodaclub.com/privacy-policy',
+      url: 'https://stroda.club/privacy-policy',
     },
   },
   termsAndConditions: {
@@ -178,7 +178,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Terms and Conditions - Stroda Club',
       description: 'Read our terms and conditions for using Stroda Club\'s IIT-JEE mentorship platform and services.',
-      url: 'https://strodaclub.com/terms-and-conditions',
+      url: 'https://stroda.club/terms-and-conditions',
     },
   },
   checkout: {
@@ -193,7 +193,7 @@ export const pageMetadata: Record<string, Metadata> = {
     openGraph: {
       title: 'Checkout - Stroda Club',
       description: 'Complete your purchase and start your IIT-JEE mentorship journey with Stroda Club.',
-      url: 'https://strodaclub.com/checkout',
+      url: 'https://stroda.club/checkout',
     },
   },
 };
@@ -224,8 +224,8 @@ export const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Stroda Club",
-    "url": "https://strodaclub.com",
-    "logo": "https://strodaclub.com/logo.png",
+    "url": "https://stroda.club",
+    "logo": "https://stroda.club/logo.png",
     "description": "IIT-JEE mentorship platform connecting students with IIT toppers",
     "sameAs": [
       "https://twitter.com/strodaclub",
@@ -236,11 +236,11 @@ export const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Stroda Club",
-    "url": "https://strodaclub.com",
+    "url": "https://stroda.club",
     "description": "Get direct access to IIT-JEE toppers on Stroda Club",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://strodaclub.com/search?q={search_term_string}",
+      "target": "https://stroda.club/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   },
