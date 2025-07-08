@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 export const baseMetadata: Metadata = {
   metadataBase: new URL('https://www.stroda.club'),
   title: {
-    default: 'Stroda Club - IIT-JEE Mentorship Platform',
+    default: 'Stroda Club - IIT JEE Planner',
     template: '%s | Stroda Club'
   },
   description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
@@ -33,20 +33,20 @@ export const baseMetadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.stroda.club',
     siteName: 'Stroda Club',
-    title: 'Stroda Club - IIT-JEE Mentorship Platform',
+    title: 'Stroda Club - IIT JEE Planner',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
     images: [
       {
         url: '/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Stroda Club - IIT-JEE Mentorship Platform',
+        alt: 'Stroda Club - IIT JEE Planner',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stroda Club - IIT-JEE Mentorship Platform',
+    title: 'Stroda Club - IIT JEE Planner',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
     images: ['/logo.png'],
     creator: '@strodaclub',
@@ -72,7 +72,7 @@ export const baseMetadata: Metadata = {
 // Page-specific metadata
 export const pageMetadata: Record<string, Metadata> = {
   home: {
-    title: 'Stroda Club - IIT-JEE Mentorship Platform',
+    title: 'Stroda Club - IIT JEE Planner',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
     keywords: [
       'IIT-JEE preparation',
@@ -83,7 +83,7 @@ export const pageMetadata: Record<string, Metadata> = {
       'IIT admission guidance'
     ],
     openGraph: {
-      title: 'Stroda Club - IIT-JEE Mentorship Platform',
+      title: 'Stroda Club - IIT JEE Planner',
       description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
       url: 'https://www.stroda.club',
     },
@@ -168,7 +168,7 @@ export const pageMetadata: Record<string, Metadata> = {
   },
   termsAndConditions: {
     title: 'Terms and Conditions - Stroda Club',
-    description: 'Read our terms and conditions for using Stroda Club\'s IIT-JEE mentorship platform and services.',
+    description: 'Read our terms and conditions for using Stroda Club\'s IIT JEE Planner and services.',
     keywords: [
       'terms and conditions',
       'service terms',
@@ -177,7 +177,7 @@ export const pageMetadata: Record<string, Metadata> = {
     ],
     openGraph: {
       title: 'Terms and Conditions - Stroda Club',
-      description: 'Read our terms and conditions for using Stroda Club\'s IIT-JEE mentorship platform and services.',
+      description: 'Read our terms and conditions for using Stroda Club\'s IIT JEE Planner and services.',
       url: 'https://www.stroda.club/terms-and-conditions',
     },
   },
@@ -226,7 +226,7 @@ export const structuredData = {
     "name": "Stroda Club",
     "url": "https://www.stroda.club",
     "logo": "https://www.stroda.club/logo.png",
-    "description": "IIT-JEE mentorship platform connecting students with IIT toppers",
+    "description": "IIT JEE Planner connecting students with IIT toppers",
     "sameAs": [
       "https://twitter.com/strodaclub",
       "https://linkedin.com/company/strodaclub"
