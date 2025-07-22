@@ -7,10 +7,16 @@ import type { NextRequest } from 'next/server';
 // We'll use this to set a header that our client components can read
 const protectedPaths = ['/dashboard'];
 
-
-
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, hostname } = request.nextUrl;
+  
+  // Redirect www to non-www to resolve duplicate content issues
+  if (hostname.startsWith('www.')) {
+    const newHostname = hostname.replace(/^www\./, '');
+    const newUrl = new URL(request.url);
+    newUrl.hostname = newHostname;
+    return NextResponse.redirect(newUrl, 301); // Permanent redirect
+  }
   
   // Clone the response
   const response = NextResponse.next();

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 // Base metadata for the application
 export const baseMetadata: Metadata = {
-  metadataBase: new URL('https://www.stroda.club'),
+  metadataBase: new URL('https://stroda.club'),
   title: {
     default: 'Stroda Club || Plan Your IIT JEE',
     template: '%s | Stroda Club'
@@ -29,12 +29,12 @@ export const baseMetadata: Metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: 'https://www.stroda.club',
+    canonical: 'https://stroda.club',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.stroda.club',
+    url: 'https://stroda.club',
     siteName: 'Stroda Club',
     title: 'Stroda Club || Plan Your IIT JEE',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
@@ -86,12 +86,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'IIT admission guidance'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club',
+      canonical: 'https://stroda.club',
     },
     openGraph: {
       title: 'Stroda Club || Plan Your IIT JEE',
       description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
-      url: 'https://www.stroda.club',
+      url: 'https://stroda.club',
     },
   },
   pricing: {
@@ -105,12 +105,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'mentorship pricing'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/pricing',
+      canonical: 'https://stroda.club/pricing',
     },
     openGraph: {
       title: 'Pricing Plans - Stroda Club',
       description: 'Choose the perfect mentorship plan for your IIT-JEE preparation. Compare our affordable pricing plans and get started with expert guidance.',
-      url: 'https://www.stroda.club/pricing',
+      url: 'https://stroda.club/pricing',
     },
   },
   login: {
@@ -123,12 +123,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'student login'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/login',
+      canonical: 'https://stroda.club/login',
     },
     openGraph: {
       title: 'Login - Stroda Club',
       description: 'Sign in to your Stroda Club account to access exclusive IIT-JEE mentorship and study resources.',
-      url: 'https://www.stroda.club/login',
+      url: 'https://stroda.club/login',
     },
   },
 
@@ -142,12 +142,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'study resources'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/dashboard',
+      canonical: 'https://stroda.club/dashboard',
     },
     openGraph: {
       title: 'Dashboard - Stroda Club',
       description: 'Access your personalized IIT-JEE mentorship dashboard with progress tracking, session bookings, and study resources.',
-      url: 'https://www.stroda.club/dashboard',
+      url: 'https://stroda.club/dashboard',
     },
   },
 
@@ -161,12 +161,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'help students'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/apply-for-mentor',
+      canonical: 'https://stroda.club/apply-for-mentor',
     },
     openGraph: {
       title: 'Apply as Mentor - Stroda Club',
       description: 'Join our community of IIT-JEE toppers and help students achieve their engineering dreams. Apply to become a mentor.',
-      url: 'https://www.stroda.club/apply-for-mentor',
+      url: 'https://stroda.club/apply-for-mentor',
     },
   },
   privacyPolicy: {
@@ -179,12 +179,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'mentorship privacy'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/privacy-policy',
+      canonical: 'https://stroda.club/privacy-policy',
     },
     openGraph: {
       title: 'Privacy Policy - Stroda Club',
       description: 'Learn how Stroda Club protects your privacy and handles your personal information while providing IIT-JEE mentorship services.',
-      url: 'https://www.stroda.club/privacy-policy',
+      url: 'https://stroda.club/privacy-policy',
     },
   },
   termsAndConditions: {
@@ -197,12 +197,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'platform rules'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/terms-and-conditions',
+      canonical: 'https://stroda.club/terms-and-conditions',
     },
     openGraph: {
       title: 'Terms and Conditions - Stroda Club',
       description: 'Read our terms and conditions for using Stroda Club\'s IIT JEE Planner and services.',
-      url: 'https://www.stroda.club/terms-and-conditions',
+      url: 'https://stroda.club/terms-and-conditions',
     },
   },
   checkout: {
@@ -215,12 +215,12 @@ export const pageMetadata: Record<string, Metadata> = {
       'secure payment'
     ],
     alternates: {
-      canonical: 'https://www.stroda.club/checkout',
+      canonical: 'https://stroda.club/checkout',
     },
     openGraph: {
       title: 'Checkout - Stroda Club',
       description: 'Complete your purchase and start your IIT-JEE mentorship journey with Stroda Club.',
-      url: 'https://www.stroda.club/checkout',
+      url: 'https://stroda.club/checkout',
     },
   },
 };
@@ -251,8 +251,8 @@ export const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Stroda Club",
-    "url": "https://www.stroda.club",
-    "logo": "https://www.stroda.club/logo.png",
+    "url": "https://stroda.club",
+    "logo": "https://stroda.club/logo.png",
     "description": "IIT JEE Planner connecting students with IIT toppers",
     "sameAs": [
       "https://twitter.com/strodaclub",
@@ -263,11 +263,11 @@ export const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Stroda Club",
-    "url": "https://www.stroda.club",
+    "url": "https://stroda.club",
     "description": "Get direct access to IIT-JEE toppers on Stroda Club",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://www.stroda.club/search?q={search_term_string}",
+      "target": "https://stroda.club/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   },
