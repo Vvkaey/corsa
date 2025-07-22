@@ -14,8 +14,6 @@ export default function robots(): MetadataRoute.Robots {
           '/dashboard/',
           '/checkout/',
           '/auth/',
-          '/login',
-          '/apply-for-mentor',
         ],
       },
     ],

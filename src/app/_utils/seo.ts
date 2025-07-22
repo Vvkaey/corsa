@@ -28,6 +28,9 @@ export const baseMetadata: Metadata = {
     address: false,
     telephone: false,
   },
+  alternates: {
+    canonical: 'https://www.stroda.club',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -82,6 +85,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'JEE study tips',
       'IIT admission guidance'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club',
+    },
     openGraph: {
       title: 'Stroda Club || Plan Your IIT JEE',
       description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
@@ -98,6 +104,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'affordable JEE preparation',
       'mentorship pricing'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/pricing',
+    },
     openGraph: {
       title: 'Pricing Plans - Stroda Club',
       description: 'Choose the perfect mentorship plan for your IIT-JEE preparation. Compare our affordable pricing plans and get started with expert guidance.',
@@ -113,6 +122,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'IIT-JEE account',
       'student login'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/login',
+    },
     openGraph: {
       title: 'Login - Stroda Club',
       description: 'Sign in to your Stroda Club account to access exclusive IIT-JEE mentorship and study resources.',
@@ -129,6 +141,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'session tracking',
       'study resources'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/dashboard',
+    },
     openGraph: {
       title: 'Dashboard - Stroda Club',
       description: 'Access your personalized IIT-JEE mentorship dashboard with progress tracking, session bookings, and study resources.',
@@ -145,6 +160,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'mentor application',
       'help students'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/apply-for-mentor',
+    },
     openGraph: {
       title: 'Apply as Mentor - Stroda Club',
       description: 'Join our community of IIT-JEE toppers and help students achieve their engineering dreams. Apply to become a mentor.',
@@ -160,6 +178,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'personal information',
       'mentorship privacy'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/privacy-policy',
+    },
     openGraph: {
       title: 'Privacy Policy - Stroda Club',
       description: 'Learn how Stroda Club protects your privacy and handles your personal information while providing IIT-JEE mentorship services.',
@@ -175,6 +196,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'mentorship terms',
       'platform rules'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/terms-and-conditions',
+    },
     openGraph: {
       title: 'Terms and Conditions - Stroda Club',
       description: 'Read our terms and conditions for using Stroda Club\'s IIT JEE Planner and services.',
@@ -190,6 +214,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'mentorship purchase',
       'secure payment'
     ],
+    alternates: {
+      canonical: 'https://www.stroda.club/checkout',
+    },
     openGraph: {
       title: 'Checkout - Stroda Club',
       description: 'Complete your purchase and start your IIT-JEE mentorship journey with Stroda Club.',
