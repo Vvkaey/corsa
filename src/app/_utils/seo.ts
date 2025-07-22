@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 export const baseMetadata: Metadata = {
   metadataBase: new URL('https://www.stroda.club'),
   title: {
-    default: 'Stroda Club - IIT JEE Planner',
+    default: 'Stroda Club || Plan Your IIT JEE',
     template: '%s | Stroda Club'
   },
   description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
@@ -33,20 +33,20 @@ export const baseMetadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.stroda.club',
     siteName: 'Stroda Club',
-    title: 'Stroda Club - IIT JEE Planner',
+    title: 'Stroda Club || Plan Your IIT JEE',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
     images: [
       {
         url: '/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Stroda Club - IIT JEE Planner',
+        alt: 'Stroda Club || Plan Your IIT JEE',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stroda Club - IIT JEE Planner',
+    title: 'Stroda Club || Plan Your IIT JEE',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
     images: ['/logo.png'],
     creator: '@strodaclub',
@@ -72,7 +72,7 @@ export const baseMetadata: Metadata = {
 // Page-specific metadata
 export const pageMetadata: Record<string, Metadata> = {
   home: {
-    title: 'Stroda Club - IIT JEE Planner',
+    title: 'Stroda Club || Plan Your IIT JEE',
     description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
     keywords: [
       'IIT-JEE preparation',
@@ -83,7 +83,7 @@ export const pageMetadata: Record<string, Metadata> = {
       'IIT admission guidance'
     ],
     openGraph: {
-      title: 'Stroda Club - IIT JEE Planner',
+      title: 'Stroda Club || Plan Your IIT JEE',
       description: 'Get direct access to IIT-JEE toppers on Stroda Club. Learn how IITians prepare, avoid common mistakes and improve your JEE rank.',
       url: 'https://www.stroda.club',
     },
