@@ -15,6 +15,7 @@ import {
 } from "../../new_mixins/mixins";
 import { BadgeProfileImg } from "../Badge";
 import { useAuth } from "@/app/_contexts/AuthContext";
+import { MarketingBanner } from "./MarketingBanner";
 
 // const ProfileContainer = styled.div`
 //   padding: 2rem;
@@ -304,32 +305,34 @@ export const Header = styled(({ className }: { className?: string }) => {
   };
 
   return (
-    <header className={className}>
-      <div className="nav-container" id="nav-container">
-        <div className="left-pan">
-          <button className="image-container" onClick={OnLogoClick}>
-            <Image src="/header/company_logo_white.svg" fill alt="stroda-logo" />
-          </button>
-        </div>
-        <div className="right-pan">
-          <div className="nav-items">
-            {/* <Link href="/dashboard" shallow={true} className="nav-item">
-              Dashboard
-            </Link> */}
-            <BadgeProfileImg
-              setShowMenu={setShowDeskHamMenu}
-              showMenu={showDeskHamMenu}
-            />
-            {/* <StatusBadge userStatus={userStatus} /> */}
-            {/* <button className="nav-item user-container"></button> */}
+    <>
+      <MarketingBanner />
+      <header className={className}>
+        <div className="nav-container" id="nav-container">
+          <div className="left-pan">
+            <button className="image-container" onClick={OnLogoClick}>
+              <Image src="/header/company_logo_white.svg" fill alt="stroda-logo" />
+            </button>
           </div>
-          {showDeskHamMenu ? (
-            <DesktopHamOverlay
-              setShowMenu={setShowDeskHamMenu}
-              showMenu={showDeskHamMenu}
-            />
-          ) : null}
-        </div>
+          <div className="right-pan">
+            <div className="nav-items">
+              {/* <Link href="/dashboard" shallow={true} className="nav-item">
+                Dashboard
+              </Link> */}
+              <BadgeProfileImg
+                setShowMenu={setShowDeskHamMenu}
+                showMenu={showDeskHamMenu}
+              />
+              {/* <StatusBadge userStatus={userStatus} /> */}
+              {/* <button className="nav-item user-container"></button> */}
+            </div>
+            {showDeskHamMenu ? (
+              <DesktopHamOverlay
+                setShowMenu={setShowDeskHamMenu}
+                showMenu={showDeskHamMenu}
+              />
+            ) : null}
+          </div>
 
         {/* Mobile Navigation */}
         {width && width < 992 && !showMobileMenu && (
@@ -428,15 +431,16 @@ export const Header = styled(({ className }: { className?: string }) => {
           </div>
         </>
       )}
-    </header>
+      </header>
+    </>
   );
 })`
   position: fixed;
-  top: 0;
+  top: 32px;
   left: 0;
   right: 0;
   // width: 100%;
-  background: rgb(0, 0, 0);
+  background: rgba(26, 26, 26, 0.84);
   backdrop-filter: blur(10px);
   font-family: var(--font-exo);
   z-index: 30;
@@ -444,12 +448,12 @@ export const Header = styled(({ className }: { className?: string }) => {
   isolation: isolate;
 
   @media (min-width: 992px) {
-    background: rgb(0, 0, 0);
     border-bottom: none;
     ${sectionResponsivePadding()}
   }
 
   .nav-container {
+
     margin: 15px 0;
     display: flex;
     justify-content: space-between;
@@ -460,7 +464,7 @@ export const Header = styled(({ className }: { className?: string }) => {
     padding-right: 16px;
     position: relative;
     z-index: 22;
-    background: #0e0e0e;
+    background: transparent;
 
     @media (min-width: 992px) {
       padding: unset;
