@@ -37,7 +37,7 @@ export const DesktopNavItems = styled(
     showMenu: boolean | undefined;
   }) => {
     const router = useRouter();
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, user } = useAuth();
 
     const redirectToLogin = useCallback(() => {
       if (router) {
@@ -51,6 +51,13 @@ export const DesktopNavItems = styled(
       if (setShowMenu) setShowMenu(false);
     }, [logout, setShowMenu]);
 
+    const goToAdmin = useCallback(() => {
+      if (router) {
+        router.push("/admin/book-session");
+        setShowMenu(!showMenu);
+      }
+    }, [router, setShowMenu, showMenu]);
+
     return (
       <div className={className}>
         {!isAuthenticated ? <></> : <p className="ham-item">Hi There!</p>}
@@ -59,9 +66,16 @@ export const DesktopNavItems = styled(
             Login
           </button>
         ) : (
-          <button className="ham-item" onClick={logoutUser}>
-            Logout
-          </button>
+          <>
+            {(user?.email === "Vivek@stroda.club" || user?.email === "imu20122012@gmail.com") && (
+              <button className="ham-item" onClick={goToAdmin}>
+                Admin Panel
+              </button>
+            )}
+            <button className="ham-item" onClick={logoutUser}>
+              Logout
+            </button>
+          </>
         )}
       </div>
     );
@@ -274,7 +288,7 @@ export const Header = styled(({ className }: { className?: string }) => {
     showMenu: boolean;
   }) => {
     const router = useRouter();
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, user } = useAuth();
 
     const redirectToLogin = useCallback(() => {
       if (router) {
@@ -288,6 +302,13 @@ export const Header = styled(({ className }: { className?: string }) => {
       if (setShowMenu) setShowMenu(false);
     }, [logout, setShowMenu]);
 
+    const goToAdmin = useCallback(() => {
+      if (router) {
+        router.push("/admin/book-session");
+        setShowMenu(!showMenu);
+      }
+    }, [router, setShowMenu, showMenu]);
+
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         {isAuthenticated && <p className="ham-item">Hi There!</p>}
@@ -296,9 +317,16 @@ export const Header = styled(({ className }: { className?: string }) => {
             Login
           </button>
         ) : (
-          <button className="ham-item" onClick={logoutUser}>
-            Logout
-          </button>
+          <>
+            {(user?.email === "Vivek@stroda.club" || user?.email === "imu20122012@gmail.com") && (
+              <button className="ham-item" onClick={goToAdmin}>
+                Admin Panel
+              </button>
+            )}
+            <button className="ham-item" onClick={logoutUser}>
+              Logout
+            </button>
+          </>
         )}
       </div>
     );

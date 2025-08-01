@@ -223,6 +223,32 @@ export const pageMetadata: Record<string, Metadata> = {
       url: 'https://stroda.club/checkout',
     },
   },
+  admin: {
+    title: 'Admin Panel - Stroda Club',
+    description: 'Administrative interface for session management and user administration.',
+    keywords: [
+      'admin panel',
+      'session management',
+      'user administration',
+      'mentorship admin'
+    ],
+    alternates: {
+      canonical: 'https://stroda.club/admin',
+    },
+    openGraph: {
+      title: 'Admin Panel - Stroda Club',
+      description: 'Administrative interface for session management and user administration.',
+      url: 'https://stroda.club/admin',
+    },
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: {
+        index: false,
+        follow: false,
+      },
+    },
+  },
 };
 
 // Helper function to merge metadata

@@ -16,7 +16,7 @@ const bannerMessages: BannerMessage[] = [
     link: "https://app.youform.com/forms/skcvecci",
   },
   {
-    text: "Register here",
+    text: "Register here 🎯",
     link: "https://app.youform.com/forms/skcvecci",
   },
 ];
