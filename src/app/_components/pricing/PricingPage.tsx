@@ -157,7 +157,7 @@ const MobileComparisonSection = styled.div.attrs<{ htmlid?: string }>(props => (
 
 const ComparisonHeader = styled.div`
   position: sticky;
-  top: 43px; /* Height of the main header */
+  top: 75px; /* MarketingBanner (32px) + Header height (43px) */
   width: 100%;
   background: #fff;
   z-index: 10;
@@ -672,7 +672,7 @@ const Tabs = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   position: sticky;
-  top: 47px;
+  top: 79px; /* MarketingBanner (32px) + Header height (47px) */
   z-index: 5;
   border-bottom: 1px solid #dedede;
 

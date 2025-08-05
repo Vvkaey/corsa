@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/_contexts/AuthContext";
 import { useAxios } from "@/app/_utils/hooks/useAxios";
+import { getStoredToken } from "@/app/_utils/storage";
 import styled from "styled-components";
 import { maxWidthContainer, responsivePadding } from "@/app/_components/new_mixins/mixins";
 
@@ -153,24 +154,24 @@ const SubmitButton = styled.button`
   }
 `;
 
-const StatusMessage = styled.div<{ isError?: boolean }>`
+const StatusMessage = styled.div<{ $isError?: boolean }>`
   padding: 16px;
   border-radius: 8px;
   font-size: 1.4rem;
   text-align: center;
   margin-top: 16px;
-  background: ${({ isError }) => 
-    isError 
+  background: ${({ $isError }) => 
+    $isError 
       ? 'rgba(255, 59, 48, 0.2)' 
       : 'rgba(52, 199, 89, 0.2)'
   };
-  border: 1px solid ${({ isError }) => 
-    isError 
+  border: 1px solid ${({ $isError }) => 
+    $isError 
       ? 'rgba(255, 59, 48, 0.3)' 
       : 'rgba(52, 199, 89, 0.3)'
   };
-  color: ${({ isError }) => 
-    isError 
+  color: ${({ $isError }) => 
+    $isError 
       ? '#ff3b30' 
       : '#34c759'
   };
@@ -246,14 +247,24 @@ export default function AdminBookSession() {
     try {
       console.log('Submitting session booking with data:', formData);
       
-      const response = await axios.post('https://backend.stroda.club/api/users/sessions/create', {
+      const token = getStoredToken();
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+      
+      console.log('Token found:', token.substring(0, 20) + '...');
+      console.log('Making request to:', '/api/sessions/create');
+      
+      // Use the local API route to proxy the request
+      const response = await axios.post('/api/sessions/create', {
         userId: formData.userId,
         mentorId: formData.mentorId
       }, {
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        timeout: 10000, // 10 second timeout
+        timeout: 30000, // Increased timeout to 30 seconds
       });
 
       console.log('Session booking successful:', response.data);
@@ -274,25 +285,38 @@ export default function AdminBookSession() {
       let errorMessage = "Failed to book session. Please try again.";
       
       if (error && typeof error === 'object') {
-                 if ('response' in error) {
-           const axiosError = error as { response?: { status?: number; data?: { message?: string } } };
-           console.log('Response status:', axiosError.response?.status);
-           console.log('Response data:', axiosError.response?.data);
+        if ('response' in error) {
+          const axiosError = error as { response?: { status?: number; data?: { message?: string } } };
+          console.log('Response status:', axiosError.response?.status);
+          console.log('Response data:', axiosError.response?.data);
           
-                     const status = axiosError.response?.status;
-           if (status === 401) {
-             errorMessage = "Authentication failed. Please check your credentials.";
-           } else if (status === 403) {
-             errorMessage = "Access denied. You don't have permission to perform this action.";
-           } else if (status === 404) {
-             errorMessage = "API endpoint not found. Please check the URL.";
-           } else if (status && status >= 500) {
-             errorMessage = "Server error. Please try again later.";
-           } else if (axiosError.response?.data?.message) {
-             errorMessage = axiosError.response.data.message;
-           }
+          const status = axiosError.response?.status;
+          if (status === 401) {
+            errorMessage = "Authentication failed. Please check your credentials.";
+          } else if (status === 403) {
+            errorMessage = "Access denied. You don't have permission to perform this action.";
+          } else if (status === 404) {
+            errorMessage = "API endpoint not found. Please check the URL.";
+          } else if (status && status >= 500) {
+            errorMessage = "Server error. Please try again later.";
+          } else if (axiosError.response?.data?.message) {
+            errorMessage = axiosError.response.data.message;
+          }
         } else if ('request' in error) {
-          errorMessage = "Network error. Please check your internet connection.";
+          console.log('Network error - request was made but no response received');
+          errorMessage = "Network error. The server might be down or unreachable. Please try again later.";
+        } else if ('code' in error) {
+          const axiosError = error as { code?: string; message?: string };
+          console.log('Axios error code:', axiosError.code);
+          console.log('Axios error message:', axiosError.message);
+          
+          if (axiosError.code === 'ECONNABORTED') {
+            errorMessage = "Request timed out. Please try again.";
+          } else if (axiosError.code === 'ERR_NETWORK') {
+            errorMessage = "Network error. Please check your internet connection and try again.";
+          } else {
+            errorMessage = `Network error: ${axiosError.message || 'Unknown error'}`;
+          }
         } else if ('message' in error) {
           errorMessage = (error as Error).message;
         }
@@ -374,7 +398,7 @@ export default function AdminBookSession() {
         </Form>
 
         {statusMessage && (
-          <StatusMessage isError={statusMessage.isError}>
+          <StatusMessage $isError={statusMessage.isError}>
             {statusMessage.message}
           </StatusMessage>
         )}

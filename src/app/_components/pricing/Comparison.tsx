@@ -140,7 +140,7 @@ const HeaderContentWrapper = styled.div`
 // Original Table Header
 const TableHeader = styled.div`
   position: sticky;
-  top: 53px; // Exact height of main header on larger screens
+  top: 85px; // MarketingBanner (32px) + Header height (53px)
   left: 0;
   right: 0;
   z-index: 5; // Lower than main header
@@ -154,7 +154,7 @@ const TableHeader = styled.div`
   }
 
   @media (min-width: 1950px) {
-    top: 70px;
+    top: 102px; // MarketingBanner (32px) + Header height (70px)
   }
 
   table {
