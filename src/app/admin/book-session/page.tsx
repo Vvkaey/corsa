@@ -215,7 +215,7 @@ export default function AdminBookSession() {
     }
 
     // Allow access to both emails for testing
-    const authorizedEmails = ["Vivek@stroda.club", "imu20122012@gmail.com"];
+    const authorizedEmails = ["vivek@stroda.club", "imu20122012@gmail.com"];
     if (!user?.email || !authorizedEmails.includes(user.email)) {
       router.push("/");
       return;
@@ -336,7 +336,7 @@ export default function AdminBookSession() {
   };
 
   // Show loading while checking authentication
-  const authorizedEmails = ["Vivek@stroda.club", "imu20122012@gmail.com"];
+  const authorizedEmails = ["vivek@stroda.club", "imu20122012@gmail.com"];
   if (!isAuthenticated || !user?.email || !authorizedEmails.includes(user.email)) {
     return (
       <AdminContainer>
