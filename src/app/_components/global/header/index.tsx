@@ -318,7 +318,7 @@ export const Header = styled(({ className }: { className?: string }) => {
           </button>
         ) : (
           <>
-            {(user?.email === "Vivek@stroda.club" || user?.email === "imu20122012@gmail.com") && (
+            {(user?.email === "vivek@stroda.club" || user?.email === "imu20122012@gmail.com") && (
               <button className="ham-item" onClick={goToAdmin}>
                 Admin Panel
               </button>
