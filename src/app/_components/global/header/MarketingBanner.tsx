@@ -12,7 +12,7 @@ interface BannerMessage {
 
 const bannerMessages: BannerMessage[] = [
   {
-    text: "Get 1 Year of Insight Plan (₹1400) for Free > ",
+    text: "Live session with an IITian + Insight Plan",
     link: "https://app.youform.com/forms/skcvecci",
   },
   {
