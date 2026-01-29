@@ -81,7 +81,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
 
         {/* Copyright text */}
         <div className="copyright-container">
-          {(width ?? 0) > 992 ? <p className="copyright">© 2025 Strodaclub</p> : null}
+          {(width ?? 0) > 992 ? <p className="copyright">© 2026 Strodaclub</p> : null}
           <div className="tnc-container">
             <Link href={"/privacy-policy"} className="privacy-policy">
               Privacy policy
@@ -92,7 +92,7 @@ export const Footer = styled(({ className }: { className?: string }) => {
           </div>
         </div>
        {(width ?? 0) < 992 ? <div className="copyright-container">
-          <p className="copyright">© 2025 Strodaclub</p>
+          <p className="copyright">© 2026 Strodaclub</p>
           </div> : null}
 
         {/* Footer logo */}
