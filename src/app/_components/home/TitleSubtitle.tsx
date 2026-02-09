@@ -92,7 +92,7 @@ const TitleSubtitle = ({
 
   return (
     <TitleSubtitleContainer>
-      <Title ref={titleRef} theme={theme}>
+      <Title ref={titleRef} $theme={theme}>
         <h2>
           {title}
           <RedSpan>{redspan}</RedSpan>
@@ -112,7 +112,7 @@ const TitleSubtitle = ({
         ) : null}
       </Title>
 
-      <SubTitle ref={subtitleRef} theme={theme}>
+      <SubTitle ref={subtitleRef} $theme={theme}>
         {subtitle}
       </SubTitle>
     </TitleSubtitleContainer>
@@ -156,11 +156,11 @@ const TitleSubtitleContainer = styled.div`
   }
 `;
 
-const Title = styled.div<{ theme: "dark" | "light" }>`
+const Title = styled.div<{ $theme: "dark" | "light" }>`
   position: relative;
 
   h2 {
-    color: ${({ theme }) => (theme == "dark" ? "#fff" : "#000")};
+    color: ${({ $theme }) => ($theme == "dark" ? "#fff" : "#000")};
     text-align: center;
     font-family: var(--font-exo);
     font-size: 28px;
@@ -170,7 +170,7 @@ const Title = styled.div<{ theme: "dark" | "light" }>`
     text-transform: capitalize;
     margin: 0 auto;
     @media (min-width: 992px) {
-      max-width: ${({ theme }) => (theme == "dark" ? "18ch" : "unset")};
+      max-width: ${({ $theme }) => ($theme == "dark" ? "18ch" : "unset")};
       leading-trim: both;
       text-edge: cap;
       font-size: 67.669px;
@@ -182,8 +182,8 @@ const Title = styled.div<{ theme: "dark" | "light" }>`
   }
 `;
 
-const SubTitle = styled.h2<{ theme: "dark" | "light" }>`
-  color: ${({ theme }) => (theme == "dark" ? "#fff" : "#000")};
+const SubTitle = styled.h2<{ $theme: "dark" | "light" }>`
+  color: ${({ $theme }) => ($theme == "dark" ? "#fff" : "#000")};
   text-align: center;
   font-family: var(--font-fustat);
   font-size: 16px;
