@@ -143,9 +143,7 @@ const PlansContainer = styled.div`
   }
 `;
 
-const MobileComparisonSection = styled.div.attrs<{ htmlid?: string }>(props => ({
-  id: props.htmlid,
-}))`
+const MobileComparisonSection = styled.div`
   display: none;
   width: 100%;
   position: relative;
@@ -1132,7 +1130,7 @@ const PricingPage: React.FC<PricingPageProps> = ({
         ))}
       </PlansContainer>
      {width  > 992 ? <Comparison htmlid="product-comparision"/> : 
-      <MobileComparisonSection  ref={mobileComparisonRef} htmlid="product-comparision">
+      <MobileComparisonSection ref={mobileComparisonRef} id="product-comparision">
         <ComparisonHeader  ref={comparisonHeaderRef}>
           <Tabs>
             <Tab

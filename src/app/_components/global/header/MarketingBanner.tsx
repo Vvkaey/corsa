@@ -77,7 +77,7 @@ const BannerContent = styled.div`
 `;
 
 const MessageText = styled.span.withConfig({
-  shouldForwardProp: (prop) => prop !== "isVisible",
+  shouldForwardProp: (prop: string | number) => prop !== "isVisible",
 })<{ isVisible: boolean }>`
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   transition: all 0.5s ease;
