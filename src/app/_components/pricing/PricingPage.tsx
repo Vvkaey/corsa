@@ -203,12 +203,14 @@ const PlanCard = styled.div<StyledPlanCardProps>`
   border: 1.39px solid #000;
   background: transparent;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: ${(props) =>
-      props.$isPrimary
-        ? "0 15px 20px -5px rgba(66, 153, 225, 0.2)"
-        : "0 10px 15px -3px rgba(0, 0, 0, 0.15)"};
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: ${(props) =>
+        props.$isPrimary
+          ? "0 15px 20px -5px rgba(66, 153, 225, 0.2)"
+          : "0 10px 15px -3px rgba(0, 0, 0, 0.15)"};
+    }
   }
 
   @media (min-width: 992px) {

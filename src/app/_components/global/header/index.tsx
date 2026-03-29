@@ -401,63 +401,53 @@ export const Header = styled(({ className }: { className?: string }) => {
       </div>
       {/* Mobile Side Drawer */}
       {width && width < 992 && showMobileMenu && (
-        <>
-          <button
-            className="hamburger close"
-            style={{
-              position: "absolute",
-              top: 10,
-              right: 18,
-              zIndex: 35,
-              background: "transparent",
-              border: "none",
-              filter: "invert(1)",
-            }}
-            onClick={() => setShowMobileMenu(false)}
-            aria-label="Close navigation menu"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="21"
-              height="21"
-              viewBox="0 0 26 26"
-              fill="none"
-            >
-              <line
-                x1="2"
-                y1="2"
-                x2="24"
-                y2="24"
-                stroke="black"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <line
-                x1="24"
-                y1="2"
-                x2="2"
-                y2="24"
-                stroke="black"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
           <div
             className="mobile-drawer"
-            onClick={() => setShowMobileMenu(false)}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setShowMobileMenu(false);
+              }
+            }}
           >
-            <div
-              className="drawer-content"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="drawer-content">
+              <button
+                className="mobile-close-btn"
+                onClick={() => setShowMobileMenu(false)}
+                aria-label="Close navigation menu"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 26 26"
+                  fill="none"
+                >
+                  <line
+                    x1="2"
+                    y1="2"
+                    x2="24"
+                    y2="24"
+                    stroke="black"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="24"
+                    y1="2"
+                    x2="2"
+                    y2="24"
+                    stroke="black"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
               <MobileNavItems
                 setShowMenu={setShowMobileMenu}
                 showMenu={showMobileMenu}
               />
             </div>
           </div>
-        </>
       )}
       </header>
     </>
@@ -468,8 +458,7 @@ export const Header = styled(({ className }: { className?: string }) => {
   left: 0;
   right: 0;
   // width: 100%;
-  background: rgba(26, 26, 26, 0.84);
-  backdrop-filter: blur(10px);
+  background: #000000;
   font-family: var(--font-exo);
   z-index: 30;
   border-bottom: 0.1px solid rgba(255, 255, 255, 0.3);
@@ -637,7 +626,7 @@ export const Header = styled(({ className }: { className?: string }) => {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 20;
+    z-index: 30;
     display: flex;
     justify-content: flex-end;
     transition: background 0.3s;
@@ -658,6 +647,19 @@ export const Header = styled(({ className }: { className?: string }) => {
       gap: 18px;
       transform: translateX(0);
       animation: slideInDrawer 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      .mobile-close-btn {
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        z-index: 10;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
   @keyframes slideInDrawer {

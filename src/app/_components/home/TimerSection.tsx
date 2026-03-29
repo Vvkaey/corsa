@@ -78,8 +78,8 @@ export const TimerSection = styled(({ className }: { className?: string }) => {
       const mainTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 55%",
-          end: "top 20%",
+          start: "top 70%",
+          end: "top 30%",
           scrub: 1,
         },
       });

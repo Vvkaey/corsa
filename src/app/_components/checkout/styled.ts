@@ -17,7 +17,7 @@ position: relative;
   ${sectionResponsivePadding()};
 
   @media (max-width: 992px) {
-    margin-top: 40px;
+    margin-top: 106px;
   }
 
   @media (min-width: 992px) {
@@ -50,7 +50,7 @@ position : relative;
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     flex-direction: column;
-    margin-top: 90px;
+    margin-top: 70px;
   }
     
 
@@ -73,9 +73,8 @@ export const ProductDetailsCard = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   border: 0.5px solid #000;
   position: fixed;
-  top: -3px;
+  top: 76px;
   left: 0;
-  margin-top: 47px;
   width: 100%;
   display: flex;
   justify-content: space-between;
